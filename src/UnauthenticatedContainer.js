@@ -10,10 +10,15 @@ class UnauthenticatedContainer extends Component {
       <div className="unauthenticated-container">
         <div className="container">
           <Switch>
-            <Route path="/" exact component={Login} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/forgot-password" exact component={ForgotPassword} />
-            <Route path="/register" exact component={Register} />
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Login onLogin={this.props.onLogin} {...props} />
+              )}
+            />
+            <Route path="/forgot-password" component={ForgotPassword} />
+            <Route path="/register" component={Register} />
           </Switch>
           <p className="text-center">
             <a href="terms">Terms of Use</a>
@@ -29,6 +34,7 @@ class UnauthenticatedContainer extends Component {
 }
 
 function Login(props) {
+  console.log(props);
   return (
     <div
       className="card ml-auto mr-auto mb-3"
@@ -57,7 +63,7 @@ function ForgotPassword(props) {
         <ForgotPasswordForm />
         <hr />
         <p>
-          All set? <Link to="/login">Click here</Link> to login!
+          All set? <Link to="/">Click here</Link> to login!
         </p>
       </div>
     </div>
@@ -75,7 +81,7 @@ function Register(props) {
         <RegisterForm />
         <hr />
         <p>
-          Already have an account? <Link to="/login">Click here</Link> to login!
+          Already have an account? <Link to="/">Click here</Link> to login!
         </p>
       </div>
     </div>
