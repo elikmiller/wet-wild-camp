@@ -1,12 +1,12 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "./App.css";
 
-class Login extends Component {
+class LoginForm extends Component {
   render() {
     return (
-      <div className="login">
-        <p className="lead">Login</p>
-        <form>
+      <div className="login-form">
+        <form onSubmit={this.props.onSubmit}>
           <div className="form-group">
             <label htmlFor="email">E-mail Address</label>
             <input className="form-control" id="email" type="text" />
@@ -14,24 +14,19 @@ class Login extends Component {
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input className="form-control" id="password" type="password" />
-            <small className="form-text text-muted">
-              Forgot your password? <a href="/reset">Click here</a> to reset it.
+            <small className="form-text">
+              <Link to="/forgot-password">Forgot password?</Link>
             </small>
           </div>
           <div className="form-group">
-            <button className="btn btn-primary btn-block" type="button">
+            <button className="btn btn-primary btn-block" type="submit">
               Login
             </button>
           </div>
         </form>
-        <hr />
-        <p>
-          Are you a first time user? <a href="/register">Click here</a> to
-          register!
-        </p>
       </div>
     );
   }
 }
 
-export default Login;
+export default LoginForm;

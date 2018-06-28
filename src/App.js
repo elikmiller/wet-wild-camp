@@ -1,27 +1,18 @@
 import React, { Component } from "react";
-import Login from "./Login";
-import Register from "./Register";
-import ForgotPassword from "./ForgotPassword";
+import Home from "./Home";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends Component {
   render() {
     return (
       <div className="app">
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <Register />
-            </div>
-            <div className="col">
-              <Login />
-            </div>
-            <div className="col">
-              <ForgotPassword />
-            </div>
-          </div>
-        </div>
+        <Router>
+          <Switch>
+            <Route path="/" component={Home} />
+          </Switch>
+        </Router>
       </div>
     );
   }

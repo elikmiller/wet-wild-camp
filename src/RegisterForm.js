@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import "./App.css";
 
-class Register extends Component {
+class RegisterForm extends Component {
   render() {
     return (
-      <div className="register">
-        <p className="lead">Register</p>
+      <div className="register-form">
         <form>
           <div className="form-group">
             <label htmlFor="first-name">First Name</label>
@@ -42,13 +40,9 @@ class Register extends Component {
             </small>
           </div>
         </form>
-        <hr />
-        <p>
-          Already have an account? <a href="/login">Click here</a> to login!
-        </p>
       </div>
     );
   }
 }
 
-export default Register;
+export default RegisterForm;
