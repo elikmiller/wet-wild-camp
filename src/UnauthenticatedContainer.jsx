@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link, Route, Switch } from "react-router-dom";
-import LoginForm from "./LoginForm";
-import ForgotPasswordForm from "./ForgotPasswordForm";
-import RegisterForm from "./RegisterForm";
+import LoginForm from "./LoginForm.jsx";
+import ForgotPasswordForm from "./ForgotPasswordForm.jsx";
+import RegisterForm from "./RegisterForm.jsx";
 
 class UnauthenticatedContainer extends Component {
   render() {
@@ -34,7 +34,6 @@ class UnauthenticatedContainer extends Component {
 }
 
 function Login(props) {
-  console.log(props);
   return (
     <div
       className="card ml-auto mr-auto mb-3"

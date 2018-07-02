@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import UnauthenticatedContainer from "./UnauthenticatedContainer";
-import AuthenticatedContainer from "./AuthenticatedContainer";
+import UnauthenticatedContainer from "./UnauthenticatedContainer.jsx";
+import AuthenticatedContainer from "./AuthenticatedContainer.jsx";
 
 class Home extends Component {
   state = {
