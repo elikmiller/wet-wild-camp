@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link, Route, Switch } from "react-router-dom";
-import LoginForm from "./LoginForm.jsx";
-import ForgotPasswordForm from "./ForgotPasswordForm.jsx";
-import RegisterForm from "./RegisterForm.jsx";
+import LoginForm from "../forms/LoginForm.jsx";
+import ForgotPasswordForm from "../forms/ForgotPasswordForm.jsx";
+import RegisterForm from "../forms/RegisterForm.jsx";
 
 class UnauthenticatedContainer extends Component {
   render() {

@@ -1,18 +1,25 @@
 import React, { Component } from "react";
-import "./App.css";
+import { Link } from "react-router-dom";
 
-class ForgotPasswordForm extends Component {
+class LoginForm extends Component {
   render() {
     return (
-      <div className="forgot-password">
+      <div className="login-form">
         <form onSubmit={this.props.onSubmit}>
           <div className="form-group">
             <label htmlFor="email">E-mail Address</label>
             <input className="form-control" id="email" type="text" />
           </div>
           <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input className="form-control" id="password" type="password" />
+            <small className="form-text">
+              <Link to="/forgot-password">Forgot password?</Link>
+            </small>
+          </div>
+          <div className="form-group">
             <button className="btn btn-primary btn-block" type="submit">
-              Submit
+              Login
             </button>
           </div>
         </form>
@@ -21,4 +28,4 @@ class ForgotPasswordForm extends Component {
   }
 }
 
-export default ForgotPasswordForm;
+export default LoginForm;

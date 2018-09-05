@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import SideNav from "./SideNav.jsx";
-import Overview from "./Overview.jsx";
-import Campers from "./Campers.jsx";
-import Schedule from "./Schedule.jsx";
-import ContactInformation from "./ContactInformation.jsx";
-import Payments from "./Payments.jsx";
+import SideNav from "../SideNav.jsx";
+import Overview from "../Overview.jsx";
+import Campers from "../Campers.jsx";
+import Schedule from "../Schedule.jsx";
+import ContactInformation from "../ContactInformation.jsx";
+import Payments from "../Payments.jsx";
 import { Route, Switch } from "react-router-dom";
 
 class AuthenticatedContainer extends Component {
