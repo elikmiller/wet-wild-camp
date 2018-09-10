@@ -11,23 +11,28 @@ class RegisterForm extends Component {
         "email": "",
         "password": "",
         "confirm-password": "" 
-      }
+      },
+      passwordsMatch: true
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.validatePassword = this.validatePassword.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
+    this.validatePassword();
     let formValues = this.state.formValues;
     let data = {
-      "username": formValues["email"],
+      "firstName": formValues["first-name"],
+      "lastName": formValues["last-name"],
       "email": formValues["email"],
-      "password": formValues["password"],
-      "passwordConf": formValues["password"]
+      "password": formValues["password"]
     }
 
-    axios.post('http://localhost:5000/users', data);
+    if (this.state.passwordsMatch) {
+      axios.post('http://localhost:5000/users', data);
+    }
   }
 
   handleChange(e) {
@@ -40,6 +45,18 @@ class RegisterForm extends Component {
     this.setState({
       formValues: formValues
     });
+  }
+
+  validatePassword() {
+    if (this.state.formValues["password"] !== this.state.formValues["confirm-password"]) {
+      this.setState({
+        passwordsMatch: false
+      });
+    } else if (!this.state.passwordsMatch) {
+      this.setState({
+        passwordsMatch: true
+      });
+    }
   }
 
   render() {
