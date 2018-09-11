@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import axios from 'axios';
 
 class RegisterForm extends Component {
@@ -6,14 +6,14 @@ class RegisterForm extends Component {
     super(props);
     this.state = {
       formValues: {
-        "first-name": "",
-        "last-name": "",
-        "email": "",
-        "password": "",
-        "confirm-password": "" 
+        'first-name': '',
+        'last-name': '',
+        email: '',
+        password: '',
+        'confirm-password': ''
       },
       passwordsMatch: true
-    }
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.validatePassword = this.validatePassword.bind(this);
@@ -24,14 +24,18 @@ class RegisterForm extends Component {
     this.validatePassword();
     let formValues = this.state.formValues;
     let data = {
-      "firstName": formValues["first-name"],
-      "lastName": formValues["last-name"],
-      "email": formValues["email"],
-      "password": formValues["password"]
-    }
+      firstName: formValues['first-name'],
+      lastName: formValues['last-name'],
+      email: formValues['email'],
+      password: formValues['password']
+    };
 
     if (this.state.passwordsMatch) {
-      axios.post('http://localhost:5000/users', data);
+      axios.post(`${process.env.REACT_APP_SERVER_URL}users`, data);
+      this.props.onSubmit({
+        email: formValues['email'],
+        password: formValues['password']
+      });
     }
   }
 
@@ -48,7 +52,10 @@ class RegisterForm extends Component {
   }
 
   validatePassword() {
-    if (this.state.formValues["password"] !== this.state.formValues["confirm-password"]) {
+    if (
+      this.state.formValues['password'] !==
+      this.state.formValues['confirm-password']
+    ) {
       this.setState({
         passwordsMatch: false
       });
@@ -65,41 +72,41 @@ class RegisterForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="first-name">First Name</label>
-            <input 
-              className="form-control" 
-              id="first-name" 
-              type="text" 
-              value={this.state.formValues["first-name"]}
+            <input
+              className="form-control"
+              id="first-name"
+              type="text"
+              value={this.state.formValues['first-name']}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <label htmlFor="last-name">Last Name</label>
-            <input 
-              className="form-control" 
-              id="last-name" 
-              type="text" 
-              value={this.state.formValues["last-name"]} 
+            <input
+              className="form-control"
+              id="last-name"
+              type="text"
+              value={this.state.formValues['last-name']}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <label htmlFor="email">E-mail Address</label>
-            <input 
-              className="form-control" 
-              id="email" 
-              type="text" 
-              value={this.state.formValues["email"]}
+            <input
+              className="form-control"
+              id="email"
+              type="text"
+              value={this.state.formValues['email']}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input 
-              className="form-control" 
-              id="password" 
-              type="password" 
-              value={this.state.formValues["password"]}
+            <input
+              className="form-control"
+              id="password"
+              type="password"
+              value={this.state.formValues['password']}
               onChange={this.handleChange}
             />
           </div>
@@ -109,7 +116,7 @@ class RegisterForm extends Component {
               className="form-control"
               id="confirm-password"
               type="password"
-              value={this.state.formValues["confirm-password"]}
+              value={this.state.formValues['confirm-password']}
               onChange={this.handleChange}
             />
           </div>
@@ -118,8 +125,8 @@ class RegisterForm extends Component {
               Register
             </button>
             <small className="form-text text-muted">
-              By clicking Register, you agree to our{" "}
-              <a href="/terms">Terms and Conditions</a> &amp;{" "}
+              By clicking Register, you agree to our{' '}
+              <a href="/terms">Terms and Conditions</a> &amp;{' '}
               <a href="/privacy">Privacy Policy</a>.
             </small>
           </div>

@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import SideNav from "../SideNav.jsx";
-import Overview from "../Overview.jsx";
-import Campers from "../Campers.jsx";
-import Schedule from "../Schedule.jsx";
-import ContactInformation from "../ContactInformation.jsx";
-import Payments from "../Payments.jsx";
-import { Route, Switch } from "react-router-dom";
+import React, { Component } from 'react';
+import SideNav from '../SideNav.jsx';
+import Overview from '../Overview.jsx';
+import Campers from '../Campers.jsx';
+import Schedule from '../Schedule.jsx';
+import ContactInformation from '../ContactInformation.jsx';
+import Payments from '../Payments.jsx';
+import { Route, Switch } from 'react-router-dom';
 
 class AuthenticatedContainer extends Component {
   navs = [
-    { path: "/", label: "Overview", component: Overview },
-    { path: "/campers", label: "Campers", component: Campers },
-    { path: "/schedule", label: "Camp Schedule", component: Schedule },
+    { path: '/', label: 'Overview', component: Overview },
+    { path: '/campers', label: 'Campers', component: Campers },
+    { path: '/schedule', label: 'Camp Schedule', component: Schedule },
     {
-      path: "/contact-information",
-      label: "Update Contact Information",
+      path: '/contact-information',
+      label: 'Update Contact Information',
       component: ContactInformation
     },
-    { path: "/payments", label: "Payments", component: Payments }
+    { path: '/payments', label: 'Payments', component: Payments }
   ];
 
   render() {
@@ -30,8 +30,13 @@ class AuthenticatedContainer extends Component {
             </div>
             <div className="col-10">
               <Switch>
-                {this.navs.map(nav => (
-                  <Route exact path={nav.path} component={nav.component} />
+                {this.navs.map((nav, index) => (
+                  <Route
+                    exact
+                    path={nav.path}
+                    component={nav.component}
+                    key={index}
+                  />
                 ))}
               </Switch>
             </div>

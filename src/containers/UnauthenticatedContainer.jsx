@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Link, Route, Switch } from "react-router-dom";
-import LoginForm from "../forms/LoginForm.jsx";
-import ForgotPasswordForm from "../forms/ForgotPasswordForm.jsx";
-import RegisterForm from "../forms/RegisterForm.jsx";
+import React, { Component } from 'react';
+import { Link, Route, Switch } from 'react-router-dom';
+import LoginForm from '../forms/LoginForm.jsx';
+import ForgotPasswordForm from '../forms/ForgotPasswordForm.jsx';
+import RegisterForm from '../forms/RegisterForm.jsx';
 
 class UnauthenticatedContainer extends Component {
   render() {
@@ -22,9 +22,9 @@ class UnauthenticatedContainer extends Component {
           </Switch>
           <p className="text-center">
             <a href="terms">Terms of Use</a>
-            {"  ⋅  "}
+            {'  ⋅  '}
             <a href="help">Help</a>
-            {"  ⋅  "}
+            {'  ⋅  '}
             <a href="privacy">Privacy Policy</a>
           </p>
         </div>
@@ -37,7 +37,7 @@ function Login(props) {
   return (
     <div
       className="card ml-auto mr-auto mb-3"
-      style={{ minWidth: "18rem", maxWidth: "30rem" }}
+      style={{ minWidth: '18rem', maxWidth: '30rem' }}
     >
       <div className="card-body">
         <h3 className="card-title">Login</h3>
@@ -55,7 +55,7 @@ function ForgotPassword(props) {
   return (
     <div
       className="card ml-auto mr-auto mb-3"
-      style={{ minWidth: "18rem", maxWidth: "30rem" }}
+      style={{ minWidth: '18rem', maxWidth: '30rem' }}
     >
       <div className="card-body">
         <h3 className="card-title">Forgot Password</h3>
@@ -73,11 +73,11 @@ function Register(props) {
   return (
     <div
       className="card ml-auto mr-auto mb-3"
-      style={{ minWidth: "18rem", maxWidth: "30rem" }}
+      style={{ minWidth: '18rem', maxWidth: '30rem' }}
     >
       <div className="card-body">
         <h3 className="card-title">Register</h3>
-        <RegisterForm />
+        <RegisterForm onSubmit={props.onLogin} />
         <hr />
         <p>
           Already have an account? <Link to="/">Click here</Link> to login!
