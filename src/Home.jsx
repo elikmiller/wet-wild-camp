@@ -13,8 +13,8 @@ class Home extends Component {
 
   login = data => {
     console.log(data);
-    this.setState({ loggedIn: true });
-    axios.post(`${process.env.REACT_APP_SERVER_URL}current_user`, data);
+    axios.post(`${process.env.REACT_APP_SERVER_URL}current_user`, data).then((response) => {
+      this.setState({ loggedIn: true });});
   };
 
   logout = e => {

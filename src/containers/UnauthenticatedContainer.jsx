@@ -18,7 +18,7 @@ class UnauthenticatedContainer extends Component {
               )}
             />
             <Route path="/forgot-password" component={ForgotPassword} />
-            <Route path="/register" component={Register} />
+            <Route path="/register" render={props => <Register onLogin={this.props.onLogin} {...props} />} />
           </Switch>
           <p className="text-center">
             <a href="terms">Terms of Use</a>
