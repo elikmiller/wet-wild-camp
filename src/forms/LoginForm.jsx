@@ -43,11 +43,11 @@ class LoginForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">E-mail Address</label>
-            <input className="form-control" id="email" type="text" />
+            <input className="form-control" id="email" type="text" onChange={this.handleChange} value={this.state.email} />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input className="form-control" id="password" type="password" />
+            <input className="form-control" id="password" type="password" onChange={this.handleChange} value={this.state.password} />
             <small className="form-text">
               <Link to="/forgot-password">Forgot password?</Link>
             </small>
