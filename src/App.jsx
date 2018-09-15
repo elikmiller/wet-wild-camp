@@ -40,7 +40,7 @@ class App extends Component {
       });
   };
 
-  logout = () => {
+  logout = e => {
     this.authClient.get("/logout").then(res => {
       this.setState({
         authenticated: false,
@@ -51,6 +51,7 @@ class App extends Component {
         }
       });
     });
+    e.preventDefault();
   };
 
   currentUser = () => {
@@ -86,7 +87,13 @@ class App extends Component {
             <Route
               path="/"
               render={() => {
-                return <Home authenticated={this.state.authenticated} onLogin={this.login} onLogout={this.logout} />;
+                return (
+                  <Home
+                    authenticated={this.state.authenticated}
+                    onLogin={this.login}
+                    onLogout={this.logout}
+                  />
+                );
               }}
             />
           </Switch>

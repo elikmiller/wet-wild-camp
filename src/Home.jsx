@@ -14,15 +14,19 @@ class Home extends Component {
           {this.props.authenticated && (
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" onClick={this.logout} href="/">
+                <a className="nav-link" onClick={this.props.onLogout} href="/">
                   Logout
                 </a>
               </li>
             </ul>
           )}
         </nav>
-        {!this.props.authenticated && <UnauthenticatedContainer onLogin={this.props.onLogin} />}
-        {this.props.authenticated && <AuthenticatedContainer onLogout={this.props.onLogout} />}
+        {!this.props.authenticated && (
+          <UnauthenticatedContainer onLogin={this.props.onLogin} />
+        )}
+        {this.props.authenticated && (
+          <AuthenticatedContainer onLogout={this.props.onLogout} />
+        )}
       </div>
     );
   }
