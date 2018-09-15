@@ -1,28 +1,68 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import UnauthenticatedContainer from './containers/UnauthenticatedContainer.jsx';
-import AuthenticatedContainer from './containers/AuthenticatedContainer.jsx';
-import axios from 'axios';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import UnauthenticatedContainer from "./containers/UnauthenticatedContainer.jsx";
+import AuthenticatedContainer from "./containers/AuthenticatedContainer.jsx";
+import axios from "axios";
 
 class Home extends Component {
   state = {
-    loggedIn: false,
-    firstName: '',
-    lastName: ''
+    authenticated: false,
+    user: {
+      firstName: "",
+      lastName: "",
+      email: ""
+    }
   };
 
-  login = data => {
-    console.log(data);
-    axios.post(`${process.env.REACT_APP_SERVER_URL}current_user`, data).then((response) => {
-      this.setState({ loggedIn: true });});
+  login = ({ email, password }) => {
+    axios
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/login`,
+        { email, password },
+        { withCredentials: true }
+      )
+      .then(res => {
+        console.log(res);
+        this.setState({
+          authenticated: true
+        });
+      })
+      .catch(err => {
+        this.setState({ authenticated: false });
+      });
   };
 
-  logout = e => {
-    this.setState({ loggedIn: false });
-    this.props.history.push('/');
-    axios.get(`${process.env.REACT_APP_SERVER_URL}logout`);
-    e.preventDefault();
+  logout = () => {
+    axios
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/logout`,
+        {},
+        { withCredentials: true }
+      )
+      .then(res => {
+        this.setState({ authenticated: false });
+      });
   };
+
+  currentUser = () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/current_user`, {
+        withCredentials: true
+      })
+      .then(res => {
+        this.setState({
+          authenticated: true,
+          user: res.user
+        });
+      })
+      .catch(err => {
+        this.setState({ authenticated: false });
+      });
+  };
+
+  componentDidMount() {
+    this.currentUser();
+  }
 
   render() {
     return (
@@ -31,7 +71,7 @@ class Home extends Component {
           <Link className="navbar-brand" to="/">
             React Playground
           </Link>
-          {this.state.loggedIn && (
+          {this.state.authenticated && (
             <ul className="navbar-nav">
               <li className="nav-item">
                 <a className="nav-link" onClick={this.logout} href="/">
@@ -41,10 +81,10 @@ class Home extends Component {
             </ul>
           )}
         </nav>
-        {!this.state.loggedIn && (
+        {!this.state.authenticated && (
           <UnauthenticatedContainer onLogin={this.login} />
         )}
-        {this.state.loggedIn && (
+        {this.state.authenticated && (
           <AuthenticatedContainer onLogout={this.logout} />
         )}
       </div>
