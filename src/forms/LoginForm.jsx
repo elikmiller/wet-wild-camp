@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       formValues: {
-        email: '',
-        password: ''
+        email: "",
+        password: ""
       }
     };
     this.handleChange = this.handleChange.bind(this);
@@ -30,8 +30,8 @@ class LoginForm extends Component {
     e.preventDefault();
     let formValues = this.state.formValues;
     let data = {
-      email: formValues['email'],
-      password: formValues['password']
+      email: formValues["email"],
+      password: formValues["password"]
     };
     // Sends form data to Home component
     this.props.onSubmit(data);
@@ -43,11 +43,23 @@ class LoginForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">E-mail Address</label>
-            <input className="form-control" id="email" type="text" onChange={this.handleChange} value={this.state.email} />
+            <input
+              className="form-control"
+              id="email"
+              type="text"
+              onChange={this.handleChange}
+              value={this.state.email}
+            />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input className="form-control" id="password" type="password" onChange={this.handleChange} value={this.state.password} />
+            <input
+              className="form-control"
+              id="password"
+              type="password"
+              onChange={this.handleChange}
+              value={this.state.password}
+            />
             <small className="form-text">
               <Link to="/forgot-password">Forgot password?</Link>
             </small>

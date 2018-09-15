@@ -1,27 +1,25 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import UnauthenticatedContainer from './containers/UnauthenticatedContainer.jsx';
-import AuthenticatedContainer from './containers/AuthenticatedContainer.jsx';
-import axios from 'axios';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import UnauthenticatedContainer from "./containers/UnauthenticatedContainer.jsx";
+import AuthenticatedContainer from "./containers/AuthenticatedContainer.jsx";
 
 class Home extends Component {
-  state = {
-    loggedIn: false,
-    firstName: '',
-    lastName: ''
+  handleLogin = data => {
+    this.props.onLogin(data).then(() => {
+      this.props.history.push("/");
+    });
   };
 
-  login = data => {
-    console.log(data);
-    axios.post(`${process.env.REACT_APP_SERVER_URL}current_user`, data).then((response) => {
-      this.setState({ loggedIn: true });});
+  handleLogout = () => {
+    this.props.onLogout().then(() => {
+      this.props.history.push("/");
+    });
   };
 
-  logout = e => {
-    this.setState({ loggedIn: false });
-    this.props.history.push('/');
-    axios.get(`${process.env.REACT_APP_SERVER_URL}logout`);
-    e.preventDefault();
+  handleRegister = data => {
+    this.props.onRegister(data).then(() => {
+      this.props.history.push("/");
+    });
   };
 
   render() {
@@ -31,21 +29,24 @@ class Home extends Component {
           <Link className="navbar-brand" to="/">
             React Playground
           </Link>
-          {this.state.loggedIn && (
+          {this.props.authenticated && (
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" onClick={this.logout} href="/">
+                <a className="nav-link" onClick={this.handleLogout}>
                   Logout
                 </a>
               </li>
             </ul>
           )}
         </nav>
-        {!this.state.loggedIn && (
-          <UnauthenticatedContainer onLogin={this.login} />
+        {!this.props.authenticated && (
+          <UnauthenticatedContainer
+            onLogin={this.handleLogin}
+            onRegister={this.handleRegister}
+          />
         )}
-        {this.state.loggedIn && (
-          <AuthenticatedContainer onLogout={this.logout} />
+        {this.props.authenticated && (
+          <AuthenticatedContainer onLogout={this.handleLogout} />
         )}
       </div>
     );
