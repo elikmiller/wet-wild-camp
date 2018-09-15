@@ -24,17 +24,32 @@ class App extends Component {
       .post("/login", { email, password })
       .then(res => {
         this.setState({
-          authenticated: true
+          authenticated: true,
+          user: res.data.user
         });
       })
       .catch(err => {
-        this.setState({ authenticated: false });
+        this.setState({
+          authenticated: false,
+          user: {
+            firstName: "",
+            lastName: "",
+            email: ""
+          }
+        });
       });
   };
 
   logout = () => {
     this.authClient.get("/logout").then(res => {
-      this.setState({ authenticated: false });
+      this.setState({
+        authenticated: false,
+        user: {
+          firstName: "",
+          lastName: "",
+          email: ""
+        }
+      });
     });
   };
 
@@ -44,11 +59,18 @@ class App extends Component {
       .then(res => {
         this.setState({
           authenticated: true,
-          user: res.user
+          user: res.data.user
         });
       })
       .catch(err => {
-        this.setState({ authenticated: false });
+        this.setState({
+          authenticated: false,
+          user: {
+            firstName: "",
+            lastName: "",
+            email: ""
+          }
+        });
       });
   };
 
