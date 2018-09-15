@@ -4,6 +4,24 @@ import UnauthenticatedContainer from "./containers/UnauthenticatedContainer.jsx"
 import AuthenticatedContainer from "./containers/AuthenticatedContainer.jsx";
 
 class Home extends Component {
+  handleLogin = data => {
+    this.props.onLogin(data).then(() => {
+      this.props.history.push("/");
+    });
+  };
+
+  handleLogout = () => {
+    this.props.onLogout().then(() => {
+      this.props.history.push("/");
+    });
+  };
+
+  handleRegister = data => {
+    this.props.onRegister(data).then(() => {
+      this.props.history.push("/");
+    });
+  };
+
   render() {
     return (
       <div className="home">
@@ -14,7 +32,7 @@ class Home extends Component {
           {this.props.authenticated && (
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" onClick={this.props.onLogout} href="/">
+                <a className="nav-link" onClick={this.handleLogout}>
                   Logout
                 </a>
               </li>
@@ -22,9 +40,14 @@ class Home extends Component {
           )}
         </nav>
         {!this.props.authenticated && (
-          <UnauthenticatedContainer onLogin={this.props.onLogin} onRegister={this.props.onRegister} />
+          <UnauthenticatedContainer
+            onLogin={this.handleLogin}
+            onRegister={this.handleRegister}
+          />
         )}
-        {this.props.authenticated && <AuthenticatedContainer onLogout={this.props.onLogout} />}
+        {this.props.authenticated && (
+          <AuthenticatedContainer onLogout={this.handleLogout} />
+        )}
       </div>
     );
   }

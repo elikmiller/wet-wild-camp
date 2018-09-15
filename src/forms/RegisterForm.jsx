@@ -31,6 +31,7 @@ class RegisterForm extends Component {
 
     if (this.state.passwordsMatch) {
       this.props.onSubmit(data);
+      this.props.history.push("/");
     }
   }
 
@@ -47,7 +48,10 @@ class RegisterForm extends Component {
   }
 
   validatePassword() {
-    if (this.state.formValues["password"] !== this.state.formValues["confirm-password"]) {
+    if (
+      this.state.formValues["password"] !==
+      this.state.formValues["confirm-password"]
+    ) {
       this.setState({
         passwordsMatch: false
       });
@@ -117,7 +121,8 @@ class RegisterForm extends Component {
               Register
             </button>
             <small className="form-text text-muted">
-              By clicking Register, you agree to our <a href="/terms">Terms and Conditions</a> &amp;{" "}
+              By clicking Register, you agree to our{" "}
+              <a href="/terms">Terms and Conditions</a> &amp;{" "}
               <a href="/privacy">Privacy Policy</a>.
             </small>
           </div>

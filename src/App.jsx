@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home.jsx";
-import axios from "axios";
+import appClient from "./appClient";
 import "./App.css";
 
 class App extends Component {
@@ -14,13 +14,8 @@ class App extends Component {
     }
   };
 
-  appClient = axios.create({
-    baseURL: process.env.REACT_APP_SERVER_URL,
-    withCredentials: true
-  });
-
   login = ({ email, password }) => {
-    this.appClient
+    return appClient
       .post("/login", { email, password })
       .then(res => {
         this.setState({
@@ -41,7 +36,7 @@ class App extends Component {
   };
 
   logout = () => {
-    this.appClient.get("/logout").then(res => {
+    return appClient.get("/logout").then(res => {
       this.setState({
         authenticated: false,
         user: {
@@ -51,11 +46,10 @@ class App extends Component {
         }
       });
     });
-    e.preventDefault();
   };
 
   currentUser = () => {
-    this.appClient
+    appClient
       .get("/current_user")
       .then(res => {
         this.setState({
@@ -76,9 +70,11 @@ class App extends Component {
   };
 
   register = ({ firstName, lastName, email, password }) => {
-    this.appClient.post("/users", { firstName, lastName, email, password }).then(res => {
-      return this.login({ email, password });
-    });
+    return appClient
+      .post("/users", { firstName, lastName, email, password })
+      .then(res => {
+        return this.login({ email, password });
+      });
   };
 
   componentDidMount() {
@@ -92,13 +88,14 @@ class App extends Component {
           <Switch>
             <Route
               path="/"
-              render={() => {
+              render={props => {
                 return (
                   <Home
                     authenticated={this.state.authenticated}
                     onLogin={this.login}
                     onLogout={this.logout}
                     onRegister={this.register}
+                    {...props}
                   />
                 );
               }}

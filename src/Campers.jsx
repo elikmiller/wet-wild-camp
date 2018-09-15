@@ -28,8 +28,8 @@ class Campers extends Component {
       <div>
         <h1>Campers</h1>
         <div className="row">
-          {campers.map(camper => (
-            <div className="col-12 col-sm-3">
+          {campers.map((camper, i) => (
+            <div className="col-12 col-sm-3" key={i}>
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">{`${camper.firstName} ${
@@ -38,10 +38,8 @@ class Campers extends Component {
                   <p className="card-text">
                     {camper.gender}
                     <br />
-                    {camper.dateOfBirth} ({this.calculateAge(
-                      camper.dateOfBirth
-                    )})
-                    <br />
+                    {camper.dateOfBirth} (
+                    {this.calculateAge(camper.dateOfBirth)})<br />
                     {camper.notes}
                   </p>
                 </div>
