@@ -31,7 +31,6 @@ class RegisterForm extends Component {
 
     if (this.state.passwordsMatch) {
       this.props.onSubmit(data);
-      this.props.history.push("/");
     }
   }
 
