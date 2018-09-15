@@ -14,13 +14,13 @@ class App extends Component {
     }
   };
 
-  authClient = axios.create({
+  appClient = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL,
     withCredentials: true
   });
 
   login = ({ email, password }) => {
-    this.authClient
+    this.appClient
       .post("/login", { email, password })
       .then(res => {
         this.setState({
@@ -40,8 +40,8 @@ class App extends Component {
       });
   };
 
-  logout = e => {
-    this.authClient.get("/logout").then(res => {
+  logout = () => {
+    this.appClient.get("/logout").then(res => {
       this.setState({
         authenticated: false,
         user: {
@@ -55,7 +55,7 @@ class App extends Component {
   };
 
   currentUser = () => {
-    this.authClient
+    this.appClient
       .get("/current_user")
       .then(res => {
         this.setState({
@@ -75,6 +75,12 @@ class App extends Component {
       });
   };
 
+  register = ({ firstName, lastName, email, password }) => {
+    this.appClient.post("/users", { firstName, lastName, email, password }).then(res => {
+      return this.login({ email, password });
+    });
+  };
+
   componentDidMount() {
     this.currentUser();
   }
@@ -92,6 +98,7 @@ class App extends Component {
                     authenticated={this.state.authenticated}
                     onLogin={this.login}
                     onLogout={this.logout}
+                    onRegister={this.register}
                   />
                 );
               }}

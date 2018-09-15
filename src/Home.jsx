@@ -22,11 +22,17 @@ class Home extends Component {
           )}
         </nav>
         {!this.props.authenticated && (
+<<<<<<< Updated upstream
           <UnauthenticatedContainer onLogin={this.props.onLogin} />
         )}
         {this.props.authenticated && (
           <AuthenticatedContainer onLogout={this.props.onLogout} />
         )}
+=======
+          <UnauthenticatedContainer onLogin={this.props.onLogin} onRegister={this.props.onRegister} />
+        )}
+        {this.props.authenticated && <AuthenticatedContainer onLogout={this.props.onLogout} />}
+>>>>>>> Stashed changes
       </div>
     );
   }
