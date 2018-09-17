@@ -16,7 +16,7 @@ class App extends Component {
 
   login = ({ email, password }) => {
     return appClient
-      .post("/login", { email, password })
+      .login({ email, password })
       .then(res => {
         this.setState({
           authenticated: true,
@@ -36,7 +36,7 @@ class App extends Component {
   };
 
   logout = () => {
-    return appClient.get("/logout").then(res => {
+    return appClient.logout().then(res => {
       this.setState({
         authenticated: false,
         user: {
@@ -48,9 +48,17 @@ class App extends Component {
     });
   };
 
-  currentUser = () => {
-    appClient
-      .get("/current_user")
+  register = ({ firstName, lastName, email, password }) => {
+    return appClient
+      .register({ firstName, lastName, email, password })
+      .then(res => {
+        return this.login({ email, password });
+      });
+  };
+
+  componentDidMount() {
+    return appClient
+      .currentUser()
       .then(res => {
         this.setState({
           authenticated: true,
@@ -67,18 +75,6 @@ class App extends Component {
           }
         });
       });
-  };
-
-  register = ({ firstName, lastName, email, password }) => {
-    return appClient
-      .post("/users", { firstName, lastName, email, password })
-      .then(res => {
-        return this.login({ email, password });
-      });
-  };
-
-  componentDidMount() {
-    this.currentUser();
   }
 
   render() {
