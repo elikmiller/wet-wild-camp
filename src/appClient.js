@@ -21,4 +21,8 @@ const currentUser = () => {
   return appClient.get("/current_user");
 };
 
-export default { currentUser, login, logout, register };
+const getCampers = userId => {
+  return appClient.get(`/users/${userId}/campers`);
+};
+
+export default { currentUser, login, logout, register, getCampers };

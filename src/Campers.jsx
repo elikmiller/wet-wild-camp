@@ -1,29 +1,35 @@
 import React, { Component } from "react";
 import moment from "moment";
+import appClient from "./appClient";
 
 class Campers extends Component {
+  state = {
+    campers: []
+  };
+
   calculateAge(date) {
     let age = moment().diff(moment(date), "years", false);
     return `${age} year${age === 1 ? "" : "s"} old`;
   }
 
+  componentDidMount() {
+    appClient.currentUser().then(res => {
+      appClient.getCampers(res.data.user._id).then(campers => {
+        this.setState({ campers: campers.data });
+      });
+    });
+  }
+
   render() {
-    let campers = [
-      {
-        firstName: "Bobby",
-        lastName: "Hill",
-        gender: "Male",
-        dateOfBirth: "03/15/2012",
-        notes: ""
-      },
-      {
-        firstName: "Luanne",
-        lastName: "Platter",
-        gender: "Female",
-        dateOfBirth: "11/03/2005",
-        notes: ""
-      }
-    ];
+    let campers = this.state.campers.map(camper => {
+      return {
+        firstName: camper.firstName,
+        lastName: camper.lastName,
+        gender: camper.gender,
+        dateOfBirth: camper.dateOfBirth,
+        notes: camper.notes
+      };
+    });
     return (
       <div>
         <h1>Campers</h1>
