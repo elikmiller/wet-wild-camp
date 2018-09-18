@@ -12,6 +12,10 @@ class Campers extends Component {
     return `${age} year${age === 1 ? "" : "s"} old`;
   }
 
+  formatBirthday(date) {
+    return moment(date).format("MMMM Do, YYYY");
+  }
+
   componentDidMount() {
     appClient.currentUser().then(res => {
       appClient.getCampers(res.data.user._id).then(campers => {
@@ -44,7 +48,7 @@ class Campers extends Component {
                   <p className="card-text">
                     {camper.gender}
                     <br />
-                    {camper.dateOfBirth} (
+                    {this.formatBirthday(camper.dateOfBirth)} (
                     {this.calculateAge(camper.dateOfBirth)})<br />
                     {camper.notes}
                   </p>
