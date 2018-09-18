@@ -26,7 +26,7 @@ describe("App", () => {
     });
 
     afterEach(() => {
-      appClient.currentUser.mockReset();
+      jest.clearAllMocks();
     });
 
     it("authenticated state should be true", () => {
@@ -53,7 +53,7 @@ describe("App", () => {
     });
 
     afterEach(() => {
-      appClient.currentUser.mockReset();
+      jest.clearAllMocks();
     });
 
     it("authenticated state should be false", () => {
