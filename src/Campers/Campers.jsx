@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import appClient from "./appClient";
+import appClient from "../appClient";
 
 import EditableCamper from "./EditableCamper.jsx";
 
@@ -13,10 +13,8 @@ class Campers extends Component {
   }
 
   refreshCampers = () => {
-    appClient.currentUser().then(res => {
-      appClient.getCampers(res.data.user._id).then(campers => {
-        this.setState({ campers: campers.data });
-      });
+    appClient.getCampers(this.props.userId).then(campers => {
+      this.setState({ campers: campers.data });
     });
   };
 
