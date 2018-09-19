@@ -15,15 +15,15 @@ describe("LoginForm", () => {
     jest.clearAllMocks();
   });
 
-  it("should render Input for Email Address", () => {
+  it("should render child Input for Email Address", () => {
     wrapper.find("Input[name='email']").length.should.equal(1);
   });
 
-  it("should render Input for Password", () => {
+  it("should render child Input for Password", () => {
     wrapper.find("Input[name='password']").length.should.equal(1);
   });
 
-  it("should render Login button", () => {
+  it("should render child Login button", () => {
     wrapper.find("button[type='submit']").length.should.equal(1);
   });
 
@@ -40,6 +40,12 @@ describe("LoginForm", () => {
       it("should set error messages in state", () => {
         wrapper.state().errors.email.should.equal("Email Address is required.");
         wrapper.state().errors.password.should.equal("Password is required.");
+      });
+
+      it("child Inputs should receive error messages", () => {
+        wrapper.find("Input[name='email']").props().error.should.not.be.empty;
+        wrapper.find("Input[name='password']").props().error.should.not.be
+          .empty;
       });
 
       it("should not call onSubmit", () => {
@@ -74,6 +80,12 @@ describe("LoginForm", () => {
           );
       });
 
+      it("child Inputs should receive error messages", () => {
+        wrapper.find("Input[name='email']").props().error.should.not.be.empty;
+        wrapper.find("Input[name='password']").props().error.should.not.be
+          .empty;
+      });
+
       it("should not call onSubmit", () => {
         onSubmit.mock.calls.length.should.equal(0);
       });
@@ -98,6 +110,15 @@ describe("LoginForm", () => {
       it("should be no error messages in state", () => {
         wrapper.state().errors.should.not.have.property("email");
         wrapper.state().errors.should.not.have.property("password");
+      });
+
+      it("child Inputs should not receive error messages", () => {
+        let emailErrorExists = !!wrapper.find("Input[name='email']").props()
+          .error;
+        emailErrorExists.should.be.false;
+        let passwordErrorExists = !!wrapper.find("Input[name='email']").props()
+          .error;
+        passwordErrorExists.should.be.false;
       });
 
       it("should call onSubmit", () => {
