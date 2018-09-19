@@ -6,7 +6,6 @@ import Schedule from "../Schedule.jsx";
 import ContactInformation from "../ContactInformation/ContactInformation.jsx";
 import Payments from "../Payments.jsx";
 import { Route, Switch } from "react-router-dom";
-import { UserContext } from "../App.jsx";
 
 class AuthenticatedContainer extends Component {
   navs = [
@@ -30,35 +29,16 @@ class AuthenticatedContainer extends Component {
               <SideNav navs={this.navs} onLogout={this.props.onLogout} />
             </div>
             <div className="col-10">
-              <UserContext.Consumer>
-                {id => (
-                  <Switch>
-                    <Route
-                      exact
-                      path="/"
-                      render={props => <Overview {...props} userId={id} />}
-                    />
-                    <Route
-                      path="/campers"
-                      render={props => <Campers {...props} userId={id} />}
-                    />
-                    <Route
-                      path="/schedule"
-                      render={props => <Schedule {...props} userId={id} />}
-                    />
-                    <Route
-                      path="/contactinformation"
-                      render={props => (
-                        <ContactInformation {...props} userId={id} />
-                      )}
-                    />
-                    <Route
-                      path="/payments"
-                      render={props => <Payments {...props} userId={id} />}
-                    />
-                  </Switch>
-                )}
-              </UserContext.Consumer>
+              <Switch>
+                {this.navs.map(nav => (
+                  <Route
+                    key={nav.label}
+                    exact
+                    path={nav.path}
+                    component={nav.component}
+                  />
+                ))}
+              </Switch>
             </div>
           </div>
         </div>

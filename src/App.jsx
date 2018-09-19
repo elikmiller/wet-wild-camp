@@ -4,12 +4,13 @@ import Home from "./Home.jsx";
 import appClient from "./appClient";
 import "./App.css";
 
-export const UserContext = React.createContext();
+export const UserContext = React.createContext("");
 
 class App extends Component {
   state = {
     authenticated: false,
     user: {
+      _id: "",
       firstName: "",
       lastName: "",
       email: ""
@@ -29,6 +30,7 @@ class App extends Component {
         this.setState({
           authenticated: false,
           user: {
+            _id: "",
             firstName: "",
             lastName: "",
             email: ""
@@ -42,6 +44,7 @@ class App extends Component {
       this.setState({
         authenticated: false,
         user: {
+          _id: "",
           firstName: "",
           lastName: "",
           email: ""
@@ -71,6 +74,7 @@ class App extends Component {
         this.setState({
           authenticated: false,
           user: {
+            _id: "",
             firstName: "",
             lastName: "",
             email: ""
