@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import PrimaryContactInformationForm from "./forms/PrimaryContactInformationForm.jsx";
-import SecondaryContactInformationForm from "./forms/SecondaryContactInformationForm.jsx";
-import EmergencyContactInformationForm from "./forms/EmergencyContactInformationForm.jsx";
+import PrimaryContactInformationForm from "./PrimaryContactInformationForm.jsx";
+import SecondaryContactInformationForm from "./SecondaryContactInformationForm.jsx";
+import EmergencyContactInformationForm from "./EmergencyContactInformationForm.jsx";
 
 class ContactInformation extends Component {
   render() {
