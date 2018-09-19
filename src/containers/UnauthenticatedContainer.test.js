@@ -4,15 +4,13 @@ import UnauthenticatedContainer, {
   ForgotPassword,
   Register
 } from "./UnauthenticatedContainer.jsx";
-import { shallow, mount } from "enzyme";
-import ReactRouterEnzymeContext from "react-router-enzyme-context";
+import { shallow } from "enzyme";
 
 describe("UnauthenticatedContainer", () => {
   let wrapper;
 
   beforeEach(() => {
-    const context = new ReactRouterEnzymeContext();
-    wrapper = mount(<UnauthenticatedContainer />, context.get());
+    wrapper = shallow(<UnauthenticatedContainer />);
   });
 
   it("should render a Terms of Use link", () => {
@@ -29,67 +27,6 @@ describe("UnauthenticatedContainer", () => {
 
   it("should render a Privacy Policy link", () => {
     wrapper.find("a[href='/privacy']").length.should.equal(1);
-  });
-
-  describe("when the current path is /", () => {
-    beforeEach(() => {
-      const context = new ReactRouterEnzymeContext({ initialEntries: ["/"] });
-      wrapper.setContext(context.get().context);
-    });
-
-    it("should render a Login component", () => {
-      wrapper.find(Login).length.should.equal(1);
-    });
-
-    it("should not render a ForgotPassword component", () => {
-      wrapper.find(ForgotPassword).length.should.equal(0);
-    });
-
-    it("should not render a Register component", () => {
-      wrapper.find(Register).length.should.equal(0);
-    });
-  });
-
-  describe("when the current path is /forgot-password", () => {
-    beforeEach(() => {
-      const context = new ReactRouterEnzymeContext({
-        initialEntries: ["/forgot-password"]
-      });
-      wrapper.setContext(context.get().context);
-    });
-
-    it("should not render a Login component", () => {
-      wrapper.find(Login).length.should.equal(0);
-    });
-
-    it("should render a ForgotPassword component", () => {
-      wrapper.find(ForgotPassword).length.should.equal(1);
-    });
-
-    it("should not render a Register component", () => {
-      wrapper.find(Register).length.should.equal(0);
-    });
-  });
-
-  describe("when the current path is /register", () => {
-    beforeEach(() => {
-      const context = new ReactRouterEnzymeContext({
-        initialEntries: ["/register"]
-      });
-      wrapper.setContext(context.get().context);
-    });
-
-    it("should not render a Login component", () => {
-      wrapper.find(Login).length.should.equal(0);
-    });
-
-    it("should not render a ForgotPassword component", () => {
-      wrapper.find(ForgotPassword).length.should.equal(0);
-    });
-
-    it("should render a Register component", () => {
-      wrapper.find(Register).length.should.equal(1);
-    });
   });
 });
 
