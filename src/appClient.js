@@ -25,4 +25,15 @@ const getCampers = userId => {
   return appClient.get(`/users/${userId}/campers`);
 };
 
-export default { currentUser, login, logout, register, getCampers };
+const updateCamper = ({ id, data }) => {
+  return appClient.patch(`/campers/${id}`, data);
+};
+
+export default {
+  currentUser,
+  login,
+  logout,
+  register,
+  getCampers,
+  updateCamper
+};
