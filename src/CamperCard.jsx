@@ -8,7 +8,7 @@ class CamperCard extends Component {
   }
 
   formatBirthday(date) {
-    return moment(date).format("MMMM Do, YYYY");
+    return moment.utc(date).format("MMMM Do, YYYY");
   }
 
   render() {

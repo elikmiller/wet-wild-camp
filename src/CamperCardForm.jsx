@@ -6,7 +6,7 @@ class CamperCardForm extends Component {
       firstName: this.props.data.firstName,
       lastName: this.props.data.lastName,
       gender: this.props.data.gender,
-      dateOfBirth: this.props.data.dateOfBirth,
+      dateOfBirth: this.props.data.dateOfBirth.slice(0, 10),
       notes: this.props.data.notes
     }
   };

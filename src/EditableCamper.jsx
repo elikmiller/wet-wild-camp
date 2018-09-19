@@ -17,6 +17,7 @@ class EditableCamper extends Component {
     let id = this.props.data._id;
     appClient.updateCamper({ id, data }).then(res => {
       this.toggleForm();
+      this.props.refreshCampers();
     });
   };
 
