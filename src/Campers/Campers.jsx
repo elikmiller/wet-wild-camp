@@ -19,6 +19,20 @@ class Campers extends Component {
     });
   };
 
+  addCamper = e => {
+    e.preventDefault();
+    this.state.campers.push(null);
+    this.forceUpdate();
+  };
+
+  handleClose = () => {
+    let { campers } = this.state;
+    if (campers[campers.length - 1] === null) {
+      campers.pop();
+      this.forceUpdate();
+    }
+  };
+
   render() {
     return (
       <div>
@@ -29,10 +43,14 @@ class Campers extends Component {
               <EditableCamper
                 data={camper}
                 refreshCampers={this.refreshCampers}
+                handleClose={this.handleClose}
               />
             </div>
           ))}
         </div>
+        <button className="btn btn-primary" onClick={this.addCamper}>
+          New Camper
+        </button>
       </div>
     );
   }

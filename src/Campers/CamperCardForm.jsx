@@ -3,11 +3,13 @@ import React, { Component } from "react";
 class CamperCardForm extends Component {
   state = {
     formValues: {
-      firstName: this.props.data.firstName,
-      lastName: this.props.data.lastName,
-      gender: this.props.data.gender,
-      dateOfBirth: this.props.data.dateOfBirth.slice(0, 10),
-      notes: this.props.data.notes
+      firstName: this.props.data ? this.props.data.firstName : "",
+      lastName: this.props.data ? this.props.data.lastName : "",
+      gender: this.props.data ? this.props.data.gender : "",
+      dateOfBirth: this.props.data
+        ? this.props.data.dateOfBirth.slice(0, 10)
+        : "",
+      notes: this.props.data ? this.props.data.notes : ""
     }
   };
 

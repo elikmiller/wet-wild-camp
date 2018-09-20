@@ -14,20 +14,36 @@ class EditableCamper extends Component {
   };
 
   submit = data => {
-    let id = this.props.data._id;
-    appClient.updateCamper({ id, data }).then(res => {
-      this.toggleForm();
-      this.props.refreshCampers();
-    });
+    if (this.props.data) {
+      let id = this.props.data._id;
+      appClient.updateCamper({ id, data }).then(res => {
+        this.toggleForm();
+        this.props.refreshCampers();
+      });
+    } else {
+      appClient.addCamper(data).then(res => {
+        this.toggleForm();
+        this.props.refreshCampers();
+      });
+    }
   };
 
+  handleClose = () => {
+    this.props.handleClose();
+    this.toggleForm();
+  };
+
+  componentWillMount() {
+    if (!this.props.data) this.toggleForm();
+  }
+
   render() {
-    if (this.state.formOpen) {
+    if (this.state.formOpen || this.props.data === null) {
       return (
         <CamperCardForm
           data={this.props.data}
           onSubmit={this.submit}
-          closeForm={this.toggleForm}
+          closeForm={this.handleClose}
         />
       );
     } else {
