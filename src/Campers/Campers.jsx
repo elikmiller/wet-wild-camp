@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import appClient from "../appClient";
 
 import EditableCamper from "./EditableCamper.jsx";
+import { UserContext } from "../App";
 
 class Campers extends Component {
   state = {
@@ -37,4 +38,8 @@ class Campers extends Component {
   }
 }
 
-export default Campers;
+export default props => (
+  <UserContext.Consumer>
+    {userId => <Campers userId={userId} {...props} />}
+  </UserContext.Consumer>
+);

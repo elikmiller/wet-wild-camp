@@ -27,7 +27,7 @@ class Home extends Component {
       <div className="home">
         <nav className="navbar navbar-light bg-light mb-3">
           <Link className="navbar-brand" to="/">
-            React Playground
+            Wet &amp; Wild Camp Registration
           </Link>
           {this.props.authenticated && (
             <ul className="navbar-nav">

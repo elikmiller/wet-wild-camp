@@ -7,29 +7,83 @@ describe("Home", () => {
   let wrapper;
   const onLogin = jest.fn(() => Promise.resolve());
   const onLogout = jest.fn(() => Promise.resolve());
+  const onRegister = jest.fn(() => Promise.resolve());
 
-  describe("class methods", () => {
-    beforeEach(() => {
-      wrapper = shallow(
-        <Home onLogin={onLogin} onLogout={onLogout} history={[]} />
-      );
+  beforeEach(() => {
+    wrapper = shallow(
+      <Home
+        onLogin={onLogin}
+        onLogout={onLogout}
+        onRegister={onRegister}
+        history={[]}
+      />
+    );
+  });
+
+  it("should have a Link to the root path '/'", () => {
+    wrapper.find(Link).length.should.equal(1);
+    wrapper
+      .find("Link")
+      .props()
+      .to.should.equal("/");
+  });
+
+  describe("when handleLogin is fired", () => {
+    beforeEach(async () => {
+      await wrapper.instance().handleLogin();
     });
 
     afterEach(() => {
       jest.clearAllMocks();
     });
 
-    it("should have a Link to the root path '/'", () => {
-      wrapper.find(Link).length.should.equal(1);
-      wrapper
-        .find("Link")
-        .props()
-        .to.should.equal("/");
+    it("onLogin is called", async () => {
+      onLogin.mock.calls.length.should.equal(1);
     });
 
-    it("should trigger a logout when the logout link is clicked", async () => {
+    it("history is updated", async () => {
+      wrapper
+        .instance()
+        .props.history.pop()
+        .should.contain("/");
+    });
+  });
+
+  describe("when logout handler is fired", () => {
+    beforeEach(async () => {
       await wrapper.instance().handleLogout();
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("onLogout is called", async () => {
       onLogout.mock.calls.length.should.equal(1);
+    });
+
+    it("history is updated", async () => {
+      wrapper
+        .instance()
+        .props.history.pop()
+        .should.contain("/");
+    });
+  });
+
+  describe("register handler is fired", () => {
+    beforeEach(async () => {
+      await wrapper.instance().handleRegister();
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("onRegister is called", async () => {
+      onRegister.mock.calls.length.should.equal(1);
+    });
+
+    it("history is updated", async () => {
       wrapper
         .instance()
         .props.history.pop()
@@ -39,18 +93,10 @@ describe("Home", () => {
 
   describe("while authenticated", () => {
     beforeEach(() => {
-      wrapper = shallow(
-        <Home
-          authenticated={true}
-          onLogin={onLogin}
-          onLogout={onLogout}
-          history={[]}
-        />
-      );
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
+      wrapper.setProps({
+        authenticated: true,
+        ...wrapper.instance().props
+      });
     });
 
     it("should display a logout link", () => {
@@ -67,23 +113,11 @@ describe("Home", () => {
   });
 
   describe("while unauthenticated", () => {
-    let wrapper;
-    const onLogin = jest.fn(() => Promise.resolve());
-    const onLogout = jest.fn(() => Promise.resolve());
-
     beforeEach(() => {
-      wrapper = shallow(
-        <Home
-          authenticated={false}
-          onLogin={onLogin}
-          onLogout={onLogout}
-          history={[]}
-        />
-      );
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
+      wrapper.setProps({
+        authenticated: false,
+        ...wrapper.instance().props
+      });
     });
 
     it("should not display a logout link", () => {

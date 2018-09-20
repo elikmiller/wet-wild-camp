@@ -1,120 +1,86 @@
 import React, { Component } from "react";
+import Input from "./Input";
 
 class RegisterForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formValues: {
-        "first-name": "",
-        "last-name": "",
-        email: "",
-        password: "",
-        "confirm-password": ""
-      },
-      passwordsMatch: true
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.validatePassword = this.validatePassword.bind(this);
-  }
+  state = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    errors: {},
+    wasValidated: false
+  };
 
-  handleSubmit(e) {
+  handleSubmit = e => {
     e.preventDefault();
-    this.validatePassword();
-    let formValues = this.state.formValues;
     let data = {
-      firstName: formValues["first-name"],
-      lastName: formValues["last-name"],
-      email: formValues["email"],
-      password: formValues["password"]
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password
     };
 
-    if (this.state.passwordsMatch) {
+    if (this.state.password === this.state.confirmPassword) {
       this.props.onSubmit(data);
     }
-  }
+  };
 
-  handleChange(e) {
-    e.preventDefault();
-    let formValues = this.state.formValues;
-    let id = e.target.id;
-    let value = e.target.value;
-
-    formValues[id] = value;
+  handleChange = e => {
     this.setState({
-      formValues: formValues
+      [e.target.name]: e.target.value
     });
-  }
-
-  validatePassword() {
-    if (
-      this.state.formValues["password"] !==
-      this.state.formValues["confirm-password"]
-    ) {
-      this.setState({
-        passwordsMatch: false
-      });
-    } else if (!this.state.passwordsMatch) {
-      this.setState({
-        passwordsMatch: true
-      });
-    }
-  }
+  };
 
   render() {
     return (
       <div className="register-form">
         <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="first-name">First Name</label>
-            <input
-              className="form-control"
-              id="first-name"
-              type="text"
-              value={this.state.formValues["first-name"]}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="last-name">Last Name</label>
-            <input
-              className="form-control"
-              id="last-name"
-              type="text"
-              value={this.state.formValues["last-name"]}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">E-mail Address</label>
-            <input
-              className="form-control"
-              id="email"
-              type="text"
-              value={this.state.formValues["email"]}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              className="form-control"
-              id="password"
-              type="password"
-              value={this.state.formValues["password"]}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirm-password">Confirm Password</label>
-            <input
-              className="form-control"
-              id="confirm-password"
-              type="password"
-              value={this.state.formValues["confirm-password"]}
-              onChange={this.handleChange}
-            />
-          </div>
+          <Input
+            label="First Name"
+            name="firstName"
+            type="text"
+            value={this.state.firstName}
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.firstName}
+          />
+          <Input
+            label="Last Name"
+            name="lastName"
+            type="text"
+            value={this.state.lastName}
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.lastName}
+          />
+          <Input
+            label="Email Address"
+            name="email"
+            type="text"
+            value={this.state.email}
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.email}
+          />
+          <Input
+            label="Password"
+            name="password"
+            type="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.password}
+          />
+          <Input
+            label="Confirm Password"
+            name="confirmPassword"
+            type="confirmPassword"
+            value={this.state.confirmPassword}
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.confirmPassword}
+          />
           <div className="form-group">
             <button className="btn btn-primary btn-block" type="submit">
               Register
