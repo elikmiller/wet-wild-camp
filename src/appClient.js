@@ -21,6 +21,10 @@ const currentUser = () => {
   return appClient.get("/current_user");
 };
 
+const updateUser = ({ id, data }) => {
+  return appClient.patch(`/users/${id}`, data);
+};
+
 const getCampers = userId => {
   return appClient.get(`/users/${userId}/campers`);
 };
@@ -40,5 +44,6 @@ export default {
   register,
   getCampers,
   updateCamper,
-  getContacts
+  getContacts,
+  updateUser
 };

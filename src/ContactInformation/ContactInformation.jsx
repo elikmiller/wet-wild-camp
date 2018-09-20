@@ -42,7 +42,6 @@ class ContactInformation extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <h1>Contact Information</h1>
@@ -53,6 +52,7 @@ class ContactInformation extends Component {
                 <EditableContact
                   form={form}
                   refreshContacts={this.refreshContacts}
+                  userId={this.props.userId}
                 />
               </div>
             );
