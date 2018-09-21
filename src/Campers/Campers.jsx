@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import appClient from "../appClient";
 
 import EditableCamper from "./EditableCamper.jsx";
-import { UserContext } from "../App";
+import { AuthContext } from "../App";
 
 class Campers extends Component {
   state = {
@@ -14,9 +14,16 @@ class Campers extends Component {
   }
 
   refreshCampers = () => {
-    appClient.getCampers(this.props.userId).then(campers => {
-      this.setState({ campers: campers.data });
-    });
+    appClient
+      .getCampers(this.props.userId)
+      .then(campers => {
+        this.setState({ campers: campers.data });
+      })
+      .catch(err => {
+        if (err.response.status === 401) {
+          this.props.logout();
+        }
+      });
   };
 
   addCamper = e => {
@@ -37,7 +44,7 @@ class Campers extends Component {
     return (
       <div>
         <h1>Campers</h1>
-        <div className="row">
+        <div className="row position-relative">
           {this.state.campers.map((camper, i) => (
             <div className="col-12 col-sm-6" key={i}>
               <EditableCamper
@@ -57,7 +64,7 @@ class Campers extends Component {
 }
 
 export default props => (
-  <UserContext.Consumer>
-    {userId => <Campers userId={userId} {...props} />}
-  </UserContext.Consumer>
+  <AuthContext.Consumer>
+    {auth => <Campers userId={auth.userId} logout={auth.logout} {...props} />}
+  </AuthContext.Consumer>
 );

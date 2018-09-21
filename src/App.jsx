@@ -4,7 +4,7 @@ import Home from "./Home.jsx";
 import appClient from "./appClient";
 import "./App.css";
 
-export const UserContext = React.createContext("");
+export const AuthContext = React.createContext();
 
 class App extends Component {
   state = {
@@ -92,7 +92,13 @@ class App extends Component {
               path="/"
               render={props => {
                 return (
-                  <UserContext.Provider value={this.state.user._id}>
+                  <AuthContext.Provider
+                    value={{
+                      authenticated: this.state.authenticated,
+                      userId: this.state.user._id,
+                      logout: this.logout
+                    }}
+                  >
                     <Home
                       authenticated={this.state.authenticated}
                       onLogin={this.login}
@@ -100,7 +106,7 @@ class App extends Component {
                       onRegister={this.register}
                       {...props}
                     />
-                  </UserContext.Provider>
+                  </AuthContext.Provider>
                 );
               }}
             />
