@@ -41,6 +41,10 @@ const getContacts = userId => {
   return appClient.get(`/users/${userId}/contacts`);
 };
 
+const getCamps = () => {
+  return appClient.get(`/camps`);
+};
+
 export default {
   currentUser,
   login,
@@ -50,5 +54,6 @@ export default {
   updateCamper,
   getContacts,
   updateUser,
-  addCamper
+  addCamper,
+  getCamps
 };
