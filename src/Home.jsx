@@ -2,8 +2,11 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import UnauthenticatedContainer from "./containers/UnauthenticatedContainer.jsx";
 import AuthenticatedContainer from "./containers/AuthenticatedContainer.jsx";
+import appClient from "./appClient";
 
 class Home extends Component {
+  unlisten = () => {};
+
   handleLogin = data => {
     this.props.onLogin(data).then(() => {
       this.props.history.push("/");
@@ -21,6 +24,21 @@ class Home extends Component {
       this.props.history.push("/");
     });
   };
+
+  componentDidMount() {
+    // Check session is valid on route change
+    this.unlisten = this.props.history.listen((location, action) => {
+      if (this.props.location.pathname !== location.pathname) {
+        appClient.currentUser().catch(() => {
+          if (this.props.authenticated) this.handleLogout();
+        });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
+  }
 
   render() {
     return (

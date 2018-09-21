@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Route, Switch, Redirect } from "react-router-dom";
 import LoginForm from "../forms/LoginForm.jsx";
 import ForgotPasswordForm from "../forms/ForgotPasswordForm.jsx";
 import RegisterForm from "../forms/RegisterForm.jsx";
@@ -24,6 +24,7 @@ class UnauthenticatedContainer extends Component {
                 <Register onRegister={this.props.onRegister} {...props} />
               )}
             />
+            <Route path="/*" render={() => <Redirect to="/" />} />
           </Switch>
           <p className="text-center">
             <a href="/terms">Terms of Use</a>
