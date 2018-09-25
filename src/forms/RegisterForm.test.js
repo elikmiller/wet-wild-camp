@@ -58,7 +58,9 @@ describe("RegisterForm", () => {
         wrapper.state().errors.password.should.equal("Password is required.");
         wrapper
           .state()
-          .errors.confirmPassword.should.equal("Confirm Password is required.");
+          .errors.confirmPassword.should.equal(
+            "Confirmation Password is required."
+          );
       });
 
       it("child Inputs should receive error messages", () => {
@@ -112,7 +114,7 @@ describe("RegisterForm", () => {
         wrapper
           .state()
           .errors.confirmPassword.should.equal(
-            "Confirmation Password does not match."
+            "Confirmation Password must match."
           );
       });
 

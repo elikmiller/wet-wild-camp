@@ -16,7 +16,8 @@ describe("Home", () => {
         onLogout={onLogout}
         onRegister={onRegister}
         history={[]}
-      />
+      />,
+      { disableLifecycleMethods: true }
     );
   });
 
