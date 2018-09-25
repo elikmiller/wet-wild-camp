@@ -3,7 +3,7 @@ import PrimaryContactInformationForm from "./PrimaryContactInformationForm.jsx";
 import SecondaryContactInformationForm from "./SecondaryContactInformationForm.jsx";
 import EmergencyContactInformationForm from "./EmergencyContactInformationForm.jsx";
 import EditableContact from "./EditableContact.jsx";
-import { UserContext } from "../App";
+import { AuthContext } from "../App";
 import appClient from "../appClient";
 
 class ContactInformation extends Component {
@@ -64,7 +64,13 @@ class ContactInformation extends Component {
 }
 
 export default props => (
-  <UserContext.Consumer>
-    {userId => <ContactInformation userId={userId} {...props} />}
-  </UserContext.Consumer>
+  <AuthContext.Consumer>
+    {auth => (
+      <ContactInformation
+        userId={auth.userId}
+        logout={auth.logout}
+        {...props}
+      />
+    )}
+  </AuthContext.Consumer>
 );

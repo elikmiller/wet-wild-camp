@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Input from "./Input";
+import validator from "validator";
 
 class RegisterForm extends Component {
   state = {
@@ -12,16 +13,60 @@ class RegisterForm extends Component {
     wasValidated: false
   };
 
+  validate = () => {
+    let errors = {};
+    if (validator.isEmpty(this.state.firstName))
+      errors.firstName = "First Name is required.";
+    if (validator.isEmpty(this.state.lastName))
+      errors.lastName = "Last Name is required.";
+    if (!validator.isEmail(this.state.email))
+      errors.email = "Please enter a valid Email Address.";
+    if (validator.isEmpty(this.state.email))
+      errors.email = "Email Address is required.";
+    if (!validator.isLength(this.state.password, { min: 8, max: 64 }))
+      errors.password = "Password must be between 8 and 64 characters.";
+    if (validator.isEmpty(this.state.password))
+      errors.password = "Password is required.";
+    if (!validator.equals(this.state.password, this.state.confirmPassword))
+      errors.confirmPassword = "Confirmation Password must match.";
+    if (validator.isEmpty(this.state.confirmPassword))
+      errors.confirmPassword = "Confirmation Password is required.";
+    return errors;
+  };
+
   handleSubmit = e => {
     e.preventDefault();
-    let data = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password
-    };
 
-    if (this.state.password === this.state.confirmPassword) {
+    const errors = this.validate();
+    this.setState({
+      errors,
+      wasValidated: true
+    });
+
+    if (Object.keys(errors).length === 0) {
+      const data = {
+        email: this.state.email,
+        password: this.state.password
+      };
+      this.props.onSubmit(data);
+    }
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const errors = this.validate();
+    this.setState({
+      errors,
+      wasValidated: true
+    });
+
+    if (Object.keys(errors).length === 0) {
+      let data = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        password: this.state.password
+      };
       this.props.onSubmit(data);
     }
   };
