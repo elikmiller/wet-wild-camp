@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Camp from "./Camp.jsx";
 
 class CampList extends Component {
   render() {
@@ -14,18 +15,12 @@ class CampList extends Component {
               <th>Start Date</th>
               <th>End Date</th>
               <th>Fee</th>
+              <th />
             </tr>
           </thead>
-          <tbody>
-            {this.props.camps.map((camp, i) => (
-              <tr key={i}>
-                <td>{camp.name}</td>
-                <td>{camp.startDate.slice(0, 10)}</td>
-                <td>{camp.endDate.slice(0, 10)}</td>
-                <td>${camp.fee}</td>
-              </tr>
-            ))}
-          </tbody>
+          {this.props.camps.map((camp, i) => (
+            <Camp key={i} camp={camp} />
+          ))}
         </table>
       </div>
     );
