@@ -45,6 +45,10 @@ const getCamps = () => {
   return appClient.get(`/camps`);
 };
 
+const updateCamp = ({ id, data }) => {
+  return appClient.patch(`/camps/${id}`, data);
+};
+
 export default {
   currentUser,
   login,
@@ -55,5 +59,6 @@ export default {
   getContacts,
   updateUser,
   addCamper,
-  getCamps
+  getCamps,
+  updateCamp
 };

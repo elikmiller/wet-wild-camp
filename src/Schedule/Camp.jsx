@@ -1,23 +1,81 @@
 import React, { Component } from "react";
+import { AuthContext } from "../App";
+import appClient from "../appClient";
 
 class Camp extends Component {
   state = {
-    registerOpen: false
+    registerOpen: false,
+    campers: [],
+    selectedCamper: ""
+  };
+
+  getCampers = () => {
+    appClient
+      .getCampers(this.props.userId)
+      .then(campers => {
+        this.setState({ campers: campers.data });
+      })
+      .catch(err => {
+        if (err.response.status === 401) {
+          this.props.logout();
+        }
+      });
+  };
+
+  handleChange = e => {
+    this.setState({ selectedCamper: e.target.value });
+  };
+
+  registerCamper = data => {
+    let id = this.props.camp._id;
+    let camper = this.state.selectedCamper;
+    // if (camper !== "" && camper !== "Select a camper...") {
+    //   appClient.updateCamp({ id, { } });
+    // }
   };
 
   toggleRegistration = () => {
     this.setState({ registerOpen: !this.state.registerOpen });
   };
 
+  componentDidMount() {
+    this.getCampers();
+  }
+
   render() {
     let { camp } = this.props;
+    // Generates list of campers for select menu
+    let selectCamper = this.state.campers.map((camper, i) => {
+      return (
+        <option key={i}>
+          {camper.firstName} {camper.lastName}
+        </option>
+      );
+    });
+
+    // Generates inline registration when opened
     let registerDisplay = this.state.registerOpen ? (
       <tr>
-        <td colSpan="5">Register Here!</td>
+        <td colSpan="2">
+          <select className="form-control" onChange={this.handleChange}>
+            <option>Select a camper...</option>
+            {selectCamper}
+          </select>
+        </td>
+        <td />
+        <td colSpan="2">
+          <button
+            className="btn btn-primary float-right"
+            onClick={this.registerCamper}
+          >
+            Register Camper
+          </button>
+        </td>
       </tr>
     ) : (
       <tr colSpan="5" />
     );
+
     return (
       <tbody>
         <tr>
@@ -26,7 +84,10 @@ class Camp extends Component {
           <td>{camp.endDate.slice(0, 10)}</td>
           <td>${camp.fee}</td>
           <td>
-            <button onClick={this.toggleRegistration}>
+            <button
+              className="btn btn-secondary float-right"
+              onClick={this.toggleRegistration}
+            >
               {this.state.registerOpen ? "Cancel" : "Register"}
             </button>
           </td>
@@ -37,4 +98,8 @@ class Camp extends Component {
   }
 }
 
-export default Camp;
+export default props => (
+  <AuthContext.Consumer>
+    {auth => <Camp userId={auth.userId} logout={auth.logout} {...props} />}
+  </AuthContext.Consumer>
+);
