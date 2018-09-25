@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SideNav from "../SideNav.jsx";
 import Overview from "../Overview.jsx";
 import Campers from "../Campers/Campers.jsx";
-import Schedule from "../Schedule.jsx";
+import Schedule from "../Schedule/Schedule.jsx";
 import ContactInformation from "../ContactInformation/ContactInformation.jsx";
 import Payments from "../Payments.jsx";
 import { Route, Switch } from "react-router-dom";
