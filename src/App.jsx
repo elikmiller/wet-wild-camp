@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home.jsx";
+import Loading from "./Loading";
 import appClient from "./appClient";
 import "./App.css";
 
@@ -89,19 +90,7 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        {this.state.loading && (
-          <div className="progress">
-            <div
-              className="progress-bar progress-bar-striped progress-bar-animated"
-              role="progressbar"
-              aria-valuenow="100"
-              aria-valuemin="0"
-              aria-valuemax="100"
-              style={{ width: "100%" }}
-            />
-          </div>
-        )}
-
+        {this.state.loading && <Loading />}
         {!this.state.loading && (
           <Router>
             <Switch>
