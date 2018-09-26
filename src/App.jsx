@@ -8,6 +8,7 @@ export const AuthContext = React.createContext();
 
 class App extends Component {
   state = {
+    loading: true,
     authenticated: false,
     user: {
       _id: "",
@@ -66,12 +67,14 @@ class App extends Component {
       .currentUser()
       .then(res => {
         this.setState({
+          loading: false,
           authenticated: true,
           user: res.data.user
         });
       })
       .catch(err => {
         this.setState({
+          loading: false,
           authenticated: false,
           user: {
             _id: "",
@@ -86,32 +89,47 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <Router>
-          <Switch>
-            <Route
-              path="/"
-              render={props => {
-                return (
-                  <AuthContext.Provider
-                    value={{
-                      authenticated: this.state.authenticated,
-                      userId: this.state.user._id,
-                      logout: this.logout
-                    }}
-                  >
-                    <Home
-                      authenticated={this.state.authenticated}
-                      onLogin={this.login}
-                      onLogout={this.logout}
-                      onRegister={this.register}
-                      {...props}
-                    />
-                  </AuthContext.Provider>
-                );
-              }}
+        {this.state.loading && (
+          <div className="progress">
+            <div
+              className="progress-bar progress-bar-striped progress-bar-animated"
+              role="progressbar"
+              aria-valuenow="100"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              style={{ width: "100%" }}
             />
-          </Switch>
-        </Router>
+          </div>
+        )}
+
+        {!this.state.loading && (
+          <Router>
+            <Switch>
+              <Route
+                path="/"
+                render={props => {
+                  return (
+                    <AuthContext.Provider
+                      value={{
+                        authenticated: this.state.authenticated,
+                        userId: this.state.user._id,
+                        logout: this.logout
+                      }}
+                    >
+                      <Home
+                        authenticated={this.state.authenticated}
+                        onLogin={this.login}
+                        onLogout={this.logout}
+                        onRegister={this.register}
+                        {...props}
+                      />
+                    </AuthContext.Provider>
+                  );
+                }}
+              />
+            </Switch>
+          </Router>
+        )}
       </div>
     );
   }
