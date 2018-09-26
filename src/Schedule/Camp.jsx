@@ -27,12 +27,19 @@ class Camp extends Component {
   };
 
   registerCamper = data => {
-    let id = this.props.camp._id;
+    let { camp } = this.props;
     let camper = this.state.selectedCamper;
-    if (camper !== "" && !this.props.camp.campers.includes(camper)) {
-      this.props.camp.campers.push(camper);
+    if (
+      camper !== "" &&
+      !camp.campers.includes(camper) &&
+      !camp.waitlist.includes(camper)
+    ) {
+      let editedArray = camp.waitlisted ? "waitlist" : "campers";
+      let dataObject = {};
+      camp.campers.push(camper);
+      dataObject[editedArray] = camp.campers;
       appClient
-        .updateCamp(id, { campers: this.props.camp.campers })
+        .updateCamp(camp._id, dataObject)
         .then(res => {
           this.toggleRegistration();
           this.setState({ selectedCamper: "" });
@@ -77,7 +84,7 @@ class Camp extends Component {
             className="btn btn-primary float-right"
             onClick={this.registerCamper}
           >
-            Register Camper
+            {camp.waitlisted ? "Join Waitlist" : "Register Camper"}
           </button>
         </td>
       </tr>
