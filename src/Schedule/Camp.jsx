@@ -29,9 +29,18 @@ class Camp extends Component {
   registerCamper = data => {
     let id = this.props.camp._id;
     let camper = this.state.selectedCamper;
-    // if (camper !== "" && camper !== "Select a camper...") {
-    //   appClient.updateCamp({ id, { } });
-    // }
+    if (camper !== "" && !this.props.camp.campers.includes(camper)) {
+      this.props.camp.campers.push(camper);
+      appClient
+        .updateCamp(id, { campers: this.props.camp.campers })
+        .then(res => {
+          this.toggleRegistration();
+          this.setState({ selectedCamper: "" });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   toggleRegistration = () => {
@@ -47,7 +56,7 @@ class Camp extends Component {
     // Generates list of campers for select menu
     let selectCamper = this.state.campers.map((camper, i) => {
       return (
-        <option key={i}>
+        <option key={i} value={camper._id}>
           {camper.firstName} {camper.lastName}
         </option>
       );
@@ -58,7 +67,7 @@ class Camp extends Component {
       <tr>
         <td colSpan="2">
           <select className="form-control" onChange={this.handleChange}>
-            <option>Select a camper...</option>
+            <option value="">Select a camper...</option>
             {selectCamper}
           </select>
         </td>

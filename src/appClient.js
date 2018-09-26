@@ -45,7 +45,7 @@ const getCamps = () => {
   return appClient.get(`/camps`);
 };
 
-const updateCamp = ({ id, data }) => {
+const updateCamp = (id, data) => {
   return appClient.patch(`/camps/${id}`, data);
 };
 

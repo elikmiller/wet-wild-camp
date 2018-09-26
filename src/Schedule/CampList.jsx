@@ -4,10 +4,13 @@ import Camp from "./Camp.jsx";
 class CampList extends Component {
   render() {
     let { type } = this.props;
+    let ageRange = type === "junior" ? "6 - 8" : "8 - 15";
     let title = type.charAt(0).toUpperCase() + type.substr(1);
     return (
       <div>
-        <h2>{title} Camps (Ages 8 - 15)</h2>
+        <h2>
+          {title} Camps (Ages {ageRange})
+        </h2>
         <table className="table">
           <thead>
             <tr>
