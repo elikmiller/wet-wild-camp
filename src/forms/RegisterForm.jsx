@@ -120,7 +120,7 @@ class RegisterForm extends Component {
           <Input
             label="Confirm Password"
             name="confirmPassword"
-            type="confirmPassword"
+            type="password"
             value={this.state.confirmPassword}
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
