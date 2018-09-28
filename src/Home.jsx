@@ -8,7 +8,7 @@ class Home extends Component {
   unlisten = () => {};
 
   handleLogin = data => {
-    this.props.onLogin(data).then(() => {
+    return this.props.onLogin(data).then(() => {
       this.props.history.push("/");
     });
   };

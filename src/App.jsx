@@ -38,6 +38,7 @@ class App extends Component {
             email: ""
           }
         });
+        throw err;
       });
   };
 
