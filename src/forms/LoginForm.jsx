@@ -44,7 +44,22 @@ class LoginForm extends Component {
         email: this.state.email,
         password: this.state.password
       };
-      this.props.onSubmit(data);
+      this.props.onSubmit(data).catch(err => {
+        if (
+          err.response &&
+          (err.response.status === 400 || err.response.status === 401)
+        ) {
+          this.setState({
+            errors: { submit: "Invalid Email Address or Password." }
+          });
+        } else {
+          this.setState({
+            errors: {
+              submit: "An unknown error has occured. Please try again."
+            }
+          });
+        }
+      });
     }
   };
 
@@ -73,9 +88,12 @@ class LoginForm extends Component {
           />
 
           <div className="form-group">
-            <button className="btn btn-primary btn-block" type="submit">
+            <button className="btn btn-primary btn-block mb-3" type="submit">
               Login
             </button>
+            {this.state.errors.submit && (
+              <small className="text-danger">{this.state.errors.submit}</small>
+            )}
           </div>
         </form>
       </div>
