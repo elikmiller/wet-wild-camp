@@ -4,20 +4,22 @@ import appClient from "../appClient";
 
 class Camp extends Component {
   state = {
+    fetchingData: false,
     registerOpen: false,
     campers: [],
     selectedCamper: ""
   };
 
   getCampers = () => {
+    this.setState({ fetchingData: true });
     appClient
       .getCampers(this.props.userId)
       .then(campers => {
-        this.setState({ campers: campers.data });
+        this.setState({ campers: campers.data, fetchingData: false });
       })
       .catch(err => {
-        if (err.response.status === 401) {
-          this.props.logout();
+        if (err.response) {
+          if (err.response.status === 401) this.props.logout();
         }
       });
   };
@@ -56,6 +58,10 @@ class Camp extends Component {
 
   componentDidMount() {
     this.getCampers();
+  }
+
+  componentWillUnmount() {
+    if (this.state.fetchingData) appClient.cancelRequest();
   }
 
   render() {
