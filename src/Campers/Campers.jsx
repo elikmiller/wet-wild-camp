@@ -6,7 +6,6 @@ import { AuthContext } from "../App";
 
 class Campers extends Component {
   state = {
-    fetchingData: false,
     campers: []
   };
 
@@ -14,16 +13,11 @@ class Campers extends Component {
     this.refreshCampers();
   }
 
-  componentWillUnmount() {
-    if (this.state.fetchingData) appClient.cancelRequest();
-  }
-
   refreshCampers = () => {
-    this.setState({ fetchingData: true });
     appClient
       .getCampers(this.props.userId)
       .then(campers => {
-        this.setState({ campers: campers.data, fetchingData: false });
+        this.setState({ campers: campers.data });
       })
       .catch(err => {
         console.log(err);

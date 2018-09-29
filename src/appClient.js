@@ -28,9 +28,7 @@ const updateUser = ({ id, data }) => {
 };
 
 const getCampers = userId => {
-  return appClient.get(`/users/${userId}/campers`, {
-    cancelToken: source.token
-  });
+  return appClient.get(`/users/${userId}/campers`);
 };
 
 const addCamper = data => {
@@ -53,6 +51,14 @@ const updateCamp = (id, data) => {
   return appClient.patch(`/camps/${id}`, data);
 };
 
+const createRegistration = data => {
+  return appClient.post("/registrations", data);
+};
+
+const getUserRegistrations = userId => {
+  return appClient.get(`/users/${userId}/registrations`);
+};
+
 const cancelRequest = () => {
   source.cancel("Operation cancelled by the user.");
 };
@@ -69,5 +75,7 @@ export default {
   addCamper,
   getCamps,
   updateCamp,
-  cancelRequest
+  cancelRequest,
+  createRegistration,
+  getUserRegistrations
 };
