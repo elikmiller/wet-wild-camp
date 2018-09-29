@@ -14,7 +14,7 @@ class CamperCard extends Component {
   render() {
     let camper = this.props.data;
     return (
-      <div className="card">
+      <div className="card mb-3">
         <div className="card-body">
           <h5 className="card-title">{`${camper.firstName} ${
             camper.lastName

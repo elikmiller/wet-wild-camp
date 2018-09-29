@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import appClient from "../appClient";
+import Loading from "../Loading";
 
 import EditableCamper from "./EditableCamper.jsx";
 import { AuthContext } from "../App";
 
 class Campers extends Component {
   state = {
+    isLoading: false,
     campers: []
   };
 
@@ -14,15 +16,23 @@ class Campers extends Component {
   }
 
   refreshCampers = () => {
+    this.setState({
+      isLoading: true
+    });
     appClient
       .getCampers(this.props.userId)
       .then(campers => {
-        this.setState({ campers: campers.data });
+        this.setState({
+          isLoading: false,
+          campers: campers.data
+        });
       })
       .catch(err => {
-        console.log(err);
-        if (err.response) {
-          if (err.response.status === 401) this.props.logout();
+        this.setState({
+          isLoading: false
+        });
+        if (err.response.status === 401) {
+          this.props.logout();
         }
       });
   };
@@ -46,8 +56,9 @@ class Campers extends Component {
       <div>
         <h1>Campers</h1>
         <div className="row position-relative">
+          {this.state.isLoading && <Loading />}
           {this.state.campers.map((camper, i) => (
-            <div className="col-12 col-sm-6" key={i}>
+            <div className="col-12 col-lg-3" key={i}>
               <EditableCamper
                 data={camper}
                 refreshCampers={this.refreshCampers}
