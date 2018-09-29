@@ -16,8 +16,8 @@ class Camp extends Component {
         this.setState({ campers: campers.data });
       })
       .catch(err => {
-        if (err.response.status === 401) {
-          this.props.logout();
+        if (err.response) {
+          if (err.response.status === 401) this.props.logout();
         }
       });
   };
@@ -26,7 +26,7 @@ class Camp extends Component {
     this.setState({ selectedCamper: e.target.value });
   };
 
-  registerCamper = data => {
+  registerCamper = () => {
     let { camp } = this.props;
     let camper = this.state.selectedCamper;
     if (
@@ -34,13 +34,17 @@ class Camp extends Component {
       !camp.campers.includes(camper) &&
       !camp.waitlist.includes(camper)
     ) {
-      let editedArray = camp.waitlisted ? "waitlist" : "campers";
-      let dataObject = {};
-      camp.campers.push(camper);
-      dataObject[editedArray] = camp.campers;
+      let dataObject = {
+        user: this.props.userId,
+        camper: camper,
+        camp: camp._id
+      };
+      if (camp.waitlisted) {
+        dataObject["waitlist"] = true;
+      } else dataObject["waitlist"] = false;
       appClient
-        .updateCamp(camp._id, dataObject)
-        .then(res => {
+        .createRegistration(dataObject)
+        .then(() => {
           this.toggleRegistration();
           this.setState({ selectedCamper: "" });
         })
@@ -56,6 +60,10 @@ class Camp extends Component {
 
   componentDidMount() {
     this.getCampers();
+  }
+
+  componentWillUnmount() {
+    if (this.state.fetchingData) appClient.cancelRequest();
   }
 
   render() {

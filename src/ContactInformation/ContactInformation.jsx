@@ -33,11 +33,13 @@ class ContactInformation extends Component {
 
   refreshContacts = () => {
     appClient.getContacts(this.props.userId).then(res => {
-      let forms = this.state.forms;
-      forms[0].data = res.data.primaryContact;
-      forms[1].data = res.data.secondaryContact;
-      forms[2].data = res.data.emergencyContact;
-      this.forceUpdate();
+      let formObject = this.state.forms.slice(0);
+      formObject[0].data = res.data.primaryContact;
+      formObject[1].data = res.data.secondaryContact;
+      formObject[2].data = res.data.emergencyContact;
+      this.setState({
+        forms: formObject
+      });
     });
   };
 

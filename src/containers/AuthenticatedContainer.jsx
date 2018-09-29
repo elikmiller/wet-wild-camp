@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SideNav from "../SideNav.jsx";
-import Overview from "../Overview.jsx";
+import Overview from "../Overview/Overview.jsx";
 import Campers from "../Campers/Campers.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
 import ContactInformation from "../ContactInformation/ContactInformation.jsx";

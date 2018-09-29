@@ -1,4 +1,6 @@
 import axios from "axios";
+const { CancelToken } = axios;
+const source = CancelToken.source();
 
 const appClient = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
@@ -49,6 +51,18 @@ const updateCamp = (id, data) => {
   return appClient.patch(`/camps/${id}`, data);
 };
 
+const createRegistration = data => {
+  return appClient.post("/registrations", data);
+};
+
+const getUserRegistrations = userId => {
+  return appClient.get(`/users/${userId}/registrations`);
+};
+
+const cancelRequest = () => {
+  source.cancel("Operation cancelled by the user.");
+};
+
 export default {
   currentUser,
   login,
@@ -60,5 +74,8 @@ export default {
   updateUser,
   addCamper,
   getCamps,
-  updateCamp
+  updateCamp,
+  cancelRequest,
+  createRegistration,
+  getUserRegistrations
 };
