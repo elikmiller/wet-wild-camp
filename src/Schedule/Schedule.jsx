@@ -30,7 +30,6 @@ class Schedule extends Component {
   render() {
     return (
       <div>
-        <h1>Camp Schedule</h1>
         <CampList camps={this.state.adventureCamps} type="adventure" />
         <CampList camps={this.state.juniorCamps} type="junior" />
       </div>

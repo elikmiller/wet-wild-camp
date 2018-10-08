@@ -3,8 +3,7 @@ import moment from "moment";
 
 class CamperCard extends Component {
   calculateAge(date) {
-    let age = moment().diff(moment(date), "years", false);
-    return `${age} year${age === 1 ? "" : "s"} old`;
+    return moment().diff(moment(date), "years", false);
   }
 
   formatBirthday(date) {

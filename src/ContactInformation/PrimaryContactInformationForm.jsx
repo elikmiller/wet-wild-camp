@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Cleave from "cleave.js/react";
+import CleavePhone from "cleave.js/dist/addons/cleave-phone.us"; // eslint-disable-line no-unused-vars
 
 class PrimaryContactInformationForm extends Component {
   state = {
@@ -76,8 +78,9 @@ class PrimaryContactInformationForm extends Component {
           </div>
           <div className="form-group">
             <label htmlFor="phoneNumber">Phone Number</label>
-            <input
+            <Cleave
               id="phoneNumber"
+              options={{ phone: true, phoneRegionCode: "US" }}
               type="input"
               className="form-control"
               onChange={this.handleChange}

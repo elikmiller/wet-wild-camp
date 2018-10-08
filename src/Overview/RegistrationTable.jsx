@@ -12,16 +12,26 @@ class RegistrationTable extends Component {
           <td>
             {reg.camper.firstName} {reg.camper.lastName}
           </td>
+          <td>
+            <button
+              type="button"
+              className="btn btn-danger btn-sm"
+              onClick={e => e.preventDefault()}
+            >
+              Cancel
+            </button>
+          </td>
         </tr>
       );
     });
     return (
-      <table className="table">
+      <table className="table table-sm">
         <thead>
           <tr>
             <th>Camp Session</th>
-            <th>Level</th>
+            <th>Camp</th>
             <th>Camper</th>
+            <th />
           </tr>
         </thead>
         <tbody>{content}</tbody>

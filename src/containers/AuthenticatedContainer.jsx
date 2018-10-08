@@ -11,7 +11,7 @@ class AuthenticatedContainer extends Component {
   navs = [
     { path: "/", label: "Overview", component: Overview },
     { path: "/campers", label: "Campers", component: Campers },
-    { path: "/schedule", label: "Camp Schedule", component: Schedule },
+    { path: "/schedule", label: "Register", component: Schedule },
     {
       path: "/contact-information",
       label: "Update Contact Information",

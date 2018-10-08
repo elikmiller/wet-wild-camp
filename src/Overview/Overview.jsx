@@ -33,11 +33,15 @@ class Overview extends Component {
           <br />
           <h4>It looks like you don't have any registrations yet!</h4>
           <br />
-          <p>
-            Use the tabs on the left to add new campers and update your contact
-            info.
-          </p>
-          <p>Check out the Camp Schedule to register for available sessions!</p>
+          <br />
+          <h5>Steps to register</h5>
+          <br />
+          <p>Use the sidebar to:</p>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">Fill out "Update Contact Info"</li>
+            <li className="list-group-item">Fill out "Camper" info</li>
+            <li className="list-group-item">Register</li>
+          </ul>
         </div>
       );
     }

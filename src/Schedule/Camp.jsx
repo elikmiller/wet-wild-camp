@@ -54,6 +54,15 @@ class Camp extends Component {
     }
   };
 
+  calculateSpaceRemaining = () => {
+    let { camp } = this.props;
+    let diff = camp.capacity - camp.campers.length;
+    if (diff !== 0) {
+      return diff >= 10 ? "10+" : `${diff}`;
+    }
+    return "waitlisted";
+  };
+
   toggleRegistration = () => {
     this.setState({ registerOpen: !this.state.registerOpen });
   };
@@ -81,7 +90,10 @@ class Camp extends Component {
     let registerDisplay = this.state.registerOpen ? (
       <tr>
         <td colSpan="2">
-          <select className="form-control" onChange={this.handleChange}>
+          <select
+            className="form-control form-control-sm"
+            onChange={this.handleChange}
+          >
             <option value="">Select a camper...</option>
             {selectCamper}
           </select>
@@ -89,7 +101,7 @@ class Camp extends Component {
         <td />
         <td colSpan="2">
           <button
-            className="btn btn-primary float-right"
+            className="btn btn-primary float-right btn-sm"
             onClick={this.registerCamper}
           >
             {camp.waitlisted ? "Join Waitlist" : "Register Camper"}
@@ -107,9 +119,10 @@ class Camp extends Component {
           <td>{camp.startDate.slice(0, 10)}</td>
           <td>{camp.endDate.slice(0, 10)}</td>
           <td>${camp.fee}</td>
+          <td>{this.calculateSpaceRemaining()}</td>
           <td>
             <button
-              className="btn btn-secondary float-right"
+              className="btn btn-secondary float-right btn-sm"
               onClick={this.toggleRegistration}
             >
               {this.state.registerOpen ? "Cancel" : "Register"}
