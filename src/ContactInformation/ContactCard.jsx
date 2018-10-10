@@ -6,7 +6,7 @@ class ContactCard extends Component {
   };
 
   componentWillReceiveProps(props) {
-    if (props.data.firstName) {
+    if (props.data.firstName && !this.state.dataAvailable) {
       this.setState({
         dataAvailable: true
       });

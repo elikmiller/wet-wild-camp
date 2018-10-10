@@ -16,7 +16,8 @@ class App extends Component {
       firstName: "",
       lastName: "",
       email: ""
-    }
+    },
+    admin: false
   };
 
   login = ({ email, password }) => {
@@ -25,7 +26,8 @@ class App extends Component {
       .then(res => {
         this.setState({
           authenticated: true,
-          user: res.data.user
+          user: res.data.user,
+          admin: res.data.user.admin
         });
       })
       .catch(err => {
@@ -36,7 +38,8 @@ class App extends Component {
             firstName: "",
             lastName: "",
             email: ""
-          }
+          },
+          admin: false
         });
         throw err;
       });
@@ -51,7 +54,8 @@ class App extends Component {
           firstName: "",
           lastName: "",
           email: ""
-        }
+        },
+        admin: false
       });
     });
   };
@@ -71,7 +75,8 @@ class App extends Component {
         this.setState({
           loading: false,
           authenticated: true,
-          user: res.data.user
+          user: res.data.user,
+          admin: res.data.user.admin
         });
       })
       .catch(err => {
@@ -83,7 +88,8 @@ class App extends Component {
             firstName: "",
             lastName: "",
             email: ""
-          }
+          },
+          admin: false
         });
       });
   }
@@ -111,6 +117,7 @@ class App extends Component {
                         onLogin={this.login}
                         onLogout={this.logout}
                         onRegister={this.register}
+                        isAdmin={this.state.admin}
                         {...props}
                       />
                     </AuthContext.Provider>

@@ -9,7 +9,9 @@ class Home extends Component {
 
   handleLogin = data => {
     return this.props.onLogin(data).then(() => {
-      this.props.history.push("/");
+      this.props.isAdmin
+        ? this.props.history.push("/admin")
+        : this.props.history.push("/");
     });
   };
 
@@ -64,7 +66,10 @@ class Home extends Component {
           />
         )}
         {this.props.authenticated && (
-          <AuthenticatedContainer onLogout={this.handleLogout} />
+          <AuthenticatedContainer
+            onLogout={this.handleLogout}
+            isAdmin={this.props.isAdmin}
+          />
         )}
       </div>
     );

@@ -5,6 +5,10 @@ import Campers from "../Campers/Campers.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
 import ContactInformation from "../ContactInformation/ContactInformation.jsx";
 import Payments from "../Payments.jsx";
+import AdminRegistrations from "../Admin/AdminRegistrations.jsx";
+import AdminUsers from "../Admin/AdminUsers.jsx";
+import AdminSessions from "../Admin/AdminSessions.jsx";
+import AdminPayments from "../Admin/AdminPayments.jsx";
 import { Route, Switch } from "react-router-dom";
 
 class AuthenticatedContainer extends Component {
@@ -20,17 +24,29 @@ class AuthenticatedContainer extends Component {
     { path: "/payments", label: "Payments", component: Payments }
   ];
 
+  adminNavs = [
+    { path: "/admin", label: "Registrations", component: AdminRegistrations },
+    { path: "/admin/users", label: "Users", component: AdminUsers },
+    {
+      path: "/admin/sessions",
+      label: "Camp Sessions",
+      component: AdminSessions
+    },
+    { path: "/admin/payments", label: "Payments", component: AdminPayments }
+  ];
+
   render() {
+    let navBarData = this.props.isAdmin ? this.adminNavs : this.navs;
     return (
       <div className="authenticated-container">
         <div className="container-fluid">
           <div className="row">
             <div className="col-2">
-              <SideNav navs={this.navs} onLogout={this.props.onLogout} />
+              <SideNav navs={navBarData} onLogout={this.props.onLogout} />
             </div>
             <div className="col-10">
               <Switch>
-                {this.navs.map(nav => (
+                {navBarData.map(nav => (
                   <Route
                     key={nav.label}
                     exact
