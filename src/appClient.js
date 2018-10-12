@@ -59,6 +59,10 @@ const getUserRegistrations = userId => {
   return appClient.get(`/users/${userId}/registrations`);
 };
 
+const getRegistrations = () => {
+  return appClient.get("/registrations");
+};
+
 const cancelRequest = () => {
   source.cancel("Operation cancelled by the user.");
 };
@@ -77,5 +81,6 @@ export default {
   updateCamp,
   cancelRequest,
   createRegistration,
-  getUserRegistrations
+  getUserRegistrations,
+  getRegistrations
 };

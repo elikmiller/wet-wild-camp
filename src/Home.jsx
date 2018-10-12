@@ -48,6 +48,7 @@ class Home extends Component {
         <nav className="navbar navbar-light bg-light mb-3">
           <Link className="navbar-brand" to="/">
             Wet &amp; Wild Camp Registration
+            {this.props.isAdmin ? " | Admin Panel" : ""}
           </Link>
           {this.props.authenticated && (
             <ul className="navbar-nav">

@@ -5,7 +5,7 @@ import Campers from "../Campers/Campers.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
 import ContactInformation from "../ContactInformation/ContactInformation.jsx";
 import Payments from "../Payments.jsx";
-import AdminRegistrations from "../Admin/AdminRegistrations.jsx";
+import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
 import AdminUsers from "../Admin/AdminUsers.jsx";
 import AdminSessions from "../Admin/AdminSessions.jsx";
 import AdminPayments from "../Admin/AdminPayments.jsx";
