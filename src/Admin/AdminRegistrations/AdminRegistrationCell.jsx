@@ -1,8 +1,14 @@
 import React, { Component } from "react";
+import moment from "moment";
 
 class AdminRegistrationCell extends Component {
+  formatDate = date => {
+    return moment.utc(date).format("MMMM Do, YYYY");
+  };
+
   render() {
     let { data } = this.props;
+    let date = this.formatDate(data.camp.startDate);
     return (
       <tr>
         <td>
@@ -14,7 +20,7 @@ class AdminRegistrationCell extends Component {
         <td>
           {data.camper.firstName} {data.camper.lastName}
         </td>
-        <td>{data.camp.startDate}</td>
+        <td>{date}</td>
       </tr>
     );
   }
