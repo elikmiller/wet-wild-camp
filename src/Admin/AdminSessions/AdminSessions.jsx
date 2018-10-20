@@ -1,25 +1,21 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
-import AdminRegistrationCell from "./AdminRegistrationCell";
 import handleSort from "../../sort";
+import AdminSessionCell from "./AdminSessionCell";
 
-class AdminRegistrations extends Component {
+class AdminSessions extends Component {
   state = {
-    registrations: [],
+    camps: [],
     sortStatus: {
-      user: {
+      name: {
         engaged: false,
         ascending: true
       },
-      camp: {
+      type: {
         engaged: false,
         ascending: true
       },
-      camper: {
-        engaged: false,
-        ascending: true
-      },
-      date: {
+      startDate: {
         engaged: false,
         ascending: true
       }
@@ -27,15 +23,15 @@ class AdminRegistrations extends Component {
   };
 
   componentDidMount() {
-    this.refreshRegistrations();
+    this.refreshCamps();
   }
 
-  refreshRegistrations = () => {
+  refreshCamps = () => {
     appClient
-      .getRegistrations()
-      .then(registrations => {
+      .getCamps()
+      .then(camps => {
         this.setState({
-          registrations: registrations.data
+          camps: camps.data
         });
       })
       .catch(err => {
@@ -43,22 +39,18 @@ class AdminRegistrations extends Component {
       });
   };
 
-  handleUserSort = e => {
+  handleCampSort = e => {
     e.preventDefault();
-    let sortedData = handleSort(
-      e,
-      this.state.registrations,
-      this.state.sortStatus
-    );
+    let sortedData = handleSort(e, this.state.camps, this.state.sortStatus);
     this.setState({
-      registrations: sortedData.data,
+      camps: sortedData.data,
       sortStatus: sortedData.sortStatus
     });
   };
 
   render() {
-    let content = this.state.registrations.map((registration, i) => {
-      return <AdminRegistrationCell key={i} data={registration} />;
+    let content = this.state.camps.map((camp, i) => {
+      return <AdminSessionCell key={i} data={camp} />;
     });
     return (
       <div>
@@ -68,38 +60,28 @@ class AdminRegistrations extends Component {
               <td>
                 <button
                   className="btn btn-light btn-sm"
-                  onClick={this.handleUserSort}
-                  id="user"
-                  value="lastName"
-                >
-                  User
-                </button>
-              </td>
-              <td>
-                <button
-                  className="btn btn-light btn-sm"
-                  onClick={this.handleUserSort}
-                  id="camp"
+                  onClick={this.handleCampSort}
+                  id="name"
                   value="name"
                 >
-                  Camp Session
+                  Name
                 </button>
               </td>
               <td>
                 <button
                   className="btn btn-light btn-sm"
-                  onClick={this.handleUserSort}
-                  id="camper"
-                  value="lastName"
+                  onClick={this.handleCampSort}
+                  id="type"
+                  value="type"
                 >
-                  Camper
+                  Type
                 </button>
               </td>
               <td>
                 <button
                   className="btn btn-light btn-sm"
-                  onClick={this.handleUserSort}
-                  id="camp"
+                  onClick={this.handleCampSort}
+                  id="startDate"
                   value="startDate"
                 >
                   Start Date
@@ -114,4 +96,4 @@ class AdminRegistrations extends Component {
   }
 }
 
-export default AdminRegistrations;
+export default AdminSessions;

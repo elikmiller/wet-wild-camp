@@ -7,7 +7,8 @@ import ContactInformation from "../ContactInformation/ContactInformation.jsx";
 import Payments from "../Payments.jsx";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
 import AdminUsers from "../Admin/AdminUsers.jsx";
-import AdminSessions from "../Admin/AdminSessions.jsx";
+import AdminSessions from "../Admin/AdminSessions/AdminSessions.jsx";
+import AdminSessionFull from "../Admin/AdminSessions/AdminSessionFull.jsx";
 import AdminPayments from "../Admin/AdminPayments.jsx";
 import { Route, Switch } from "react-router-dom";
 
@@ -54,6 +55,12 @@ class AuthenticatedContainer extends Component {
                     component={nav.component}
                   />
                 ))}
+                {this.props.isAdmin && (
+                  <Route
+                    path="/admin/sessions/:sessionId"
+                    component={AdminSessionFull}
+                  />
+                )}
               </Switch>
             </div>
           </div>
