@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import handleSort from "../../sort";
 import AdminSessionCell from "./AdminSessionCell";
+import AdminSessionForm from "./AdminSessionForm";
 
 class AdminSessions extends Component {
   state = {
@@ -19,7 +20,8 @@ class AdminSessions extends Component {
         engaged: false,
         ascending: true
       }
-    }
+    },
+    formOpen: false
   };
 
   componentDidMount() {
@@ -37,6 +39,13 @@ class AdminSessions extends Component {
       .catch(err => {
         console.error(err);
       });
+  };
+
+  createNewCamp = e => {
+    e.preventDefault();
+    this.setState({
+      formOpen: !this.state.formOpen
+    });
   };
 
   handleCampSort = e => {
@@ -91,6 +100,10 @@ class AdminSessions extends Component {
           </thead>
           <tbody>{content}</tbody>
         </table>
+        <button className="btn btn-primary" onClick={this.createNewCamp}>
+          New Camp
+        </button>
+        {this.state.formOpen && <AdminSessionForm />}
       </div>
     );
   }

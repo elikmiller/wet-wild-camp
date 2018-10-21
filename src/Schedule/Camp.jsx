@@ -57,7 +57,7 @@ class Camp extends Component {
   calculateSpaceRemaining = () => {
     let { camp } = this.props;
     let diff = camp.capacity - camp.campers.length;
-    if (diff !== 0) {
+    if (diff >= 0) {
       return diff >= 10 ? "10+" : `${diff}`;
     }
     return "waitlisted";
