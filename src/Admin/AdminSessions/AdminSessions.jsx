@@ -57,6 +57,23 @@ class AdminSessions extends Component {
     });
   };
 
+  handleSubmit = data => {
+    appClient
+      .newCamp(data)
+      .then(() => {
+        this.refreshCamps();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  handleClose = () => {
+    this.setState({
+      formOpen: !this.state.formOpen
+    });
+  };
+
   render() {
     let content = this.state.camps.map((camp, i) => {
       return <AdminSessionCell key={i} data={camp} />;
@@ -100,10 +117,17 @@ class AdminSessions extends Component {
           </thead>
           <tbody>{content}</tbody>
         </table>
-        <button className="btn btn-primary" onClick={this.createNewCamp}>
-          New Camp
-        </button>
-        {this.state.formOpen && <AdminSessionForm />}
+        {!this.state.formOpen && (
+          <button className="btn btn-primary" onClick={this.createNewCamp}>
+            New Camp
+          </button>
+        )}
+        {this.state.formOpen && (
+          <AdminSessionForm
+            handleSubmit={this.handleSubmit}
+            handleClose={this.handleClose}
+          />
+        )}
       </div>
     );
   }

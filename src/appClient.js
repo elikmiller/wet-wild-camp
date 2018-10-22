@@ -51,6 +51,10 @@ const getCamp = id => {
   return appClient.get(`/camps/${id}`);
 };
 
+const newCamp = data => {
+  return appClient.post("/camps", data);
+};
+
 const updateCamp = (id, data) => {
   return appClient.patch(`/camps/${id}`, data);
 };
@@ -83,6 +87,7 @@ export default {
   addCamper,
   getCamps,
   getCamp,
+  newCamp,
   updateCamp,
   cancelRequest,
   createRegistration,

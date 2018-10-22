@@ -9,7 +9,7 @@ class AdminSessionCell extends Component {
 
   render() {
     let { data } = this.props;
-    let date = this.formatDate(data.date);
+    let date = this.formatDate(data.startDate);
     return (
       <tr>
         <td>{data.name}</td>
