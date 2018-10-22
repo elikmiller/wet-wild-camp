@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
+import AdminSessionForm from "./AdminSessionForm";
 import moment from "moment";
 
 class AdminSessionFull extends Component {
   state = {
-    camp: {}
+    camp: {},
+    formOpen: false
   };
 
   componentDidMount() {
@@ -37,6 +39,22 @@ class AdminSessionFull extends Component {
       });
   };
 
+  handleSubmit = data => {
+    appClient
+      .updateCamp(this.state.camp._id, data)
+      .then(() => {
+        this.getCampData();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  toggleForm = e => {
+    if (e) e.preventDefault();
+    this.setState({ formOpen: !this.state.formOpen });
+  };
+
   render() {
     let { camp } = this.state;
     let campers;
@@ -53,6 +71,13 @@ class AdminSessionFull extends Component {
       <div className="card">
         <div className="card-header">
           {camp.name} {camp.type}
+          <button
+            className="btn btn-primary"
+            style={{ marginLeft: "10px" }}
+            onClick={this.toggleForm}
+          >
+            Edit
+          </button>
         </div>
         <div className="card-body">
           <p className="card-text">
@@ -104,6 +129,16 @@ class AdminSessionFull extends Component {
             </div>
           </div>
         </div>
+        {this.state.formOpen && (
+          <div>
+            <h3 className="center">Edit Form</h3>
+            <AdminSessionForm
+              handleSubmit={this.handleSubmit}
+              handleClose={this.toggleForm}
+              data={this.state.camp}
+            />
+          </div>
+        )}
       </div>
     );
   }

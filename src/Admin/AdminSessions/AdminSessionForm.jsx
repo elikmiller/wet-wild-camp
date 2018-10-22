@@ -1,18 +1,25 @@
 import React, { Component } from "react";
+import moment from "moment";
 
 class AdminSessionForm extends Component {
   state = {
     formValues: {
-      name: "",
-      type: "",
-      description: "",
-      fee: 0,
-      startDate: Date.now(),
-      endDate: Date.now(),
-      openDate: Date.now(),
-      closeDate: Date.now(),
-      capacity: 0
+      name: this.props.data.name || "",
+      type: this.props.data.type || "",
+      description: this.props.data.description || "",
+      fee: this.props.data.fee || 0,
+      startDate: this.props.data.startDate || Date.now(),
+      endDate: this.props.data.endDate || Date.now(),
+      openDate: this.props.data.openDate || Date.now(),
+      closeDate: this.props.data.closeDate || Date.now(),
+      capacity: this.props.data.capacity || 0
     }
+  };
+
+  formatDate = date => {
+    return moment(date)
+      .utc()
+      .format("YYYY-MM-DD");
   };
 
   handleChange = e => {
@@ -39,6 +46,10 @@ class AdminSessionForm extends Component {
 
   render() {
     let { formValues } = this.state;
+    let startDate = this.formatDate(formValues.startDate);
+    let endDate = this.formatDate(formValues.endDate);
+    let openDate = this.formatDate(formValues.openDate);
+    let closeDate = this.formatDate(formValues.closeDate);
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -93,7 +104,7 @@ class AdminSessionForm extends Component {
             type="date"
             className="form-control form-control-sm"
             onChange={this.handleChange}
-            value={this.state.formValues["startDate"]}
+            value={startDate}
           />
         </div>
         <div className="form-group">
@@ -103,7 +114,7 @@ class AdminSessionForm extends Component {
             type="date"
             className="form-control form-control-sm"
             onChange={this.handleChange}
-            value={this.state.formValues["endDate"]}
+            value={endDate}
           />
         </div>
         <div className="form-group">
@@ -113,7 +124,7 @@ class AdminSessionForm extends Component {
             type="date"
             className="form-control form-control-sm"
             onChange={this.handleChange}
-            value={this.state.formValues["openDate"]}
+            value={openDate}
           />
         </div>
         <div className="form-group">
@@ -123,7 +134,7 @@ class AdminSessionForm extends Component {
             type="date"
             className="form-control form-control-sm"
             onChange={this.handleChange}
-            value={this.state.formValues["closeDate"]}
+            value={closeDate}
           />
         </div>
         <div className="form-group">
@@ -136,10 +147,10 @@ class AdminSessionForm extends Component {
             value={formValues["capacity"]}
           />
         </div>
-        <button onClick={this.handleCancel} className="btn btn-secondary">
+        <button onClick={this.handleClose} className="btn btn-secondary">
           Cancel
         </button>
-        <button onCLick={this.handleSubmit} className="btn btn-primary">
+        <button onClick={this.handleSubmit} className="btn btn-primary">
           Submit
         </button>
       </form>
