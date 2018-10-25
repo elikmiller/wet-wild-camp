@@ -17,21 +17,12 @@ class AdminSessionFull extends Component {
     return moment.utc(date).format("MMMM Do, YYYY");
   };
 
-  createDateStrings = data => {
-    data.startDate = this.formatDate(data.startDate);
-    data.endDate = this.formatDate(data.endDate);
-    data.openDate = this.formatDate(data.openDate);
-    data.closeDate = this.formatDate(data.closeDate);
-    return data;
-  };
-
   getCampData = () => {
     appClient
       .getCamp(this.props.match.params.sessionId)
       .then(camp => {
-        let formattedData = this.createDateStrings(camp.data);
         this.setState({
-          camp: formattedData
+          camp: camp.data
         });
       })
       .catch(err => {
@@ -57,6 +48,10 @@ class AdminSessionFull extends Component {
 
   render() {
     let { camp } = this.state;
+    let startDate = this.formatDate(camp.startDate);
+    let endDate = this.formatDate(camp.endDate);
+    let openDate = this.formatDate(camp.openDate);
+    let closeDate = this.formatDate(camp.closeDate);
     let campers;
     if (camp.campers) {
       campers = camp.campers.map((camper, i) => {
@@ -104,19 +99,19 @@ class AdminSessionFull extends Component {
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item">
                     <strong>Start: </strong>
-                    {camp.startDate}
+                    {startDate}
                   </li>
                   <li className="list-group-item">
                     <strong>End: </strong>
-                    {camp.endDate}
+                    {endDate}
                   </li>
                   <li className="list-group-item">
                     <strong>Registration Open: </strong>
-                    {camp.openDate}
+                    {openDate}
                   </li>
                   <li className="list-group-item">
                     <strong>Registration Close: </strong>
-                    {camp.closeDate}
+                    {closeDate}
                   </li>
                 </ul>
               </div>
