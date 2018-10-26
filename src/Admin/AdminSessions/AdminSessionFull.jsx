@@ -30,6 +30,7 @@ class AdminSessionFull extends Component {
       });
   };
 
+  // Saves data from form to DB
   handleSubmit = data => {
     appClient
       .updateCamp(this.state.camp._id, data)
@@ -41,9 +42,74 @@ class AdminSessionFull extends Component {
       });
   };
 
+  // Opens and closes camp edit form
   toggleForm = e => {
     if (e) e.preventDefault();
     this.setState({ formOpen: !this.state.formOpen });
+  };
+
+  // Adds camper from waitlist to DB
+  addToCamp = e => {
+    let { value } = e.target;
+    e.preventDefault();
+    this.state.camp.waitlist.forEach((camper, i) => {
+      if (camper._id === value) {
+        this.state.camp.waitlist.splice(i, 1);
+        this.state.camp.campers.push(camper._id);
+      }
+    });
+    appClient
+      .updateCamp(this.state.camp._id, {
+        campers: this.state.camp.campers,
+        waitlist: this.state.camp.waitlist
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    this.getCampData();
+  };
+
+  // Removes camper registration
+  removeFromCamp = e => {
+    let { value } = e.target;
+    e.preventDefault();
+    appClient
+      .deleteRegistrationByCamp(this.state.camp._id, value)
+      .then(() => {
+        this.getCampData();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  // Creates list elements for waitlisted and registered campers
+  generateListOfNames = (arr, waitlist) => {
+    let list = arr.map((elem, i) => {
+      return (
+        <li key={i} className="list-group-item">
+          {elem.firstName} {elem.lastName}
+          {waitlist ? (
+            <button
+              className="btn btn-primary btn-sm float-right"
+              onClick={this.addToCamp}
+              value={elem._id}
+            >
+              Add
+            </button>
+          ) : (
+            <button
+              className="btn btn-danger btn-sm float-right"
+              onClick={this.removeFromCamp}
+              value={elem._id}
+            >
+              Remove
+            </button>
+          )}
+        </li>
+      );
+    });
+    return list;
   };
 
   render() {
@@ -52,74 +118,75 @@ class AdminSessionFull extends Component {
     let endDate = this.formatDate(camp.endDate);
     let openDate = this.formatDate(camp.openDate);
     let closeDate = this.formatDate(camp.closeDate);
-    let campers;
+    let campers, waitlist;
     if (camp.campers) {
-      campers = camp.campers.map((camper, i) => {
-        return (
-          <li key={i} className="list-group-item">
-            {camper.firstName} {camper.lastName}
-          </li>
-        );
-      });
+      campers = this.generateListOfNames(camp.campers, false);
+      waitlist = this.generateListOfNames(camp.waitlist, true);
     }
     return (
       <div className="card">
         <div className="card-header">
           {camp.name} {camp.type}
           <button
-            className="btn btn-primary"
-            style={{ marginLeft: "10px" }}
+            className="btn btn-primary btn-sm float-right"
             onClick={this.toggleForm}
           >
             Edit
           </button>
         </div>
         <div className="card-body">
-          <p className="card-text">
-            {camp.description || "No description provided."}
-          </p>
-          <br />
-          <p className="card-text">
-            <strong>Number of Registrants: </strong>
-            {camp.campers ? camp.campers.length : "Awaiting Data"}
-          </p>
-          <p className="card-text">
-            <strong>Capacity: </strong>
-            {camp.capacity ? camp.capacity : "Awaiting Data"}
-          </p>
-          <br />
-          <p className="card-text">
-            <strong>Fee: </strong>
-            {camp.fee ? `$${camp.fee}` : "Awaiting Data"}
-          </p>
           <div className="row justify-content-around">
-            <div className="card col-lg-5" style={{ padding: "0" }}>
-              <div className="card-header">Dates</div>
-              <div className="card-body" style={{ padding: "0" }}>
-                <ul className="list-group list-group-flush">
-                  <li className="list-group-item">
-                    <strong>Start: </strong>
-                    {startDate}
-                  </li>
-                  <li className="list-group-item">
-                    <strong>End: </strong>
-                    {endDate}
-                  </li>
-                  <li className="list-group-item">
-                    <strong>Registration Open: </strong>
-                    {openDate}
-                  </li>
-                  <li className="list-group-item">
-                    <strong>Registration Close: </strong>
-                    {closeDate}
-                  </li>
-                </ul>
-              </div>
+            <div className="col-lg-5">
+              <p className="card-text">
+                {camp.description || "No description provided."}
+              </p>
+              <br />
+              <p className="card-text">
+                <strong>Number of Registrants: </strong>
+                {camp.campers ? camp.campers.length : "Awaiting Data"}
+              </p>
+              <p className="card-text">
+                <strong>Capacity: </strong>
+                {camp.capacity ? camp.capacity : "Awaiting Data"}
+              </p>
+              <br />
+              <p className="card-text">
+                <strong>Fee: </strong>
+                {camp.fee ? `$${camp.fee}` : "Awaiting Data"}
+              </p>
+              <br />
             </div>
+            <div className="col-lg-5">
+              <p className="card-text">
+                <strong>Start: </strong>
+                {startDate ? startDate : "Awaiting Data"}
+              </p>
+              <p className="card-text">
+                <strong>End: </strong>
+                {endDate ? endDate : "Awaiting Data"}
+              </p>
+              <br />
+              <p className="card-text">
+                <strong>Registration Open: </strong>
+                {openDate ? openDate : "Awaiting Data"}
+              </p>
+              <p className="card-text">
+                <strong>Registration Close: </strong>
+                {closeDate ? closeDate : "Awaiting Data"}
+              </p>
+            </div>
+          </div>
+          <div className="row justify-content-around">
             <div className="card col-lg-5" style={{ padding: "0" }}>
               <div className="card-header">Campers</div>
               <div className="card-body" style={{ padding: "0" }}>
                 <ul className="list-group list-group-flush">{campers}</ul>
+              </div>
+            </div>
+            <div className="card col-lg-5" style={{ padding: "0" }}>
+              <div className="card-header">Waitlist</div>
+              <div className="card-body" style={{ padding: "0" }}>
+                <ul className="list-group list-group-flush">{waitlist}</ul>
               </div>
             </div>
           </div>
