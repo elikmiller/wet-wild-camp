@@ -23,6 +23,10 @@ const currentUser = () => {
   return appClient.get("/current_user");
 };
 
+const getUsers = () => {
+  return appClient.get("/users");
+};
+
 const updateUser = ({ id, data }) => {
   return appClient.patch(`/users/${id}`, data);
 };
@@ -85,6 +89,7 @@ const cancelRequest = () => {
 
 export default {
   currentUser,
+  getUsers,
   login,
   logout,
   register,

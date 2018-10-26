@@ -113,6 +113,7 @@ class AdminSessions extends Component {
                   Start Date
                 </button>
               </td>
+              <td />
             </tr>
           </thead>
           <tbody>{content}</tbody>

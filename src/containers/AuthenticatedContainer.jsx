@@ -6,7 +6,7 @@ import Schedule from "../Schedule/Schedule.jsx";
 import ContactInformation from "../ContactInformation/ContactInformation.jsx";
 import Payments from "../Payments.jsx";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
-import AdminUsers from "../Admin/AdminUsers.jsx";
+import AdminUsers from "../Admin/AdminUsers/AdminUsers.jsx";
 import AdminSessions from "../Admin/AdminSessions/AdminSessions.jsx";
 import AdminSessionFull from "../Admin/AdminSessions/AdminSessionFull.jsx";
 import AdminPayments from "../Admin/AdminPayments.jsx";
