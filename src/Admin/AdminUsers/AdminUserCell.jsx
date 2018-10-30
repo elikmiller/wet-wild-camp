@@ -8,7 +8,7 @@ const AdminUserCell = ({ data }) => {
       <td>{data.lastName}</td>
       <td>{data.email}</td>
       <td>
-        <Link to={`admin/users/${data._id}`}>More</Link>
+        <Link to={`/admin/users/${data._id}`}>More</Link>
       </td>
     </tr>
   );

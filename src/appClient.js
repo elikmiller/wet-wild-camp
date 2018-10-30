@@ -27,6 +27,14 @@ const getUsers = () => {
   return appClient.get("/users");
 };
 
+const getUser = userId => {
+  return appClient.get(`/users/${userId}`);
+};
+
+const getAdminUser = userId => {
+  return appClient.get(`/admin/users/${userId}`);
+};
+
 const updateUser = ({ id, data }) => {
   return appClient.patch(`/users/${id}`, data);
 };
@@ -89,7 +97,9 @@ const cancelRequest = () => {
 
 export default {
   currentUser,
+  getUser,
   getUsers,
+  getAdminUser,
   login,
   logout,
   register,

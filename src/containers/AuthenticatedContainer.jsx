@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import SideNav from "../SideNav.jsx";
 import Overview from "../Overview/Overview.jsx";
-import Campers from "../Campers/Campers.jsx";
+import CamperWrapper from "../Campers/CamperWrapper.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
-import ContactInformation from "../ContactInformation/ContactInformation.jsx";
+import ContactInfoWrapper from "../ContactInformation/ContactInfoWrapper.jsx";
 import Payments from "../Payments.jsx";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
 import AdminUsers from "../Admin/AdminUsers/AdminUsers.jsx";
+import AdminUserFull from "../Admin/AdminUsers/AdminUserFull.jsx";
 import AdminSessions from "../Admin/AdminSessions/AdminSessions.jsx";
 import AdminSessionFull from "../Admin/AdminSessions/AdminSessionFull.jsx";
 import AdminPayments from "../Admin/AdminPayments.jsx";
@@ -15,12 +16,12 @@ import { Route, Switch } from "react-router-dom";
 class AuthenticatedContainer extends Component {
   navs = [
     { path: "/", label: "Overview", component: Overview },
-    { path: "/campers", label: "Campers", component: Campers },
+    { path: "/campers", label: "Campers", component: CamperWrapper },
     { path: "/schedule", label: "Register", component: Schedule },
     {
       path: "/contact-information",
       label: "Update Contact Information",
-      component: ContactInformation
+      component: ContactInfoWrapper
     },
     { path: "/payments", label: "Payments", component: Payments }
   ];
@@ -59,6 +60,12 @@ class AuthenticatedContainer extends Component {
                   <Route
                     path="/admin/sessions/:sessionId"
                     component={AdminSessionFull}
+                  />
+                )}
+                {this.props.isAdmin && (
+                  <Route
+                    path="/admin/users/:userId"
+                    component={AdminUserFull}
                   />
                 )}
               </Switch>

@@ -3,7 +3,6 @@ import PrimaryContactInformationForm from "./PrimaryContactInformationForm.jsx";
 import SecondaryContactInformationForm from "./SecondaryContactInformationForm.jsx";
 import EmergencyContactInformationForm from "./EmergencyContactInformationForm.jsx";
 import EditableContact from "./EditableContact.jsx";
-import { AuthContext } from "../App";
 import appClient from "../appClient";
 
 class ContactInformation extends Component {
@@ -31,6 +30,10 @@ class ContactInformation extends Component {
     this.refreshContacts();
   }
 
+  componentWillReceiveProps() {
+    this.refreshContacts();
+  }
+
   refreshContacts = () => {
     appClient.getContacts(this.props.userId).then(res => {
       let formObject = this.state.forms.slice(0);
@@ -45,34 +48,21 @@ class ContactInformation extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Contact Information</h1>
-        <div className="row">
-          {this.state.forms.map((form, i) => {
-            return (
-              <div className="col" key={i}>
-                <EditableContact
-                  form={form}
-                  refreshContacts={this.refreshContacts}
-                  userId={this.props.userId}
-                />
-              </div>
-            );
-          })}
-        </div>
+      <div className="row">
+        {this.state.forms.map((form, i) => {
+          return (
+            <div className="col" key={i}>
+              <EditableContact
+                form={form}
+                refreshContacts={this.refreshContacts}
+                userId={this.props.userId}
+              />
+            </div>
+          );
+        })}
       </div>
     );
   }
 }
 
-export default props => (
-  <AuthContext.Consumer>
-    {auth => (
-      <ContactInformation
-        userId={auth.userId}
-        logout={auth.logout}
-        {...props}
-      />
-    )}
-  </AuthContext.Consumer>
-);
+export default ContactInformation;

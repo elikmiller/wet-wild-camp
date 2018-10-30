@@ -3,7 +3,6 @@ import appClient from "../appClient";
 import Loading from "../Loading";
 
 import EditableCamper from "./EditableCamper.jsx";
-import { AuthContext } from "../App";
 
 class Campers extends Component {
   state = {
@@ -54,7 +53,6 @@ class Campers extends Component {
   render() {
     return (
       <div>
-        <h1>Campers</h1>
         <div className="row position-relative">
           {this.state.isLoading && <Loading />}
           {this.state.campers.map((camper, i) => (
@@ -75,8 +73,4 @@ class Campers extends Component {
   }
 }
 
-export default props => (
-  <AuthContext.Consumer>
-    {auth => <Campers userId={auth.userId} logout={auth.logout} {...props} />}
-  </AuthContext.Consumer>
-);
+export default Campers;
