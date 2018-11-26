@@ -30,10 +30,6 @@ class ContactInformation extends Component {
     this.refreshContacts();
   }
 
-  componentWillReceiveProps() {
-    this.refreshContacts();
-  }
-
   refreshContacts = () => {
     appClient.getContacts(this.props.userId).then(res => {
       let formObject = this.state.forms.slice(0);

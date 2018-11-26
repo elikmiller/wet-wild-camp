@@ -4,7 +4,7 @@ import Overview from "../Overview/Overview.jsx";
 import CamperWrapper from "../Campers/CamperWrapper.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
 import ContactInfoWrapper from "../ContactInformation/ContactInfoWrapper.jsx";
-import Payments from "../Payments.jsx";
+import Payments from "../Payments/Payments.jsx";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
 import AdminUsers from "../Admin/AdminUsers/AdminUsers.jsx";
 import AdminUserFull from "../Admin/AdminUsers/AdminUserFull.jsx";

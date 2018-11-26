@@ -91,6 +91,10 @@ const deleteRegistrationByCamp = (campId, camperId) => {
   return appClient.delete(`/registrations/${campId}/${camperId}`);
 };
 
+const addPayment = (userId, data) => {
+  return appClient.post(`/${userId}/payments`, data);
+};
+
 const cancelRequest = () => {
   source.cancel("Operation cancelled by the user.");
 };
@@ -117,5 +121,6 @@ export default {
   getUserRegistrations,
   getRegistrations,
   deleteRegistration,
-  deleteRegistrationByCamp
+  deleteRegistrationByCamp,
+  addPayment
 };

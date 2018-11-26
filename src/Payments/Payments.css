@@ -1,0 +1,16 @@
+#paypal-button {
+  border: none;
+  border-radius: 4px;
+  background-color: #f7bd54;
+  transition: background-color 200ms;
+}
+
+#paypal-button > img {
+  width: 120px;
+  margin: 15px 50px 10px;
+}
+
+#paypal-button:hover {
+  background-color: #c59743;
+  transition: background-color 200ms;
+}
