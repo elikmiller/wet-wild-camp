@@ -4,15 +4,15 @@ import moment from "moment";
 class AdminSessionForm extends Component {
   state = {
     formValues: {
-      name: this.props.data.name || "",
-      type: this.props.data.type || "",
-      description: this.props.data.description || "",
-      fee: this.props.data.fee || 0,
-      startDate: this.props.data.startDate || Date.now(),
-      endDate: this.props.data.endDate || Date.now(),
-      openDate: this.props.data.openDate || Date.now(),
-      closeDate: this.props.data.closeDate || Date.now(),
-      capacity: this.props.data.capacity || 0
+      name: this.props.data ? this.props.data.name : "",
+      type: this.props.data ? this.props.data.type : "",
+      description: this.props.data ? this.props.data.description : "",
+      fee: this.props.data ? this.props.data.fee : 0,
+      startDate: this.props.data ? this.props.data.startDate : Date.now(),
+      endDate: this.props.data ? this.props.data.endDate : Date.now(),
+      openDate: this.props.data ? this.props.data.openDate : Date.now(),
+      closeDate: this.props.data ? this.props.data.closeDate : Date.now(),
+      capacity: this.props.data ? this.props.data.capacity : 0
     }
   };
 

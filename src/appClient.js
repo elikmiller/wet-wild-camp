@@ -95,6 +95,10 @@ const addPayment = (userId, data) => {
   return appClient.post(`/${userId}/payments`, data);
 };
 
+const sendEmail = data => {
+  return appClient.post("/admin/email", data);
+};
+
 const cancelRequest = () => {
   source.cancel("Operation cancelled by the user.");
 };
@@ -122,5 +126,6 @@ export default {
   getRegistrations,
   deleteRegistration,
   deleteRegistrationByCamp,
-  addPayment
+  addPayment,
+  sendEmail
 };
