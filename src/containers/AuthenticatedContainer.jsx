@@ -4,7 +4,7 @@ import Overview from "../Overview/Overview.jsx";
 import CamperWrapper from "../Campers/CamperWrapper.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
 import ContactInfoWrapper from "../ContactInformation/ContactInfoWrapper.jsx";
-import Payments from "../Payments/Payments.jsx";
+import PaymentRouter from "../Payments/PaymentRouter.jsx";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
 import AdminUsers from "../Admin/AdminUsers/AdminUsers.jsx";
 import AdminUserFull from "../Admin/AdminUsers/AdminUserFull.jsx";
@@ -15,7 +15,7 @@ import { Route, Switch } from "react-router-dom";
 
 class AuthenticatedContainer extends Component {
   navs = [
-    { path: "/", label: "Overview", component: Overview },
+    { path: "/overview", label: "Overview", component: Overview },
     { path: "/campers", label: "Campers", component: CamperWrapper },
     { path: "/schedule", label: "Register", component: Schedule },
     {
@@ -23,7 +23,7 @@ class AuthenticatedContainer extends Component {
       label: "Update Contact Information",
       component: ContactInfoWrapper
     },
-    { path: "/payments", label: "Payments", component: Payments }
+    { path: "/payments", label: "Payments", component: PaymentRouter }
   ];
 
   adminNavs = [
@@ -51,7 +51,6 @@ class AuthenticatedContainer extends Component {
                 {navBarData.map(nav => (
                   <Route
                     key={nav.label}
-                    exact
                     path={nav.path}
                     component={nav.component}
                   />

@@ -95,6 +95,10 @@ const addPayment = (userId, data) => {
   return appClient.post(`/${userId}/payments`, data);
 };
 
+const getPayment = paypalId => {
+  return appClient.get(`/payments/${paypalId}`);
+};
+
 const sendEmail = data => {
   return appClient.post("/admin/email", data);
 };
@@ -127,5 +131,6 @@ export default {
   deleteRegistration,
   deleteRegistrationByCamp,
   addPayment,
+  getPayment,
   sendEmail
 };

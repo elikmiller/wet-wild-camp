@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 import Home from "./Home.jsx";
 import Loading from "./Loading";
 import appClient from "./appClient";
@@ -101,6 +106,11 @@ class App extends Component {
         {!this.state.loading && (
           <Router>
             <Switch>
+              <Route
+                exact
+                path="/"
+                component={() => <Redirect to="/overview" />}
+              />
               <Route
                 path="/"
                 render={props => {

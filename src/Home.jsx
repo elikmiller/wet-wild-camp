@@ -46,7 +46,7 @@ class Home extends Component {
     return (
       <div className="home">
         <nav className="navbar navbar-light bg-light mb-3">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/overview">
             Wet &amp; Wild Camp Registration
             {this.props.isAdmin ? " | Admin Panel" : ""}
           </Link>
