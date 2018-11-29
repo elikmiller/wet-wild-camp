@@ -6,7 +6,9 @@ class Checkout extends Component {
   state = {
     paymentId: "",
     payerId: "",
-    payment: {}
+    payment: {},
+    executedPayment: {},
+    executed: false
   };
 
   componentDidMount() {
@@ -26,7 +28,7 @@ class Checkout extends Component {
         this.setState({
           paymentId: paymentId,
           payerId: payerId,
-          payment: payment
+          payment: payment.data
         });
       })
       .catch(err => {
@@ -34,8 +36,38 @@ class Checkout extends Component {
       });
   };
 
+  executePayment = e => {
+    let { paymentId, payerId, payment } = this.state;
+    e.preventDefault();
+    appClient
+      .executePayment(payment.user, paymentId, payerId)
+      .then(res => {
+        this.setState({
+          executedPayment: res.data,
+          executed: true
+        });
+        console.log(res);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
   render() {
-    return <p>Success</p>;
+    return (
+      <div className="card">
+        <div className="card-header">
+          <h3>Checkout</h3>
+        </div>
+        <div className="card-body">
+          <h5 className="card-title">Total: ${this.state.payment.amount}</h5>
+          <p className="card-text">Confirm or cancel your payment below.</p>
+        </div>
+        <button className="btn btn-primary" onClick={this.executePayment}>
+          Confirm Payment
+        </button>
+      </div>
+    );
   }
 }
 

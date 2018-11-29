@@ -4,7 +4,8 @@ import Overview from "../Overview/Overview.jsx";
 import CamperWrapper from "../Campers/CamperWrapper.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
 import ContactInfoWrapper from "../ContactInformation/ContactInfoWrapper.jsx";
-import PaymentRouter from "../Payments/PaymentRouter.jsx";
+import Payments from "../Payments/Payments.jsx";
+import Checkout from "../Payments/Checkout.jsx";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
 import AdminUsers from "../Admin/AdminUsers/AdminUsers.jsx";
 import AdminUserFull from "../Admin/AdminUsers/AdminUserFull.jsx";
@@ -15,7 +16,7 @@ import { Route, Switch } from "react-router-dom";
 
 class AuthenticatedContainer extends Component {
   navs = [
-    { path: "/overview", label: "Overview", component: Overview },
+    { path: "/", label: "Overview", component: Overview },
     { path: "/campers", label: "Campers", component: CamperWrapper },
     { path: "/schedule", label: "Register", component: Schedule },
     {
@@ -23,7 +24,7 @@ class AuthenticatedContainer extends Component {
       label: "Update Contact Information",
       component: ContactInfoWrapper
     },
-    { path: "/payments", label: "Payments", component: PaymentRouter }
+    { path: "/payments", label: "Payments", component: Payments }
   ];
 
   adminNavs = [
@@ -51,10 +52,12 @@ class AuthenticatedContainer extends Component {
                 {navBarData.map(nav => (
                   <Route
                     key={nav.label}
+                    exact
                     path={nav.path}
                     component={nav.component}
                   />
                 ))}
+                <Route path="/payments/success" component={Checkout} />
                 {this.props.isAdmin && (
                   <Route
                     path="/admin/sessions/:sessionId"

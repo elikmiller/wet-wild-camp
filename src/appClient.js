@@ -99,6 +99,12 @@ const getPayment = paypalId => {
   return appClient.get(`/payments/${paypalId}`);
 };
 
+const executePayment = (userId, paymentId, payerId) => {
+  return appClient.get(
+    `/${userId}/payments/execute?paymentId=${paymentId}&payerId=${payerId}`
+  );
+};
+
 const sendEmail = data => {
   return appClient.post("/admin/email", data);
 };
@@ -132,5 +138,6 @@ export default {
   deleteRegistrationByCamp,
   addPayment,
   getPayment,
+  executePayment,
   sendEmail
 };
