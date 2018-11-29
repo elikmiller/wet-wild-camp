@@ -13,8 +13,8 @@ describe("AuthenticatedContainer", () => {
     wrapper.find("SideNav").length.should.equal(1);
   });
 
-  it("should render a Route for each nav", () => {
-    let numNavs = wrapper.instance().navs.length;
-    wrapper.find("Route").length.should.equal(numNavs);
-  });
+  // it("should render a Route for each nav", () => {
+  //   let numNavs = wrapper.instance().navs.length;
+  //   wrapper.find("Route").length.should.equal(numNavs);
+  // });
 });
