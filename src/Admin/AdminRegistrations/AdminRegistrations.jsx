@@ -22,6 +22,10 @@ class AdminRegistrations extends Component {
       date: {
         engaged: false,
         ascending: true
+      },
+      paid: {
+        engaged: false,
+        ascending: true
       }
     }
   };
@@ -103,6 +107,16 @@ class AdminRegistrations extends Component {
                   value="startDate"
                 >
                   Start Date
+                </button>
+              </td>
+              <td>
+                <button
+                  className="btn btn-light btn-sm"
+                  onClick={this.handleUserSort}
+                  id="paid"
+                  value="paid"
+                >
+                  Payment Status
                 </button>
               </td>
             </tr>

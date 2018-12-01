@@ -21,6 +21,10 @@ class AdminRegistrationCell extends Component {
           {data.camper.firstName} {data.camper.lastName}
         </td>
         <td>{date}</td>
+        <td>
+          {data.paid && <span className="badge badge-success">Paid</span>}
+          {!data.paid && <span className="badge badge-danger">Unpaid</span>}
+        </td>
       </tr>
     );
   }
