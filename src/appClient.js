@@ -105,6 +105,10 @@ const executePayment = (userId, paymentId, payerId) => {
   );
 };
 
+const deletePayment = paypalId => {
+  return appClient.delete(`/payments/${paypalId}`);
+};
+
 const sendEmail = data => {
   return appClient.post("/admin/email", data);
 };
@@ -139,5 +143,6 @@ export default {
   addPayment,
   getPayment,
   executePayment,
+  deletePayment,
   sendEmail
 };

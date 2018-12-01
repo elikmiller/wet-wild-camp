@@ -8,7 +8,8 @@ class Checkout extends Component {
     payerId: "",
     payment: {},
     executedPayment: {},
-    executed: false
+    executed: false,
+    cancelled: false
   };
 
   componentDidMount() {
@@ -53,19 +54,58 @@ class Checkout extends Component {
       });
   };
 
+  cancelPayment = e => {
+    e.preventDefault();
+    appClient
+      .deletePayment(this.state.paymentId)
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          cancelled: true
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
   render() {
+    let { executed, cancelled } = this.state;
     return (
       <div className="card">
         <div className="card-header">
           <h3>Checkout</h3>
         </div>
-        <div className="card-body">
-          <h5 className="card-title">Total: ${this.state.payment.amount}</h5>
-          <p className="card-text">Confirm or cancel your payment below.</p>
-        </div>
-        <button className="btn btn-primary" onClick={this.executePayment}>
-          Confirm Payment
-        </button>
+        {!executed && !cancelled && (
+          <div className="card-body">
+            <h5 className="card-title">Total: ${this.state.payment.amount}</h5>
+            <p className="card-text">Confirm or cancel your payment below.</p>
+            <button className="btn btn-primary" onClick={this.executePayment}>
+              Confirm Payment
+            </button>
+            <button
+              className="btn btn-secondary"
+              style={{ marginLeft: "20px" }}
+              onClick={this.cancelPayment}
+            >
+              Cancel Payment
+            </button>
+          </div>
+        )}
+        {executed && (
+          <div className="card-body">
+            <div className="alert alert-primary" role="alert">
+              Your payment has been successfully completed!
+            </div>
+          </div>
+        )}
+        {cancelled && (
+          <div className="card-body">
+            <div className="alert alert-info" role="alert">
+              Your payment has been cancelled.
+            </div>
+          </div>
+        )}
       </div>
     );
   }
