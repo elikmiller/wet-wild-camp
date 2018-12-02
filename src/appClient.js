@@ -99,6 +99,10 @@ const getPayment = paypalId => {
   return appClient.get(`/payments/${paypalId}`);
 };
 
+const getAllPayments = () => {
+  return appClient.get("/payments");
+};
+
 const executePayment = (userId, paymentId, payerId) => {
   return appClient.get(
     `/${userId}/payments/execute?paymentId=${paymentId}&payerId=${payerId}`
@@ -142,6 +146,7 @@ export default {
   deleteRegistrationByCamp,
   addPayment,
   getPayment,
+  getAllPayments,
   executePayment,
   deletePayment,
   sendEmail

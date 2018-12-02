@@ -11,7 +11,7 @@ import AdminUsers from "../Admin/AdminUsers/AdminUsers.jsx";
 import AdminUserFull from "../Admin/AdminUsers/AdminUserFull.jsx";
 import AdminSessions from "../Admin/AdminSessions/AdminSessions.jsx";
 import AdminSessionFull from "../Admin/AdminSessions/AdminSessionFull.jsx";
-import AdminPayments from "../Admin/AdminPayments.jsx";
+import AdminPayments from "../Admin/AdminPayments/AdminPayments.jsx";
 import { Route, Switch } from "react-router-dom";
 
 class AuthenticatedContainer extends Component {
