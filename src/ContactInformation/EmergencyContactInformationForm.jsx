@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Cleave from "cleave.js/react";
-import CleavePhone from "cleave.js/dist/addons/cleave-phone.us"; // eslint-disable-line no-unused-vars
+import validator from "validator";
+import Input from "../forms/Input";
+import PhoneInput from "../forms/PhoneInput";
 
 class EmergencyContactInformationForm extends Component {
   state = {
@@ -8,18 +9,31 @@ class EmergencyContactInformationForm extends Component {
       firstName: this.props.data.firstName || "",
       lastName: this.props.data.lastName || "",
       phoneNumber: this.props.data.phoneNumber || ""
-    }
+    },
+    errors: {},
+    wasValidated: false
   };
 
-  componentDidMount() {}
+  validate = () => {
+    let { formValues } = this.state;
+    let errors = {};
+    if (validator.isEmpty(formValues.firstName + ""))
+      errors.firstName = "First name is required.";
+    if (validator.isEmpty(formValues.lastName + ""))
+      errors.lastName = "Last name is required.";
+    if (!validator.isMobilePhone(formValues.phoneNumber + ""))
+      errors.phoneNumber = "Please enter a valid phone number.";
+    if (validator.isEmpty(formValues.phoneNumber + ""))
+      errors.phoneNumber = "Phone number is required.";
+    return errors;
+  };
 
   handleChange = e => {
     e.preventDefault();
-    let formValues = this.state.formValues;
-    let id = e.target.id;
-    let value = e.target.value;
+    let { formValues } = this.state;
+    let { name, value } = e.target;
 
-    formValues[id] = value;
+    formValues[name] = value;
     this.setState({
       formValues: formValues
     });
@@ -27,14 +41,23 @@ class EmergencyContactInformationForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    let data = this.state.formValues;
-    this.props.onSubmit({
-      emergencyContact: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phoneNumber: data.phoneNumber
-      }
+
+    const errors = this.validate();
+    this.setState({
+      errors,
+      wasValidated: true
     });
+
+    if (Object.keys(errors).length === 0) {
+      let data = this.state.formValues;
+      this.props.onSubmit({
+        emergencyContact: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          phoneNumber: data.phoneNumber
+        }
+      });
+    }
   };
 
   handleClose = e => {
@@ -46,42 +69,42 @@ class EmergencyContactInformationForm extends Component {
     return (
       <div className="emergency-contact-information-form">
         <form onSubmit={this.props.onSubmit}>
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              id="firstName"
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["firstName"]}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              id="lastName"
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["lastName"]}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="phoneNumber">Phone Number</label>
-            <Cleave
-              id="phoneNumber"
-              options={{ phone: true, phoneRegionCode: "US" }}
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["phoneNumber"]}
-            />
-          </div>
+          <Input
+            name="firstName"
+            label="First Name"
+            type="input"
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.firstName}
+            value={this.state.formValues["firstName"]}
+          />
+          <Input
+            name="lastName"
+            label="Last Name"
+            type="input"
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.lastName}
+            value={this.state.formValues["lastName"]}
+          />
+          <PhoneInput
+            name="phoneNumber"
+            label="Phone Number"
+            type="input"
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.phoneNumber}
+            value={this.state.formValues["phoneNumber"]}
+          />
           <div className="form-group">
             <button className="btn btn-primary" onClick={this.handleSubmit}>
               Save
             </button>
-            <button className="btn btn-secondary" onClick={this.handleClose}>
+            <button
+              className="btn btn-secondary"
+              style={{ marginLeft: "20px" }}
+              onClick={this.handleClose}
+            >
               Cancel
             </button>
           </div>

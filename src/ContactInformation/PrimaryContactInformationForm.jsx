@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Cleave from "cleave.js/react";
-import CleavePhone from "cleave.js/dist/addons/cleave-phone.us"; // eslint-disable-line no-unused-vars
+import validator from "validator";
+import Input from "../forms/Input";
+import PhoneInput from "../forms/PhoneInput";
 
 class PrimaryContactInformationForm extends Component {
   state = {
@@ -14,16 +15,35 @@ class PrimaryContactInformationForm extends Component {
       city: this.props.data.city || "",
       usState: this.props.data.state || "",
       zipCode: this.props.data.zipCode || ""
-    }
+    },
+    errors: {},
+    wasValidated: false
+  };
+
+  validate = () => {
+    let { formValues } = this.state;
+    let errors = {};
+    if (validator.isEmpty(formValues.firstName + ""))
+      errors.firstName = "First name is required.";
+    if (validator.isEmpty(formValues.lastName + ""))
+      errors.lastName = "Last name is required.";
+    if (!validator.isMobilePhone(formValues.phoneNumber + ""))
+      errors.phoneNumber = "Please enter a valid phone number.";
+    if (validator.isEmpty(formValues.phoneNumber + ""))
+      errors.phoneNumber = "Phone number is required.";
+    if (!validator.isEmail(formValues.email + ""))
+      errors.email = "Please enter a valid email address.";
+    if (validator.isEmpty(formValues.email + ""))
+      errors.email = "Email address is required.";
+    return errors;
   };
 
   handleChange = e => {
     e.preventDefault();
-    let formValues = this.state.formValues;
-    let id = e.target.id;
-    let value = e.target.value;
+    let { formValues } = this.state;
+    let { name, value } = e.target;
 
-    formValues[id] = value;
+    formValues[name] = value;
     this.setState({
       formValues: formValues
     });
@@ -31,20 +51,29 @@ class PrimaryContactInformationForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    let data = this.state.formValues;
-    this.props.onSubmit({
-      primaryContact: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phoneNumber: data.phoneNumber,
-        email: data.email,
-        streetAddress: data.streetAddress,
-        addressLineTwo: data.addressLineTwo,
-        city: data.city,
-        state: data.usState,
-        zipCode: data.zipCode
-      }
+
+    const errors = this.validate();
+    this.setState({
+      errors,
+      wasValidated: true
     });
+
+    if (Object.keys(errors).length === 0) {
+      let data = this.state.formValues;
+      this.props.onSubmit({
+        primaryContact: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          phoneNumber: data.phoneNumber,
+          email: data.email,
+          streetAddress: data.streetAddress,
+          addressLineTwo: data.addressLineTwo,
+          city: data.city,
+          state: data.usState,
+          zipCode: data.zipCode
+        }
+      });
+    }
   };
 
   handleClose = e => {
@@ -56,51 +85,46 @@ class PrimaryContactInformationForm extends Component {
     return (
       <div className="primary-contact-information-form">
         <form onSubmit={this.props.onSubmit}>
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              id="firstName"
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["firstName"]}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              id="lastName"
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["lastName"]}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="phoneNumber">Phone Number</label>
-            <Cleave
-              id="phoneNumber"
-              options={{ phone: true, phoneRegionCode: "US" }}
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["phoneNumber"]}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              id="email"
-              type="email"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["email"]}
-            />
-          </div>
+          <Input
+            name="firstName"
+            label="First Name"
+            type="input"
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.firstName}
+            value={this.state.formValues["firstName"]}
+          />
+          <Input
+            name="lastName"
+            label="Last Name"
+            type="input"
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.lastName}
+            value={this.state.formValues["lastName"]}
+          />
+          <PhoneInput
+            name="phoneNumber"
+            label="Phone Number"
+            type="input"
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.phoneNumber}
+            value={this.state.formValues["phoneNumber"]}
+          />
+          <Input
+            name="email"
+            label="Email"
+            type="email"
+            onChange={this.handleChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.email}
+            value={this.state.formValues["email"]}
+          />
           <div className="form-group">
             <label htmlFor="streetAddress">Address</label>
             <input
-              id="streetAddress"
+              name="streetAddress"
               type="input"
               className="form-control"
               onChange={this.handleChange}
@@ -110,7 +134,7 @@ class PrimaryContactInformationForm extends Component {
           <div className="form-group">
             <label htmlFor="addressLineTwo">Address (Line 2)</label>
             <input
-              id="addressLineTwo"
+              name="addressLineTwo"
               type="input"
               className="form-control"
               onChange={this.handleChange}
@@ -120,7 +144,7 @@ class PrimaryContactInformationForm extends Component {
           <div className="form-group">
             <label htmlFor="city">City</label>
             <input
-              id="city"
+              name="city"
               type="input"
               className="form-control"
               onChange={this.handleChange}
@@ -130,7 +154,7 @@ class PrimaryContactInformationForm extends Component {
           <div className="form-group">
             <label htmlFor="usState">State</label>
             <input
-              id="usState"
+              name="usState"
               type="input"
               className="form-control"
               onChange={this.handleChange}
@@ -140,7 +164,7 @@ class PrimaryContactInformationForm extends Component {
           <div className="form-group">
             <label htmlFor="zipCode">Zip Code</label>
             <input
-              id="zipCode"
+              name="zipCode"
               type="input"
               className="form-control"
               onChange={this.handleChange}
@@ -151,7 +175,11 @@ class PrimaryContactInformationForm extends Component {
             <button className="btn btn-primary" onClick={this.handleSubmit}>
               Save
             </button>
-            <button className="btn btn-secondary" onClick={this.handleClose}>
+            <button
+              className="btn btn-secondary"
+              style={{ marginLeft: "20px" }}
+              onClick={this.handleClose}
+            >
               Cancel
             </button>
           </div>
