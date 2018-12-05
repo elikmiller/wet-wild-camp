@@ -89,7 +89,7 @@ class CamperCardForm extends Component {
               <div className="form-group">
                 <label htmlFor="gender">Gender</label>
                 <select
-                  id="gender"
+                  name="gender"
                   className="custom-select"
                   onChange={this.handleChange}
                   value={this.state.formValues["gender"]}
@@ -103,7 +103,7 @@ class CamperCardForm extends Component {
               <Input
                 name="dateOfBirth"
                 label="Birthdate"
-                type="input"
+                type="date"
                 onChange={this.handleChange}
                 wasValidated={this.state.wasValidated}
                 error={this.state.errors.dateOfBirth}

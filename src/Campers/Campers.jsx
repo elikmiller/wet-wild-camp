@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import appClient from "../appClient";
 import Loading from "../Loading";
+import ServerError from "../forms/ServerError";
 
 import EditableCamper from "./EditableCamper.jsx";
 
 class Campers extends Component {
   state = {
     isLoading: false,
-    campers: []
+    campers: [],
+    errors: {}
   };
 
   componentDidMount() {
@@ -32,6 +34,8 @@ class Campers extends Component {
         });
         if (err.response.status === 401) {
           this.props.logout();
+        } else if (err.response.status === 500) {
+          this.setState({ errors: { server: "Server error." } });
         }
       });
   };
@@ -55,6 +59,7 @@ class Campers extends Component {
       <div>
         <div className="row position-relative">
           {this.state.isLoading && <Loading />}
+          {this.state.errors.server && <ServerError />}
           {this.state.campers.map((camper, i) => (
             <div className="col-12 col-lg-3" key={i}>
               <EditableCamper

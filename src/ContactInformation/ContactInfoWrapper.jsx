@@ -7,7 +7,9 @@ const ContactInfoWrapper = () => {
     <div>
       <h1>Contact Information</h1>
       <AuthContext.Consumer>
-        {auth => <ContactInformation userId={auth.userId} />}
+        {auth => (
+          <ContactInformation userId={auth.userId} logout={this.logout} />
+        )}
       </AuthContext.Consumer>
     </div>
   );

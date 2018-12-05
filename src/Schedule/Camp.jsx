@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { AuthContext } from "../App";
 import appClient from "../appClient";
+import ServerError from "../forms/ServerError";
 
 class Camp extends Component {
   state = {
     registerOpen: false,
     campers: [],
-    selectedCamper: ""
+    selectedCamper: "",
+    errors: {}
   };
 
   getCampers = () => {
@@ -18,6 +20,8 @@ class Camp extends Component {
       .catch(err => {
         if (err.response) {
           if (err.response.status === 401) this.props.logout();
+        } else if (err.response.status === 500) {
+          this.setState({ errors: { server: "Server error." } });
         }
       });
   };
@@ -49,7 +53,9 @@ class Camp extends Component {
           this.setState({ selectedCamper: "" });
         })
         .catch(err => {
-          console.log(err);
+          if (err.response.status === 500) {
+            this.setState({ errors: { server: "Server error." } });
+          }
         });
     }
   };
@@ -113,24 +119,27 @@ class Camp extends Component {
     );
 
     return (
-      <tbody>
-        <tr>
-          <td>{camp.name}</td>
-          <td>{camp.startDate.slice(0, 10)}</td>
-          <td>{camp.endDate.slice(0, 10)}</td>
-          <td>${camp.fee}</td>
-          <td>{this.calculateSpaceRemaining()}</td>
-          <td>
-            <button
-              className="btn btn-secondary float-right btn-sm"
-              onClick={this.toggleRegistration}
-            >
-              {this.state.registerOpen ? "Cancel" : "Register"}
-            </button>
-          </td>
-        </tr>
-        {registerDisplay}
-      </tbody>
+      <div>
+        {this.state.errors.server && <ServerError />}
+        <tbody>
+          <tr>
+            <td>{camp.name}</td>
+            <td>{camp.startDate.slice(0, 10)}</td>
+            <td>{camp.endDate.slice(0, 10)}</td>
+            <td>${camp.fee}</td>
+            <td>{this.calculateSpaceRemaining()}</td>
+            <td>
+              <button
+                className="btn btn-secondary float-right btn-sm"
+                onClick={this.toggleRegistration}
+              >
+                {this.state.registerOpen ? "Cancel" : "Register"}
+              </button>
+            </td>
+          </tr>
+          {registerDisplay}
+        </tbody>
+      </div>
     );
   }
 }

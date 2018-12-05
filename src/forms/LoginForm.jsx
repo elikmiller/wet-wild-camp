@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Input from "./Input";
+import ServerError from "./ServerError";
 import validator from "validator";
 
 class LoginForm extends Component {
@@ -52,10 +53,12 @@ class LoginForm extends Component {
           this.setState({
             errors: { submit: "Invalid Email Address or Password." }
           });
+        } else if (err.response.status === 500) {
+          this.setState({ errors: { server: "Server error." } });
         } else {
           this.setState({
             errors: {
-              submit: "An unknown error has occured. Please try again."
+              submit: "An unknown error has occurred. Please try again."
             }
           });
         }
@@ -66,6 +69,7 @@ class LoginForm extends Component {
   render() {
     return (
       <div className="login-form">
+        {this.state.errors.server && <ServerError />}
         <form onSubmit={this.handleSubmit}>
           <Input
             label="Email Address"

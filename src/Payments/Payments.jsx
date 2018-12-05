@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AuthContext } from "../App";
 import appClient from "../appClient";
+import ServerError from "../forms/ServerError";
 import paypalButton from "../images/paypal-logo.png";
 import "./Payments.css";
 
@@ -8,7 +9,8 @@ class Payments extends Component {
   state = {
     registrations: [],
     selectedRegistrations: [],
-    total: 0
+    total: 0,
+    errors: {}
   };
 
   componentDidMount() {
@@ -29,7 +31,9 @@ class Payments extends Component {
         });
       })
       .catch(err => {
-        console.error(err);
+        if (err.response.status === 500) {
+          this.setState({ errors: { server: "Server error." } });
+        }
       });
   };
 
@@ -53,7 +57,9 @@ class Payments extends Component {
         });
       })
       .catch(err => {
-        console.error(err);
+        if (err.response.status === 500) {
+          this.setState({ errors: { server: "Server error." } });
+        }
       });
   };
 
@@ -126,6 +132,7 @@ class Payments extends Component {
     });
     return (
       <div>
+        {this.state.errors.server && <ServerError />}
         <table className="table table-sm">
           <thead>
             <tr>

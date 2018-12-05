@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { AuthContext } from "../App";
 import appClient from "../appClient";
 import RegistrationTable from "./RegistrationTable";
+import ServerError from "../forms/ServerError";
 
 class Overview extends Component {
   state = {
-    registrations: []
+    registrations: [],
+    errors: {}
   };
 
   componentDidMount() {
@@ -19,7 +21,9 @@ class Overview extends Component {
         this.setState({ registrations: registrations.data });
       })
       .catch(err => {
-        console.log(err);
+        if (err.response.status === 500) {
+          this.setState({ errors: { server: "Server error." } });
+        }
       });
   };
 
@@ -48,6 +52,7 @@ class Overview extends Component {
     return (
       <div>
         <h1>Overview</h1>
+        {this.state.errors.server && <ServerError />}
         {content}
       </div>
     );
