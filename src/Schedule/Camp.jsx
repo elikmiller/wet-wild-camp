@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { AuthContext } from "../App";
 import appClient from "../appClient";
-import ServerError from "../forms/ServerError";
 
 class Camp extends Component {
   state = {
@@ -63,7 +62,7 @@ class Camp extends Component {
   calculateSpaceRemaining = () => {
     let { camp } = this.props;
     let diff = camp.capacity - camp.campers.length;
-    if (diff >= 0) {
+    if (diff > 0) {
       return diff >= 10 ? "10+" : `${diff}`;
     }
     return "waitlisted";
@@ -83,6 +82,8 @@ class Camp extends Component {
 
   render() {
     let { camp } = this.props;
+    // Calculates remaining space in camp
+    let spaceRemaining = this.calculateSpaceRemaining();
     // Generates list of campers for select menu
     let selectCamper = this.state.campers.map((camper, i) => {
       return (
@@ -119,27 +120,24 @@ class Camp extends Component {
     );
 
     return (
-      <div>
-        {this.state.errors.server && <ServerError />}
-        <tbody>
-          <tr>
-            <td>{camp.name}</td>
-            <td>{camp.startDate.slice(0, 10)}</td>
-            <td>{camp.endDate.slice(0, 10)}</td>
-            <td>${camp.fee}</td>
-            <td>{this.calculateSpaceRemaining()}</td>
-            <td>
-              <button
-                className="btn btn-secondary float-right btn-sm"
-                onClick={this.toggleRegistration}
-              >
-                {this.state.registerOpen ? "Cancel" : "Register"}
-              </button>
-            </td>
-          </tr>
-          {registerDisplay}
-        </tbody>
-      </div>
+      <tbody>
+        <tr>
+          <td>{camp.name}</td>
+          <td>{camp.startDate.slice(0, 10)}</td>
+          <td>{camp.endDate.slice(0, 10)}</td>
+          <td>${camp.fee}</td>
+          <td>{spaceRemaining}</td>
+          <td>
+            <button
+              className="btn btn-secondary float-right btn-sm"
+              onClick={this.toggleRegistration}
+            >
+              {this.state.registerOpen ? "Cancel" : "Register"}
+            </button>
+          </td>
+        </tr>
+        {registerDisplay}
+      </tbody>
     );
   }
 }

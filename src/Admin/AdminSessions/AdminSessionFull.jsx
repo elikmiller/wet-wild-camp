@@ -21,6 +21,7 @@ class AdminSessionFull extends Component {
     appClient
       .getCamp(this.props.match.params.sessionId)
       .then(camp => {
+        console.log(camp.data);
         this.setState({
           camp: camp.data
         });
@@ -71,10 +72,9 @@ class AdminSessionFull extends Component {
 
   // Removes camper registration
   removeFromCamp = e => {
-    let { value } = e.target;
     e.preventDefault();
     appClient
-      .deleteRegistrationByCamp(this.state.camp._id, value)
+      .deleteRegistration(e.target.value)
       .then(() => {
         this.getCampData();
       })
@@ -88,7 +88,7 @@ class AdminSessionFull extends Component {
     let list = arr.map((elem, i) => {
       return (
         <li key={i} className="list-group-item">
-          {elem.firstName} {elem.lastName}
+          {elem.camper.firstName} {elem.camper.lastName}
           {waitlist ? (
             <button
               className="btn btn-primary btn-sm float-right"
