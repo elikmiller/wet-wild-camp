@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import appClient from "../appClient";
-import Loading from "../Loading";
+import Spinner from "../Spinner/Spinner";
 import ServerError from "../forms/ServerError";
 
 import EditableCamper from "./EditableCamper.jsx";
@@ -55,11 +55,11 @@ class Campers extends Component {
   };
 
   render() {
+    if (this.state.isLoading) return <Spinner />;
+    if (this.state.errors.server) return <ServerError />;
     return (
-      <div>
+      <div className="campers">
         <div className="row position-relative">
-          {this.state.isLoading && <Loading />}
-          {this.state.errors.server && <ServerError />}
           {this.state.campers.map((camper, i) => (
             <div className="col-12 col-lg-3" key={i}>
               <EditableCamper
