@@ -113,6 +113,7 @@ class CamperCardForm extends Component {
                 <label htmlFor="notes">Notes</label>
                 <textarea
                   id="notes"
+                  name="notes"
                   className="form-control form-control-sm"
                   onChange={this.handleChange}
                   value={this.state.formValues["notes"]}
