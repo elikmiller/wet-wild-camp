@@ -2,7 +2,7 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <div className="d-flex justify-content-center align-items-center">
+    <div className="d-flex h-100 justify-content-center align-items-center">
       <div className="progress" style={{ width: "75%" }}>
         <div
           className="progress-bar progress-bar-striped progress-bar-animated"

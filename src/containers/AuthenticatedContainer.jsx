@@ -41,7 +41,7 @@ class AuthenticatedContainer extends Component {
   render() {
     let navBarData = this.props.isAdmin ? this.adminNavs : this.navs;
     return (
-      <div className="authenticated-container">
+      <div className="authenticated-container flex-grow-1">
         <div className="container-fluid">
           <div className="row">
             <div className="col-2">

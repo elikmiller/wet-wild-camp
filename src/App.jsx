@@ -96,7 +96,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div className="app h-100">
         {this.state.loading && <Loading />}
         {!this.state.loading && (
           <Router>

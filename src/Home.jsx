@@ -44,7 +44,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="home">
+      <div className="home h-100 d-flex flex-column">
         <nav className="navbar navbar-light bg-light mb-3">
           <Link className="navbar-brand" to="/">
             Wet &amp; Wild Camp Registration
