@@ -21,16 +21,26 @@ class Overview extends Component {
         this.setState({ registrations: registrations.data });
       })
       .catch(err => {
-        if (err.response.status === 500) {
-          this.setState({ errors: { server: "Server error." } });
-        }
+        this.handleServerError(err);
       });
+  };
+
+  handleServerError = err => {
+    if (err.response.status === 500) {
+      this.setState({ errors: { server: "Server error." } });
+    }
   };
 
   render() {
     let content;
     if (this.state.registrations.length) {
-      content = <RegistrationTable data={this.state.registrations} />;
+      content = (
+        <RegistrationTable
+          data={this.state.registrations}
+          error={this.handleServerError}
+          update={this.getRegistrations}
+        />
+      );
     } else {
       content = (
         <div>
