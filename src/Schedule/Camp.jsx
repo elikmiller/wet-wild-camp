@@ -50,6 +50,7 @@ class Camp extends Component {
         .then(() => {
           this.toggleRegistration();
           this.setState({ selectedCamper: "" });
+          this.props.errorHandling({});
           this.props.refresh();
         })
         .catch(err => {
