@@ -5,7 +5,7 @@ class Spinner extends Component {
   render() {
     return (
       <div className="spinner">
-        <i class="fas fa-spinner fa-3x fa-spin" />
+        <i className="fas fa-spinner fa-3x fa-spin" />
       </div>
     );
   }

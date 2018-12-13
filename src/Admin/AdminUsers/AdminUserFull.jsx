@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
 import ContactInformation from "../../ContactInformation/ContactInformation";
-import Campers from "../../Campers/Campers";
+import CampersContainer from "../../Campers/CampersContainer";
 
 class AdminUserFull extends Component {
   state = {
@@ -44,7 +44,7 @@ class AdminUserFull extends Component {
           </div>
           <div className="card" style={{ marginTop: "5px" }}>
             <div className="card-body">
-              <Campers userId={this.props.match.params.userId} />
+              <CampersContainer userId={this.props.match.params.userId} />
             </div>
           </div>
         </div>

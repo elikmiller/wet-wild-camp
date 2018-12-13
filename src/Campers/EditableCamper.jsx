@@ -1,79 +1,62 @@
 import React, { Component } from "react";
-import appClient from "../appClient";
-import CamperCard from "./CamperCard.jsx";
-import CamperCardForm from "./CamperCardForm.jsx";
-import ServerError from "../forms/ServerError";
+import Camper from "./Camper.jsx";
+import CamperForm from "./CamperForm.jsx";
 
 class EditableCamper extends Component {
   state = {
-    formOpen: false,
+    isOpen: false,
     errors: {}
   };
 
   toggleForm = () => {
-    this.setState({ formOpen: !this.state.formOpen });
+    this.setState({ isOpen: !this.state.isOpen });
   };
 
-  submit = data => {
-    if (this.props.data) {
-      let id = this.props.data._id;
-      appClient
-        .updateCamper({ id, data })
-        .then(res => {
-          this.toggleForm();
-          this.props.refreshCampers();
-        })
-        .catch(err => {
-          this.handleServerError(err);
-        });
-    } else {
-      appClient
-        .addCamper(data)
-        .then(res => {
-          this.toggleForm();
-          this.props.refreshCampers();
-        })
-        .catch(err => {
-          this.handleServerError(err);
-        });
-    }
+  handleSubmit = camper => {
+    this.props.editCamper(this.props.camper._id, camper);
   };
 
-  handleServerError = err => {
-    if (err.response && err.response.status === 500) {
-      this.setState({ errors: { server: "Server error." } });
-    }
+  openForm = () => {
+    this.setState({
+      isOpen: true
+    });
   };
 
-  handleClose = () => {
-    this.props.handleClose();
-    this.toggleForm();
+  closeForm = () => {
+    this.setState({
+      isOpen: false
+    });
   };
 
   componentWillMount() {
-    if (!this.props.data) this.toggleForm();
+    if (!this.props.camper) this.toggleForm();
   }
 
   render() {
-    if (this.state.formOpen || this.props.data === null) {
+    if (this.state.isOpen) {
       return (
-        <div>
-          {this.state.errors.server && <ServerError />}
-          <CamperCardForm
-            data={this.props.data}
-            onSubmit={this.submit}
-            closeForm={this.handleClose}
-          />
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          {this.state.errors.server && <ServerError />}
-          <CamperCard data={this.props.data} openForm={this.toggleForm} />
+        <div className="editable-camper">
+          <div className="card mb-3">
+            <div className="card-body">
+              <CamperForm
+                data={this.props.camper}
+                onSubmit={this.handleSubmit}
+                closeForm={this.closeForm}
+              />
+            </div>
+          </div>
         </div>
       );
     }
+    return (
+      <div className="editable-camper">
+        <div className="card mb-3">
+          <div className="card-body">
+            <Camper data={this.props.camper} openForm={this.toggleForm} />
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
