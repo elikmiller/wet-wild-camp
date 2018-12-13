@@ -53,21 +53,14 @@ class AdminSessionFull extends Component {
   addToCamp = e => {
     let { value } = e.target;
     e.preventDefault();
-    this.state.camp.waitlist.forEach((camper, i) => {
-      if (camper._id === value) {
-        this.state.camp.waitlist.splice(i, 1);
-        this.state.camp.campers.push(camper._id);
-      }
-    });
     appClient
-      .updateCamp(this.state.camp._id, {
-        campers: this.state.camp.campers,
-        waitlist: this.state.camp.waitlist
+      .moveFromWaitlist(this.state.camp._id, value)
+      .then(() => {
+        this.getCampData();
       })
       .catch(err => {
         console.error(err);
       });
-    this.getCampData();
   };
 
   // Removes camper registration

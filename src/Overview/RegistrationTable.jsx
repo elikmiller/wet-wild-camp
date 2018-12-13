@@ -25,6 +25,7 @@ class RegistrationTable extends Component {
           <td>{type}</td>
           <td>
             {reg.camper.firstName} {reg.camper.lastName}
+            {reg.waitlist && " -w"}
           </td>
           <td>
             {!reg.paid && (

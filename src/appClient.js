@@ -71,6 +71,10 @@ const updateCamp = (id, data) => {
   return appClient.patch(`/camps/${id}`, data);
 };
 
+const moveFromWaitlist = (campId, camperId) => {
+  return appClient.get(`/camps/${campId}/${camperId}`);
+};
+
 const createRegistration = data => {
   return appClient.post("/registrations", data);
 };
@@ -138,6 +142,7 @@ export default {
   getCamp,
   newCamp,
   updateCamp,
+  moveFromWaitlist,
   cancelRequest,
   createRegistration,
   getUserRegistrations,
