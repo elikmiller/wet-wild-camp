@@ -76,6 +76,16 @@ class AdminSessionFull extends Component {
       });
   };
 
+  deleteCamp = e => {
+    e.preventDefault();
+    appClient
+      .deleteCamp(this.state.camp._id)
+      .then(this.props.history.push("/admin/sessions"))
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
   // Creates list elements for waitlisted and registered campers
   generateListOfNames = (arr, waitlist) => {
     let list = arr.map((elem, i) => {
@@ -89,6 +99,10 @@ class AdminSessionFull extends Component {
               value={elem._id}
             >
               Add
+            </button>
+          ) : elem.paid ? (
+            <button className="btn btn-success btn-sm float-right" disabled>
+              Paid
             </button>
           ) : (
             <button
@@ -116,13 +130,31 @@ class AdminSessionFull extends Component {
       campers = this.generateListOfNames(camp.campers, false);
       waitlist = this.generateListOfNames(camp.waitlist, true);
     }
+
+    let deleteButton;
+    if (camp.campers) {
+      deleteButton = camp.campers.length ? (
+        <button className="btn btn-danger btn-sm float-right" disabled>
+          Delete Camp
+        </button>
+      ) : (
+        <button
+          className="btn btn-danger btn-sm float-right"
+          onClick={this.deleteCamp}
+        >
+          Delete Camp
+        </button>
+      );
+    }
     return (
       <div className="card">
         <div className="card-header">
           {camp.name} {camp.type}
+          {deleteButton}
           <button
             className="btn btn-primary btn-sm float-right"
             onClick={this.toggleForm}
+            style={{ marginRight: "15px" }}
           >
             Edit
           </button>

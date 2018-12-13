@@ -71,6 +71,10 @@ const updateCamp = (id, data) => {
   return appClient.patch(`/camps/${id}`, data);
 };
 
+const deleteCamp = id => {
+  return appClient.delete(`/camps/${id}`);
+};
+
 const moveFromWaitlist = (campId, camperId) => {
   return appClient.get(`/camps/${campId}/${camperId}`);
 };
@@ -142,6 +146,7 @@ export default {
   getCamp,
   newCamp,
   updateCamp,
+  deleteCamp,
   moveFromWaitlist,
   cancelRequest,
   createRegistration,
