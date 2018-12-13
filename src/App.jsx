@@ -4,6 +4,7 @@ import Home from "./Home.jsx";
 import Loading from "./Loading";
 import appClient from "./appClient";
 import "./App.css";
+import "./table.css";
 
 export const AuthContext = React.createContext();
 

@@ -90,7 +90,7 @@ class AdminUsers extends Component {
     });
     return (
       <div>
-        <table className="table table-sm">
+        <table className="table table-sm admin-table">
           <thead>
             <tr>
               <td style={{ minWidth: "20px" }}>
