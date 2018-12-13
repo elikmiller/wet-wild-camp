@@ -7,7 +7,23 @@ class Schedule extends Component {
   state = {
     juniorCamps: [],
     adventureCamps: [],
-    errors: {}
+    errors: {},
+    type: ""
+  };
+
+  juniorText = {
+    name: "Junior Camps",
+    type: "junior",
+    description:
+      "These camps are aimed at children between the ages of 6 and 9 years old.",
+    buttonText: "Click here to view Junior Camps"
+  };
+  adventureText = {
+    name: "Adventure Camps",
+    type: "adventure",
+    description:
+      "These camps are aimed at children between the ages of 9 and 15 years old.",
+    buttonText: "Click here to view Adventure Camps"
   };
 
   refreshSchedule = () => {
@@ -32,6 +48,13 @@ class Schedule extends Component {
       });
   };
 
+  setCampType = e => {
+    e.preventDefault();
+    this.setState({
+      type: e.target.value
+    });
+  };
+
   componentDidMount() {
     this.refreshSchedule();
   }
@@ -40,19 +63,50 @@ class Schedule extends Component {
     return (
       <div>
         {this.state.errors.server && <ServerError />}
-        <CampList
-          camps={this.state.adventureCamps}
-          type="adventure"
-          refresh={this.refreshSchedule}
-        />
-        <CampList
-          camps={this.state.juniorCamps}
-          type="junior"
-          refresh={this.refreshSchedule}
-        />
+        {this.state.type === "" && (
+          <div>
+            <CampChoice data={this.juniorText} setCampType={this.setCampType} />
+            <CampChoice
+              data={this.adventureText}
+              setCampType={this.setCampType}
+            />
+          </div>
+        )}
+        {this.state.type === "junior" && (
+          <CampList
+            camps={this.state.juniorCamps}
+            type="junior"
+            refresh={this.refreshSchedule}
+          />
+        )}
+        {this.state.type === "adventure" && (
+          <CampList
+            camps={this.state.adventureCamps}
+            type="adventure"
+            refresh={this.refreshSchedule}
+          />
+        )}
       </div>
     );
   }
 }
 
 export default Schedule;
+
+export const CampChoice = props => {
+  return (
+    <div className="card" style={{ marginBottom: "30px" }}>
+      <div className="card-body">
+        <h5 className="card-title">{props.data.name}</h5>
+        <p className="card-text">{props.data.description}</p>
+        <button
+          className="btn btn-primary btn-block"
+          value={props.data.type}
+          onClick={props.setCampType}
+        >
+          {props.data.buttonText}
+        </button>
+      </div>
+    </div>
+  );
+};
