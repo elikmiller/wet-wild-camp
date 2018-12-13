@@ -31,31 +31,42 @@ class Camp extends Component {
 
   registerCamper = () => {
     let { camp } = this.props;
-    let camper = this.state.selectedCamper;
+    let camperArr = this.state.campers.filter(camper => {
+      return camper._id === this.state.selectedCamper;
+    });
+    let camper = camperArr[0];
     if (
       camper !== "" &&
-      !camp.campers.includes(camper) &&
-      !camp.waitlist.includes(camper)
+      !camper.registrations.some(elem => camp.campers.includes(elem)) &&
+      !camper.registrations.some(elem => camp.waitlist.includes(elem))
     ) {
       let dataObject = {
         user: this.props.userId,
         camper: camper,
         camp: camp._id
       };
-      if (camp.waitlisted) {
-        dataObject["waitlist"] = true;
-      } else dataObject["waitlist"] = false;
       appClient
         .createRegistration(dataObject)
         .then(() => {
           this.toggleRegistration();
           this.setState({ selectedCamper: "" });
+          this.props.refresh();
         })
         .catch(err => {
           if (err.response.status === 500) {
             this.setState({ errors: { server: "Server error." } });
           }
         });
+    } else if (camper !== "") {
+      this.props.errorHandling({
+        registration: "Please select a camper who is not already registered."
+      });
+    } else {
+      this.setState({
+        errors: {
+          registration: "Please select a camper."
+        }
+      });
     }
   };
 

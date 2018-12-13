@@ -40,8 +40,16 @@ class Schedule extends Component {
     return (
       <div>
         {this.state.errors.server && <ServerError />}
-        <CampList camps={this.state.adventureCamps} type="adventure" />
-        <CampList camps={this.state.juniorCamps} type="junior" />
+        <CampList
+          camps={this.state.adventureCamps}
+          type="adventure"
+          refresh={this.refreshSchedule}
+        />
+        <CampList
+          camps={this.state.juniorCamps}
+          type="junior"
+          refresh={this.refreshSchedule}
+        />
       </div>
     );
   }
