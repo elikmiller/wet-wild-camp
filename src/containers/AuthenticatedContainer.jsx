@@ -9,6 +9,8 @@ import Checkout from "../Payments/Checkout.jsx";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
 import AdminUsers from "../Admin/AdminUsers/AdminUsers.jsx";
 import AdminUserFull from "../Admin/AdminUsers/AdminUserFull.jsx";
+import AdminCampers from "../Admin/AdminCampers/AdminCampers";
+import AdminCamperFull from "../Admin/AdminCampers/AdminCamperFull";
 import AdminSessions from "../Admin/AdminSessions/AdminSessions.jsx";
 import AdminSessionFull from "../Admin/AdminSessions/AdminSessionFull.jsx";
 import AdminPayments from "../Admin/AdminPayments/AdminPayments.jsx";
@@ -30,6 +32,7 @@ class AuthenticatedContainer extends Component {
   adminNavs = [
     { path: "/admin", label: "Registrations", component: AdminRegistrations },
     { path: "/admin/users", label: "Users", component: AdminUsers },
+    { path: "/admin/campers", label: "Campers", component: AdminCampers },
     {
       path: "/admin/sessions",
       label: "Camp Sessions",
@@ -68,6 +71,12 @@ class AuthenticatedContainer extends Component {
                   <Route
                     path="/admin/users/:userId"
                     component={AdminUserFull}
+                  />
+                )}
+                {this.props.isAdmin && (
+                  <Route
+                    path="/admin/campers/:camperId"
+                    component={AdminCamperFull}
                   />
                 )}
               </Switch>
