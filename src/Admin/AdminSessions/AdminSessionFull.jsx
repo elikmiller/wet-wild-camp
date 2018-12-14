@@ -86,37 +86,9 @@ class AdminSessionFull extends Component {
       });
   };
 
-  // Creates list elements for waitlisted and registered campers
-  generateListOfNames = (arr, waitlist) => {
-    let list = arr.map((elem, i) => {
-      return (
-        <li key={i} className="list-group-item">
-          {elem.camper.firstName} {elem.camper.lastName}
-          {waitlist ? (
-            <button
-              className="btn btn-primary btn-sm float-right"
-              onClick={this.addToCamp}
-              value={elem._id}
-            >
-              Add
-            </button>
-          ) : elem.paid ? (
-            <button className="btn btn-success btn-sm float-right" disabled>
-              Paid
-            </button>
-          ) : (
-            <button
-              className="btn btn-danger btn-sm float-right"
-              onClick={this.removeFromCamp}
-              value={elem._id}
-            >
-              Remove
-            </button>
-          )}
-        </li>
-      );
-    });
-    return list;
+  goToRoster = e => {
+    e.preventDefault();
+    this.props.history.push(`/admin/rosters/${this.state.camp._id}`);
   };
 
   render() {
@@ -125,11 +97,6 @@ class AdminSessionFull extends Component {
     let endDate = this.formatDate(camp.endDate);
     let openDate = this.formatDate(camp.openDate);
     let closeDate = this.formatDate(camp.closeDate);
-    let campers, waitlist;
-    if (camp.campers) {
-      campers = this.generateListOfNames(camp.campers, false);
-      waitlist = this.generateListOfNames(camp.waitlist, true);
-    }
 
     let deleteButton;
     if (camp.campers) {
@@ -146,6 +113,7 @@ class AdminSessionFull extends Component {
         </button>
       );
     }
+
     return (
       <div className="card">
         <div className="card-header">
@@ -201,20 +169,12 @@ class AdminSessionFull extends Component {
               </p>
             </div>
           </div>
-          <div className="row justify-content-around">
-            <div className="card col-lg-5" style={{ padding: "0" }}>
-              <div className="card-header">Campers</div>
-              <div className="card-body" style={{ padding: "0" }}>
-                <ul className="list-group list-group-flush">{campers}</ul>
-              </div>
-            </div>
-            <div className="card col-lg-5" style={{ padding: "0" }}>
-              <div className="card-header">Waitlist</div>
-              <div className="card-body" style={{ padding: "0" }}>
-                <ul className="list-group list-group-flush">{waitlist}</ul>
-              </div>
-            </div>
-          </div>
+          <button
+            className="btn btn-primary btn-block"
+            onClick={this.goToRoster}
+          >
+            View Roster
+          </button>
         </div>
         {this.state.formOpen && (
           <div>

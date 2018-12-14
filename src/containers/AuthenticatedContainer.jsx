@@ -13,6 +13,7 @@ import AdminCampers from "../Admin/AdminCampers/AdminCampers";
 import AdminCamperFull from "../Admin/AdminCampers/AdminCamperFull";
 import AdminSessions from "../Admin/AdminSessions/AdminSessions.jsx";
 import AdminSessionFull from "../Admin/AdminSessions/AdminSessionFull.jsx";
+import AdminSessionRoster from "../Admin/AdminSessions/AdminSessionRoster";
 import AdminPayments from "../Admin/AdminPayments/AdminPayments.jsx";
 import { Route, Switch } from "react-router-dom";
 
@@ -77,6 +78,12 @@ class AuthenticatedContainer extends Component {
                   <Route
                     path="/admin/campers/:camperId"
                     component={AdminCamperFull}
+                  />
+                )}
+                {this.props.isAdmin && (
+                  <Route
+                    path="/admin/rosters/:campId"
+                    component={AdminSessionRoster}
                   />
                 )}
               </Switch>
