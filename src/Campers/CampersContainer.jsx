@@ -18,7 +18,8 @@ class CampersContainer extends Component {
 
   refreshCampers = () => {
     this.setState({
-      isLoading: true
+      isLoading: true,
+      errors: {}
     });
     appClient
       .getCampers(this.props.userId)
@@ -85,7 +86,7 @@ class CampersContainer extends Component {
             campers={this.state.campers}
             editCamper={this.editCamper}
           />
-          <div className="col-12 col-lg-3">
+          <div className="col-12 col-lg-4">
             <ToggleableCamperForm addCamper={this.addCamper} />
           </div>
         </div>

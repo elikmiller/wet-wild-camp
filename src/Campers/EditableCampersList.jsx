@@ -6,7 +6,7 @@ class EditableCampersList extends Component {
     if (this.props.campers.length === 0) return null;
 
     return this.props.campers.map((camper, i) => (
-      <div className="col-12 col-lg-3" key={i}>
+      <div className="col-12 col-lg-4" key={i}>
         <EditableCamper camper={camper} editCamper={this.props.editCamper} />
       </div>
     ));

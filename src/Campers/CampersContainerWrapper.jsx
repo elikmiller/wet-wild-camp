@@ -4,7 +4,7 @@ import CampersContainer from "./CampersContainer";
 
 const CampersContainerWrapper = () => {
   return (
-    <div className="campers-container-wrapper">
+    <div className="wrapper campers-container-wrapper">
       <h1>Campers</h1>
       <AuthContext.Consumer>
         {auth => <CampersContainer userId={auth.userId} />}

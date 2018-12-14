@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
-import ContactInformation from "../../ContactInformation/ContactInformation";
+import ContactInformationContainer from "../../ContactInformation/ContactInformationContainer";
 import CampersContainer from "../../Campers/CampersContainer";
 
 class AdminUserFull extends Component {
@@ -39,7 +39,9 @@ class AdminUserFull extends Component {
           </p>
           <div className="card">
             <div className="card-body">
-              <ContactInformation userId={this.props.match.params.userId} />
+              <ContactInformationContainer
+                userId={this.props.match.params.userId}
+              />
             </div>
           </div>
           <div className="card" style={{ marginTop: "5px" }}>

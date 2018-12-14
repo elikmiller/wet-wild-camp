@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import validator from "validator";
-import Input from "../forms/Input";
-import PhoneInput from "../forms/PhoneInput";
+import Input from "../../forms/Input";
+import PhoneInput from "../../forms/PhoneInput";
 
 class SecondaryContactInformationForm extends Component {
   state = {
@@ -56,12 +56,10 @@ class SecondaryContactInformationForm extends Component {
     if (Object.keys(errors).length === 0) {
       let data = this.state.formValues;
       this.props.onSubmit({
-        secondaryContact: {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          phoneNumber: data.phoneNumber,
-          email: data.email
-        }
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber,
+        email: data.email
       });
     }
   };

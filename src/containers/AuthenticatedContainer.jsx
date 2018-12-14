@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import SideNav from "../SideNav.jsx";
-import Overview from "../Overview/Overview.jsx";
+import OverviewContainerWrapper from "../Overview/OverviewContainerWrapper.jsx";
 import CampersContainerWrapper from "../Campers/CampersContainerWrapper.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
-import ContactInfoWrapper from "../ContactInformation/ContactInfoWrapper.jsx";
+import ContactInformationContainerWrapper from "../ContactInformation/ContactInformationContainerWrapper.jsx";
 import Payments from "../Payments/Payments.jsx";
 import Checkout from "../Payments/Checkout.jsx";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
@@ -19,13 +19,13 @@ import { Route, Switch } from "react-router-dom";
 
 class AuthenticatedContainer extends Component {
   navs = [
-    { path: "/", label: "Overview", component: Overview },
+    { path: "/", label: "Overview", component: OverviewContainerWrapper },
     { path: "/campers", label: "Campers", component: CampersContainerWrapper },
     { path: "/schedule", label: "Register", component: Schedule },
     {
       path: "/contact-information",
-      label: "Update Contact Information",
-      component: ContactInfoWrapper
+      label: "Contact Information",
+      component: ContactInformationContainerWrapper
     },
     { path: "/payments", label: "Payments", component: Payments }
   ];
