@@ -8,10 +8,6 @@ class EditableCamper extends Component {
     errors: {}
   };
 
-  toggleForm = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
-
   handleSubmit = camper => {
     this.props.editCamper(this.props.camper._id, camper);
   };
@@ -27,10 +23,6 @@ class EditableCamper extends Component {
       isOpen: false
     });
   };
-
-  componentWillMount() {
-    if (!this.props.camper) this.toggleForm();
-  }
 
   render() {
     if (this.state.isOpen) {
@@ -52,7 +44,7 @@ class EditableCamper extends Component {
       <div className="editable-camper">
         <div className="card mb-3">
           <div className="card-body">
-            <Camper data={this.props.camper} openForm={this.toggleForm} />
+            <Camper data={this.props.camper} openForm={this.openForm} />
           </div>
         </div>
       </div>
