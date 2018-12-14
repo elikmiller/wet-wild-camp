@@ -1,31 +1,15 @@
 import React, { Component } from "react";
-import PrimaryContactInformationForm from "./PrimaryContactInformationForm.jsx";
-import SecondaryContactInformationForm from "./SecondaryContactInformationForm.jsx";
-import EmergencyContactInformationForm from "./EmergencyContactInformationForm.jsx";
-import EditableContact from "./EditableContact.jsx";
+import EditablePrimaryContactInformation from "./EditablePrimaryContactInformation.jsx";
 import ServerError from "../forms/ServerError";
 import appClient from "../appClient";
 import Spinner from "../Spinner/Spinner";
 
-class ContactInformation extends Component {
+class ContactInformationContainer extends Component {
   state = {
-    forms: [
-      {
-        title: "Primary Contact",
-        component: PrimaryContactInformationForm,
-        data: {}
-      },
-      {
-        title: "Secondary Contact",
-        component: SecondaryContactInformationForm,
-        data: {}
-      },
-      {
-        title: "Emergency Contact",
-        component: EmergencyContactInformationForm,
-        data: {}
-      }
-    ],
+    isLoading: false,
+    primaryContactInformation: {},
+    secondaryContactInformation: {},
+    emergencyContactInformation: {},
     errors: {}
   };
 
@@ -34,21 +18,41 @@ class ContactInformation extends Component {
   }
 
   refreshContacts = () => {
+    this.setState({
+      isLoading: true,
+      errors: {}
+    });
     appClient
       .getContacts(this.props.userId)
       .then(res => {
-        let formObject = this.state.forms.slice(0);
-        formObject[0].data = res.data.primaryContact;
-        formObject[1].data = res.data.secondaryContact;
-        formObject[2].data = res.data.emergencyContact;
         this.setState({
-          forms: formObject
+          primaryContactInformation: res.data.primaryContact,
+          secondaryContactInformation: res.data.secondaryContact,
+          emergencyContactInformation: res.data.emergencyContact,
+          isLoading: false
         });
       })
       .catch(err => {
         if (err.response.status === 401) {
           this.props.logout();
         } else if (err.response.status === 500) {
+          this.setState({
+            errors: { server: "Server error." },
+            isLoading: false
+          });
+        }
+      });
+  };
+
+  updateUser = data => {
+    appClient
+      .updateUser({ id: this.props.userId, data })
+      .then(() => {
+        this.refreshContacts();
+      })
+      .catch(err => {
+        console.error(err);
+        if (err.response.status === 500) {
           this.setState({ errors: { server: "Server error." } });
         }
       });
@@ -59,22 +63,19 @@ class ContactInformation extends Component {
     if (this.state.errors.server) return <ServerError />;
     return (
       <div className="contact-information-container">
-        <div className="row">
-          {this.state.forms.map((form, i) => {
-            return (
-              <div className="col" key={i}>
-                <EditableContact
-                  form={form}
-                  refreshContacts={this.refreshContacts}
-                  userId={this.props.userId}
-                />
-              </div>
-            );
-          })}
-        </div>
+        <EditablePrimaryContactInformation
+          data={this.state.primaryContactInformation}
+          updateUser={this.updateUser}
+        />
+        {/* <EditableSecondaryContactInformation
+          data={this.state.secondaryContact}
+        />
+        <EditableEmergencyContactInformation
+          data={this.state.emergencyContact}
+        /> */}
       </div>
     );
   }
 }
 
-export default ContactInformation;
+export default ContactInformationContainer;

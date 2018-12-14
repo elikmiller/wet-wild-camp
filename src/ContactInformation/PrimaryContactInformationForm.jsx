@@ -11,7 +11,7 @@ class PrimaryContactInformationForm extends Component {
       phoneNumber: this.props.data.phoneNumber || "",
       email: this.props.data.email || "",
       streetAddress: this.props.data.streetAddress || "",
-      addressLineTwo: this.props.data.addressLineTwo || "",
+      streetAddress2: this.props.data.streetAddress2 || "",
       city: this.props.data.city || "",
       usState: this.props.data.state || "",
       zipCode: this.props.data.zipCode || ""
@@ -61,17 +61,15 @@ class PrimaryContactInformationForm extends Component {
     if (Object.keys(errors).length === 0) {
       let data = this.state.formValues;
       this.props.onSubmit({
-        primaryContact: {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          phoneNumber: data.phoneNumber,
-          email: data.email,
-          streetAddress: data.streetAddress,
-          addressLineTwo: data.addressLineTwo,
-          city: data.city,
-          state: data.usState,
-          zipCode: data.zipCode
-        }
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber,
+        email: data.email,
+        streetAddress: data.streetAddress,
+        streetAddress2: data.streetAddress2,
+        city: data.city,
+        state: data.usState,
+        zipCode: data.zipCode
       });
     }
   };
@@ -132,13 +130,13 @@ class PrimaryContactInformationForm extends Component {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="addressLineTwo">Address (Line 2)</label>
+            <label htmlFor="streetAddress2">Address (Line 2)</label>
             <input
-              name="addressLineTwo"
+              name="streetAddress2"
               type="input"
               className="form-control"
               onChange={this.handleChange}
-              value={this.state.formValues["addressLineTwo"]}
+              value={this.state.formValues["streetAddress2"]}
             />
           </div>
           <div className="form-group">
