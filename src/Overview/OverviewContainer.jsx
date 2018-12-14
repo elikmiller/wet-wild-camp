@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { AuthContext } from "../App";
 import appClient from "../appClient";
 import RegistrationTable from "./RegistrationTable";
 import ServerError from "../forms/ServerError";
 
-class Overview extends Component {
+class OverviewContainer extends Component {
   state = {
     registrations: [],
     errors: {}
@@ -52,16 +51,15 @@ class Overview extends Component {
           <br />
           <p>Use the sidebar to:</p>
           <ul className="list-group list-group-flush">
-            <li className="list-group-item">Fill out "Update Contact Info"</li>
-            <li className="list-group-item">Fill out "Camper" info</li>
-            <li className="list-group-item">Register</li>
+            <li className="list-group-item">Share your Contact Information</li>
+            <li className="list-group-item">Tell us about your Campers</li>
+            <li className="list-group-item">Register for our Camps</li>
           </ul>
         </div>
       );
     }
     return (
       <div>
-        <h1>Overview</h1>
         {this.state.errors.server && <ServerError />}
         {content}
       </div>
@@ -69,8 +67,4 @@ class Overview extends Component {
   }
 }
 
-export default props => (
-  <AuthContext.Consumer>
-    {auth => <Overview userId={auth.userId} logout={auth.logout} {...props} />}
-  </AuthContext.Consumer>
-);
+export default OverviewContainer;

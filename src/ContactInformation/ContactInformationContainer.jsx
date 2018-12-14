@@ -5,6 +5,7 @@ import EmergencyContactInformationForm from "./EmergencyContactInformationForm.j
 import EditableContact from "./EditableContact.jsx";
 import ServerError from "../forms/ServerError";
 import appClient from "../appClient";
+import Spinner from "../Spinner/Spinner";
 
 class ContactInformation extends Component {
   state = {
@@ -54,20 +55,23 @@ class ContactInformation extends Component {
   };
 
   render() {
+    if (this.state.isLoading) return <Spinner />;
+    if (this.state.errors.server) return <ServerError />;
     return (
-      <div className="row">
-        {this.state.errors.server && <ServerError />}
-        {this.state.forms.map((form, i) => {
-          return (
-            <div className="col" key={i}>
-              <EditableContact
-                form={form}
-                refreshContacts={this.refreshContacts}
-                userId={this.props.userId}
-              />
-            </div>
-          );
-        })}
+      <div className="contact-information-container">
+        <div className="row">
+          {this.state.forms.map((form, i) => {
+            return (
+              <div className="col" key={i}>
+                <EditableContact
+                  form={form}
+                  refreshContacts={this.refreshContacts}
+                  userId={this.props.userId}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
