@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import validator from "validator";
-import Input from "../forms/Input";
-import PhoneInput from "../forms/PhoneInput";
+import Input from "../../forms/Input";
+import PhoneInput from "../../forms/PhoneInput";
 
-class SecondaryContactInformationForm extends Component {
+class EmergencyContactInformationForm extends Component {
   state = {
     formValues: {
       firstName: this.props.data.firstName || "",
       lastName: this.props.data.lastName || "",
-      phoneNumber: this.props.data.phoneNumber || "",
-      email: this.props.data.email || ""
+      phoneNumber: this.props.data.phoneNumber || ""
     },
     errors: {},
     wasValidated: false
@@ -26,10 +25,6 @@ class SecondaryContactInformationForm extends Component {
       errors.phoneNumber = "Please enter a valid phone number.";
     if (validator.isEmpty(formValues.phoneNumber + ""))
       errors.phoneNumber = "Phone number is required.";
-    if (!validator.isEmail(formValues.email + ""))
-      errors.email = "Please enter a valid email address.";
-    if (validator.isEmpty(formValues.email + ""))
-      errors.email = "Email address is required.";
     return errors;
   };
 
@@ -56,12 +51,9 @@ class SecondaryContactInformationForm extends Component {
     if (Object.keys(errors).length === 0) {
       let data = this.state.formValues;
       this.props.onSubmit({
-        secondaryContact: {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          phoneNumber: data.phoneNumber,
-          email: data.email
-        }
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber
       });
     }
   };
@@ -73,7 +65,7 @@ class SecondaryContactInformationForm extends Component {
 
   render() {
     return (
-      <div className="secondary-contact-information-form">
+      <div className="emergency-contact-information-form">
         <form onSubmit={this.props.onSubmit}>
           <Input
             name="firstName"
@@ -102,15 +94,6 @@ class SecondaryContactInformationForm extends Component {
             error={this.state.errors.phoneNumber}
             value={this.state.formValues["phoneNumber"]}
           />
-          <Input
-            name="email"
-            label="Email"
-            type="input"
-            onChange={this.handleChange}
-            wasValidated={this.state.wasValidated}
-            error={this.state.errors.firstName}
-            value={this.state.formValues["email"]}
-          />
           <div className="form-group">
             <button className="btn btn-primary" onClick={this.handleSubmit}>
               Save
@@ -129,4 +112,4 @@ class SecondaryContactInformationForm extends Component {
   }
 }
 
-export default SecondaryContactInformationForm;
+export default EmergencyContactInformationForm;

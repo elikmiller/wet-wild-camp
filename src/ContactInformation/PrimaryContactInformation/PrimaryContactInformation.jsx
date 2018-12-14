@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 class PrimaryContactInformation extends Component {
   render() {
-    console.log(this.props.data);
     return (
       <div className="primary-contact-information">
         <h2>Primary Contact Information</h2>

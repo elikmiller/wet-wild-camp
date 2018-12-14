@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import EditablePrimaryContactInformation from "./EditablePrimaryContactInformation.jsx";
+import EditablePrimaryContactInformation from "./PrimaryContactInformation/EditablePrimaryContactInformation.jsx";
+import EditableSecondaryContactInformation from "./SecondaryContactInformation/EditableSecondaryContactInformation.jsx";
+import EditableEmergencyContactInformation from "./EmergencyContactInformation/EditableEmergencyContactInformation.jsx";
 import ServerError from "../forms/ServerError";
 import appClient from "../appClient";
 import Spinner from "../Spinner/Spinner";
@@ -67,12 +69,16 @@ class ContactInformationContainer extends Component {
           data={this.state.primaryContactInformation}
           updateUser={this.updateUser}
         />
-        {/* <EditableSecondaryContactInformation
-          data={this.state.secondaryContact}
+        <hr />
+        <EditableSecondaryContactInformation
+          data={this.state.secondaryContactInformation}
+          updateUser={this.updateUser}
         />
+        <hr />
         <EditableEmergencyContactInformation
-          data={this.state.emergencyContact}
-        /> */}
+          data={this.state.emergencyContactInformation}
+          updateUser={this.updateUser}
+        />
       </div>
     );
   }

@@ -1,20 +1,15 @@
 import React, { Component } from "react";
 import validator from "validator";
-import Input from "../forms/Input";
-import PhoneInput from "../forms/PhoneInput";
+import Input from "../../forms/Input";
+import PhoneInput from "../../forms/PhoneInput";
 
-class PrimaryContactInformationForm extends Component {
+class SecondaryContactInformationForm extends Component {
   state = {
     formValues: {
       firstName: this.props.data.firstName || "",
       lastName: this.props.data.lastName || "",
       phoneNumber: this.props.data.phoneNumber || "",
-      email: this.props.data.email || "",
-      streetAddress: this.props.data.streetAddress || "",
-      streetAddress2: this.props.data.streetAddress2 || "",
-      city: this.props.data.city || "",
-      usState: this.props.data.state || "",
-      zipCode: this.props.data.zipCode || ""
+      email: this.props.data.email || ""
     },
     errors: {},
     wasValidated: false
@@ -64,12 +59,7 @@ class PrimaryContactInformationForm extends Component {
         firstName: data.firstName,
         lastName: data.lastName,
         phoneNumber: data.phoneNumber,
-        email: data.email,
-        streetAddress: data.streetAddress,
-        streetAddress2: data.streetAddress2,
-        city: data.city,
-        state: data.usState,
-        zipCode: data.zipCode
+        email: data.email
       });
     }
   };
@@ -81,7 +71,7 @@ class PrimaryContactInformationForm extends Component {
 
   render() {
     return (
-      <div className="primary-contact-information-form">
+      <div className="secondary-contact-information-form">
         <form onSubmit={this.props.onSubmit}>
           <Input
             name="firstName"
@@ -113,62 +103,12 @@ class PrimaryContactInformationForm extends Component {
           <Input
             name="email"
             label="Email"
-            type="email"
+            type="input"
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
-            error={this.state.errors.email}
+            error={this.state.errors.firstName}
             value={this.state.formValues["email"]}
           />
-          <div className="form-group">
-            <label htmlFor="streetAddress">Address</label>
-            <input
-              name="streetAddress"
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["streetAddress"]}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="streetAddress2">Address (Line 2)</label>
-            <input
-              name="streetAddress2"
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["streetAddress2"]}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="city">City</label>
-            <input
-              name="city"
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["city"]}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="usState">State</label>
-            <input
-              name="usState"
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["usState"]}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="zipCode">Zip Code</label>
-            <input
-              name="zipCode"
-              type="input"
-              className="form-control"
-              onChange={this.handleChange}
-              value={this.state.formValues["zipCode"]}
-            />
-          </div>
           <div className="form-group">
             <button className="btn btn-primary" onClick={this.handleSubmit}>
               Save
@@ -187,4 +127,4 @@ class PrimaryContactInformationForm extends Component {
   }
 }
 
-export default PrimaryContactInformationForm;
+export default SecondaryContactInformationForm;
