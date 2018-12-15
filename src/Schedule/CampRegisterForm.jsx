@@ -71,9 +71,11 @@ class CampRegisterForm extends Component {
     let camperArr = this.state.campers.filter(camper => {
       return camper._id === this.state.formValues.selectedCamper;
     });
-    let camper = camperArr[0];
+    let camper = camperArr.length ? camperArr[0] : "";
     if (
       camper !== "" &&
+      formValues.morningDropoff !== "" &&
+      formValues.afternoonPickup !== "" &&
       !camper.registrations.some(elem => camp.campers.includes(elem)) &&
       !camper.registrations.some(elem => camp.waitlist.includes(elem))
     ) {
@@ -94,14 +96,26 @@ class CampRegisterForm extends Component {
             this.setState({ errors: { server: "Server error." } });
           }
         });
-    } else if (camper !== "") {
-      this.props.errorHandling({
-        registration: "Please select a camper who is not already registered."
+    } else if (
+      camper !== "" &&
+      formValues.morningDropoff !== "" &&
+      formValues.afternoonPickup !== ""
+    ) {
+      this.setState({
+        errors: {
+          registration: "Please select a camper who is not already registered."
+        }
+      });
+    } else if (camper === "") {
+      this.setState({
+        errors: {
+          registration: "Please select a camper."
+        }
       });
     } else {
       this.setState({
         errors: {
-          registration: "Please select a camper."
+          registration: "Please select dropoff and pickup locations."
         }
       });
     }
