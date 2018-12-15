@@ -18,9 +18,7 @@ class InputDropdown extends Component {
           disabled={this.props.disabled}
         >
           {this.props.placeholder && (
-            <option value="" disabled>
-              {this.props.placeholder}
-            </option>
+            <option value="">{this.props.placeholder}</option>
           )}
           {this.props.options.map(option => (
             <option value={option.value} key={option.value}>

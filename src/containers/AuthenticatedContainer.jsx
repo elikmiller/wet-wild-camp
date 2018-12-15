@@ -3,6 +3,8 @@ import SideNav from "../SideNav.jsx";
 import OverviewContainerWrapper from "../Overview/OverviewContainerWrapper.jsx";
 import CampersContainerWrapper from "../Campers/CampersContainerWrapper.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
+import CampRegisterFormWrapper from "../Schedule/CampRegisterFormWrapper";
+import CampRegisterResult from "../Schedule/CampRegisterResult";
 import ContactInformationContainerWrapper from "../ContactInformation/ContactInformationContainerWrapper.jsx";
 import Payments from "../Payments/Payments.jsx";
 import Checkout from "../Payments/Checkout.jsx";
@@ -86,6 +88,16 @@ class AuthenticatedContainer extends Component {
                     component={AdminSessionRoster}
                   />
                 )}
+                <Route
+                  exact
+                  path="/schedule/:campId"
+                  component={CampRegisterFormWrapper}
+                />
+                <Route
+                  exact
+                  path="/schedule/0/:status"
+                  component={CampRegisterResult}
+                />
               </Switch>
             </div>
           </div>

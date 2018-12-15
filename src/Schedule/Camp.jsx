@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { AuthContext } from "../App";
-import appClient from "../appClient";
+import { Link } from "react-router-dom";
 
 class Camp extends Component {
   state = {
@@ -8,66 +8,6 @@ class Camp extends Component {
     campers: [],
     selectedCamper: "",
     errors: {}
-  };
-
-  getCampers = () => {
-    appClient
-      .getCampers(this.props.userId)
-      .then(campers => {
-        this.setState({ campers: campers.data });
-      })
-      .catch(err => {
-        if (err.response) {
-          if (err.response.status === 401) this.props.logout();
-        } else if (err.response.status === 500) {
-          this.setState({ errors: { server: "Server error." } });
-        }
-      });
-  };
-
-  handleChange = e => {
-    this.setState({ selectedCamper: e.target.value });
-  };
-
-  registerCamper = () => {
-    let { camp } = this.props;
-    let camperArr = this.state.campers.filter(camper => {
-      return camper._id === this.state.selectedCamper;
-    });
-    let camper = camperArr[0];
-    if (
-      camper !== "" &&
-      !camper.registrations.some(elem => camp.campers.includes(elem)) &&
-      !camper.registrations.some(elem => camp.waitlist.includes(elem))
-    ) {
-      let dataObject = {
-        user: this.props.userId,
-        camper: camper,
-        camp: camp._id
-      };
-      appClient
-        .createRegistration(dataObject)
-        .then(() => {
-          this.toggleRegistration();
-          this.setState({ selectedCamper: "" });
-          this.props.refresh();
-        })
-        .catch(err => {
-          if (err.response.status === 500) {
-            this.setState({ errors: { server: "Server error." } });
-          }
-        });
-    } else if (camper !== "") {
-      this.props.errorHandling({
-        registration: "Please select a camper who is not already registered."
-      });
-    } else {
-      this.setState({
-        errors: {
-          registration: "Please select a camper."
-        }
-      });
-    }
   };
 
   calculateSpaceRemaining = () => {
@@ -79,57 +19,15 @@ class Camp extends Component {
     return "waitlisted";
   };
 
-  toggleRegistration = () => {
-    this.setState({ registerOpen: !this.state.registerOpen });
+  goToRegistration = e => {
+    e.preventDefault();
+    this.props.history.push(`/schedule/${this.props.camp._id}`);
   };
-
-  componentDidMount() {
-    this.getCampers();
-  }
-
-  componentWillUnmount() {
-    if (this.state.fetchingData) appClient.cancelRequest();
-  }
 
   render() {
     let { camp } = this.props;
     // Calculates remaining space in camp
     let spaceRemaining = this.calculateSpaceRemaining();
-    // Generates list of campers for select menu
-    let selectCamper = this.state.campers.map((camper, i) => {
-      return (
-        <option key={i} value={camper._id}>
-          {camper.firstName} {camper.lastName}
-        </option>
-      );
-    });
-
-    // Generates inline registration when opened
-    let registerDisplay = this.state.registerOpen ? (
-      <tr>
-        <td colSpan="2">
-          <select
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-          >
-            <option value="">Select a camper...</option>
-            {selectCamper}
-          </select>
-        </td>
-        <td />
-        <td colSpan="2">
-          <button
-            className="btn btn-primary float-right btn-sm"
-            onClick={this.registerCamper}
-          >
-            {camp.waitlisted ? "Join Waitlist" : "Register Camper"}
-          </button>
-        </td>
-      </tr>
-    ) : (
-      <tr colSpan="5" />
-    );
-
     return (
       <tbody>
         <tr>
@@ -139,15 +37,13 @@ class Camp extends Component {
           <td>${camp.fee}</td>
           <td>{spaceRemaining}</td>
           <td>
-            <button
-              className="btn btn-secondary float-right btn-sm"
-              onClick={this.toggleRegistration}
-            >
-              {this.state.registerOpen ? "Cancel" : "Register"}
-            </button>
+            <Link to={`/schedule/${this.props.camp._id}`}>
+              <button className="btn btn-secondary float-right btn-sm">
+                Register
+              </button>
+            </Link>
           </td>
         </tr>
-        {registerDisplay}
       </tbody>
     );
   }

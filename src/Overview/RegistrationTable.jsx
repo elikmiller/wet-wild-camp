@@ -15,17 +15,26 @@ class RegistrationTable extends Component {
       });
   };
 
+  capitalizeFirst = str => {
+    return str.charAt(0).toUpperCase() + str.substr(1);
+  };
+
   render() {
     let content = this.props.data.map((reg, i) => {
-      let type =
-        reg.camp.type.charAt(0).toUpperCase() + reg.camp.type.substr(1);
+      let type = this.capitalizeFirst(reg.camp.type);
       return (
         <tr key={i}>
           <td>{reg.camp.name}</td>
           <td>{type}</td>
           <td>
             {reg.camper.firstName} {reg.camper.lastName}
-            {reg.waitlist && " -w"}
+          </td>
+          <td>{this.capitalizeFirst(reg.morningDropoff || "")}</td>
+          <td>{this.capitalizeFirst(reg.afternoonPickup || "")}</td>
+          <td>
+            {reg.waitlist && (
+              <span className="badge badge-warning">Waitlisted</span>
+            )}
           </td>
           <td>
             {!reg.paid && (
@@ -59,6 +68,9 @@ class RegistrationTable extends Component {
             <th>Camp Session</th>
             <th>Camp</th>
             <th>Camper</th>
+            <th>Dropoff</th>
+            <th>Pickup</th>
+            <th />
             <th />
           </tr>
         </thead>
