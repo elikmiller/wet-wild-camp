@@ -18,7 +18,8 @@ class PrimaryContactInformation extends Component {
           <br />
           {this.props.data.streetAddress2}
           <br />
-          {this.props.data.city}, {this.props.data.state}{" "}
+          {this.props.data.city &&
+            `${this.props.data.city}, ${this.props.data.state} `}
           {this.props.data.zipCode}
         </p>
         <button className="btn btn-primary" onClick={this.props.openForm}>

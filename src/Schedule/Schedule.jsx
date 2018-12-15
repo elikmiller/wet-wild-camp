@@ -62,6 +62,18 @@ class Schedule extends Component {
   render() {
     return (
       <div>
+        <div className="alert alert-dark" role="alert">
+          <p>
+            The <strong>Register</strong> page is where you can begin the
+            registration process for our camp sessions.
+          </p>
+          <hr />
+          <p className="mb-0">
+            Choose between our two camp types based on the age of the child you
+            want to register. 9 year olds can choose between Junior and
+            Adventure camps.
+          </p>
+        </div>
         {this.state.errors.server && <ServerError />}
         {this.state.type === "" && (
           <div>

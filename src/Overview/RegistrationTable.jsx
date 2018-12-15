@@ -37,7 +37,7 @@ class RegistrationTable extends Component {
             )}
           </td>
           <td>
-            {!reg.paid && (
+            {!reg.paid && !reg.deposit && (
               <button
                 type="button"
                 className="btn btn-danger btn-sm"
@@ -47,6 +47,16 @@ class RegistrationTable extends Component {
                 Cancel
               </button>
             )}
+            {!reg.paid && reg.deposit && (
+              <button
+                type="button"
+                className="btn btn-warning btn-sm"
+                onClick={e => e.preventDefault()}
+                disabled
+              >
+                Deposit Only
+              </button>
+            )}
             {reg.paid && (
               <button
                 type="button"
@@ -54,7 +64,7 @@ class RegistrationTable extends Component {
                 onClick={e => e.preventDefault()}
                 disabled
               >
-                Paid
+                Paid in Full
               </button>
             )}
           </td>
