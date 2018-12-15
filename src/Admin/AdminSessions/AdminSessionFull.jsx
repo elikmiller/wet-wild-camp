@@ -21,7 +21,6 @@ class AdminSessionFull extends Component {
     appClient
       .getCamp(this.props.match.params.sessionId)
       .then(camp => {
-        console.log(camp.data);
         this.setState({
           camp: camp.data
         });

@@ -37,7 +37,7 @@ class EmailForm extends Component {
     for (let i = 0; i < emails.length; i++) {
       if (i < emails.length - 1 && emails.length > 2) {
         emailString += `${emails[i]}, `;
-      } else if (i < emails.length - 1) {
+      } else if (i < emails.length - 1 || i === 0) {
         emailString += `${emails[i]} `;
       } else {
         emailString += `and ${emails[i]}`;

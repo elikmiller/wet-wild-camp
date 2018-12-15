@@ -39,21 +39,34 @@ class AdminRosterCell extends Component {
     ) : (
       <span className="badge badge-secondary">None</span>
     );
-    let removeButton = data.registration.paid ? (
-      <button className="btn btn-success btn-sm" disabled>
-        Paid
-      </button>
-    ) : (
-      <button className="btn btn-danger btn-sm" onClick={this.removeFromCamp}>
-        Remove
-      </button>
-    );
+    let removeButton;
+    if (data.registration.paid) {
+      removeButton = (
+        <button className="btn btn-success btn-sm" disabled>
+          Paid in Full
+        </button>
+      );
+    } else if (data.registration.deposit) {
+      removeButton = (
+        <button className="btn btn-warning btn-sm" disabled>
+          Deposit Paid
+        </button>
+      );
+    } else {
+      removeButton = (
+        <button className="btn btn-danger btn-sm" onClick={this.removeFromCamp}>
+          Remove
+        </button>
+      );
+    }
     return (
       <tr>
         <td>{data.firstName}</td>
         <td>{data.lastName}</td>
         <td>{this.calculateAge(data.dateOfBirth)}</td>
         <td>{badge}</td>
+        <td>{data.morningDropoff}</td>
+        <td>{data.afternoonPickup}</td>
         <td>
           {type === "waitlist" && (
             <button className="btn btn-primary btn-sm" onClick={this.addToCamp}>

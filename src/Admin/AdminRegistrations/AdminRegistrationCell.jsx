@@ -22,8 +22,15 @@ class AdminRegistrationCell extends Component {
         </td>
         <td>{date}</td>
         <td>
-          {data.paid && <span className="badge badge-success">Paid</span>}
-          {!data.paid && <span className="badge badge-danger">Unpaid</span>}
+          {data.paid && (
+            <span className="badge badge-success">Paid in Full</span>
+          )}
+          {data.deposit && (
+            <span className="badge badge-warning">Deposit Paid</span>
+          )}
+          {!data.paid && !data.deposit && (
+            <span className="badge badge-danger">Unpaid</span>
+          )}
         </td>
       </tr>
     );

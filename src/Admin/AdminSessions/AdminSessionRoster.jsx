@@ -8,6 +8,7 @@ class AdminSessionRoster extends Component {
     campers: [],
     waitlist: [],
     campId: "",
+    camp: {},
     listShowing: "roster",
     sortStatus: {
       firstName: {
@@ -25,23 +26,49 @@ class AdminSessionRoster extends Component {
       notes: {
         engaged: false,
         ascending: true
+      },
+      morningDropoff: {
+        engaged: false,
+        ascending: true
+      },
+      afternoonPickup: {
+        engaged: false,
+        ascending: true
       }
     }
   };
 
   componentDidMount() {
+    this.getCamp();
     this.refreshCampers();
   }
 
+  getCamp = () => {
+    appClient
+      .getCamp(this.props.match.params.campId)
+      .then(camp => {
+        this.setState({
+          camp: camp.data
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
   refreshCampers = () => {
     let { campId } = this.props.match.params;
-    appClient.getCamp(this.props.match.params.campId).then(camp => {
+    appClient.getCamp(campId).then(camp => {
       let camperArray = camp.data.campers.map(registration => {
         registration.camper["registration"] = registration;
+        registration.camper["morningDropoff"] = registration.morningDropoff;
+        registration.camper["afternoonPickup"] = registration.afternoonPickup;
         return registration.camper;
       });
       let waitlistArray = camp.data.waitlist.map(registration => {
         registration.camper["registration"] = registration;
+        registration.camper["morningDropoff"] = registration.morningDropoff;
+        registration.camper["afternoonPickup"] = registration.afternoonPickup;
         return registration.camper;
       });
       this.setState({
@@ -102,8 +129,9 @@ class AdminSessionRoster extends Component {
           View {this.capitalizeFirst(buttonText)}
         </button>
         <br />
-        <br />
-        <h1>{this.capitalizeFirst(this.state.listShowing)}</h1>
+        <h3>{`${this.state.camp.name || ""} ${this.capitalizeFirst(
+          this.state.camp.type || ""
+        )} ${this.capitalizeFirst(this.state.listShowing)}`}</h3>
         <table className="table table-sm admin-table">
           <thead>
             <tr>
@@ -145,6 +173,26 @@ class AdminSessionRoster extends Component {
                   value="notes"
                 >
                   Notes?
+                </button>
+              </td>
+              <td>
+                <button
+                  className="btn btn-light btn-sm"
+                  onClick={this.handleCamperSort}
+                  id="morningDropoff"
+                  value="morningDropoff"
+                >
+                  Morning
+                </button>
+              </td>
+              <td>
+                <button
+                  className="btn btn-light btn-sm"
+                  onClick={this.handleCamperSort}
+                  id="afternoonPickup"
+                  value="afternoonPickup"
+                >
+                  Afternoon
                 </button>
               </td>
               <td />
