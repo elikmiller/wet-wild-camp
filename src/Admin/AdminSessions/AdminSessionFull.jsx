@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import AdminSessionForm from "./AdminSessionForm";
 import moment from "moment";
+import EmailForm from "../../forms/EmailForm";
 
 class AdminSessionFull extends Component {
   state = {
     camp: {},
+    emailList: [],
     formOpen: false
   };
 
@@ -21,8 +23,15 @@ class AdminSessionFull extends Component {
     appClient
       .getCamp(this.props.match.params.sessionId)
       .then(camp => {
+        let emailList = camp.data.campers.map(camper => {
+          return camper.user.email;
+        });
+        let filteredList = emailList.filter((email, i) => {
+          return emailList.indexOf(email) === i;
+        });
         this.setState({
-          camp: camp.data
+          camp: camp.data,
+          emailList: filteredList
         });
       })
       .catch(err => {
@@ -114,77 +123,81 @@ class AdminSessionFull extends Component {
     }
 
     return (
-      <div className="card">
-        <div className="card-header">
-          {camp.name} {camp.type}
-          {deleteButton}
-          <button
-            className="btn btn-primary btn-sm float-right"
-            onClick={this.toggleForm}
-            style={{ marginRight: "15px" }}
-          >
-            Edit
-          </button>
-        </div>
-        <div className="card-body">
-          <div className="row justify-content-around">
-            <div className="col-lg-5">
-              <p className="card-text">
-                {camp.description || "No description provided."}
-              </p>
-              <br />
-              <p className="card-text">
-                <strong>Number of Registrants: </strong>
-                {camp.campers ? camp.campers.length : "Awaiting Data"}
-              </p>
-              <p className="card-text">
-                <strong>Capacity: </strong>
-                {camp.capacity ? camp.capacity : "Awaiting Data"}
-              </p>
-              <br />
-              <p className="card-text">
-                <strong>Fee: </strong>
-                {camp.fee ? `$${camp.fee}` : "Awaiting Data"}
-              </p>
-              <br />
-            </div>
-            <div className="col-lg-5">
-              <p className="card-text">
-                <strong>Start: </strong>
-                {startDate ? startDate : "Awaiting Data"}
-              </p>
-              <p className="card-text">
-                <strong>End: </strong>
-                {endDate ? endDate : "Awaiting Data"}
-              </p>
-              <br />
-              <p className="card-text">
-                <strong>Registration Open: </strong>
-                {openDate ? openDate : "Awaiting Data"}
-              </p>
-              <p className="card-text">
-                <strong>Registration Close: </strong>
-                {closeDate ? closeDate : "Awaiting Data"}
-              </p>
-            </div>
+      <div>
+        <div className="card">
+          <div className="card-header">
+            {camp.name} {camp.type}
+            {deleteButton}
+            <button
+              className="btn btn-primary btn-sm float-right"
+              onClick={this.toggleForm}
+              style={{ marginRight: "15px" }}
+            >
+              Edit
+            </button>
           </div>
-          <button
-            className="btn btn-primary btn-block"
-            onClick={this.goToRoster}
-          >
-            View Roster
-          </button>
-        </div>
-        {this.state.formOpen && (
-          <div>
-            <h3 className="center">Edit Form</h3>
-            <AdminSessionForm
-              handleSubmit={this.handleSubmit}
-              handleClose={this.toggleForm}
-              data={this.state.camp}
-            />
+          <div className="card-body">
+            <div className="row justify-content-around">
+              <div className="col-lg-5">
+                <p className="card-text">
+                  {camp.description || "No description provided."}
+                </p>
+                <br />
+                <p className="card-text">
+                  <strong>Number of Registrants: </strong>
+                  {camp.campers ? camp.campers.length : "Awaiting Data"}
+                </p>
+                <p className="card-text">
+                  <strong>Capacity: </strong>
+                  {camp.capacity ? camp.capacity : "Awaiting Data"}
+                </p>
+                <br />
+                <p className="card-text">
+                  <strong>Fee: </strong>
+                  {camp.fee ? `$${camp.fee}` : "Awaiting Data"}
+                </p>
+                <br />
+              </div>
+              <div className="col-lg-5">
+                <p className="card-text">
+                  <strong>Start: </strong>
+                  {startDate ? startDate : "Awaiting Data"}
+                </p>
+                <p className="card-text">
+                  <strong>End: </strong>
+                  {endDate ? endDate : "Awaiting Data"}
+                </p>
+                <br />
+                <p className="card-text">
+                  <strong>Registration Open: </strong>
+                  {openDate ? openDate : "Awaiting Data"}
+                </p>
+                <p className="card-text">
+                  <strong>Registration Close: </strong>
+                  {closeDate ? closeDate : "Awaiting Data"}
+                </p>
+              </div>
+            </div>
+            <button
+              className="btn btn-primary btn-block"
+              onClick={this.goToRoster}
+            >
+              View Roster
+            </button>
           </div>
-        )}
+          {this.state.formOpen && (
+            <div>
+              <h3 className="center">Edit Form</h3>
+              <AdminSessionForm
+                handleSubmit={this.handleSubmit}
+                handleClose={this.toggleForm}
+                data={this.state.camp}
+              />
+            </div>
+          )}
+        </div>
+        <br />
+        {this.state.emailList && <EmailForm emails={this.state.emailList} />}
       </div>
     );
   }
