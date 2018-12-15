@@ -3,6 +3,7 @@ import { AuthContext } from "../App";
 import appClient from "../appClient";
 import ServerError from "../forms/ServerError";
 import paypalButton from "../images/paypal-logo.png";
+import Spinner from "../Spinner/Spinner";
 import "./Payments.css";
 
 class Payments extends Component {
@@ -20,6 +21,10 @@ class Payments extends Component {
 
   // Gets all unpaid registrations for the current user and adds them to state
   updateRegistrations = () => {
+    this.setState({
+      isLoading: true,
+      errors: {}
+    });
     appClient
       .getUserRegistrations(this.props.userId)
       .then(res => {
@@ -28,10 +33,14 @@ class Payments extends Component {
           if (!registration.paid) unpaidRegistrations.push(registration);
         });
         this.setState({
-          registrations: unpaidRegistrations
+          registrations: unpaidRegistrations,
+          isLoading: false
         });
       })
       .catch(err => {
+        this.setState({
+          isLoading: false
+        });
         if (err.response.status === 500) {
           this.setState({ errors: { server: "Server error." } });
         }
@@ -146,8 +155,9 @@ class Payments extends Component {
         </tr>
       );
     });
+    if (this.state.isLoading) return <Spinner />;
     return (
-      <div>
+      <div className="wrapper payments-wrapper">
         {this.state.errors.server && <ServerError />}
         <div className="alert alert-dark" role="alert">
           <p>

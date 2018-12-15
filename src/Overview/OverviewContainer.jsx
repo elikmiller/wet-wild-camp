@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import appClient from "../appClient";
 import RegistrationTable from "./RegistrationTable";
+import Spinner from "../Spinner/Spinner";
 import ServerError from "../forms/ServerError";
 
 class OverviewContainer extends Component {
   state = {
     registrations: [],
-    errors: {}
+    errors: {},
+    isLoading: false
   };
 
   componentDidMount() {
@@ -14,12 +16,19 @@ class OverviewContainer extends Component {
   }
 
   getRegistrations = () => {
+    this.setState({
+      isLoading: true,
+      errors: {}
+    });
     appClient
       .getUserRegistrations(this.props.userId)
       .then(registrations => {
-        this.setState({ registrations: registrations.data });
+        this.setState({ registrations: registrations.data, isLoading: false });
       })
       .catch(err => {
+        this.setState({
+          isLoading: false
+        });
         this.handleServerError(err);
       });
   };
@@ -58,8 +67,20 @@ class OverviewContainer extends Component {
         </div>
       );
     }
+    if (this.state.isLoading) return <Spinner />;
     return (
       <div>
+        <div className="alert alert-dark" role="alert">
+          <p>
+            The <strong>Overview</strong> page allows you to view all your
+            active registrations.
+          </p>
+          <hr />
+          <p className="mb-0">
+            If you have not yet paid for a registration, you can cancel it here.
+            To cancel a paid registration, please contact us directly.
+          </p>
+        </div>
         {this.state.errors.server && <ServerError />}
         {content}
       </div>

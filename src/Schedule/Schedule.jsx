@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import appClient from "../appClient";
 import CampList from "./CampList";
 import ServerError from "../forms/ServerError";
+import Spinner from "../Spinner/Spinner";
 
 class Schedule extends Component {
   state = {
     juniorCamps: [],
     adventureCamps: [],
     errors: {},
-    type: ""
+    type: "",
+    isLoading: false
   };
 
   juniorText = {
@@ -27,6 +29,10 @@ class Schedule extends Component {
   };
 
   refreshSchedule = () => {
+    this.setState({
+      isLoading: true,
+      errors: {}
+    });
     appClient
       .getCamps()
       .then(res => {
@@ -38,10 +44,14 @@ class Schedule extends Component {
         });
         this.setState({
           juniorCamps: juniorCamps,
-          adventureCamps: adventureCamps
+          adventureCamps: adventureCamps,
+          isLoading: false
         });
       })
       .catch(err => {
+        this.setState({
+          isLoading: false
+        });
         if (err.response.status === 500) {
           this.setState({ errors: { server: "Server Error." } });
         }
@@ -60,8 +70,9 @@ class Schedule extends Component {
   }
 
   render() {
+    if (this.state.isLoading) return <Spinner />;
     return (
-      <div>
+      <div className="wrapper schedule-wrapper">
         <div className="alert alert-dark" role="alert">
           <p>
             The <strong>Register</strong> page is where you can begin the
