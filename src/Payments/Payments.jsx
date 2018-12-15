@@ -8,7 +8,8 @@ import "./Payments.css";
 class Payments extends Component {
   state = {
     registrations: [],
-    selectedRegistrations: [],
+    fullPayments: [],
+    deposits: [],
     total: 0,
     errors: {}
   };
@@ -41,13 +42,17 @@ class Payments extends Component {
   // and redirects the browser to PayPal's checkout flow
   handlePaypal = e => {
     e.preventDefault();
-    let registrationIds = this.state.selectedRegistrations.map(reg => {
+    let fullPaymentIds = this.state.fullPayments.map(reg => {
+      return reg._id;
+    });
+    let depositIds = this.state.deposits.map(reg => {
       return reg._id;
     });
     appClient
       .addPayment(this.props.userId, {
         paymentAmount: this.state.total,
-        registrations: registrationIds
+        deposits: depositIds,
+        fullPayments: fullPaymentIds
       })
       .then(res => {
         res.data.links.forEach(link => {
@@ -66,38 +71,29 @@ class Payments extends Component {
   // Adds or removes registration from state when checkboxes are clicked and
   // recalculates the total
   handleChange = e => {
-    let { selectedRegistrations } = this.state;
+    let { deposits, fullPayments } = this.state;
     let parsedValue = JSON.parse(e.target.value);
+    let paymentArray = e.target.name === "deposit" ? deposits : fullPayments;
 
-    let index = selectedRegistrations.findIndex(i => i._id === parsedValue._id);
-    if (index !== -1) selectedRegistrations.splice(index, 1);
-    else selectedRegistrations.push(parsedValue);
-    this.setState({
-      selectedRegistrations: selectedRegistrations
-    });
-    this.calculateTotal(selectedRegistrations);
+    let index = paymentArray.findIndex(i => i._id === parsedValue._id);
+    if (index !== -1) paymentArray.splice(index, 1);
+    else paymentArray.push(parsedValue);
+    this.forceUpdate();
+    this.calculateTotal();
   };
 
-  // Selects or deselects all checkboxes and updates list of registrations
-  // and total in state accordingly
-  handleSelectAll = e => {
-    let { registrations } = this.state;
-    let registrationList = [];
-    registrations.forEach((registration, i) => {
-      this.refs[`${i}`].checked = e.target.checked;
-      registrationList.push(registration);
-    });
-    this.setState({
-      selectedRegistrations: e.target.checked ? registrationList : []
-    });
-    this.calculateTotal(e.target.checked ? registrationList : []);
-  };
-
-  // Calculates the total from an array of registrations and sets it in state
-  calculateTotal = arr => {
+  // Calculates the total from deposits and full payments
+  calculateTotal = () => {
     let total = 0;
-    arr.forEach(registration => {
+    total = total + this.state.deposits.length * 100;
+    this.state.fullPayments.forEach(registration => {
       total = total + registration.camp.fee;
+      if (registration.deposit) total = total - 100;
+      this.state.deposits.forEach(deposit => {
+        if (registration._id === deposit._id) {
+          total = total - 100;
+        }
+      });
     });
     this.setState({
       total: total
@@ -112,11 +108,31 @@ class Payments extends Component {
       return (
         <tr key={i}>
           <td>
+            {!reg.deposit && (
+              <input
+                className="form-check-input"
+                type="checkbox"
+                name="deposit"
+                onChange={this.handleChange}
+                value={JSON.stringify(reg)}
+                style={{ marginLeft: "20px" }}
+              />
+            )}
+            {reg.deposit && (
+              <span
+                className="badge badge-success"
+                style={{ marginLeft: "10px" }}
+              >
+                Paid
+              </span>
+            )}
+          </td>
+          <td>
             <input
               className="form-check-input"
               type="checkbox"
+              name="full"
               onChange={this.handleChange}
-              ref={i}
               value={JSON.stringify(reg)}
               style={{ marginLeft: "5px" }}
             />
@@ -126,36 +142,56 @@ class Payments extends Component {
           <td>
             {reg.camper.firstName} {reg.camper.lastName}
           </td>
-          <td>${reg.camp.fee}</td>
+          <td>${reg.deposit ? reg.camp.fee - 100 : reg.camp.fee}</td>
         </tr>
       );
     });
     return (
       <div>
         {this.state.errors.server && <ServerError />}
+        <div className="alert alert-dark" role="alert">
+          <p>
+            The <strong>Payments</strong> page allows you to choose between your
+            registered camps and make a payment through PayPal. You can either
+            pay the deposit or the full amount for the camp at any time.
+          </p>
+          <hr />
+          <p className="mb-0">
+            Use the checkboxes to the left of each camp to select the payments
+            you wish to make.
+          </p>
+        </div>
         <table className="table table-sm">
           <thead>
             <tr>
-              <td style={{ minWidth: "20px" }}>
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  onChange={this.handleSelectAll}
-                  style={{ marginLeft: "5px" }}
-                />
-              </td>
+              <th>Deposit</th>
+              <th>Full</th>
               <th>Camp Session</th>
               <th>Camp</th>
               <th>Camper</th>
-              <th>Cost</th>
+              <th>Balance</th>
             </tr>
           </thead>
           <tbody>{content}</tbody>
         </table>
-        <h1>Total: ${this.state.total}</h1>
-        <button id="paypal-button" onClick={this.handlePaypal}>
-          <img src={paypalButton} alt="paypal logo" />
-        </button>
+        <div
+          className="card"
+          style={{ display: "inline-block", margin: "20px auto" }}
+        >
+          <div className="card-body">
+            <h4 className="card-title">Total:</h4>
+            <h2 className="card-subtitle mb-2 text-muted">
+              ${this.state.total}
+            </h2>
+            <br />
+            <p className="card-text" style={{ maxWidth: "220px" }}>
+              Click the button below to complete this payment using PayPal.
+            </p>
+            <button id="paypal-button" onClick={this.handlePaypal}>
+              <img src={paypalButton} alt="paypal logo" />
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
