@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import AdminSessionForm from "./AdminSessionForm";
 import moment from "moment";
-import EmailForm from "../../forms/EmailForm";
+import EmailContainer from "../../Email/EmailContainer";
 
 class AdminSessionFull extends Component {
   state = {
@@ -197,7 +197,7 @@ class AdminSessionFull extends Component {
           )}
         </div>
         <br />
-        {this.state.emailList && <EmailForm emails={this.state.emailList} />}
+        <EmailContainer title={"Email Users"} emails={this.state.emailList} />
       </div>
     );
   }
