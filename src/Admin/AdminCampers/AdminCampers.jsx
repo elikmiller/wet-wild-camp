@@ -27,13 +27,16 @@ class AdminCampers extends Component {
   }
 
   refreshCampers = () => {
-    appClient.getAllCampers().then(campers => {
-      this.setState({
-        campers: campers.data
-      }).catch(err => {
+    appClient
+      .getAllCampers()
+      .then(campers => {
+        this.setState({
+          campers: campers.data
+        });
+      })
+      .catch(err => {
         console.error(err);
       });
-    });
   };
 
   handleCamperSort = e => {
