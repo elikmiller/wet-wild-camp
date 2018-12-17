@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import AdminSessionForm from "./AdminSessionForm";
 import moment from "moment";
+import _ from "lodash";
 import EmailContainer from "../../Email/EmailContainer";
 
 class AdminSessionFull extends Component {
@@ -126,7 +127,7 @@ class AdminSessionFull extends Component {
       <div>
         <div className="card">
           <div className="card-header">
-            {camp.name} {camp.type}
+            {camp.name} {_.capitalize(camp.type)}
             {deleteButton}
             <button
               className="btn btn-primary btn-sm float-right"
@@ -197,7 +198,10 @@ class AdminSessionFull extends Component {
           )}
         </div>
         <br />
-        <EmailContainer title={"Email Users"} emails={this.state.emailList} />
+        <EmailContainer
+          title={`Email Users for ${camp.name} (${_.capitalize(camp.type)})`}
+          emails={this.state.emailList}
+        />
       </div>
     );
   }

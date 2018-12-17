@@ -31,6 +31,7 @@ class EmailContainer extends Component {
           isSuccess: true,
           isError: false
         });
+        this.props.onSuccess();
       })
       .catch(err => {
         this.setState({
@@ -38,6 +39,7 @@ class EmailContainer extends Component {
           isSuccess: false,
           isError: true
         });
+        this.props.onFailure();
         throw err;
       });
   };
@@ -86,5 +88,10 @@ class EmailContainer extends Component {
     );
   }
 }
+
+EmailContainer.defaultProps = {
+  onSuccess: () => {},
+  onFailure: () => {}
+};
 
 export default EmailContainer;

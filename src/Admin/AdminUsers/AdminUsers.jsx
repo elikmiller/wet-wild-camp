@@ -76,6 +76,12 @@ class AdminUsers extends Component {
     this.setState({ selectedEmails: selectedEmails });
   };
 
+  deselectAll = () => {
+    this.setState({
+      selectedEmails: []
+    });
+  };
+
   render() {
     let content = this.state.users.map((user, i) => {
       return (
@@ -97,6 +103,10 @@ class AdminUsers extends Component {
                 <input
                   className="form-check-input"
                   type="checkbox"
+                  checked={
+                    this.state.selectedEmails.length > 0 &&
+                    this.state.selectedEmails.length === this.state.users.length
+                  }
                   onChange={this.handleSelectAll}
                   style={{ marginLeft: "5px" }}
                 />
@@ -139,6 +149,7 @@ class AdminUsers extends Component {
         <EmailContainer
           title={"Email Users"}
           emails={this.state.selectedEmails}
+          onSuccess={this.deselectAll}
         />
       </div>
     );
