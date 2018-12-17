@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import handleSort from "../../sort";
 import AdminUserCell from "./AdminUserCell";
-import EmailForm from "../../forms/EmailForm";
+import EmailContainer from "../../Email/EmailContainer";
 
 class AdminUsers extends Component {
   state = {
@@ -136,7 +136,10 @@ class AdminUsers extends Component {
           </thead>
           <tbody>{content}</tbody>
         </table>
-        <EmailForm emails={this.state.selectedEmails} />
+        <EmailContainer
+          title={"Email Users"}
+          emails={this.state.selectedEmails}
+        />
       </div>
     );
   }

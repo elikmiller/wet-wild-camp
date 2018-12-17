@@ -1,72 +1,47 @@
 import React, { Component } from "react";
-import appClient from "../appClient";
 
 class EmailForm extends Component {
   state = {
-    formValues: {
-      emailSubject: "",
-      emailBody: ""
-    }
+    subject: "",
+    text: ""
   };
 
   handleChange = e => {
-    let { formValues } = this.state;
-    let { id, value } = e.target;
-    formValues[id] = value;
-    this.setState({ formValues: formValues });
+    e.preventDefault();
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    appClient
+    this.props
       .sendEmail({
-        from: "",
-        to: this.props.emails.length === 1 && this.props.emails,
-        cc: null,
-        bcc: this.props.emails.length > 1 && this.props.emails,
-        subject: this.state.formValues.emailSubject,
-        text: this.state.formValues.emailBody
+        subject: this.state.subject,
+        text: this.state.text
       })
       .then(() => {
-        this.setState({ formValues: { emailSubject: "", emailBody: "" } });
+        this.setState({
+          subject: "",
+          text: ""
+        });
       })
       .catch(err => {
         console.error(err);
       });
   };
 
-  formatEmails = emails => {
-    let emailString = "";
-    for (let i = 0; i < emails.length; i++) {
-      if (i < emails.length - 1 && emails.length > 2) {
-        emailString += `${emails[i]}, `;
-      } else if (i < emails.length - 1 || i === 0) {
-        emailString += `${emails[i]} `;
-      } else {
-        emailString += `and ${emails[i]}`;
-      }
-    }
-    return emailString;
-  };
-
   render() {
-    let formattedEmails = this.formatEmails(this.props.emails);
     return (
-      <div>
-        <h4>
-          Send Email
-          {this.props.emails.length ? " to:" : ""}
-        </h4>
-        <p>{formattedEmails}</p>
-        <br />
+      <div className="email-form">
         <form>
           <div className="form-group">
             <label htmlFor="emailSubject">Subject:</label>
             <input
               type="text"
               className="form-control"
-              id="emailSubject"
-              value={this.state.formValues["emailSubject"]}
+              name="subject"
+              value={this.state.subject}
               onChange={this.handleChange}
             />
           </div>
@@ -74,17 +49,19 @@ class EmailForm extends Component {
             <label htmlFor="emailBody">Body:</label>
             <textarea
               className="form-control"
-              id="emailBody"
-              value={this.state.formValues["emailBody"]}
+              name="text"
+              value={this.state.text}
               onChange={this.handleChange}
             />
           </div>
           <button
             type="button"
             className="btn btn-primary"
+            disabled={this.props.emails.length === 0}
             onClick={this.handleSubmit}
           >
-            Send
+            <i className="far fa-envelope" /> Send to {this.props.emails.length}{" "}
+            Recipient(s)
           </button>
         </form>
       </div>
