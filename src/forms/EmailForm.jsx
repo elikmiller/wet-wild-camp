@@ -20,9 +20,12 @@ class EmailForm extends Component {
     e.preventDefault();
     appClient
       .sendEmail({
-        addresses: this.props.emails,
+        from: "",
+        to: this.props.emails.length === 1 && this.props.emails,
+        cc: null,
+        bcc: this.props.emails.length > 1 && this.props.emails,
         subject: this.state.formValues.emailSubject,
-        message: this.state.formValues.emailBody
+        text: this.state.formValues.emailBody
       })
       .then(() => {
         this.setState({ formValues: { emailSubject: "", emailBody: "" } });
