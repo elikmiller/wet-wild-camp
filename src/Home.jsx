@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import UnauthenticatedContainer from "./containers/UnauthenticatedContainer.jsx";
 import AuthenticatedContainer from "./containers/AuthenticatedContainer.jsx";
+import appClient from "./appClient";
 
 class Home extends Component {
+  unlisten = () => {};
+
   handleLogin = data => {
-    this.props.onLogin(data).then(() => {
-      this.props.history.push("/");
+    return this.props.onLogin(data).then(() => {
+      this.props.isAdmin
+        ? this.props.history.push("/admin")
+        : this.props.history.push("/");
     });
   };
 
@@ -22,12 +27,28 @@ class Home extends Component {
     });
   };
 
+  componentDidMount() {
+    // Check session is valid on route change
+    this.unlisten = this.props.history.listen((location, action) => {
+      if (this.props.location.pathname !== location.pathname) {
+        appClient.currentUser().catch(() => {
+          if (this.props.authenticated) this.handleLogout();
+        });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
+  }
+
   render() {
     return (
-      <div className="home">
-        <nav className="navbar navbar-light bg-light mb-3">
+      <div className="home h-100 d-flex flex-column">
+        <nav className="navbar navbar-light bg-light mb-3 flex-shrink-0">
           <Link className="navbar-brand" to="/">
-            React Playground
+            Wet &amp; Wild Camp Registration
+            {this.props.isAdmin ? " | Admin Panel" : ""}
           </Link>
           {this.props.authenticated && (
             <ul className="navbar-nav">
@@ -46,7 +67,10 @@ class Home extends Component {
           />
         )}
         {this.props.authenticated && (
-          <AuthenticatedContainer onLogout={this.handleLogout} />
+          <AuthenticatedContainer
+            onLogout={this.handleLogout}
+            isAdmin={this.props.isAdmin}
+          />
         )}
       </div>
     );

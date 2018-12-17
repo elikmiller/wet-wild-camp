@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Route, Switch, Redirect } from "react-router-dom";
 import LoginForm from "../forms/LoginForm.jsx";
 import ForgotPasswordForm from "../forms/ForgotPasswordForm.jsx";
 import RegisterForm from "../forms/RegisterForm.jsx";
@@ -10,16 +10,28 @@ class UnauthenticatedContainer extends Component {
       <div className="unauthenticated-container">
         <div className="container">
           <Switch>
-            <Route exact path="/" render={props => <Login onLogin={this.props.onLogin} {...props} />} />
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Login onLogin={this.props.onLogin} {...props} />
+              )}
+            />
             <Route path="/forgot-password" component={ForgotPassword} />
-            <Route path="/register" render={props => <Register onRegister={this.props.onRegister} {...props} />} />
+            <Route
+              path="/register"
+              render={props => (
+                <Register onRegister={this.props.onRegister} {...props} />
+              )}
+            />
+            <Route path="/*" render={() => <Redirect to="/" />} />
           </Switch>
           <p className="text-center">
-            <a href="terms">Terms of Use</a>
+            <a href="/terms">Terms of Use</a>
             {"  ⋅  "}
-            <a href="help">Help</a>
+            <a href="/help">Help</a>
             {"  ⋅  "}
-            <a href="privacy">Privacy Policy</a>
+            <a href="/privacy">Privacy Policy</a>
           </p>
         </div>
       </div>
@@ -27,9 +39,12 @@ class UnauthenticatedContainer extends Component {
   }
 }
 
-function Login(props) {
+export const Login = props => {
   return (
-    <div className="card ml-auto mr-auto mb-3" style={{ minWidth: "18rem", maxWidth: "30rem" }}>
+    <div
+      className="card ml-auto mr-auto mb-3"
+      style={{ minWidth: "18rem", maxWidth: "30rem" }}
+    >
       <div className="card-body">
         <h3 className="card-title">Login</h3>
         <LoginForm onSubmit={props.onLogin} />
@@ -40,11 +55,14 @@ function Login(props) {
       </div>
     </div>
   );
-}
+};
 
-function ForgotPassword(props) {
+export const ForgotPassword = props => {
   return (
-    <div className="card ml-auto mr-auto mb-3" style={{ minWidth: "18rem", maxWidth: "30rem" }}>
+    <div
+      className="card ml-auto mr-auto mb-3"
+      style={{ minWidth: "18rem", maxWidth: "30rem" }}
+    >
       <div className="card-body">
         <h3 className="card-title">Forgot Password</h3>
         <ForgotPasswordForm />
@@ -55,11 +73,14 @@ function ForgotPassword(props) {
       </div>
     </div>
   );
-}
+};
 
-function Register(props) {
+export const Register = props => {
   return (
-    <div className="card ml-auto mr-auto mb-3" style={{ minWidth: "18rem", maxWidth: "30rem" }}>
+    <div
+      className="card ml-auto mr-auto mb-3"
+      style={{ minWidth: "18rem", maxWidth: "30rem" }}
+    >
       <div className="card-body">
         <h3 className="card-title">Register</h3>
         <RegisterForm onSubmit={props.onRegister} />
@@ -70,6 +91,6 @@ function Register(props) {
       </div>
     </div>
   );
-}
+};
 
 export default UnauthenticatedContainer;

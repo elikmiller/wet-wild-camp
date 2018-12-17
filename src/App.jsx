@@ -1,107 +1,133 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home.jsx";
+import Loading from "./Loading";
 import appClient from "./appClient";
 import "./App.css";
+import "./table.css";
+
+export const AuthContext = React.createContext();
 
 class App extends Component {
   state = {
+    loading: true,
     authenticated: false,
     user: {
+      _id: "",
       firstName: "",
       lastName: "",
       email: ""
-    }
+    },
+    admin: false
   };
 
   login = ({ email, password }) => {
     return appClient
-      .post("/login", { email, password })
+      .login({ email, password })
       .then(res => {
         this.setState({
           authenticated: true,
-          user: res.data.user
+          user: res.data.user,
+          admin: res.data.user.admin
         });
       })
       .catch(err => {
         this.setState({
           authenticated: false,
           user: {
+            _id: "",
             firstName: "",
             lastName: "",
             email: ""
-          }
+          },
+          admin: false
         });
+        throw err;
       });
   };
 
   logout = () => {
-    return appClient.get("/logout").then(res => {
+    return appClient.logout().then(res => {
       this.setState({
         authenticated: false,
         user: {
+          _id: "",
           firstName: "",
           lastName: "",
           email: ""
-        }
+        },
+        admin: false
       });
     });
   };
 
-  currentUser = () => {
-    appClient
-      .get("/current_user")
-      .then(res => {
-        this.setState({
-          authenticated: true,
-          user: res.data.user
-        });
-      })
-      .catch(err => {
-        this.setState({
-          authenticated: false,
-          user: {
-            firstName: "",
-            lastName: "",
-            email: ""
-          }
-        });
-      });
-  };
-
   register = ({ firstName, lastName, email, password }) => {
     return appClient
-      .post("/users", { firstName, lastName, email, password })
+      .register({ firstName, lastName, email, password })
       .then(res => {
         return this.login({ email, password });
       });
   };
 
   componentDidMount() {
-    this.currentUser();
+    return appClient
+      .currentUser()
+      .then(res => {
+        this.setState({
+          loading: false,
+          authenticated: true,
+          user: res.data.user,
+          admin: res.data.user.admin
+        });
+      })
+      .catch(err => {
+        this.setState({
+          loading: false,
+          authenticated: false,
+          user: {
+            _id: "",
+            firstName: "",
+            lastName: "",
+            email: ""
+          },
+          admin: false
+        });
+      });
   }
 
   render() {
     return (
-      <div className="app">
-        <Router>
-          <Switch>
-            <Route
-              path="/"
-              render={props => {
-                return (
-                  <Home
-                    authenticated={this.state.authenticated}
-                    onLogin={this.login}
-                    onLogout={this.logout}
-                    onRegister={this.register}
-                    {...props}
-                  />
-                );
-              }}
-            />
-          </Switch>
-        </Router>
+      <div className="app h-100">
+        {this.state.loading && <Loading />}
+        {!this.state.loading && (
+          <Router>
+            <Switch>
+              <Route
+                path="/"
+                render={props => {
+                  return (
+                    <AuthContext.Provider
+                      value={{
+                        authenticated: this.state.authenticated,
+                        userId: this.state.user._id,
+                        logout: this.logout
+                      }}
+                    >
+                      <Home
+                        authenticated={this.state.authenticated}
+                        onLogin={this.login}
+                        onLogout={this.logout}
+                        onRegister={this.register}
+                        isAdmin={this.state.admin}
+                        {...props}
+                      />
+                    </AuthContext.Provider>
+                  );
+                }}
+              />
+            </Switch>
+          </Router>
+        )}
       </div>
     );
   }

@@ -1,0 +1,10 @@
+.admin-table td {
+  font-size: 12px;
+}
+
+.admin-table tbody button {
+  height: 15px;
+  font-size: 10px;
+  padding: 1px 10px 3px;
+  line-height: 1;
+}
