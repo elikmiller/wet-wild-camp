@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import EmailForm from "../forms/EmailForm";
+import EmailForm from "./EmailForm";
 import CopyToClipboard from "react-copy-to-clipboard";
 import appClient from "../appClient";
 import Spinner from "../Spinner/Spinner";
@@ -25,19 +25,20 @@ class EmailContainer extends Component {
         subject: data.subject,
         text: data.text
       })
-      .then(() => {
+      .then(res => {
         this.setState({
           isLoading: false,
           isSuccess: true,
           isError: false
         });
       })
-      .catch(() => {
+      .catch(err => {
         this.setState({
           isLoading: false,
           isSuccess: false,
           isError: true
         });
+        throw err;
       });
   };
 
@@ -48,6 +49,16 @@ class EmailContainer extends Component {
           <div className="card-header">{this.props.title}</div>
           <div className="card-body position-relative">
             {this.state.isLoading && <Spinner />}
+            {this.state.isSuccess && (
+              <div className="alert alert-success">
+                Message delivered successfully!
+              </div>
+            )}
+            {this.state.isError && (
+              <div className="alert alert-danger">
+                Sorry! We were unable to deliver this message. Please try again.
+              </div>
+            )}
             <div className="d-flex align-items-center justify-content-between mb-2">
               <div>Recipients:</div>
               <div>
