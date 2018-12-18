@@ -1,9 +1,9 @@
 import React from "react";
 import UnauthenticatedContainer, {
   Login,
-  ForgotPassword,
   Register
 } from "./UnauthenticatedContainer.jsx";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import { shallow } from "enzyme";
 
 describe("UnauthenticatedContainer", () => {
