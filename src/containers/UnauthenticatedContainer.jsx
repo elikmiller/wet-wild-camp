@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Link, Route, Switch, Redirect } from "react-router-dom";
-import queryString from "query-string";
 import LoginForm from "../forms/LoginForm.jsx";
-import ForgotPasswordForm from "../forms/ForgotPasswordForm.jsx";
-import ResetPasswordForm from "../forms/ResetPasswordForm.jsx";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
+import ResetPassword from "../ResetPassword/ResetPassword";
 import RegisterForm from "../forms/RegisterForm.jsx";
 
 class UnauthenticatedContainer extends Component {
@@ -71,41 +70,6 @@ export const Login = props => {
         <p>
           First time user? <Link to="/register">Sign up here</Link>!
         </p>
-      </div>
-    </div>
-  );
-};
-
-export const ForgotPassword = props => {
-  return (
-    <div
-      className="card ml-auto mr-auto mb-3"
-      style={{ minWidth: "18rem", maxWidth: "30rem" }}
-    >
-      <div className="card-body">
-        <h3 className="card-title">Forgot Password</h3>
-        <ForgotPasswordForm onSubmit={props.onForgotPassword} />
-        <hr />
-        <p>
-          All set? <Link to="/">Click here</Link> to login!
-        </p>
-      </div>
-    </div>
-  );
-};
-
-export const ResetPassword = props => {
-  return (
-    <div
-      className="card ml-auto mr-auto mb-3"
-      style={{ minWidth: "18rem", maxWidth: "30rem" }}
-    >
-      <div className="card-body">
-        <h3 className="card-title">Reset Password</h3>
-        <ResetPasswordForm
-          onSubmit={props.onResetPassword}
-          token={queryString.parse(props.location.search).token}
-        />
       </div>
     </div>
   );
