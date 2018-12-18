@@ -69,6 +69,14 @@ class App extends Component {
       });
   };
 
+  forgotPassword = ({ email }) => {
+    return appClient.forgotPassword({ email });
+  };
+
+  resetPassword = ({ token, password }) => {
+    return appClient.resetPassword({ token, password });
+  };
+
   componentDidMount() {
     return appClient
       .currentUser()

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Route, Switch, Redirect } from "react-router-dom";
 import LoginForm from "../forms/LoginForm.jsx";
 import ForgotPasswordForm from "../forms/ForgotPasswordForm.jsx";
+import ResetPasswordForm from "../forms/ResetPasswordForm.jsx";
 import RegisterForm from "../forms/RegisterForm.jsx";
 
 class UnauthenticatedContainer extends Component {
@@ -24,6 +25,7 @@ class UnauthenticatedContainer extends Component {
                 <Register onRegister={this.props.onRegister} {...props} />
               )}
             />
+            <Route path="/reset-password" component={ResetPassword} />
             <Route path="/*" render={() => <Redirect to="/" />} />
           </Switch>
           <p className="text-center">
@@ -70,6 +72,20 @@ export const ForgotPassword = props => {
         <p>
           All set? <Link to="/">Click here</Link> to login!
         </p>
+      </div>
+    </div>
+  );
+};
+
+export const ResetPassword = props => {
+  return (
+    <div
+      className="card ml-auto mr-auto mb-3"
+      style={{ minWidth: "18rem", maxWidth: "30rem" }}
+    >
+      <div className="card-body">
+        <h3 className="card-title">Reset Password</h3>
+        <ResetPasswordForm />
       </div>
     </div>
   );
