@@ -37,16 +37,21 @@ class AdminUserFull extends Component {
             <strong>Email: </strong>
             {user.email}
           </p>
+          <br />
+          <h3>Campers</h3>
+          <div className="card" style={{ marginTop: "5px" }}>
+            <div className="card-body">
+              <CampersContainer userId={this.props.match.params.userId} />
+            </div>
+          </div>
+          <br />
+          <br />
+          <h3>Contact Information</h3>
           <div className="card">
             <div className="card-body">
               <ContactInformationContainer
                 userId={this.props.match.params.userId}
               />
-            </div>
-          </div>
-          <div className="card" style={{ marginTop: "5px" }}>
-            <div className="card-body">
-              <CampersContainer userId={this.props.match.params.userId} />
             </div>
           </div>
         </div>
