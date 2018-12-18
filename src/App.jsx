@@ -126,6 +126,8 @@ class App extends Component {
                         onLogin={this.login}
                         onLogout={this.logout}
                         onRegister={this.register}
+                        onForgotPassword={this.forgotPassword}
+                        onResetPassword={this.resetPassword}
                         isAdmin={this.state.admin}
                         {...props}
                       />

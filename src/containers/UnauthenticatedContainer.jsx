@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, Route, Switch, Redirect } from "react-router-dom";
+import queryString from "query-string";
 import LoginForm from "../forms/LoginForm.jsx";
 import ForgotPasswordForm from "../forms/ForgotPasswordForm.jsx";
 import ResetPasswordForm from "../forms/ResetPasswordForm.jsx";
@@ -18,14 +19,30 @@ class UnauthenticatedContainer extends Component {
                 <Login onLogin={this.props.onLogin} {...props} />
               )}
             />
-            <Route path="/forgot-password" component={ForgotPassword} />
+            <Route
+              path="/forgot-password"
+              render={props => (
+                <ForgotPassword
+                  onForgotPassword={this.props.onForgotPassword}
+                  {...props}
+                />
+              )}
+            />
             <Route
               path="/register"
               render={props => (
                 <Register onRegister={this.props.onRegister} {...props} />
               )}
             />
-            <Route path="/reset-password" component={ResetPassword} />
+            <Route
+              path="/reset-password"
+              render={props => (
+                <ResetPassword
+                  onResetPassword={this.props.onResetPassword}
+                  {...props}
+                />
+              )}
+            />
             <Route path="/*" render={() => <Redirect to="/" />} />
           </Switch>
           <p className="text-center">
@@ -67,7 +84,7 @@ export const ForgotPassword = props => {
     >
       <div className="card-body">
         <h3 className="card-title">Forgot Password</h3>
-        <ForgotPasswordForm />
+        <ForgotPasswordForm onSubmit={props.onForgotPassword} />
         <hr />
         <p>
           All set? <Link to="/">Click here</Link> to login!
@@ -85,7 +102,10 @@ export const ResetPassword = props => {
     >
       <div className="card-body">
         <h3 className="card-title">Reset Password</h3>
-        <ResetPasswordForm />
+        <ResetPasswordForm
+          onSubmit={props.onResetPassword}
+          token={queryString.parse(props.location.search).token}
+        />
       </div>
     </div>
   );

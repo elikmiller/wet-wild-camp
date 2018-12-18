@@ -50,6 +50,7 @@ class ResetPasswordForm extends Component {
 
     if (Object.keys(errors).length === 0) {
       let data = {
+        token: this.props.token,
         password: this.state.password
       };
       this.props.onSubmit(data);
