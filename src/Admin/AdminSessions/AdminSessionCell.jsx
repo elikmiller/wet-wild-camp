@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 class AdminSessionCell extends Component {
   formatDate = date => {
-    return moment.utc(date).format("MMMM Do, YYYY");
+    return moment.utc(date).format("MM/DD/YYYY");
   };
 
   render() {

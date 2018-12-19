@@ -29,7 +29,7 @@ class AdminCamperFull extends Component {
   };
 
   formatDate = date => {
-    let dob = moment.utc(date).format("MMMM Do, YYYY");
+    let dob = moment.utc(date).format("MM/DD/YYYY");
     let age = moment().diff(moment(date), "years", false);
     return `${dob} (${age} years old)`;
   };
