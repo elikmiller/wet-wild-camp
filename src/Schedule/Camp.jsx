@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AuthContext } from "../App";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 class Camp extends Component {
   state = {
@@ -24,6 +25,10 @@ class Camp extends Component {
     this.props.history.push(`/schedule/${this.props.camp._id}`);
   };
 
+  formatDate = date => {
+    return moment.utc(date).format("MM/DD/YYYY");
+  };
+
   render() {
     let { camp } = this.props;
     // Calculates remaining space in camp
@@ -32,8 +37,8 @@ class Camp extends Component {
       <tbody>
         <tr>
           <td>{camp.name}</td>
-          <td>{camp.startDate.slice(0, 10)}</td>
-          <td>{camp.endDate.slice(0, 10)}</td>
+          <td>{this.formatDate(camp.startDate)}</td>
+          <td>{this.formatDate(camp.endDate)}</td>
           <td>${camp.fee}</td>
           <td>{spaceRemaining}</td>
           <td>
