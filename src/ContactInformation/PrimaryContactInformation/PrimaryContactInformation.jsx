@@ -10,14 +10,13 @@ class PrimaryContactInformation extends Component {
         </p>
         <p>
           {this.props.data.phoneNumber}
-          <br />
+          {this.props.data.phoneNumber && <br />}
           {this.props.data.email}
         </p>
         <p>
           {this.props.data.streetAddress}
-          <br />
           {this.props.data.streetAddress2}
-          <br />
+          {this.props.data.city && <br />}
           {this.props.data.city &&
             `${this.props.data.city}, ${this.props.data.state} `}
           {this.props.data.zipCode}
