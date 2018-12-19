@@ -64,6 +64,8 @@ class Home extends Component {
           <UnauthenticatedContainer
             onLogin={this.handleLogin}
             onRegister={this.handleRegister}
+            onForgotPassword={this.props.onForgotPassword}
+            onResetPassword={this.props.onResetPassword}
           />
         )}
         {this.props.authenticated && (

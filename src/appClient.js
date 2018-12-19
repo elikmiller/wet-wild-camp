@@ -133,6 +133,14 @@ const sendEmail = data => {
   return appClient.post("/admin/email", data);
 };
 
+const forgotPassword = data => {
+  return appClient.post("/password_reset", data);
+};
+
+const resetPassword = data => {
+  return appClient.post("/redeem_password_reset_token", data);
+};
+
 const cancelRequest = () => {
   source.cancel("Operation cancelled by the user.");
 };
@@ -169,5 +177,7 @@ export default {
   getAllPayments,
   executePayment,
   deletePayment,
-  sendEmail
+  sendEmail,
+  forgotPassword,
+  resetPassword
 };
