@@ -30,5 +30,11 @@
     "prettier-eslint": "^8.8.2",
     "prettier-stylelint": "^0.4.2",
     "react-router-enzyme-context": "^1.2.0"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
