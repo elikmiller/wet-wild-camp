@@ -10,7 +10,7 @@ class SecondaryContactInformation extends Component {
         </p>
         <p>
           {this.props.data.phoneNumber}
-          <br />
+          {this.props.data.phoneNumber && <br />}
           {this.props.data.email}
         </p>
         <button className="btn btn-primary" onClick={this.props.openForm}>
