@@ -6,7 +6,7 @@ const CampersContainerWrapper = () => {
   return (
     <div className="wrapper campers-container-wrapper">
       <AuthContext.Consumer>
-        {auth => <CampersContainer userId={auth.userId} />}
+        {auth => <CampersContainer userId={auth.userId} admin={auth.admin} />}
       </AuthContext.Consumer>
     </div>
   );

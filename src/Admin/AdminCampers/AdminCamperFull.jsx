@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ContactInformationContainer from "../../ContactInformation/ContactInformationContainer";
+import ContactInformationContainerWrapper from "../../ContactInformation/ContactInformationContainerWrapper";
 import CamperForm from "../../Campers/CamperForm";
 import appClient from "../../appClient";
 import moment from "moment";
@@ -104,7 +104,7 @@ class AdminCamperFull extends Component {
           <div className="card">
             <div className="card-body">
               {this.state.camper.user && (
-                <ContactInformationContainer userId={camper.user._id} />
+                <ContactInformationContainerWrapper userId={camper.user._id} />
               )}
             </div>
           </div>

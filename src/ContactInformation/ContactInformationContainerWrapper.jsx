@@ -10,6 +10,7 @@ const ContactInformationContainerWrapper = () => {
           <ContactInformationContainer
             userId={auth.userId}
             logout={auth.logout}
+            admin={auth.admin}
           />
         )}
       </AuthContext.Consumer>
