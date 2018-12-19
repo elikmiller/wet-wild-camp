@@ -16,7 +16,3 @@ div.spinner {
 div.spinner i.fas {
   color: #007bff;
 }
-
-.spinner-wrapper {
-  min-height: 10em;
-}

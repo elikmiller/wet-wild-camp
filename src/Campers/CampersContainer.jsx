@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import appClient from "../appClient";
 import Spinner from "../Spinner/Spinner";
-import "../Spinner/Spinner.css";
 import ServerError from "../forms/ServerError";
 import EditableCampersList from "./EditableCampersList";
 import ToggleableCamperForm from "./ToggleableCamperForm";
@@ -78,13 +77,6 @@ class CampersContainer extends Component {
   };
 
   render() {
-    if (this.state.isLoading && this.props.admin) {
-      return (
-        <div className="card spinner-wrapper">
-          <Spinner />
-        </div>
-      );
-    }
     if (this.state.isLoading) return <Spinner />;
     if (this.state.errors.server) return <ServerError />;
     return (
