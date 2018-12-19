@@ -81,7 +81,7 @@ class CampersContainer extends Component {
     if (this.state.errors.server) return <ServerError />;
     return (
       <div className="campers-container">
-        {this.props.admin && (
+        {!this.props.admin && (
           <div className="alert alert-dark" role="alert">
             <p>
               The <strong>Campers</strong> page is where you can enter in

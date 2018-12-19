@@ -65,7 +65,7 @@ class ContactInformationContainer extends Component {
     if (this.state.errors.server) return <ServerError />;
     return (
       <div className="contact-information-container">
-        {this.props.admin && (
+        {!this.props.admin && (
           <div className="alert alert-dark" role="alert">
             <p>
               The <strong>Contact Information</strong> page is where you can
