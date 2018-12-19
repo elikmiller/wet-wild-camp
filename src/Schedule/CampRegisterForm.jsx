@@ -41,17 +41,20 @@ class CampRegisterForm extends Component {
   };
 
   getCamp = () => {
-    appClient.getCamp(this.props.campId).then(camp => {
-      this.setState({
-        camp: camp.data
-      }).catch(err => {
+    appClient
+      .getCamp(this.props.campId)
+      .then(camp => {
+        this.setState({
+          camp: camp.data
+        });
+      })
+      .catch(err => {
         if (err.response) {
           if (err.response.status === 401) this.props.logout();
         } else if (err.response.status === 500) {
           this.setState({ errors: { server: "Server error." } });
         }
       });
-    });
   };
 
   handleChange = e => {
