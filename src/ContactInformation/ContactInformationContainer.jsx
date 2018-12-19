@@ -61,6 +61,13 @@ class ContactInformationContainer extends Component {
   };
 
   render() {
+    if (this.state.isLoading && this.props.admin) {
+      return (
+        <div className="card spinner-wrapper">
+          <Spinner />
+        </div>
+      );
+    }
     if (this.state.isLoading) return <Spinner />;
     if (this.state.errors.server) return <ServerError />;
     return (
