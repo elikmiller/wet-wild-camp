@@ -53,9 +53,12 @@ class Home extends Component {
           {this.props.authenticated && (
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" onClick={this.handleLogout}>
+                <button
+                  className="btn btn-link nav-link"
+                  onClick={this.handleLogout}
+                >
                   Logout
-                </a>
+                </button>
               </li>
             </ul>
           )}
