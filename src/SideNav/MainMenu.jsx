@@ -32,7 +32,7 @@ class MainMenu extends Component {
   render() {
     if (this.state.isOpen)
       return (
-        <div className="main-menu mb-3">
+        <div className="main-menu mb-3 d-xl-none">
           <button
             onClick={this.closeMenu}
             className="btn btn-block btn-light mb-3"
@@ -43,7 +43,7 @@ class MainMenu extends Component {
         </div>
       );
     return (
-      <div className="main-menu mb-3">
+      <div className="main-menu mb-3 d-xl-none">
         <button onClick={this.openMenu} className="btn btn-block btn-light">
           Main Menu <i className="fas fa-chevron-down" />
         </button>

@@ -118,7 +118,7 @@ class Payments extends Component {
         <tr key={i}>
           <td>
             {!reg.deposit && (
-              <div class="form-check">
+              <div className="form-check">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -131,7 +131,7 @@ class Payments extends Component {
             {reg.deposit && <span className="badge badge-success">Paid</span>}
           </td>
           <td>
-            <div class="form-check">
+            <div className="form-check">
               <input
                 className="form-check-input"
                 type="checkbox"
