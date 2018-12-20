@@ -50,10 +50,10 @@ class AuthenticatedContainer extends Component {
       <div className="authenticated-container flex-grow-1">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-2">
+            <div className="col-xl-2 col-12">
               <SideNav navs={navBarData} onLogout={this.props.onLogout} />
             </div>
-            <div className="col-10">
+            <div className="col-xl-10 col-12">
               <Switch>
                 {navBarData.map(nav => (
                   <Route

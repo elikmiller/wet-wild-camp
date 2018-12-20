@@ -110,7 +110,7 @@ class CampersContainer extends Component {
             campers={this.state.campers}
             editCamper={this.editCamper}
           />
-          <div className="col-12 col-lg-4">
+          <div className="col-12 col-xl-4">
             <ToggleableCamperForm addCamper={this.addCamper} />
           </div>
         </div>

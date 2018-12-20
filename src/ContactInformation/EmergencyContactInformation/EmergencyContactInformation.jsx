@@ -4,7 +4,9 @@ class EmergencyContactInformation extends Component {
   render() {
     return (
       <div className="emergency-contact-information">
-        <h2>Emergency Contact Information</h2>
+        <p>
+          <strong>Emergency Contact Information</strong>
+        </p>
         <p>
           {this.props.data.firstName} {this.props.data.lastName}
         </p>

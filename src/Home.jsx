@@ -51,7 +51,7 @@ class Home extends Component {
             {this.props.isAdmin ? " | Admin Panel" : ""}
           </Link>
           {this.props.authenticated && (
-            <ul className="navbar-nav">
+            <ul className="navbar-nav d-none d-xl-block">
               <li className="nav-item">
                 <button
                   className="btn btn-link nav-link"

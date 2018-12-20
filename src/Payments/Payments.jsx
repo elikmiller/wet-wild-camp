@@ -118,33 +118,28 @@ class Payments extends Component {
         <tr key={i}>
           <td>
             {!reg.deposit && (
+              <div class="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  name="deposit"
+                  onChange={this.handleChange}
+                  value={JSON.stringify(reg)}
+                />
+              </div>
+            )}
+            {reg.deposit && <span className="badge badge-success">Paid</span>}
+          </td>
+          <td>
+            <div class="form-check">
               <input
                 className="form-check-input"
                 type="checkbox"
-                name="deposit"
+                name="full"
                 onChange={this.handleChange}
                 value={JSON.stringify(reg)}
-                style={{ marginLeft: "20px" }}
               />
-            )}
-            {reg.deposit && (
-              <span
-                className="badge badge-success"
-                style={{ marginLeft: "10px" }}
-              >
-                Paid
-              </span>
-            )}
-          </td>
-          <td>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              name="full"
-              onChange={this.handleChange}
-              value={JSON.stringify(reg)}
-              style={{ marginLeft: "5px" }}
-            />
+            </div>
           </td>
           <td>{reg.camp.name}</td>
           <td>{type}</td>
@@ -171,30 +166,27 @@ class Payments extends Component {
             you wish to make.
           </p>
         </div>
-        <table className="table table-sm">
-          <thead>
-            <tr>
-              <th>Deposit</th>
-              <th>Full</th>
-              <th>Camp Session</th>
-              <th>Camp</th>
-              <th>Camper</th>
-              <th>Balance</th>
-            </tr>
-          </thead>
-          <tbody>{content}</tbody>
-        </table>
-        <div
-          className="card"
-          style={{ display: "inline-block", margin: "20px auto" }}
-        >
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Deposit</th>
+                <th>Full</th>
+                <th>Camp Session</th>
+                <th>Camp</th>
+                <th>Camper</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody>{content}</tbody>
+          </table>
+        </div>
+        <div className="card">
           <div className="card-body">
             <h4 className="card-title">Total:</h4>
-            <h2 className="card-subtitle mb-2 text-muted">
-              ${this.state.total}
-            </h2>
+            <h2 className="card-subtitle">${this.state.total}</h2>
             <br />
-            <p className="card-text" style={{ maxWidth: "220px" }}>
+            <p className="card-text">
               Click the button below to complete this payment using PayPal.
             </p>
             <button id="paypal-button" onClick={this.handlePaypal}>
