@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import SideNav from "./SideNav";
 import { withRouter } from "react-router-dom";
-import "./MainMenu.css";
 
 class MainMenu extends Component {
   state = {
@@ -36,7 +35,7 @@ class MainMenu extends Component {
         <div className="main-menu mb-3">
           <button
             onClick={this.closeMenu}
-            className="btn btn-block btn-link main-menu-button mb-3"
+            className="btn btn-block btn-light mb-3"
           >
             Main Menu <i className="fas fa-chevron-up" />
           </button>
@@ -45,10 +44,7 @@ class MainMenu extends Component {
       );
     return (
       <div className="main-menu mb-3">
-        <button
-          onClick={this.openMenu}
-          className="btn btn-block btn-link main-menu-button"
-        >
+        <button onClick={this.openMenu} className="btn btn-block btn-light">
           Main Menu <i className="fas fa-chevron-down" />
         </button>
       </div>
