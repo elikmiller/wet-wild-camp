@@ -29,15 +29,18 @@ class CampRegisterForm extends Component {
   }
 
   isCorrectAge = birthDate => {
-    let { type } = this.state.camp;
-    let age = moment().diff(moment(birthDate), "years", false);
-    let lowerBound, upperBound;
+    let { type, startDate } = this.state.camp;
+    let age = moment(birthDate);
+    let lowerBound = moment(age);
+    let upperBound = moment(lowerBound);
     if (type === "junior") {
-      [lowerBound, upperBound] = [6, 9];
+      lowerBound.add(6, "years");
+      upperBound.add(10, "years");
     } else {
-      [lowerBound, upperBound] = [9, 15];
+      lowerBound.add(9, "years");
+      upperBound.add(16, "years");
     }
-    return lowerBound <= age && upperBound >= age;
+    return moment(startDate).isBetween(lowerBound, upperBound);
   };
 
   getCampers = () => {

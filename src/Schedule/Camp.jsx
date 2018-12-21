@@ -38,7 +38,7 @@ class Camp extends Component {
     let date = moment();
     let closeDate = moment(this.props.camp.closeDate);
     this.setState({
-      isClosed: date > closeDate
+      isClosed: date.isSameOrAfter(closeDate)
     });
   };
 
