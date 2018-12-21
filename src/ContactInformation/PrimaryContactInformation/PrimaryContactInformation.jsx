@@ -4,7 +4,9 @@ class PrimaryContactInformation extends Component {
   render() {
     return (
       <div className="primary-contact-information">
-        <h2>Primary Contact Information</h2>
+        <p>
+          <strong>Primary Contact Information</strong>
+        </p>
         <p>
           {this.props.data.firstName} {this.props.data.lastName}
         </p>

@@ -23,29 +23,33 @@ class CampList extends Component {
         {this.state.errors.registration && (
           <CampError text={this.state.errors.registration} />
         )}
-        <h2>
-          {title} Camp (Ages {ageRange})
-        </h2>
-        <table className="table table-sm">
-          <thead>
-            <tr>
-              <th>Week</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Fee</th>
-              <th>Openings</th>
-              <th />
-            </tr>
-          </thead>
-          {this.props.camps.map((camp, i) => (
-            <Camp
-              key={i}
-              camp={camp}
-              errorHandling={this.errorHandling}
-              refresh={this.props.refresh}
-            />
-          ))}
-        </table>
+        <p>
+          <strong>
+            {title} Camp (Ages {ageRange})
+          </strong>
+        </p>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Week</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Fee</th>
+                <th>Openings</th>
+                <th />
+              </tr>
+            </thead>
+            {this.props.camps.map((camp, i) => (
+              <Camp
+                key={i}
+                camp={camp}
+                errorHandling={this.errorHandling}
+                refresh={this.props.refresh}
+              />
+            ))}
+          </table>
+        </div>
       </div>
     );
   }
