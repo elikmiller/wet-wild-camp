@@ -245,7 +245,7 @@ export const CampError = props => {
       <p>{props.text}</p>
       <hr />
       <p className="mb-0">
-        If this is a recurring issue, please{" "}
+        If this is a recurring issue, please
         <a href="https://wetwildcamp.com/about-us/contact-us/">contact us</a>.
       </p>
     </div>
