@@ -18,14 +18,14 @@ class Schedule extends Component {
     type: "junior",
     description:
       "These camps are aimed at children between the ages of 6 and 9 years old.",
-    buttonText: "Click here to view Junior Camps"
+    buttonText: "View Junior Camps"
   };
   adventureText = {
     name: "Adventure Camps",
     type: "adventure",
     description:
       "These camps are aimed at children between the ages of 9 and 15 years old.",
-    buttonText: "Click here to view Adventure Camps"
+    buttonText: "View Adventure Camps"
   };
 
   refreshSchedule = () => {
@@ -118,7 +118,7 @@ export default Schedule;
 
 export const CampChoice = props => {
   return (
-    <div className="card" style={{ marginBottom: "30px" }}>
+    <div className="card mb-3">
       <div className="card-body">
         <h5 className="card-title">{props.data.name}</h5>
         <p className="card-text">{props.data.description}</p>

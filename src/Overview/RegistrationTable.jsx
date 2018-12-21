@@ -72,20 +72,22 @@ class RegistrationTable extends Component {
       );
     });
     return (
-      <table className="table table-sm">
-        <thead>
-          <tr>
-            <th>Camp Session</th>
-            <th>Camp</th>
-            <th>Camper</th>
-            <th>Dropoff</th>
-            <th>Pickup</th>
-            <th />
-            <th />
-          </tr>
-        </thead>
-        <tbody>{content}</tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Camp Session</th>
+              <th>Camp</th>
+              <th>Camper</th>
+              <th>Dropoff</th>
+              <th>Pickup</th>
+              <th />
+              <th />
+            </tr>
+          </thead>
+          <tbody>{content}</tbody>
+        </table>
+      </div>
     );
   }
 }

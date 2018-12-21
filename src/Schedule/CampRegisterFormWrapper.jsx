@@ -5,7 +5,9 @@ import CampRegisterForm from "./CampRegisterForm";
 const CampRegisterFormWrapper = props => {
   return (
     <div className="wrapper contact-information-container-wrapper">
-      <h1>Register</h1>
+      <p>
+        <strong>Register</strong>
+      </p>
       <AuthContext.Consumer>
         {auth => (
           <CampRegisterForm

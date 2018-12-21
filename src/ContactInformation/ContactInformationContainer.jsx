@@ -5,6 +5,7 @@ import EditableEmergencyContactInformation from "./EmergencyContactInformation/E
 import ServerError from "../forms/ServerError";
 import appClient from "../appClient";
 import Spinner from "../Spinner/Spinner";
+import "./ContactInformationContainer.css";
 
 class ContactInformationContainer extends Component {
   state = {
