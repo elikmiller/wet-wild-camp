@@ -8,8 +8,13 @@ class Camp extends Component {
     registerOpen: false,
     campers: [],
     selectedCamper: "",
+    isClosed: false,
     errors: {}
   };
+
+  componentDidMount() {
+    this.isClosed();
+  }
 
   calculateSpaceRemaining = () => {
     let { camp } = this.props;
@@ -29,6 +34,14 @@ class Camp extends Component {
     return moment.utc(date).format("MM/DD/YYYY");
   };
 
+  isClosed = () => {
+    let date = moment();
+    let closeDate = moment(this.props.camp.closeDate);
+    this.setState({
+      isClosed: date.isSameOrAfter(closeDate)
+    });
+  };
+
   render() {
     let { camp } = this.props;
     // Calculates remaining space in camp
@@ -42,11 +55,18 @@ class Camp extends Component {
           <td>${camp.fee}</td>
           <td>{spaceRemaining}</td>
           <td>
-            <Link to={`/schedule/${this.props.camp._id}`}>
-              <button className="btn btn-secondary float-right btn-sm">
-                Register
+            {!this.state.isClosed && (
+              <Link to={`/schedule/${this.props.camp._id}`}>
+                <button className="btn btn-secondary float-right btn-sm">
+                  Register
+                </button>
+              </Link>
+            )}
+            {this.state.isClosed && (
+              <button className="btn btn-danger float-right btn-sm" disabled>
+                Closed
               </button>
-            </Link>
+            )}
           </td>
         </tr>
       </tbody>
