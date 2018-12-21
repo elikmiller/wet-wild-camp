@@ -65,7 +65,7 @@ class EmergencyContactInformationForm extends Component {
 
   render() {
     return (
-      <div className="emergency-contact-information-form">
+      <div className="emergency-contact-information-form contact-information-form">
         <form onSubmit={this.props.onSubmit}>
           <Input
             name="firstName"
@@ -95,15 +95,14 @@ class EmergencyContactInformationForm extends Component {
             value={this.state.formValues["phoneNumber"]}
           />
           <div className="form-group">
-            <button className="btn btn-primary" onClick={this.handleSubmit}>
-              Save
-            </button>
             <button
-              className="btn btn-secondary"
-              style={{ marginLeft: "20px" }}
+              className="btn btn-outline-secondary mr-3"
               onClick={this.handleClose}
             >
               Cancel
+            </button>
+            <button className="btn btn-primary" onClick={this.handleSubmit}>
+              Save
             </button>
           </div>
         </form>

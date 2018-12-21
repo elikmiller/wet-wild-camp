@@ -71,7 +71,7 @@ class SecondaryContactInformationForm extends Component {
 
   render() {
     return (
-      <div className="secondary-contact-information-form">
+      <div className="secondary-contact-information-form contact-information-form">
         <form onSubmit={this.props.onSubmit}>
           <Input
             name="firstName"
@@ -110,15 +110,14 @@ class SecondaryContactInformationForm extends Component {
             value={this.state.formValues["email"]}
           />
           <div className="form-group">
-            <button className="btn btn-primary" onClick={this.handleSubmit}>
-              Save
-            </button>
             <button
-              className="btn btn-secondary"
-              style={{ marginLeft: "20px" }}
+              className="btn btn-outline-secondary mr-3"
               onClick={this.handleClose}
             >
               Cancel
+            </button>
+            <button className="btn btn-primary" onClick={this.handleSubmit}>
+              Save
             </button>
           </div>
         </form>

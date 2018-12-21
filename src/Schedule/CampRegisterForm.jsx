@@ -211,24 +211,20 @@ class CampRegisterForm extends Component {
             placeholder={"Please Select"}
             options={this.locations}
           />
-          <div className="row">
-            <div className="col">
-              <button
-                className="btn btn-outline-secondary btn-block"
-                onClick={this.cancelRegistration}
-              >
-                Cancel
-              </button>
-            </div>
-            <div className="col">
-              <button
-                className="btn btn-primary btn-block"
-                type="submit"
-                onClick={this.handleSubmit}
-              >
-                {this.state.camp.waitlisted ? "Join Waitlist" : "Register"}
-              </button>
-            </div>
+          <div className="form-group">
+            <button
+              className="btn btn-outline-secondary mr-3"
+              onClick={this.cancelRegistration}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary"
+              type="submit"
+              onClick={this.handleSubmit}
+            >
+              {this.state.camp.waitlisted ? "Join Waitlist" : "Register"}
+            </button>
           </div>
         </form>
       </div>
