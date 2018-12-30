@@ -130,11 +130,11 @@ class RegisterForm extends Component {
             <button className="btn btn-primary btn-block" type="submit">
               Register
             </button>
-            <small className="form-text text-muted">
+            {/* <small className="form-text text-muted">
               By clicking Register, you agree to our{" "}
               <a href="/terms">Terms and Conditions</a> &amp;{" "}
               <a href="/privacy">Privacy Policy</a>.
-            </small>
+            </small> */}
           </div>
         </form>
       </div>
