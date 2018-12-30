@@ -3,6 +3,7 @@ import appClient from "../appClient";
 import RegistrationTable from "./RegistrationTable";
 import Spinner from "../Spinner/Spinner";
 import ServerError from "../forms/ServerError";
+import FirstTimeWizard from "../FirstTimeWizard/FirstTimeWizard";
 
 class OverviewContainer extends Component {
   state = {
@@ -52,6 +53,7 @@ class OverviewContainer extends Component {
     } else {
       content = (
         <div>
+          <FirstTimeWizard />
           <br />
           <h4>It looks like you don't have any registrations yet!</h4>
           <br />

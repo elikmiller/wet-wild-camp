@@ -14,6 +14,7 @@
     "react-dom": "^16.4.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "react-stepzilla": "^4.8.0",
     "validator": "^10.7.1"
   },
   "scripts": {
