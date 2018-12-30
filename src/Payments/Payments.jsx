@@ -4,6 +4,7 @@ import appClient from "../appClient";
 import ServerError from "../forms/ServerError";
 import paypalButton from "../images/paypal-logo.png";
 import Spinner from "../Spinner/Spinner";
+import moment from "moment";
 import "./Payments.css";
 
 class Payments extends Component {
@@ -12,6 +13,7 @@ class Payments extends Component {
     fullPayments: [],
     deposits: [],
     total: 0,
+    earlyBird: false,
     errors: {}
   };
 
@@ -32,8 +34,10 @@ class Payments extends Component {
         res.data.forEach(registration => {
           if (!registration.paid) unpaidRegistrations.push(registration);
         });
+        let earlyBird = this.isEarlyBird();
         this.setState({
           registrations: unpaidRegistrations,
+          earlyBird: earlyBird,
           isLoading: false
         });
       })
@@ -45,6 +49,12 @@ class Payments extends Component {
           this.setState({ errors: { server: "Server error." } });
         }
       });
+  };
+
+  isEarlyBird = () => {
+    let currentDate = moment();
+    let earlyBirdCutoff = moment("05/01/2019", "MM/DD/YYYY");
+    return currentDate.isBefore(earlyBirdCutoff);
   };
 
   // calls POST payment route, gets the redirect route from the returned data,
@@ -98,6 +108,7 @@ class Payments extends Component {
     this.state.fullPayments.forEach(registration => {
       total = total + registration.camp.fee;
       if (registration.deposit) total = total - 100;
+      if (this.state.earlyBird) total = total - 30;
       this.state.deposits.forEach(deposit => {
         if (registration._id === deposit._id) {
           total = total - 100;
@@ -112,6 +123,9 @@ class Payments extends Component {
   render() {
     // Generates the list of registrations with checkboxes
     let content = this.state.registrations.map((reg, i) => {
+      let total = reg.camp.fee;
+      if (reg.deposit) total = total - 100;
+      if (this.state.earlyBird) total = total - 30;
       let type =
         reg.camp.type.charAt(0).toUpperCase() + reg.camp.type.substr(1);
       return (
@@ -146,7 +160,7 @@ class Payments extends Component {
           <td>
             {reg.camper.firstName} {reg.camper.lastName}
           </td>
-          <td>${reg.deposit ? reg.camp.fee - 100 : reg.camp.fee}</td>
+          <td>${total}</td>
         </tr>
       );
     });
@@ -166,6 +180,11 @@ class Payments extends Component {
             you wish to make.
           </p>
         </div>
+        {this.state.earlyBird && (
+          <div className="alert alert-success" role="alert">
+            <p>Early bird prices are in effect through May 1st!</p>
+          </div>
+        )}
         <div className="table-responsive">
           <table className="table">
             <thead>
