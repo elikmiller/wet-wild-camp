@@ -1,16 +1,66 @@
 import React, { Component } from "react";
 import StepZilla from "react-stepzilla";
+import Step1 from "./Step1";
+import PrimaryContactForm from "./PrimaryContactForm";
+import SecondaryContactForm from "./SecondaryContactForm";
+import EmergencyContactForm from "./EmergencyContactForm";
 
 class FirstTimeWizard extends Component {
   render() {
     const steps = [
-      { name: "Primary Contact Information", component: <div>Step 1</div> },
-      { name: "Secondary Contact Information", component: <div>Step 2</div> },
-      { name: "Emergency Contact Information", component: <div>Step 3</div> },
-      { name: "Campers", component: <div>Step 4</div> }
+      {
+        name: "Welcome",
+        component: <Step1 />
+      },
+      {
+        name: "Primary Contact Information",
+        component: (
+          <PrimaryContactForm
+            userId={this.props.user._id}
+            firstName={this.props.user.firstName}
+            lastName={this.props.user.lastName}
+            email={this.props.user.email}
+            phoneNumber={this.props.primaryContactInformation.phoneNumber}
+            streetAddress={this.props.primaryContactInformation.streetAddress}
+            streetAddress2={this.props.primaryContactInformation.streetAddress2}
+            city={this.props.primaryContactInformation.city}
+            state={this.props.primaryContactInformation.state}
+            zipCode={this.props.primaryContactInformation.zipCode}
+          />
+        )
+      },
+      {
+        name: "Secondary Contact Information",
+        component: (
+          <SecondaryContactForm
+            userId={this.props.user._id}
+            firstName={this.props.secondaryContactInformation.firstName}
+            lastName={this.props.secondaryContactInformation.lastName}
+            email={this.props.secondaryContactInformation.email}
+            phoneNumber={this.props.secondaryContactInformation.phoneNumber}
+          />
+        )
+      },
+      {
+        name: "Emergency Contact Information",
+        component: (
+          <EmergencyContactForm
+            userId={this.props.user._id}
+            firstName={this.props.emergencyContactInformation.firstName}
+            lastName={this.props.emergencyContactInformation.lastName}
+            phoneNumber={this.props.emergencyContactInformation.phoneNumber}
+          />
+        )
+      }
     ];
 
-    return <StepZilla steps={steps} />;
+    return (
+      <StepZilla
+        steps={steps}
+        nextButtonCls={"btn btn-primary"}
+        backButtonCls={"btn btn-outline-secondary mr-3"}
+      />
+    );
   }
 }
 
