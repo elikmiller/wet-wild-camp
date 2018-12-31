@@ -44,13 +44,13 @@ class UnauthenticatedContainer extends Component {
             />
             <Route path="/*" render={() => <Redirect to="/" />} />
           </Switch>
-          <p className="text-center">
+          {/* <p className="text-center">
             <a href="/terms">Terms of Use</a>
             {"  ⋅  "}
             <a href="/help">Help</a>
             {"  ⋅  "}
             <a href="/privacy">Privacy Policy</a>
-          </p>
+          </p> */}
         </div>
       </div>
     );

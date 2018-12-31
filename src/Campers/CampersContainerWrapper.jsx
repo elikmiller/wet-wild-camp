@@ -1,6 +1,7 @@
 import React from "react";
 import { AuthContext } from "../App";
 import CampersContainer from "./CampersContainer";
+import "./Campers.css";
 
 const CampersContainerWrapper = () => {
   return (

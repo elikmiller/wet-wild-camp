@@ -118,6 +118,7 @@ class App extends Component {
                       value={{
                         authenticated: this.state.authenticated,
                         userId: this.state.user._id,
+                        user: this.state.user,
                         logout: this.logout,
                         admin: this.state.admin
                       }}
