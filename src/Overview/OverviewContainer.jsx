@@ -2,58 +2,188 @@ import React, { Component } from "react";
 import appClient from "../appClient";
 import RegistrationTable from "./RegistrationTable";
 import Spinner from "../Spinner/Spinner";
-import ServerError from "../forms/ServerError";
 import FirstTimeWizard from "../FirstTimeWizard/FirstTimeWizard";
+import _ from "lodash";
 
 class OverviewContainer extends Component {
   state = {
-    registrations: [],
-    errors: {},
-    isLoading: false
+    getRegistrations: {
+      isLoading: false,
+      isError: false,
+      isSuccess: false,
+      registrations: []
+    },
+    getContacts: {
+      isLoading: false,
+      isError: false,
+      isSuccess: false,
+      primaryContactInformation: {},
+      secondaryContactInformation: {},
+      emergencyContactInformation: {}
+    },
+    getCampers: {
+      isLoading: false,
+      isError: false,
+      isSuccess: false,
+      campers: []
+    }
   };
 
   componentDidMount() {
     this.getRegistrations();
+    this.getContacts();
+    this.getCampers();
   }
 
   getRegistrations = () => {
     this.setState({
-      isLoading: true,
-      errors: {}
+      getRegistrations: {
+        isLoading: true,
+        isError: false,
+        isSuccess: false,
+        registrations: []
+      }
     });
     appClient
       .getUserRegistrations(this.props.userId)
       .then(registrations => {
-        this.setState({ registrations: registrations.data, isLoading: false });
+        this.setState({
+          getRegistrations: {
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+            registrations: registrations.data
+          }
+        });
       })
       .catch(err => {
         this.setState({
-          isLoading: false
+          getRegistrations: {
+            isLoading: false,
+            isError: true,
+            isSuccess: false,
+            registrations: []
+          }
         });
-        this.handleServerError(err);
       });
   };
 
-  handleServerError = err => {
-    if (err.response.status === 500) {
-      this.setState({ errors: { server: "Server error." } });
-    }
+  getContacts = () => {
+    this.setState({
+      getContacts: {
+        isLoading: true,
+        isError: false,
+        isSuccess: false,
+        primaryContactInformation: {},
+        secondaryContactInformation: {},
+        emergencyContactInformation: {}
+      }
+    });
+    appClient
+      .getContacts(this.props.userId)
+      .then(contacts => {
+        this.setState({
+          getContacts: {
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+            primaryContactInformation: contacts.data.primaryContact,
+            secondaryContactInformation: contacts.data.secondaryContact,
+            emergencyContactInformation: contacts.data.emergencyContact
+          }
+        });
+      })
+      .catch(err => {
+        this.setState({
+          getContacts: {
+            isLoading: false,
+            isError: true,
+            isSuccess: false,
+            primaryContactInformation: {},
+            secondaryContactInformation: {},
+            emergencyContactInformation: {}
+          }
+        });
+      });
+  };
+
+  getCampers = () => {
+    this.setState({
+      getCampers: {
+        isLoading: true,
+        isError: false,
+        isSuccess: false,
+        campers: []
+      }
+    });
+    appClient
+      .getCampers(this.props.userId)
+      .then(campers => {
+        this.setState({
+          getCampers: {
+            isLoading: false,
+            isError: false,
+            isSuccess: true,
+            campers: campers.data
+          }
+        });
+      })
+      .catch(err => {
+        this.setState({
+          getCampers: {
+            isLoading: false,
+            isError: true,
+            isSuccess: false,
+            campers: []
+          }
+        });
+      });
   };
 
   render() {
-    let content;
-    if (this.state.registrations.length) {
-      content = (
-        <RegistrationTable
-          data={this.state.registrations}
-          error={this.handleServerError}
-          update={this.getRegistrations}
+    let isLoading =
+      this.state.getRegistrations.isLoading ||
+      this.state.getCampers.isLoading ||
+      this.state.getContacts.isLoading;
+    if (isLoading) return <Spinner />;
+
+    if (
+      this.state.getCampers.campers.length === 0 ||
+      _.isEmpty(this.state.getContacts.primaryContactInformation) ||
+      _.isEmpty(this.state.getContacts.secondaryContactInformation) ||
+      _.isEmpty(this.state.getContacts.emergencyContactInformation)
+    ) {
+      return (
+        <FirstTimeWizard
+          user={this.props.user}
+          campers={this.state.getCampers.campers}
+          primaryContactInformation={
+            this.state.getContacts.primaryContactInformation
+          }
+          secondaryContactInformation={
+            this.state.getContacts.secondaryContactInformation
+          }
+          emergencyContactInformation={
+            this.state.getContacts.emergencyContactInformation
+          }
         />
       );
-    } else {
-      content = (
+    }
+
+    if (this.state.getRegistrations.registrations.length === 0) {
+      return (
         <div>
-          <FirstTimeWizard />
+          <div className="alert alert-dark" role="alert">
+            <p>
+              The <strong>Overview</strong> page allows you to view all your
+              active registrations.
+            </p>
+            <hr />
+            <p className="mb-0">
+              If you have not yet paid for a registration, you can cancel it
+              here. To cancel a paid registration, please contact us directly.
+            </p>
+          </div>
           <br />
           <h4>It looks like you don't have any registrations yet!</h4>
           <br />
@@ -69,7 +199,7 @@ class OverviewContainer extends Component {
         </div>
       );
     }
-    if (this.state.isLoading) return <Spinner />;
+
     return (
       <div>
         <div className="alert alert-dark" role="alert">
@@ -83,8 +213,11 @@ class OverviewContainer extends Component {
             To cancel a paid registration, please contact us directly.
           </p>
         </div>
-        {this.state.errors.server && <ServerError />}
-        {content}
+        <RegistrationTable
+          data={this.state.registrations}
+          error={this.handleServerError}
+          update={this.getRegistrations}
+        />
       </div>
     );
   }
