@@ -214,8 +214,7 @@ class OverviewContainer extends Component {
           </p>
         </div>
         <RegistrationTable
-          data={this.state.registrations}
-          error={this.handleServerError}
+          data={this.state.getRegistrations.registrations}
           update={this.getRegistrations}
         />
       </div>

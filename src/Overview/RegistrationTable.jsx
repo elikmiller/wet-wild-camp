@@ -11,7 +11,7 @@ class RegistrationTable extends Component {
         this.props.update();
       })
       .catch(err => {
-        this.props.error(err);
+        console.error(err);
       });
   };
 
