@@ -4,6 +4,8 @@ import Step1 from "./Step1";
 import PrimaryContactForm from "./PrimaryContactForm";
 import SecondaryContactForm from "./SecondaryContactForm";
 import EmergencyContactForm from "./EmergencyContactForm";
+import CamperForm from "./CamperForm";
+import FinalStep from "./FinalStep";
 
 class FirstTimeWizard extends Component {
   render() {
@@ -51,15 +53,30 @@ class FirstTimeWizard extends Component {
             phoneNumber={this.props.emergencyContactInformation.phoneNumber}
           />
         )
+      },
+      {
+        name: "Camper Information",
+        component: <CamperForm />
+      },
+      {
+        name: "Thank You",
+        component: <FinalStep />
       }
     ];
 
     return (
-      <StepZilla
-        steps={steps}
-        nextButtonCls={"btn btn-primary"}
-        backButtonCls={"btn btn-outline-secondary mr-3"}
-      />
+      <div className="card">
+        <div className="card-body">
+          <StepZilla
+            steps={steps}
+            nextButtonCls={"btn btn-primary"}
+            backButtonCls={"btn btn-outline-secondary mr-3"}
+            showSteps={false}
+            stepsNavigation={false}
+            prevBtnOnLastStep={false}
+          />
+        </div>
+      </div>
     );
   }
 }
