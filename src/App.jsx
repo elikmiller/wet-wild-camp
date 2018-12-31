@@ -69,6 +69,14 @@ class App extends Component {
       });
   };
 
+  forgotPassword = ({ email }) => {
+    return appClient.forgotPassword({ email });
+  };
+
+  resetPassword = ({ token, password }) => {
+    return appClient.resetPassword({ token, password });
+  };
+
   componentDidMount() {
     return appClient
       .currentUser()
@@ -110,7 +118,9 @@ class App extends Component {
                       value={{
                         authenticated: this.state.authenticated,
                         userId: this.state.user._id,
-                        logout: this.logout
+                        user: this.state.user,
+                        logout: this.logout,
+                        admin: this.state.admin
                       }}
                     >
                       <Home
@@ -118,6 +128,8 @@ class App extends Component {
                         onLogin={this.login}
                         onLogout={this.logout}
                         onRegister={this.register}
+                        onForgotPassword={this.forgotPassword}
+                        onResetPassword={this.resetPassword}
                         isAdmin={this.state.admin}
                         {...props}
                       />

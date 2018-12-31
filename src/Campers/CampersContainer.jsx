@@ -77,30 +77,40 @@ class CampersContainer extends Component {
   };
 
   render() {
+    if (this.state.isLoading && this.props.admin) {
+      return (
+        <div className="card spinner-wrapper">
+          <Spinner />
+        </div>
+      );
+    }
     if (this.state.isLoading) return <Spinner />;
     if (this.state.errors.server) return <ServerError />;
     return (
       <div className="campers-container">
-        <div className="alert alert-dark" role="alert">
-          <p>
-            The <strong>Campers</strong> page is where you can enter in
-            information for any campers you wish to register for a session with
-            us.
-          </p>
-          <hr />
-          <p className="mb-0">
-            Click <strong>Add Camper</strong> to create a new camper, or{" "}
-            <strong>Edit Camper</strong> to edit the information for an existing
-            camper. Any information we should know about your child, such as
-            allergies, special needs, etc. can go under <strong>notes</strong>.
-          </p>
-        </div>
+        {!this.props.admin && (
+          <div className="alert alert-dark" role="alert">
+            <p>
+              The <strong>Campers</strong> page is where you can enter in
+              information for any campers you wish to register for a session
+              with us.
+            </p>
+            <hr />
+            <p className="mb-0">
+              Click <strong>Add Camper</strong> to create a new camper, or{" "}
+              <strong>Edit Camper</strong> to edit the information for an
+              existing camper. Any information we should know about your child,
+              such as allergies, special needs, etc. can go under{" "}
+              <strong>notes</strong>.
+            </p>
+          </div>
+        )}
         <div className="row position-relative">
           <EditableCampersList
             campers={this.state.campers}
             editCamper={this.editCamper}
           />
-          <div className="col-12 col-lg-4">
+          <div className="col-12 col-xl-4">
             <ToggleableCamperForm addCamper={this.addCamper} />
           </div>
         </div>

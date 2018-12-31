@@ -101,7 +101,7 @@ describe("Home", () => {
     });
 
     it("should display a logout link", () => {
-      wrapper.find("a.nav-link").should.have.prop("children", "Logout");
+      wrapper.find("button.nav-link").should.have.prop("children", "Logout");
     });
 
     it("should render an AuthenticatedContainer", () => {
@@ -122,7 +122,7 @@ describe("Home", () => {
     });
 
     it("should not display a logout link", () => {
-      wrapper.find("a.nav-link").should.have.lengthOf(0);
+      wrapper.find("button.nav-link").should.have.lengthOf(0);
     });
 
     it("should render an UnauthenticatedContainer", () => {

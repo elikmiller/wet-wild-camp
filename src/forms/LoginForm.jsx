@@ -53,7 +53,7 @@ class LoginForm extends Component {
           this.setState({
             errors: { submit: "Invalid Email Address or Password." }
           });
-        } else if (err.response.status === 500) {
+        } else if (err.response && err.response.status === 500) {
           this.setState({ errors: { server: "Server error." } });
         } else {
           this.setState({

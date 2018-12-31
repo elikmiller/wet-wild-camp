@@ -5,6 +5,7 @@ import EditableEmergencyContactInformation from "./EmergencyContactInformation/E
 import ServerError from "../forms/ServerError";
 import appClient from "../appClient";
 import Spinner from "../Spinner/Spinner";
+import "./ContactInformationContainer.css";
 
 class ContactInformationContainer extends Component {
   state = {
@@ -61,22 +62,31 @@ class ContactInformationContainer extends Component {
   };
 
   render() {
+    if (this.state.isLoading && this.props.admin) {
+      return (
+        <div className="card spinner-wrapper">
+          <Spinner />
+        </div>
+      );
+    }
     if (this.state.isLoading) return <Spinner />;
     if (this.state.errors.server) return <ServerError />;
     return (
       <div className="contact-information-container">
-        <div className="alert alert-dark" role="alert">
-          <p>
-            The <strong>Contact Information</strong> page is where you can enter
-            in contact information for your Primary, Secondary, and Emergency
-            contacts.
-          </p>
-          <hr />
-          <p className="mb-0">
-            Please submit this information as soon as possible, and return to
-            this page to update it when information changes.
-          </p>
-        </div>
+        {!this.props.admin && (
+          <div className="alert alert-dark" role="alert">
+            <p>
+              The <strong>Contact Information</strong> page is where you can
+              enter in contact information for your Primary, Secondary, and
+              Emergency contacts.
+            </p>
+            <hr />
+            <p className="mb-0">
+              Please submit this information as soon as possible, and return to
+              this page to update it when information changes.
+            </p>
+          </div>
+        )}
         <EditablePrimaryContactInformation
           data={this.state.primaryContactInformation}
           updateUser={this.updateUser}

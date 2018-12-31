@@ -58,27 +58,30 @@ class AdminSessionRoster extends Component {
 
   refreshCampers = () => {
     let { campId } = this.props.match.params;
-    appClient.getCamp(campId).then(camp => {
-      let camperArray = camp.data.campers.map(registration => {
-        registration.camper["registration"] = registration;
-        registration.camper["morningDropoff"] = registration.morningDropoff;
-        registration.camper["afternoonPickup"] = registration.afternoonPickup;
-        return registration.camper;
-      });
-      let waitlistArray = camp.data.waitlist.map(registration => {
-        registration.camper["registration"] = registration;
-        registration.camper["morningDropoff"] = registration.morningDropoff;
-        registration.camper["afternoonPickup"] = registration.afternoonPickup;
-        return registration.camper;
-      });
-      this.setState({
-        campers: camperArray,
-        waitlist: waitlistArray,
-        campId: campId
-      }).catch(err => {
+    appClient
+      .getCamp(campId)
+      .then(camp => {
+        let camperArray = camp.data.campers.map(registration => {
+          registration.camper["registration"] = registration;
+          registration.camper["morningDropoff"] = registration.morningDropoff;
+          registration.camper["afternoonPickup"] = registration.afternoonPickup;
+          return registration.camper;
+        });
+        let waitlistArray = camp.data.waitlist.map(registration => {
+          registration.camper["registration"] = registration;
+          registration.camper["morningDropoff"] = registration.morningDropoff;
+          registration.camper["afternoonPickup"] = registration.afternoonPickup;
+          return registration.camper;
+        });
+        this.setState({
+          campers: camperArray,
+          waitlist: waitlistArray,
+          campId: campId
+        });
+      })
+      .catch(err => {
         console.error(err);
       });
-    });
   };
 
   handleCamperSort = e => {

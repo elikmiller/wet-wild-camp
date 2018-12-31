@@ -4,7 +4,7 @@ import { Link, Route } from "react-router-dom";
 class SideNav extends Component {
   render() {
     return (
-      <div className="list-group">
+      <div className="list-group mb-3">
         {this.props.navs.map((nav, i) => (
           <ListItemLink key={i} to={nav.path} label={nav.label} />
         ))}

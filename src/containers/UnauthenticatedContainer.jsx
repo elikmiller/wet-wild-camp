@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link, Route, Switch, Redirect } from "react-router-dom";
 import LoginForm from "../forms/LoginForm.jsx";
-import ForgotPasswordForm from "../forms/ForgotPasswordForm.jsx";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
+import ResetPassword from "../ResetPassword/ResetPassword";
 import RegisterForm from "../forms/RegisterForm.jsx";
 
 class UnauthenticatedContainer extends Component {
@@ -17,22 +18,39 @@ class UnauthenticatedContainer extends Component {
                 <Login onLogin={this.props.onLogin} {...props} />
               )}
             />
-            <Route path="/forgot-password" component={ForgotPassword} />
+            <Route
+              path="/forgot-password"
+              render={props => (
+                <ForgotPassword
+                  onForgotPassword={this.props.onForgotPassword}
+                  {...props}
+                />
+              )}
+            />
             <Route
               path="/register"
               render={props => (
                 <Register onRegister={this.props.onRegister} {...props} />
               )}
             />
+            <Route
+              path="/reset-password"
+              render={props => (
+                <ResetPassword
+                  onResetPassword={this.props.onResetPassword}
+                  {...props}
+                />
+              )}
+            />
             <Route path="/*" render={() => <Redirect to="/" />} />
           </Switch>
-          <p className="text-center">
+          {/* <p className="text-center">
             <a href="/terms">Terms of Use</a>
             {"  ⋅  "}
             <a href="/help">Help</a>
             {"  ⋅  "}
             <a href="/privacy">Privacy Policy</a>
-          </p>
+          </p> */}
         </div>
       </div>
     );
@@ -51,24 +69,6 @@ export const Login = props => {
         <hr />
         <p>
           First time user? <Link to="/register">Sign up here</Link>!
-        </p>
-      </div>
-    </div>
-  );
-};
-
-export const ForgotPassword = props => {
-  return (
-    <div
-      className="card ml-auto mr-auto mb-3"
-      style={{ minWidth: "18rem", maxWidth: "30rem" }}
-    >
-      <div className="card-body">
-        <h3 className="card-title">Forgot Password</h3>
-        <ForgotPasswordForm />
-        <hr />
-        <p>
-          All set? <Link to="/">Click here</Link> to login!
         </p>
       </div>
     </div>

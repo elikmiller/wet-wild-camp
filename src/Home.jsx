@@ -51,11 +51,14 @@ class Home extends Component {
             {this.props.isAdmin ? " | Admin Panel" : ""}
           </Link>
           {this.props.authenticated && (
-            <ul className="navbar-nav">
+            <ul className="navbar-nav d-none d-sm-block">
               <li className="nav-item">
-                <a className="nav-link" onClick={this.handleLogout}>
+                <button
+                  className="btn btn-link nav-link"
+                  onClick={this.handleLogout}
+                >
                   Logout
-                </a>
+                </button>
               </li>
             </ul>
           )}
@@ -64,6 +67,8 @@ class Home extends Component {
           <UnauthenticatedContainer
             onLogin={this.handleLogin}
             onRegister={this.handleRegister}
+            onForgotPassword={this.props.onForgotPassword}
+            onResetPassword={this.props.onResetPassword}
           />
         )}
         {this.props.authenticated && (

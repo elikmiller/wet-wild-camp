@@ -7,7 +7,11 @@ const OverviewWrapper = () => {
     <div className="wrapper overview-container-wrapper">
       <AuthContext.Consumer>
         {auth => (
-          <OverviewContainer userId={auth.userId} logout={auth.logout} />
+          <OverviewContainer
+            userId={auth.userId}
+            user={auth.user}
+            logout={auth.logout}
+          />
         )}
       </AuthContext.Consumer>
     </div>

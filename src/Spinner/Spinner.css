@@ -10,8 +10,13 @@ div.spinner {
   align-items: center;
   justify-content: center;
   min-height: 3em;
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
 div.spinner i.fas {
   color: #007bff;
+}
+
+.spinner-wrapper {
+  min-height: 10em;
 }

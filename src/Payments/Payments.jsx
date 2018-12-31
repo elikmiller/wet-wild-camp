@@ -4,6 +4,7 @@ import appClient from "../appClient";
 import ServerError from "../forms/ServerError";
 import paypalButton from "../images/paypal-logo.png";
 import Spinner from "../Spinner/Spinner";
+import moment from "moment";
 import "./Payments.css";
 
 class Payments extends Component {
@@ -12,6 +13,7 @@ class Payments extends Component {
     fullPayments: [],
     deposits: [],
     total: 0,
+    earlyBird: false,
     errors: {}
   };
 
@@ -32,8 +34,10 @@ class Payments extends Component {
         res.data.forEach(registration => {
           if (!registration.paid) unpaidRegistrations.push(registration);
         });
+        let earlyBird = this.isEarlyBird();
         this.setState({
           registrations: unpaidRegistrations,
+          earlyBird: earlyBird,
           isLoading: false
         });
       })
@@ -45,6 +49,12 @@ class Payments extends Component {
           this.setState({ errors: { server: "Server error." } });
         }
       });
+  };
+
+  isEarlyBird = () => {
+    let currentDate = moment();
+    let earlyBirdCutoff = moment("05/01/2019", "MM/DD/YYYY");
+    return currentDate.isBefore(earlyBirdCutoff);
   };
 
   // calls POST payment route, gets the redirect route from the returned data,
@@ -98,6 +108,7 @@ class Payments extends Component {
     this.state.fullPayments.forEach(registration => {
       total = total + registration.camp.fee;
       if (registration.deposit) total = total - 100;
+      if (this.state.earlyBird) total = total - 30;
       this.state.deposits.forEach(deposit => {
         if (registration._id === deposit._id) {
           total = total - 100;
@@ -112,46 +123,44 @@ class Payments extends Component {
   render() {
     // Generates the list of registrations with checkboxes
     let content = this.state.registrations.map((reg, i) => {
+      let total = reg.camp.fee;
+      if (reg.deposit) total = total - 100;
+      if (this.state.earlyBird) total = total - 30;
       let type =
         reg.camp.type.charAt(0).toUpperCase() + reg.camp.type.substr(1);
       return (
         <tr key={i}>
           <td>
             {!reg.deposit && (
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  name="deposit"
+                  onChange={this.handleChange}
+                  value={JSON.stringify(reg)}
+                />
+              </div>
+            )}
+            {reg.deposit && <span className="badge badge-success">Paid</span>}
+          </td>
+          <td>
+            <div className="form-check">
               <input
                 className="form-check-input"
                 type="checkbox"
-                name="deposit"
+                name="full"
                 onChange={this.handleChange}
                 value={JSON.stringify(reg)}
-                style={{ marginLeft: "20px" }}
               />
-            )}
-            {reg.deposit && (
-              <span
-                className="badge badge-success"
-                style={{ marginLeft: "10px" }}
-              >
-                Paid
-              </span>
-            )}
-          </td>
-          <td>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              name="full"
-              onChange={this.handleChange}
-              value={JSON.stringify(reg)}
-              style={{ marginLeft: "5px" }}
-            />
+            </div>
           </td>
           <td>{reg.camp.name}</td>
           <td>{type}</td>
           <td>
             {reg.camper.firstName} {reg.camper.lastName}
           </td>
-          <td>${reg.deposit ? reg.camp.fee - 100 : reg.camp.fee}</td>
+          <td>${total}</td>
         </tr>
       );
     });
@@ -171,30 +180,32 @@ class Payments extends Component {
             you wish to make.
           </p>
         </div>
-        <table className="table table-sm">
-          <thead>
-            <tr>
-              <th>Deposit</th>
-              <th>Full</th>
-              <th>Camp Session</th>
-              <th>Camp</th>
-              <th>Camper</th>
-              <th>Balance</th>
-            </tr>
-          </thead>
-          <tbody>{content}</tbody>
-        </table>
-        <div
-          className="card"
-          style={{ display: "inline-block", margin: "20px auto" }}
-        >
+        {this.state.earlyBird && (
+          <div className="alert alert-success" role="alert">
+            <p>Early bird prices are in effect through May 1st!</p>
+          </div>
+        )}
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Deposit</th>
+                <th>Full</th>
+                <th>Camp Session</th>
+                <th>Camp</th>
+                <th>Camper</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody>{content}</tbody>
+          </table>
+        </div>
+        <div className="card">
           <div className="card-body">
             <h4 className="card-title">Total:</h4>
-            <h2 className="card-subtitle mb-2 text-muted">
-              ${this.state.total}
-            </h2>
+            <h2 className="card-subtitle">${this.state.total}</h2>
             <br />
-            <p className="card-text" style={{ maxWidth: "220px" }}>
+            <p className="card-text">
               Click the button below to complete this payment using PayPal.
             </p>
             <button id="paypal-button" onClick={this.handlePaypal}>

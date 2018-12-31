@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import appClient from "../appClient";
 import InputDropdown from "../forms/InputDropdown";
+import Spinner from "../Spinner/Spinner";
+import moment from "moment";
 
 class CampRegisterForm extends Component {
   state = {
@@ -11,7 +13,8 @@ class CampRegisterForm extends Component {
       morningDropoff: "",
       afternoonPickup: ""
     },
-    errors: {}
+    errors: {},
+    loading: false
   };
 
   locations = [
@@ -24,6 +27,21 @@ class CampRegisterForm extends Component {
     this.getCampers();
     this.getCamp();
   }
+
+  isCorrectAge = birthDate => {
+    let { type, startDate } = this.state.camp;
+    let age = moment(birthDate);
+    let lowerBound = moment(age);
+    let upperBound = moment(lowerBound);
+    if (type === "junior") {
+      lowerBound.add(6, "years");
+      upperBound.add(10, "years");
+    } else {
+      lowerBound.add(9, "years");
+      upperBound.add(16, "years");
+    }
+    return moment(startDate).isBetween(lowerBound, upperBound);
+  };
 
   getCampers = () => {
     appClient
@@ -41,17 +59,27 @@ class CampRegisterForm extends Component {
   };
 
   getCamp = () => {
-    appClient.getCamp(this.props.campId).then(camp => {
-      this.setState({
-        camp: camp.data
-      }).catch(err => {
+    this.setState({
+      loading: true
+    });
+    appClient
+      .getCamp(this.props.campId)
+      .then(camp => {
+        this.setState({
+          camp: camp.data,
+          loading: false
+        });
+      })
+      .catch(err => {
         if (err.response) {
           if (err.response.status === 401) this.props.logout();
         } else if (err.response.status === 500) {
-          this.setState({ errors: { server: "Server error." } });
+          this.setState({
+            errors: { server: "Server error." },
+            loading: false
+          });
         }
       });
-    });
   };
 
   handleChange = e => {
@@ -76,6 +104,7 @@ class CampRegisterForm extends Component {
       camper !== "" &&
       formValues.morningDropoff !== "" &&
       formValues.afternoonPickup !== "" &&
+      this.isCorrectAge(camper.dateOfBirth) &&
       !camper.registrations.some(elem => camp.campers.includes(elem)) &&
       !camper.registrations.some(elem => camp.waitlist.includes(elem))
     ) {
@@ -99,7 +128,8 @@ class CampRegisterForm extends Component {
     } else if (
       camper !== "" &&
       formValues.morningDropoff !== "" &&
-      formValues.afternoonPickup !== ""
+      formValues.afternoonPickup !== "" &&
+      this.isCorrectAge(camper.dateOfBirth)
     ) {
       this.setState({
         errors: {
@@ -110,6 +140,12 @@ class CampRegisterForm extends Component {
       this.setState({
         errors: {
           registration: "Please select a camper."
+        }
+      });
+    } else if (!this.isCorrectAge(camper.dateOfBirth)) {
+      this.setState({
+        errors: {
+          registration: "Camper is not the correct age for this camp session."
         }
       });
     } else {
@@ -133,10 +169,19 @@ class CampRegisterForm extends Component {
         name: `${camper.firstName} ${camper.lastName}`
       };
     });
+    if (this.state.loading) return <Spinner />;
     return (
       <div>
         {this.state.errors.registration && (
           <CampError text={this.state.errors.registration} />
+        )}
+        {this.state.camp.waitlisted && (
+          <div className="alert alert-warning" role="alert">
+            <p>
+              This camp is currently full. If you sign up for the waitlist, you
+              will be notified once a spot opens.
+            </p>
+          </div>
         )}
         <form onSubmit={this.handleSubmit}>
           <InputDropdown
@@ -169,24 +214,20 @@ class CampRegisterForm extends Component {
             placeholder={"Please Select"}
             options={this.locations}
           />
-          <div className="row">
-            <div className="col">
-              <button
-                className="btn btn-outline-secondary btn-block"
-                onClick={this.cancelRegistration}
-              >
-                Cancel
-              </button>
-            </div>
-            <div className="col">
-              <button
-                className="btn btn-primary btn-block"
-                type="submit"
-                onClick={this.handleSubmit}
-              >
-                Register
-              </button>
-            </div>
+          <div className="form-group">
+            <button
+              className="btn btn-outline-secondary mr-3"
+              onClick={this.cancelRegistration}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary"
+              type="submit"
+              onClick={this.handleSubmit}
+            >
+              {this.state.camp.waitlisted ? "Join Waitlist" : "Register"}
+            </button>
           </div>
         </form>
       </div>
@@ -203,7 +244,8 @@ export const CampError = props => {
       <p>{props.text}</p>
       <hr />
       <p className="mb-0">
-        If this is a recurring issue, please contact us at 000-000-0000.
+        If this is a recurring issue, please
+        <a href="https://wetwildcamp.com/about-us/contact-us/">contact us</a>.
       </p>
     </div>
   );

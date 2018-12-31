@@ -80,15 +80,14 @@ class Checkout extends Component {
           <div className="card-body">
             <h5 className="card-title">Total: ${this.state.payment.amount}</h5>
             <p className="card-text">Confirm or cancel your payment below.</p>
-            <button className="btn btn-primary" onClick={this.executePayment}>
-              Confirm Payment
-            </button>
             <button
-              className="btn btn-secondary"
-              style={{ marginLeft: "20px" }}
+              className="btn btn-outline-secondary mr-3"
               onClick={this.cancelPayment}
             >
               Cancel Payment
+            </button>
+            <button className="btn btn-primary" onClick={this.executePayment}>
+              Confirm Payment
             </button>
           </div>
         )}

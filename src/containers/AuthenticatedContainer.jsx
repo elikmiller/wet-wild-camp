@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import SideNav from "../SideNav.jsx";
+import SideNav from "../SideNav/SideNav.jsx";
+import MainMenu from "../SideNav/MainMenu.jsx";
 import OverviewContainerWrapper from "../Overview/OverviewContainerWrapper.jsx";
 import CampersContainerWrapper from "../Campers/CampersContainerWrapper.jsx";
 import Schedule from "../Schedule/Schedule.jsx";
@@ -50,10 +51,13 @@ class AuthenticatedContainer extends Component {
       <div className="authenticated-container flex-grow-1">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-2">
+            <div className=".d-xl-none col-12">
+              <MainMenu navs={navBarData} onLogout={this.props.onLogout} />
+            </div>
+            <div className="d-none d-xl-block col-xl-2">
               <SideNav navs={navBarData} onLogout={this.props.onLogout} />
             </div>
-            <div className="col-10">
+            <div className="col-xl-10 col-12">
               <Switch>
                 {navBarData.map(nav => (
                   <Route

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
-import ContactInformationContainer from "../../ContactInformation/ContactInformationContainer";
-import CampersContainer from "../../Campers/CampersContainer";
+import ContactInformationContainerWrapper from "../../ContactInformation/ContactInformationContainerWrapper";
+import CampersContainerWrapper from "../../Campers/CampersContainerWrapper";
 
 class AdminUserFull extends Component {
   state = {
@@ -37,16 +37,20 @@ class AdminUserFull extends Component {
             <strong>Email: </strong>
             {user.email}
           </p>
-          <div className="card">
+          <h3 className="mt-5">Campers</h3>
+          <div className="card mt-1">
             <div className="card-body">
-              <ContactInformationContainer
+              <CampersContainerWrapper
                 userId={this.props.match.params.userId}
               />
             </div>
           </div>
-          <div className="card" style={{ marginTop: "5px" }}>
+          <h3 className="mt-5">Contact Information</h3>
+          <div className="card">
             <div className="card-body">
-              <CampersContainer userId={this.props.match.params.userId} />
+              <ContactInformationContainerWrapper
+                userId={this.props.match.params.userId}
+              />
             </div>
           </div>
         </div>

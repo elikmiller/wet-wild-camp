@@ -114,24 +114,20 @@ class CamperForm extends Component {
               value={this.state.camper["notes"]}
             />
           </div>
-          <div className="row">
-            <div className="col">
-              <button
-                className="btn btn-outline-secondary btn-block"
-                onClick={this.props.closeForm}
-              >
-                Cancel
-              </button>
-            </div>
-            <div className="col">
-              <button
-                className="btn btn-primary btn-block"
-                type="submit"
-                onClick={this.handleSubmit}
-              >
-                Save
-              </button>
-            </div>
+          <div className="form-group">
+            <button
+              className="btn btn-outline-secondary mr-3"
+              onClick={this.props.closeForm}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary"
+              type="submit"
+              onClick={this.handleSubmit}
+            >
+              Save
+            </button>
           </div>
         </form>
       </div>
