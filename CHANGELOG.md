@@ -7,6 +7,7 @@
 - This changelog.
 - Many visual tweaks, form validations and loading indicators.
 - Support for Early Bird pricing
+- First time user wizard for collecting contact information upfront.
 
 ### Changed
 
@@ -14,4 +15,4 @@
 
 ### Removed
 
-- None.
+- Links with no content.
