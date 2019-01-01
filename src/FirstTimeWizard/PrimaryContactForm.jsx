@@ -96,6 +96,13 @@ class PrimaryContactInformationForm extends Component {
     return (
       <div className="primary-contact-information-form contact-information-form">
         {this.state.isLoading && <Spinner />}
+        <div className="alert alert-dark" role="alert">
+          <p>Welcome to Wet and Wild Adventure Camp!</p>
+          <hr />
+          <p className="mb-0">
+            Let's get started by filling out your contact information.
+          </p>
+        </div>
         <p>
           <strong>Primary Contact Information</strong>
         </p>
