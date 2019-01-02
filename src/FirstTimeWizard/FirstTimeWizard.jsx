@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import StepZilla from "react-stepzilla";
-import Step1 from "./Step1";
 import PrimaryContactForm from "./PrimaryContactForm";
 import SecondaryContactForm from "./SecondaryContactForm";
 import EmergencyContactForm from "./EmergencyContactForm";
@@ -10,10 +9,6 @@ import FinalStep from "./FinalStep";
 class FirstTimeWizard extends Component {
   render() {
     const steps = [
-      {
-        name: "Welcome",
-        component: <Step1 />
-      },
       {
         name: "Primary Contact Information",
         component: (

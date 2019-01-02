@@ -2,10 +2,18 @@
 
 ## [Unreleased]
 
+### Added
+
+- Info alert to primary contact form
+
 ### Changed
 
 - added hyperlink to registration page
 - reworded 'Thank You' page in first time wizard
+
+### Removed
+
+- First page help screen from FirstTimeWizard
 
 ## [1.0.1] - 2018-12-31
 
