@@ -14,10 +14,10 @@ class FinalStep extends Component {
         </p>
         <p>
           Visit the <Link to="/campers">Campers</Link> page if you would like to
-          add provide information for additional campers.
+          add another camper.
         </p>
         <p>
-          Once you've selected a camp session and a camper to particiapate you
+          Once you've selected a camp session and a camper to participate you
           can head over to the <Link to="/payments">Payments</Link> page to
           complete the registration process!
         </p>
