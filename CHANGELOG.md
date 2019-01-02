@@ -15,6 +15,7 @@
 ### Removed
 
 - First page help screen from FirstTimeWizard
+- descriptive text and hyperlink from camp list displays
 
 ## [1.0.1] - 2018-12-31
 
