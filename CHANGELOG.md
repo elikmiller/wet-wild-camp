@@ -5,6 +5,7 @@
 ### Changed
 
 - added hyperlink to registration page
+- reworded 'Thank You' page in first time wizard
 
 ## [1.0.1] - 2018-12-31
 
