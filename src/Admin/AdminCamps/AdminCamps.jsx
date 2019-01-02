@@ -5,7 +5,6 @@ import AdminCampDetails from "./AdminCampDetails";
 
 class AdminCamps extends Component {
   render() {
-    console.log(this.props.match);
     return (
       <Switch>
         <Route
