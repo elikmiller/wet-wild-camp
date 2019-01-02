@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Camp schedules are now sorted by start date.
+
 ## [1.0.1] - 2018-12-31
 
 ### Added

@@ -3,6 +3,7 @@ import appClient from "../appClient";
 import CampList from "./CampList";
 import ServerError from "../forms/ServerError";
 import Spinner from "../Spinner/Spinner";
+import moment from "moment";
 
 class Schedule extends Component {
   state = {
@@ -42,9 +43,11 @@ class Schedule extends Component {
           if (camp.type === "junior") juniorCamps.push(camp);
           else if (camp.type === "adventure") adventureCamps.push(camp);
         });
+        let sortedJuniorCamps = this.sortCampsByStartDate(juniorCamps);
+        let sortedAdventureCamps = this.sortCampsByStartDate(adventureCamps);
         this.setState({
-          juniorCamps: juniorCamps,
-          adventureCamps: adventureCamps,
+          juniorCamps: sortedJuniorCamps,
+          adventureCamps: sortedAdventureCamps,
           isLoading: false
         });
       })
@@ -56,6 +59,12 @@ class Schedule extends Component {
           this.setState({ errors: { server: "Server Error." } });
         }
       });
+  };
+
+  sortCampsByStartDate = camps => {
+    return camps.sort((a, b) => {
+      return moment.utc(a.startDate).diff(moment.utc(b.startDate));
+    });
   };
 
   setCampType = e => {
