@@ -10,24 +10,50 @@ class AdminCamp extends Component {
   render() {
     let camp = this.props.data;
     return (
-      <div className="admin-session">
-        <p>Name: {camp.name}</p>
-        <p>Type: {_.capitalize(camp.type)}</p>
-        <p>Description: {camp.description}</p>
-        <p>Fee: ${camp.fee && camp.fee.toFixed(2)}</p>
-        <p>Capacity: {camp.capacity}</p>
-        <p>Registrations: {camp.campers ? camp.campers.length : 0}</p>
-        <p>
-          Waitlisted Registrations: {camp.waitlist ? camp.waitlist.length : 0}
-        </p>
-        <p>Registration Open: {this.formatDate(camp.openDate)}</p>
-        <p>Registration Close: {this.formatDate(camp.closeDate)}</p>
-        <p>Camp Start: {this.formatDate(camp.startDate)}</p>
-        <p>Camp End: {this.formatDate(camp.endDate)}</p>
-        <button
-          className="btn btn-primary btn-block"
-          onClick={this.props.openForm}
-        >
+      <div className="admin-camp">
+        <div className="table-responsive">
+          <table className="table table-sm">
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>{camp.name}</td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                <td>{_.capitalize(camp.type)}</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>{camp.description}</td>
+              </tr>
+              <tr>
+                <th>Fee</th>
+                <td>${camp.fee && camp.fee.toFixed(2)}</td>
+              </tr>
+              <tr>
+                <th>Capacity</th>
+                <td>{camp.capacity}</td>
+              </tr>
+              <tr>
+                <th>Registration Open</th>
+                <td>{this.formatDate(camp.openDate)}</td>
+              </tr>
+              <tr>
+                <th>Registration Close</th>
+                <td>{this.formatDate(camp.closeDate)}</td>
+              </tr>
+              <tr>
+                <th>Camp Start</th>
+                <td>{this.formatDate(camp.startDate)}</td>
+              </tr>
+              <tr>
+                <th>Camp End</th>
+                <td>{this.formatDate(camp.endDate)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button className="btn btn-primary" onClick={this.props.openForm}>
           <i className="fas fa-edit" /> Edit Camp
         </button>
       </div>
