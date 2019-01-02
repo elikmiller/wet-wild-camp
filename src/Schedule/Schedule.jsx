@@ -87,19 +87,23 @@ class Schedule extends Component {
             The <strong>Register</strong> page is where you can begin the
             registration process for our camp sessions.
           </p>
-          <hr />
-          <p className="mb-0">
-            Choose between our two camp types based on the age of the child you
-            want to register. 9 year olds can choose between Junior and
-            Adventure camps.{" "}
-            <a
-              href="https://wetwildcamp.com/camp-information/8-year-olds-adv-camp-or-jr-camp/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn More
-            </a>
-          </p>
+          {this.state.type === "" && (
+            <div>
+              <hr />
+              <p className="mb-0">
+                Choose between our two camp types based on the age of the child
+                you want to register. 9 year olds can choose between Junior and
+                Adventure camps.{" "}
+                <a
+                  href="https://wetwildcamp.com/camp-information/8-year-olds-adv-camp-or-jr-camp/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn More
+                </a>
+              </p>
+            </div>
+          )}
         </div>
         {this.state.errors.server && <ServerError />}
         {this.state.type === "" && (
