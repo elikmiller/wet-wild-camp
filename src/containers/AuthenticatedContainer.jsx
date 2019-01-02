@@ -60,7 +60,7 @@ class AuthenticatedContainer extends Component {
             <div className="d-none d-xl-block col-xl-2">
               <SideNav navs={navBarData} onLogout={this.props.onLogout} />
             </div>
-            <div className="col-xl-10 col-12">
+            <div className="col-xl-10 col-12 mb-5">
               <Switch>
                 {navBarData.map(nav => (
                   <Route
