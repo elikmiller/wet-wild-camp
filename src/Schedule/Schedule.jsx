@@ -83,7 +83,7 @@ class Schedule extends Component {
             Choose between our two camp types based on the age of the child you
             want to register. 9 year olds can choose between Junior and
             Adventure camps.{" "}
-            <a href="https://wetwildcamp.com/camp-information/8-year-olds-adv-camp-or-jr-camp/">
+            <a href="https://wetwildcamp.com/camp-information/8-year-olds-adv-camp-or-jr-camp/" target="_blank>
               Learn More
             </a>
           </p>
