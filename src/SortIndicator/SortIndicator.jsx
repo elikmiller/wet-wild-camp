@@ -6,7 +6,7 @@ class SortIndicator extends Component {
     if (this.props.isVisible) {
       if (this.props.order === "asc") {
         return <i className="fas fa-chevron-down sort-indicator" />;
-      } else {
+      } else if (this.props.order === "desc") {
         return <i className="fas fa-chevron-up sort-indicator" />;
       }
     }

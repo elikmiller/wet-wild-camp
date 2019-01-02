@@ -9,7 +9,7 @@ class EditableAdminCamp extends Component {
   };
 
   handleSubmit = camp => {
-    this.props.editAdminCamp(this.props.camp._id, camp);
+    this.props.editCamp(this.props.camp._id, camp);
   };
 
   openForm = () => {
@@ -27,26 +27,18 @@ class EditableAdminCamp extends Component {
   render() {
     if (this.state.isOpen) {
       return (
-        <div className="editable-admin-session">
-          <div className="card mb-3">
-            <div className="card-body">
-              <AdminCampForm
-                data={this.props.camp}
-                onSubmit={this.handleSubmit}
-                closeForm={this.closeForm}
-              />
-            </div>
-          </div>
+        <div className="editable-admin-camp">
+          <AdminCampForm
+            data={this.props.camp}
+            onSubmit={this.handleSubmit}
+            closeForm={this.closeForm}
+          />
         </div>
       );
     }
     return (
-      <div className="editable-admin-session">
-        <div className="card mb-3">
-          <div className="card-body">
-            <AdminCamp data={this.props.camp} openForm={this.openForm} />
-          </div>
-        </div>
+      <div className="editable-admin-camp">
+        <AdminCamp data={this.props.camp} openForm={this.openForm} />
       </div>
     );
   }

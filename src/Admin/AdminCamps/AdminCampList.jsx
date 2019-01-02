@@ -5,13 +5,14 @@ import Fuse from "fuse.js";
 import _ from "lodash";
 import SortIndicator from "../../SortIndicator/SortIndicator";
 import Spinner from "../../Spinner/Spinner";
+import ToggleableAdminCampForm from "./ToggleableAdminCampForm";
 
 class AdminCampList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      campers: [],
+      camps: [],
       query: "",
       sortKey: null,
       sortOrder: null
@@ -69,7 +70,7 @@ class AdminCampList extends Component {
     else if (this.state.sortKey !== e.target.value) sortOrder = "asc";
     else {
       if (this.state.sortOrder === "asc") sortOrder = "desc";
-      else sortOrder = "asc";
+      if (this.state.sortOrder === "desc") sortOrder = null;
     }
     this.setState({
       sortKey: e.target.value,
@@ -102,16 +103,17 @@ class AdminCampList extends Component {
   };
 
   render() {
-    let camps = _.orderBy(
-      this.state.query ? this.fuse.search(this.state.query) : this.state.camps,
-      this.state.sortKey,
-      this.state.sortOrder
-    );
+    let camps = this.state.query
+      ? this.fuse.search(this.state.query)
+      : this.state.camps;
+    if (this.state.sortKey && this.state.sortOrder)
+      camps = _.orderBy(camps, this.state.sortKey, this.state.sortOrder);
     let adminCampCells = camps.map((camp, i) => {
       return <AdminCampCell key={i} data={camp} />;
     });
     return (
-      <div>
+      <div className="admin-camp-list">
+        <p className="lead">All Camps</p>
         <div className="row">
           <div className="col-xl-3 col-12">
             <div className="input-group mb-3">
@@ -168,12 +170,26 @@ class AdminCampList extends Component {
                   <button
                     className="btn btn-light btn-sm"
                     onClick={this.handleCampSort}
-                    value="startDate"
+                    value="campers.length"
                     disabled={this.state.isLoading}
                   >
-                    Start Date{" "}
+                    Registrations / Capacity{" "}
                     <SortIndicator
-                      isVisible={this.state.sortKey === "startDate"}
+                      isVisible={this.state.sortKey === "campers.length"}
+                      order={this.state.sortOrder}
+                    />
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-light btn-sm"
+                    onClick={this.handleCampSort}
+                    value="waitlisted"
+                    disabled={this.state.isLoading}
+                  >
+                    Waitlist{" "}
+                    <SortIndicator
+                      isVisible={this.state.sortKey === "waitlisted"}
                       order={this.state.sortOrder}
                     />
                   </button>
@@ -183,17 +199,7 @@ class AdminCampList extends Component {
             </thead>
             <tbody>{adminCampCells}</tbody>
           </table>
-          {/* {!this.state.formOpen && (
-            <button className="btn btn-primary" onClick={this.createNewCamp}>
-              New Camp
-            </button>
-          )}
-          {this.state.formOpen && (
-            <AdminSessionForm
-              handleSubmit={this.handleSubmit}
-              handleClose={this.handleClose}
-            />
-          )} */}
+          <ToggleableAdminCampForm addCamp={this.handleSubmit} />
         </div>
       </div>
     );

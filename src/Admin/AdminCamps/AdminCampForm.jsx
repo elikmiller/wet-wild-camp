@@ -35,8 +35,8 @@ class AdminSessionForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.handleSubmit(this.state.formValues);
-    this.props.handleClose();
+    this.props.onSubmit(this.state.formValues);
+    this.props.closeForm();
   };
 
   render() {
@@ -100,26 +100,6 @@ class AdminSessionForm extends Component {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="startDate">Start Date</label>
-          <input
-            id="startDate"
-            type="date"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={startDate}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="endDate">End Date</label>
-          <input
-            id="endDate"
-            type="date"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={endDate}
-          />
-        </div>
-        <div className="form-group">
           <label htmlFor="openDate">Registration Open</label>
           <input
             id="openDate"
@@ -139,7 +119,30 @@ class AdminSessionForm extends Component {
             value={closeDate}
           />
         </div>
-        <button onClick={this.props.closeForm} className="btn btn-secondary">
+        <div className="form-group">
+          <label htmlFor="startDate">Start Date</label>
+          <input
+            id="startDate"
+            type="date"
+            className="form-control form-control-sm"
+            onChange={this.handleChange}
+            value={startDate}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="endDate">End Date</label>
+          <input
+            id="endDate"
+            type="date"
+            className="form-control form-control-sm"
+            onChange={this.handleChange}
+            value={endDate}
+          />
+        </div>
+        <button
+          onClick={this.props.closeForm}
+          className="btn btn-outline-secondary mr-3"
+        >
           Cancel
         </button>
         <button onClick={this.handleSubmit} className="btn btn-primary">
