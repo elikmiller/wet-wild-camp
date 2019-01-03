@@ -27,7 +27,7 @@ class ToggleableAdminCampForm extends Component {
           </p>
           <AdminCampForm
             closeForm={this.closeForm}
-            onSubmit={this.props.addCamp}
+            onSubmit={this.props.createCamp}
           />
         </div>
       );

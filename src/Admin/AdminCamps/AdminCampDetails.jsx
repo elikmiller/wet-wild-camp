@@ -30,12 +30,11 @@ class AdminCampDetails extends Component {
       });
   };
 
-  editCamp = (campId, data) => {
+  updateCamp = (campId, data) => {
     this.setState({ isLoading: true });
     appClient
       .updateCamp(campId, data)
       .then(camp => {
-        console.log(camp);
         this.setState({
           camp: camp.data,
           isLoading: false
@@ -54,7 +53,10 @@ class AdminCampDetails extends Component {
         <p className="lead">
           {this.state.camp.name} {_.capitalize(this.state.camp.type)} Details
         </p>
-        <EditableAdminCamp camp={this.state.camp} editCamp={this.editCamp} />
+        <EditableAdminCamp
+          camp={this.state.camp}
+          updateCamp={this.updateCamp}
+        />
       </div>
     );
   }

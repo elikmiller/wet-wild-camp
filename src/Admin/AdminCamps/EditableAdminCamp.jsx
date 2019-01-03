@@ -9,7 +9,7 @@ class EditableAdminCamp extends Component {
   };
 
   handleSubmit = camp => {
-    this.props.editCamp(this.props.camp._id, camp);
+    this.props.updateCamp(this.props.camp._id, camp);
   };
 
   openForm = () => {
