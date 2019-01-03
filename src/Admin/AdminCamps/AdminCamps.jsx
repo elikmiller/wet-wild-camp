@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import AdminCampList from "./AdminCampList";
-import AdminCampDetails from "./AdminCampDetails";
+import AdminCampDetail from "./AdminCampDetail";
 
 class AdminCamps extends Component {
   render() {
@@ -9,7 +9,7 @@ class AdminCamps extends Component {
       <Switch>
         <Route
           path={`${this.props.match.path}/:campId`}
-          component={AdminCampDetails}
+          component={AdminCampDetail}
         />
         <Route path={`${this.props.match.path}`} component={AdminCampList} />
       </Switch>

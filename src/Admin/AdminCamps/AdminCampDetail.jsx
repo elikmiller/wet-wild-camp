@@ -4,7 +4,7 @@ import EditableAdminCamp from "./EditableAdminCamp";
 import _ from "lodash";
 import Spinner from "../../Spinner/Spinner";
 
-class AdminCampDetails extends Component {
+class AdminCampDetail extends Component {
   state = {
     camp: {},
     isLoading: false
@@ -62,4 +62,4 @@ class AdminCampDetails extends Component {
   }
 }
 
-export default AdminCampDetails;
+export default AdminCampDetail;
