@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import Fuse from "fuse.js";
 import _ from "lodash";
 import SortIndicator from "../SortIndicator/SortIndicator";
+import "./SearchTable.css";
 
 const Row = props => {
   return (
     <tr>
-      {props.columns.map(column => (
-        <td>{column.displayFunc(props.item)}</td>
+      {props.columns.map((column, i) => (
+        <td key={i}>{column.displayFunc(props.item)}</td>
       ))}
     </tr>
   );
@@ -28,7 +29,7 @@ class SearchList extends Component {
       distance: 100,
       maxPatternLength: 32,
       minMatchCharLength: 1,
-      keys: [this.props.searchKeys]
+      keys: this.props.searchKeys
     });
   }
 
@@ -40,7 +41,7 @@ class SearchList extends Component {
   }
 
   handleSort = e => {
-    e.preventDefault();
+    // Click once for ascending order, twice for decending, and three times to clear
     let sortOrder;
     if (!this.state.sortOrder) sortOrder = "asc";
     else if (this.state.sortKey !== e.target.value) sortOrder = "asc";
@@ -93,31 +94,36 @@ class SearchList extends Component {
           </div>
         </div>
         <div className="table-responsive">
-          <table className="table table-sm table-hover">
+          <table
+            className="table table-sm table-hover"
+            style={{ tableLayout: "fixed" }}
+          >
             <thead>
               <tr>
-                {this.props.columns.map(column => (
-                  <td>
-                    <button
-                      className="btn btn-light btn-sm"
-                      onClick={this.handleSort}
-                      value={column.key}
-                    >
-                      {column.name}{" "}
-                      {column.key && (
+                {this.props.columns.map((column, i) => (
+                  <td key={i}>
+                    {column.key ? (
+                      <button
+                        className="btn btn-light btn-sm"
+                        onClick={this.handleSort}
+                        value={column.key}
+                      >
+                        {column.name}{" "}
                         <SortIndicator
                           isVisible={this.state.sortKey === column.key}
                           order={this.state.sortOrder}
                         />
-                      )}
-                    </button>
+                      </button>
+                    ) : (
+                      column.name
+                    )}
                   </td>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {items.map(item => (
-                <Row item={item} columns={this.props.columns} />
+              {items.map((item, i) => (
+                <Row key={i} item={item} columns={this.props.columns} />
               ))}
             </tbody>
           </table>
