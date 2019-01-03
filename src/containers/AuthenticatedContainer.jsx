@@ -9,6 +9,7 @@ import CampRegisterResult from "../Schedule/CampRegisterResult";
 import ContactInformationContainerWrapper from "../ContactInformation/ContactInformationContainerWrapper.jsx";
 import Payments from "../Payments/Payments.jsx";
 import Checkout from "../Payments/Checkout.jsx";
+import Logout from "../Logout/Logout.jsx";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
 import AdminUsers from "../Admin/AdminUsers/AdminUsers.jsx";
 import AdminUserFull from "../Admin/AdminUsers/AdminUserFull.jsx";
@@ -59,6 +60,7 @@ class AuthenticatedContainer extends Component {
             </div>
             <div className="col-xl-10 col-12">
               <Switch>
+                <Route path="/reset-password" exact component={Logout} />
                 {navBarData.map(nav => (
                   <Route
                     key={nav.label}

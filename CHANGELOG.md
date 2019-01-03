@@ -5,6 +5,8 @@
 ### Added
 
 - Info alert to primary contact form
+- New component, Logout, which logs out the current user when rendered.
+- New route, /reset-password, which renders the new Logout component if a user is already authenticated.
 
 ### Changed
 
