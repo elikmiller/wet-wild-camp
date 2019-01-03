@@ -10,7 +10,6 @@ class AdminSessionCell extends Component {
   render() {
     let { data } = this.props;
     let date = this.formatDate(data.startDate);
-    console.log(data.capacity);
     return (
       <tr>
         <td>{data.name}</td>
