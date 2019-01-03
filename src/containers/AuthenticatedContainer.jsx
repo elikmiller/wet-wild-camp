@@ -15,6 +15,7 @@ import AdminUserFull from "../Admin/AdminUsers/AdminUserFull";
 import AdminCampers from "../Admin/AdminCampers/AdminCampers";
 import AdminCamperFull from "../Admin/AdminCampers/AdminCamperFull";
 import AdminCamps from "../Admin/AdminCamps/AdminCamps";
+import AdminRosters from "../Admin/AdminRosters/AdminRosters";
 import AdminSessionRoster from "../Admin/AdminSessions/AdminSessionRoster";
 import AdminPayments from "../Admin/AdminPayments/AdminPayments";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -44,6 +45,11 @@ class AuthenticatedContainer extends Component {
       path: "/admin/camps",
       label: "Camps",
       component: AdminCamps
+    },
+    {
+      path: "/admin/rosters",
+      label: "Rosters",
+      component: AdminRosters
     },
     { path: "/admin/payments", label: "Payments", component: AdminPayments }
   ];
