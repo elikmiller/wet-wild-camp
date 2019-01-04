@@ -16,13 +16,16 @@ import AdminCampers from "../Admin/AdminCampers/AdminCampers";
 import AdminCamperFull from "../Admin/AdminCampers/AdminCamperFull";
 import AdminCamps from "../Admin/AdminCamps/AdminCamps";
 import AdminRosters from "../Admin/AdminRosters/AdminRosters";
-import AdminSessionRoster from "../Admin/AdminSessions/AdminSessionRoster";
 import AdminPayments from "../Admin/AdminPayments/AdminPayments";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 class AuthenticatedContainer extends Component {
   navs = [
-    { path: "/", label: "Overview", component: OverviewContainerWrapper },
+    {
+      path: "/overview",
+      label: "Overview",
+      component: OverviewContainerWrapper
+    },
     { path: "/campers", label: "Campers", component: CampersContainerWrapper },
     { path: "/schedule", label: "Register", component: Schedule },
     {
@@ -68,14 +71,6 @@ class AuthenticatedContainer extends Component {
             </div>
             <div className="col-xl-10 col-12 mb-5">
               <Switch>
-                {navBarData.map(nav => (
-                  <Route
-                    key={nav.label}
-                    path={nav.path}
-                    component={nav.component}
-                  />
-                ))}
-                <Route path="/payments/success" component={Checkout} />
                 {!this.props.isAdmin && (
                   <Route
                     path="/"
@@ -90,6 +85,7 @@ class AuthenticatedContainer extends Component {
                     render={() => <Redirect to="/admin/registrations" />}
                   />
                 )}
+                <Route path="/payments/success" component={Checkout} />
                 {this.props.isAdmin && (
                   <Route
                     path="/admin/users/:userId"
@@ -102,12 +98,6 @@ class AuthenticatedContainer extends Component {
                     component={AdminCamperFull}
                   />
                 )}
-                {this.props.isAdmin && (
-                  <Route
-                    path="/admin/rosters/:campId"
-                    component={AdminSessionRoster}
-                  />
-                )}
                 <Route
                   exact
                   path="/schedule/:campId"
@@ -118,6 +108,13 @@ class AuthenticatedContainer extends Component {
                   path="/schedule/0/:status"
                   component={CampRegisterResult}
                 />
+                {navBarData.map(nav => (
+                  <Route
+                    key={nav.label}
+                    path={nav.path}
+                    component={nav.component}
+                  />
+                ))}
               </Switch>
             </div>
           </div>

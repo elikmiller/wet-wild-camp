@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import moment from "moment";
 import _ from "lodash";
+import SearchTable from "../../SearchTable/SearchTable";
+import { Link } from "react-router-dom";
 
 class AdminRoster extends Component {
   formatDate(date) {
@@ -8,54 +10,66 @@ class AdminRoster extends Component {
   }
 
   render() {
-    let camp = this.props.data;
     return (
-      <div className="admin-camp">
-        <div className="table-responsive">
-          <table className="table table-sm">
-            <tbody>
-              <tr>
-                <th>Name</th>
-                <td>{camp.name}</td>
-              </tr>
-              <tr>
-                <th>Type</th>
-                <td>{_.capitalize(camp.type)}</td>
-              </tr>
-              <tr>
-                <th>Description</th>
-                <td>{camp.description}</td>
-              </tr>
-              <tr>
-                <th>Fee</th>
-                <td>${camp.fee && camp.fee.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <th>Capacity</th>
-                <td>{camp.capacity}</td>
-              </tr>
-              <tr>
-                <th>Registration Open</th>
-                <td>{this.formatDate(camp.openDate)}</td>
-              </tr>
-              <tr>
-                <th>Registration Close</th>
-                <td>{this.formatDate(camp.closeDate)}</td>
-              </tr>
-              <tr>
-                <th>Camp Start</th>
-                <td>{this.formatDate(camp.startDate)}</td>
-              </tr>
-              <tr>
-                <th>Camp End</th>
-                <td>{this.formatDate(camp.endDate)}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <button className="btn btn-primary" onClick={this.props.openForm}>
-          <i className="fas fa-edit" /> Edit Camp
-        </button>
+      <div className="admin-roster">
+        <SearchTable
+          items={this.props.camp.campers || []}
+          searchKeys={[
+            "camper.firstName",
+            "camper.lastName",
+            "user.primaryContact.firstName",
+            "user.primaryContact.lastName"
+          ]}
+          queryPlaceholder="Search Roster"
+          columns={[
+            {
+              key: "camper.firstName",
+              name: "First Name",
+              displayFunc: item => item.camper.firstName
+            },
+            {
+              key: "camper.lastName",
+              name: "Last Name",
+              displayFunc: item => item.camper.lastName
+            },
+            {
+              key: "camper.morningDropoff",
+              name: "AM Dropoff",
+              displayFunc: item => _.capitalize(item.morningDropoff)
+            },
+            {
+              key: "camper.afternoonPickup",
+              name: "PM Pickup",
+              displayFunc: item => _.capitalize(item.afternoonPickup)
+            },
+            {
+              key: "user.primaryContact.firstName",
+              name: "Primary First Name",
+              displayFunc: item => item.user.primaryContact.firstName
+            },
+            {
+              key: "user.primaryContact.lastName",
+              name: "Primary Last Name",
+              displayFunc: item => item.user.primaryContact.lastName
+            },
+            {
+              key: "",
+              name: "",
+              displayFunc: item => (
+                <Link to={`/admin/campers/${item.camper._id}`}>
+                  View Camper
+                </Link>
+              )
+            },
+            {
+              key: "",
+              name: "",
+              displayFunc: item => (
+                <Link to={`/admin/users/${item.user._id}`}>View User</Link>
+              )
+            }
+          ]}
+        />
       </div>
     );
   }
