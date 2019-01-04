@@ -3,12 +3,7 @@ import moment from "moment";
 import _ from "lodash";
 
 class AdminCamp extends Component {
-  formatDate(date) {
-    return moment.utc(date).format("MM/DD/YYYY");
-  }
-
   render() {
-    let camp = this.props.data;
     return (
       <div className="admin-camp">
         <div className="table-responsive">
@@ -16,39 +11,49 @@ class AdminCamp extends Component {
             <tbody>
               <tr>
                 <th>Name</th>
-                <td>{camp.name}</td>
+                <td>{this.props.camp.name}</td>
               </tr>
               <tr>
                 <th>Type</th>
-                <td>{_.capitalize(camp.type)}</td>
+                <td>{_.capitalize(this.props.camp.type)}</td>
               </tr>
               <tr>
                 <th>Description</th>
-                <td>{camp.description}</td>
+                <td>{this.props.camp.description}</td>
               </tr>
               <tr>
                 <th>Fee</th>
-                <td>${camp.fee && camp.fee.toFixed(2)}</td>
+                <td>
+                  ${this.props.camp.fee && this.props.camp.fee.toFixed(2)}
+                </td>
               </tr>
               <tr>
                 <th>Capacity</th>
-                <td>{camp.capacity}</td>
+                <td>{this.props.camp.capacity}</td>
               </tr>
               <tr>
                 <th>Registration Open</th>
-                <td>{this.formatDate(camp.openDate)}</td>
+                <td>
+                  {moment.utc(this.props.camp.openDate).format("MM/DD/YYYY")}
+                </td>
               </tr>
               <tr>
                 <th>Registration Close</th>
-                <td>{this.formatDate(camp.closeDate)}</td>
+                <td>
+                  {moment.utc(this.props.camp.closeDate).format("MM/DD/YYYY")}
+                </td>
               </tr>
               <tr>
                 <th>Camp Start</th>
-                <td>{this.formatDate(camp.startDate)}</td>
+                <td>
+                  {moment.utc(this.props.camp.startDate).format("MM/DD/YYYY")}
+                </td>
               </tr>
               <tr>
                 <th>Camp End</th>
-                <td>{this.formatDate(camp.endDate)}</td>
+                <td>
+                  {moment.utc(this.props.camp.endDate).format("MM/DD/YYYY")}
+                </td>
               </tr>
             </tbody>
           </table>

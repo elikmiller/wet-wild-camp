@@ -38,7 +38,11 @@ class EditableAdminCamp extends Component {
     }
     return (
       <div className="editable-admin-camp">
-        <AdminCamp data={this.props.camp} openForm={this.openForm} />
+        <AdminCamp
+          camp={this.props.camp}
+          openForm={this.openForm}
+          deleteCamp={this.props.deleteCamp}
+        />
       </div>
     );
   }

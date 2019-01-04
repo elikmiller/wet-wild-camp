@@ -5,6 +5,8 @@ import Spinner from "../../Spinner/Spinner";
 import ToggleableAdminCampForm from "./ToggleableAdminCampForm";
 import SearchTable from "../../SearchTable/SearchTable";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import BooleanIndicator from "../../BooleanIndicator/BooleanIndicator";
 
 class AdminCampList extends Component {
   state = {
@@ -71,14 +73,44 @@ class AdminCampList extends Component {
               displayFunc: item => _.capitalize(item.type)
             },
             {
-              key: "campers.length",
-              name: "Registrations / Capacity",
-              displayFunc: item => `${item.campers.length} / ${item.capacity}`
+              key: "description",
+              name: "Description",
+              displayFunc: item => (
+                <BooleanIndicator value={!!item.description} />
+              )
             },
             {
-              key: "waitlisted.length",
-              name: "Waitlist",
-              displayFunc: item => item.waitlist.length
+              key: "fee",
+              name: "Fee",
+              displayFunc: item => `$${item.fee.toFixed(2)}`
+            },
+            {
+              key: "capacity",
+              name: "Capacity",
+              displayFunc: item => item.capacity
+            },
+            {
+              key: "openDate",
+              name: "Open Date",
+              displayFunc: item =>
+                moment.utc(item.openDate).format("MM/DD/YYYY")
+            },
+            {
+              key: "closeDate",
+              name: "Close Date",
+              displayFunc: item =>
+                moment.utc(item.closeDate).format("MM/DD/YYYY")
+            },
+            {
+              key: "startDate",
+              name: "Start Date",
+              displayFunc: item =>
+                moment.utc(item.startDate).format("MM/DD/YYYY")
+            },
+            {
+              key: "endDate",
+              name: "End Date",
+              displayFunc: item => moment.utc(item.endDate).format("MM/DD/YYYY")
             },
             {
               key: "",
