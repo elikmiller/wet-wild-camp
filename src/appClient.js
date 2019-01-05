@@ -7,6 +7,16 @@ const appClient = axios.create({
   withCredentials: true
 });
 
+appClient.interceptors.response.use(
+  function(response) {
+    return response;
+  },
+  function(error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+);
+
 const login = ({ email, password }) => {
   return appClient.post("/login", { email, password });
 };
