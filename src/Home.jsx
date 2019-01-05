@@ -9,9 +9,7 @@ class Home extends Component {
 
   handleLogin = data => {
     return this.props.onLogin(data).then(() => {
-      this.props.isAdmin
-        ? this.props.history.push("/admin")
-        : this.props.history.push("/");
+      this.props.history.push("/");
     });
   };
 
