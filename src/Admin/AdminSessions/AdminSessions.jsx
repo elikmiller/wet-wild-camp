@@ -114,6 +114,7 @@ class AdminSessions extends Component {
                 </button>
               </td>
               <td />
+              <td />
             </tr>
           </thead>
           <tbody>{content}</tbody>

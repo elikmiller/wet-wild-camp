@@ -8,6 +8,7 @@
 - Admin Roster view. This view shows information about campers who are full registered for a given camp and allows users to download camp reports for a selected week.
 - New component, Logout, which logs out the current user when rendered.
 - New route, /reset-password, which renders the new Logout component if a user is already authenticated.
+- Display capacity/registrants/waitlist for each camp under Admin -> Camp Sessions.
 
 ### Changed
 
@@ -15,6 +16,7 @@
 - reworded 'Thank You' page in first time wizard
 - Camp schedules are now sorted by start date.
 - Admin Camp view refactor. The Camp view is now sortable and searchable.
+- Campers and Contact Information now display properly on admin pages.
 
 ### Removed
 
