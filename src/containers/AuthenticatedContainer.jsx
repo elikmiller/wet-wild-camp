@@ -1,29 +1,32 @@
 import React, { Component } from "react";
-import SideNav from "../SideNav/SideNav.jsx";
-import MainMenu from "../SideNav/MainMenu.jsx";
-import OverviewContainerWrapper from "../Overview/OverviewContainerWrapper.jsx";
-import CampersContainerWrapper from "../Campers/CampersContainerWrapper.jsx";
-import Schedule from "../Schedule/Schedule.jsx";
+import SideNav from "../SideNav/SideNav";
+import MainMenu from "../SideNav/MainMenu";
+import OverviewContainerWrapper from "../Overview/OverviewContainerWrapper";
+import CampersContainerWrapper from "../Campers/CampersContainerWrapper";
+import Schedule from "../Schedule/Schedule";
 import CampRegisterFormWrapper from "../Schedule/CampRegisterFormWrapper";
 import CampRegisterResult from "../Schedule/CampRegisterResult";
-import ContactInformationContainerWrapper from "../ContactInformation/ContactInformationContainerWrapper.jsx";
-import Payments from "../Payments/Payments.jsx";
-import Checkout from "../Payments/Checkout.jsx";
-import Logout from "../Logout/Logout.jsx";
-import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations.jsx";
-import AdminUsers from "../Admin/AdminUsers/AdminUsers.jsx";
-import AdminUserFull from "../Admin/AdminUsers/AdminUserFull.jsx";
+import ContactInformationContainerWrapper from "../ContactInformation/ContactInformationContainerWrapper";
+import Payments from "../Payments/Payments";
+import Checkout from "../Payments/Checkout";
+import Logout from "../Logout/Logout";
+import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations";
+import AdminUsers from "../Admin/AdminUsers/AdminUsers";
+import AdminUserFull from "../Admin/AdminUsers/AdminUserFull";
 import AdminCampers from "../Admin/AdminCampers/AdminCampers";
 import AdminCamperFull from "../Admin/AdminCampers/AdminCamperFull";
-import AdminSessions from "../Admin/AdminSessions/AdminSessions.jsx";
-import AdminSessionFull from "../Admin/AdminSessions/AdminSessionFull.jsx";
-import AdminSessionRoster from "../Admin/AdminSessions/AdminSessionRoster";
-import AdminPayments from "../Admin/AdminPayments/AdminPayments.jsx";
-import { Route, Switch } from "react-router-dom";
+import AdminCamps from "../Admin/AdminCamps/AdminCamps";
+import AdminRosters from "../Admin/AdminRosters/AdminRosters";
+import AdminPayments from "../Admin/AdminPayments/AdminPayments";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 class AuthenticatedContainer extends Component {
   navs = [
-    { path: "/", label: "Overview", component: OverviewContainerWrapper },
+    {
+      path: "/overview",
+      label: "Overview",
+      component: OverviewContainerWrapper
+    },
     { path: "/campers", label: "Campers", component: CampersContainerWrapper },
     { path: "/schedule", label: "Register", component: Schedule },
     {
@@ -35,13 +38,22 @@ class AuthenticatedContainer extends Component {
   ];
 
   adminNavs = [
-    { path: "/admin", label: "Registrations", component: AdminRegistrations },
+    {
+      path: "/admin/registrations",
+      label: "Registrations",
+      component: AdminRegistrations
+    },
     { path: "/admin/users", label: "Users", component: AdminUsers },
     { path: "/admin/campers", label: "Campers", component: AdminCampers },
     {
-      path: "/admin/sessions",
-      label: "Camp Sessions",
-      component: AdminSessions
+      path: "/admin/camps",
+      label: "Camps",
+      component: AdminCamps
+    },
+    {
+      path: "/admin/rosters",
+      label: "Rosters",
+      component: AdminRosters
     },
     { path: "/admin/payments", label: "Payments", component: AdminPayments }
   ];
@@ -58,24 +70,24 @@ class AuthenticatedContainer extends Component {
             <div className="d-none d-xl-block col-xl-2">
               <SideNav navs={navBarData} onLogout={this.props.onLogout} />
             </div>
-            <div className="col-xl-10 col-12">
+            <div className="col-xl-10 col-12 mb-5">
               <Switch>
                 <Route path="/reset-password" exact component={Logout} />
-                {navBarData.map(nav => (
+                {!this.props.isAdmin && (
                   <Route
-                    key={nav.label}
+                    path="/"
                     exact
-                    path={nav.path}
-                    component={nav.component}
-                  />
-                ))}
-                <Route path="/payments/success" component={Checkout} />
-                {this.props.isAdmin && (
-                  <Route
-                    path="/admin/sessions/:sessionId"
-                    component={AdminSessionFull}
+                    render={() => <Redirect to="/overview" />}
                   />
                 )}
+                {this.props.isAdmin && (
+                  <Route
+                    path="/"
+                    exact
+                    render={() => <Redirect to="/admin/registrations" />}
+                  />
+                )}
+                <Route path="/payments/success" component={Checkout} />
                 {this.props.isAdmin && (
                   <Route
                     path="/admin/users/:userId"
@@ -88,12 +100,6 @@ class AuthenticatedContainer extends Component {
                     component={AdminCamperFull}
                   />
                 )}
-                {this.props.isAdmin && (
-                  <Route
-                    path="/admin/rosters/:campId"
-                    component={AdminSessionRoster}
-                  />
-                )}
                 <Route
                   exact
                   path="/schedule/:campId"
@@ -104,6 +110,13 @@ class AuthenticatedContainer extends Component {
                   path="/schedule/0/:status"
                   component={CampRegisterResult}
                 />
+                {navBarData.map(nav => (
+                  <Route
+                    key={nav.label}
+                    path={nav.path}
+                    component={nav.component}
+                  />
+                ))}
               </Switch>
             </div>
           </div>

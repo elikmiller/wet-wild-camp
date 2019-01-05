@@ -22,7 +22,6 @@ class SideNav extends Component {
 
 const ListItemLink = ({ to, label }) => (
   <Route
-    exact
     path={to}
     children={({ match }) => (
       <Link
