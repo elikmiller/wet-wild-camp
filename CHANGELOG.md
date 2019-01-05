@@ -6,6 +6,8 @@
 
 - Info alert to primary contact form
 - Admin Roster view. This view shows information about campers who are full registered for a given camp and allows users to download camp reports for a selected week.
+- New component, Logout, which logs out the current user when rendered.
+- New route, /reset-password, which renders the new Logout component if a user is already authenticated.
 
 ### Changed
 

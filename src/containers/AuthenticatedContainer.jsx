@@ -9,6 +9,7 @@ import CampRegisterResult from "../Schedule/CampRegisterResult";
 import ContactInformationContainerWrapper from "../ContactInformation/ContactInformationContainerWrapper";
 import Payments from "../Payments/Payments";
 import Checkout from "../Payments/Checkout";
+import Logout from "../Logout/Logout";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations";
 import AdminUsers from "../Admin/AdminUsers/AdminUsers";
 import AdminUserFull from "../Admin/AdminUsers/AdminUserFull";
@@ -71,6 +72,7 @@ class AuthenticatedContainer extends Component {
             </div>
             <div className="col-xl-10 col-12 mb-5">
               <Switch>
+                <Route path="/reset-password" exact component={Logout} />
                 {!this.props.isAdmin && (
                   <Route
                     path="/"
