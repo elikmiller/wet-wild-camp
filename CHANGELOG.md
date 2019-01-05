@@ -14,6 +14,7 @@
 - added hyperlink to registration page
 - reworded 'Thank You' page in first time wizard
 - Camp schedules are now sorted by start date.
+- Campers and Contact Information now display properly on admin pages.
 
 ### Removed
 
