@@ -38,6 +38,39 @@ class AdminRosterDetail extends Component {
           {this.state.camp.name} {_.capitalize(this.state.camp.type)} Roster
         </p>
         <AdminRoster camp={this.state.camp} />
+        <hr />
+        <ul>
+          <li>
+            <a
+              href={`${process.env.REACT_APP_SERVER_URL}/camps/${
+                this.state.camp._id
+              }/csv/contact`}
+              download
+            >
+              Download Contact Report (.csv)
+            </a>
+          </li>
+          <li>
+            <a
+              href={`${process.env.REACT_APP_SERVER_URL}/camps/${
+                this.state.camp._id
+              }/csv/monday`}
+              download
+            >
+              Download Monday Report (.csv)
+            </a>
+          </li>
+          <li>
+            <a
+              href={`${process.env.REACT_APP_SERVER_URL}/camps/${
+                this.state.camp._id
+              }/csv/swimming`}
+              download
+            >
+              Download Swimming Report (.csv)
+            </a>
+          </li>
+        </ul>
       </div>
     );
   }
