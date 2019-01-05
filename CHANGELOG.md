@@ -5,12 +5,14 @@
 ### Added
 
 - Info alert to primary contact form
+- Admin Roster view. This view shows information about campers who are full registered for a given camp and allows users to download camp reports for a selected week.
 
 ### Changed
 
 - added hyperlink to registration page
 - reworded 'Thank You' page in first time wizard
 - Camp schedules are now sorted by start date.
+- Admin Camp view refactor. The Camp view is now sortable and searchable.
 
 ### Removed
 
