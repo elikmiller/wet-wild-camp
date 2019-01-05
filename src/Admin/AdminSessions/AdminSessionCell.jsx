@@ -15,6 +15,9 @@ class AdminSessionCell extends Component {
         <td>{data.name}</td>
         <td>{data.type}</td>
         <td>{date}</td>
+        <td>{`${data.capacity}/${data.campers.length}/${
+          data.waitlist.length
+        }`}</td>
         <td>
           <Link to={`/admin/sessions/${data._id}`}>More</Link>
         </td>
