@@ -4,6 +4,7 @@ import PrimaryContactForm from "./PrimaryContactForm";
 import SecondaryContactForm from "./SecondaryContactForm";
 import EmergencyContactForm from "./EmergencyContactForm";
 import CamperForm from "./CamperForm";
+import SurveyQuestion from "./SurveyQuestion";
 import FinalStep from "./FinalStep";
 
 class FirstTimeWizard extends Component {
@@ -52,6 +53,10 @@ class FirstTimeWizard extends Component {
       {
         name: "Camper Information",
         component: <CamperForm />
+      },
+      {
+        name: "Survey Question",
+        component: <SurveyQuestion userId={this.props.user._id} />
       },
       {
         name: "Thank You",
