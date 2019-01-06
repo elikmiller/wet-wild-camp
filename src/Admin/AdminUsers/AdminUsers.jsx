@@ -3,6 +3,7 @@ import appClient from "../../appClient";
 import handleSort from "../../sort";
 import AdminUserCell from "./AdminUserCell";
 import EmailContainer from "../../Email/EmailContainer";
+import SurveyData from "../SurveyData";
 
 class AdminUsers extends Component {
   state = {
@@ -96,6 +97,7 @@ class AdminUsers extends Component {
     });
     return (
       <div>
+        <SurveyData />
         <table className="table table-sm admin-table">
           <thead>
             <tr>
