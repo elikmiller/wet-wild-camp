@@ -10,6 +10,7 @@
 - New route, /reset-password, which renders the new Logout component if a user is already authenticated.
 - Display capacity/registrants/waitlist for each camp under Admin -> Camp Sessions.
 - Survey Question component to first time wizard
+- Expandable Chart for survey data
 
 ### Changed
 
