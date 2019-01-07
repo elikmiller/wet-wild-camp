@@ -2,7 +2,7 @@ import React from "react";
 import App from "./App";
 import appClient from "../appClient";
 import { shallow } from "enzyme";
-jest.mock("./appClient");
+jest.mock("../appClient");
 
 describe("App", () => {
   describe("after valid call to currentUser", () => {
