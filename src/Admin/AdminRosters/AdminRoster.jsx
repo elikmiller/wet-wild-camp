@@ -9,6 +9,13 @@ class AdminRoster extends Component {
     return moment.utc(date).format("MM/DD/YYYY");
   }
 
+  checkContactName = (data, key) => {
+    if (data && data[key]) {
+      return data[key];
+    }
+    return "";
+  };
+
   render() {
     return (
       <div className="admin-roster">
@@ -45,12 +52,14 @@ class AdminRoster extends Component {
             {
               key: "user.primaryContact.firstName",
               name: "Primary First Name",
-              displayFunc: item => item.user.primaryContact.firstName
+              displayFunc: item =>
+                this.checkContactName(item.user.primaryContact, "firstName")
             },
             {
               key: "user.primaryContact.lastName",
               name: "Primary Last Name",
-              displayFunc: item => item.user.primaryContact.lastName
+              displayFunc: item =>
+                this.checkContactName(item.user.primaryContact, "lastName")
             },
             {
               key: "",
