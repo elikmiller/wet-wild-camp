@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import appClient from "../appClient";
 import InputDropdown from "../forms/InputDropdown";
 import Spinner from "../Spinner/Spinner";
 import moment from "moment";
+import _ from "lodash";
 
 class CampRegisterForm extends Component {
   state = {
@@ -13,6 +15,7 @@ class CampRegisterForm extends Component {
       morningDropoff: "",
       afternoonPickup: ""
     },
+    hasContactInfo: false,
     errors: {},
     loading: false
   };
@@ -24,9 +27,29 @@ class CampRegisterForm extends Component {
   ];
 
   componentDidMount() {
+    this.checkContactInfo();
     this.getCampers();
     this.getCamp();
   }
+
+  checkContactInfo = () => {
+    appClient
+      .getContacts(this.props.userId)
+      .then(res => {
+        if (
+          !_.isEmpty(res.data.primaryContact) &&
+          !_.isEmpty(res.data.secondaryContact) &&
+          !_.isEmpty(res.data.emergencyContact)
+        ) {
+          this.setState({
+            hasContactInfo: true
+          });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
 
   isCorrectAge = birthDate => {
     let { type, startDate } = this.state.camp;
@@ -170,6 +193,7 @@ class CampRegisterForm extends Component {
       };
     });
     if (this.state.loading) return <Spinner />;
+    if (!this.state.hasContactInfo) return <ContactError />;
     return (
       <div>
         {this.state.errors.registration && (
@@ -237,6 +261,23 @@ class CampRegisterForm extends Component {
 
 export default CampRegisterForm;
 
+export const ContactError = () => {
+  return (
+    <div className="alert alert-danger" role="alert">
+      <h4 className="alert-heading">Registration Error</h4>
+      <p>
+        You don't have your Contact Information filled out yet! Please update it{" "}
+        <Link to="/contact-information">here</Link>.
+      </p>
+      <hr />
+      <p className="mb-0">
+        If this is a recurring issue, please{" "}
+        <a href="https://wetwildcamp.com/about-us/contact-us/">contact us</a>.
+      </p>
+    </div>
+  );
+};
+
 export const CampError = props => {
   return (
     <div className="alert alert-danger" role="alert">
@@ -244,7 +285,7 @@ export const CampError = props => {
       <p>{props.text}</p>
       <hr />
       <p className="mb-0">
-        If this is a recurring issue, please
+        If this is a recurring issue, please{" "}
         <a href="https://wetwildcamp.com/about-us/contact-us/">contact us</a>.
       </p>
     </div>
