@@ -118,7 +118,7 @@ class CampRegisterForm extends Component {
       appClient
         .createRegistration(dataObject)
         .then(() => {
-          this.props.history.push("/schedule/0/success");
+          this.props.history.push("/register/success");
         })
         .catch(err => {
           if (err.response.status === 500) {
@@ -159,7 +159,7 @@ class CampRegisterForm extends Component {
 
   cancelRegistration = e => {
     e.preventDefault();
-    this.props.history.push("/schedule/0/cancelled");
+    this.props.history.push("/register/cancelled");
   };
 
   render() {

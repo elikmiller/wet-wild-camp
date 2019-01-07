@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../App/App";
 import appClient from "../appClient";
 import ServerError from "../forms/ServerError";
 import paypalButton from "../images/paypal-logo.png";
@@ -182,7 +182,9 @@ class Payments extends Component {
         </div>
         {this.state.earlyBird && (
           <div className="alert alert-success" role="alert">
-            <p>Early bird prices are in effect through May 1st!</p>
+            <p className="mb-0">
+              Early bird prices are in effect through May 1st!
+            </p>
           </div>
         )}
         <div className="table-responsive">

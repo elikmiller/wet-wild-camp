@@ -1,6 +1,6 @@
 import React from "react";
 
-const Loading = () => {
+const LoadingBar = () => {
   return (
     <div className="d-flex w-100 h-100 justify-content-center align-items-center">
       <div className="progress w-75">
@@ -16,4 +16,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingBar;

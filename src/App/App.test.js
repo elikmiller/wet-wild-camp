@@ -1,6 +1,6 @@
 import React from "react";
-import App from "./App.jsx";
-import appClient from "./appClient";
+import App from "./App";
+import appClient from "../appClient";
 import { shallow } from "enzyme";
 jest.mock("./appClient");
 
