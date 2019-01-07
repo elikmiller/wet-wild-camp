@@ -35,11 +35,6 @@ class AdminRosterDetail extends Component {
     return (
       <div className="admin-roster-detail spinner-wrapper">
         {this.state.isLoading && <Spinner />}
-        <Link to="/admin/rosters">
-          <button type="button" className="btn btn-link mb-3 pl-0">
-            <i className="fas fa-arrow-left" /> Back to All Rosters
-          </button>
-        </Link>
         <p className="lead">
           {this.state.camp.name} {_.capitalize(this.state.camp.type)} Roster
         </p>

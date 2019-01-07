@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import Spinner from "../../Spinner/Spinner";
 import _ from "lodash";
-import { Link } from "react-router-dom";
 
 class AdminRosterSwimming extends Component {
   state = {
@@ -61,12 +60,6 @@ class AdminRosterSwimming extends Component {
     return (
       <div className="admin-roster-swimming spinner-wrapper">
         {this.state.isLoading && <Spinner />}
-        <Link to={`/admin/rosters/${this.state.camp._id}`}>
-          <button type="button" className="btn btn-link mb-3 pl-0">
-            <i className="fas fa-arrow-left" /> Back to {this.state.camp.name}{" "}
-            {_.capitalize(this.state.camp.type)} Roster
-          </button>
-        </Link>
         <p className="lead">
           {this.state.camp.name} {_.capitalize(this.state.camp.type)} - Swimming
           Ability
