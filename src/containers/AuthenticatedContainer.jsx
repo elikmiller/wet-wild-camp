@@ -14,7 +14,6 @@ import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations";
 import AdminUsers from "../Admin/AdminUsers/AdminUsers";
 import AdminUserFull from "../Admin/AdminUsers/AdminUserFull";
 import AdminCampers from "../Admin/AdminCampers/AdminCampers";
-import AdminCamperFull from "../Admin/AdminCampers/AdminCamperFull";
 import AdminCamps from "../Admin/AdminCamps/AdminCamps";
 import AdminRosters from "../Admin/AdminRosters/AdminRosters";
 import AdminPayments from "../Admin/AdminPayments/AdminPayments";
@@ -92,12 +91,6 @@ class AuthenticatedContainer extends Component {
                   <Route
                     path="/admin/users/:userId"
                     component={AdminUserFull}
-                  />
-                )}
-                {this.props.isAdmin && (
-                  <Route
-                    path="/admin/campers/:camperId"
-                    component={AdminCamperFull}
                   />
                 )}
                 <Route
