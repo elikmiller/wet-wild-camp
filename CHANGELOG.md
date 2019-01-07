@@ -15,7 +15,8 @@
 - added hyperlink to registration page
 - reworded 'Thank You' page in first time wizard
 - Camp schedules are now sorted by start date.
-- Admin Camp view refactor. The Camp view is now sortable and searchable.
+- Admin Camps view refactor. The Camps view is now sortable and searchable.
+- Admin Campers view refactor. The Campers view is now sortable and searchable.
 - Campers and Contact Information now display properly on admin pages.
 
 ### Removed
