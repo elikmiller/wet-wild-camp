@@ -5,6 +5,7 @@ import ServerError from "../forms/ServerError";
 import paypalButton from "../images/paypal-logo.png";
 import Spinner from "../Spinner/Spinner";
 import moment from "moment";
+import _ from "lodash";
 import "./Payments.css";
 
 class Payments extends Component {
@@ -126,8 +127,6 @@ class Payments extends Component {
       let total = reg.camp.fee;
       if (reg.deposit) total = total - 100;
       if (this.state.earlyBird) total = total - 30;
-      let type =
-        reg.camp.type.charAt(0).toUpperCase() + reg.camp.type.substr(1);
       return (
         <tr key={i}>
           <td>
@@ -156,7 +155,9 @@ class Payments extends Component {
             </div>
           </td>
           <td>{reg.camp.name}</td>
-          <td>{type}</td>
+          <td>{_.capitalize(reg.camp.type)}</td>
+          <td>{moment.utc(reg.camp.startDate).format("MM/DD/YYYY")}</td>
+          <td>{moment.utc(reg.camp.endDate).format("MM/DD/YYYY")}</td>
           <td>
             {reg.camper.firstName} {reg.camper.lastName}
           </td>
@@ -191,8 +192,10 @@ class Payments extends Component {
               <tr>
                 <th>Deposit</th>
                 <th>Full</th>
-                <th>Camp Session</th>
-                <th>Camp</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
                 <th>Camper</th>
                 <th>Balance</th>
               </tr>
