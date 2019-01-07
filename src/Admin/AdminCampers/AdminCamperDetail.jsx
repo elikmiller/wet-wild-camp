@@ -5,7 +5,7 @@ import appClient from "../../appClient";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
-class AdminCamperFull extends Component {
+class AdminCamperDetail extends Component {
   state = {
     camper: {},
     formOpen: false
@@ -126,4 +126,4 @@ class AdminCamperFull extends Component {
   }
 }
 
-export default AdminCamperFull;
+export default AdminCamperDetail;
