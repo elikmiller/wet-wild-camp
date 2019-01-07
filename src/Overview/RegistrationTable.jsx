@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import appClient from "../appClient";
+import _ from "lodash";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
 class RegistrationTable extends Component {
   deleteRegistration = e => {
@@ -15,22 +18,19 @@ class RegistrationTable extends Component {
       });
   };
 
-  capitalizeFirst = str => {
-    return str.charAt(0).toUpperCase() + str.substr(1);
-  };
-
   render() {
     let content = this.props.data.map((reg, i) => {
-      let type = this.capitalizeFirst(reg.camp.type);
       return (
         <tr key={i}>
           <td>{reg.camp.name}</td>
-          <td>{type}</td>
+          <td>{_.capitalize(reg.camp.type)}</td>
+          <td>{moment.utc(reg.camp.startDate).format("MM/DD/YYYY")}</td>
+          <td>{moment.utc(reg.camp.endDate).format("MM/DD/YYYY")}</td>
           <td>
             {reg.camper.firstName} {reg.camper.lastName}
           </td>
-          <td>{this.capitalizeFirst(reg.morningDropoff || "")}</td>
-          <td>{this.capitalizeFirst(reg.afternoonPickup || "")}</td>
+          <td>{_.capitalize(reg.morningDropoff || "")}</td>
+          <td>{_.capitalize(reg.afternoonPickup || "")}</td>
           <td>
             {reg.waitlist && (
               <span className="badge badge-warning">Waitlisted</span>
@@ -40,22 +40,24 @@ class RegistrationTable extends Component {
             {!reg.paid && !reg.deposit && (
               <button
                 type="button"
-                className="btn btn-danger btn-sm"
+                className="btn btn-outline-danger btn-sm"
                 value={i}
                 onClick={this.deleteRegistration}
               >
-                Cancel
+                <i className="fas fa-times" /> Cancel
               </button>
             )}
             {!reg.paid && reg.deposit && (
-              <button
-                type="button"
-                className="btn btn-warning btn-sm"
-                onClick={e => e.preventDefault()}
-                disabled
-              >
-                Deposit Only
-              </button>
+              <Link to="/payments">
+                <button
+                  type="button"
+                  className="btn btn-outline-warning btn-sm"
+                  onClick={e => e.preventDefault()}
+                  disabled
+                >
+                  <i className="fas fa-hourglass-half" /> Deposit Only
+                </button>
+              </Link>
             )}
             {reg.paid && (
               <button
@@ -64,7 +66,7 @@ class RegistrationTable extends Component {
                 onClick={e => e.preventDefault()}
                 disabled
               >
-                Paid in Full
+                <i className="fas fa-check" /> Paid in Full
               </button>
             )}
           </td>
@@ -73,11 +75,13 @@ class RegistrationTable extends Component {
     });
     return (
       <div className="table-responsive">
-        <table className="table">
+        <table className="table table-sm">
           <thead>
             <tr>
-              <th>Camp Session</th>
-              <th>Camp</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Start Date</th>
+              <th>End Date</th>
               <th>Camper</th>
               <th>Dropoff</th>
               <th>Pickup</th>
