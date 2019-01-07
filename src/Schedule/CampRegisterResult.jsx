@@ -1,28 +1,36 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const CampRegisterResult = props => {
   const { status } = props.match.params;
-  return (
-    <div className="card">
-      <div className="card-body">
-        {status === "success" && (
-          <div className="alert alert-primary" role="alert">
-            Your registration has been successfully completed!
-            <hr />
-            <p className="mb-0">
-              Please go to the "Payments" tab to pay your deposit and reserve
-              your space in the camp.
-            </p>
-          </div>
-        )}
-        {status === "cancelled" && (
-          <div className="alert alert-info" role="alert">
-            Your registration has been cancelled.
-          </div>
-        )}
+
+  if (status === "success")
+    return (
+      <div className="alert alert-primary">
+        <p>
+          <strong>Your registration has been successfully completed!</strong>
+        </p>
+        <p>
+          To see an overview of all weeks registered, click{" "}
+          <Link to="/overview">Overview</Link>.
+        </p>
+        <p>
+          To register an additional child or additional week, click{" "}
+          <Link to="/schedule">Register</Link>.
+        </p>
+        <p>
+          To make a payment to hold your spot, click{" "}
+          <Link to="/payments">Payments</Link>.
+        </p>
       </div>
-    </div>
-  );
+    );
+  if (status === "cancelled")
+    return (
+      <div className="alert alert-info">
+        Your registration has been cancelled.
+      </div>
+    );
+  return null;
 };
 
 export default CampRegisterResult;
