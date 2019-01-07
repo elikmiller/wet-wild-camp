@@ -3,7 +3,6 @@ import appClient from "../../appClient";
 import EditableAdminCamp from "./EditableAdminCamp";
 import _ from "lodash";
 import Spinner from "../../Spinner/Spinner";
-import { Link } from "react-router-dom";
 
 class AdminCampDetail extends Component {
   state = {
@@ -80,11 +79,6 @@ class AdminCampDetail extends Component {
     return (
       <div className="admin-camp-details spinner-wrapper">
         {this.state.isLoading && <Spinner />}
-        <Link to="/admin/camps">
-          <button type="button" className="btn btn-link mb-3 pl-0">
-            <i className="fas fa-arrow-left" /> Back to All Camps
-          </button>
-        </Link>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <p className="lead mb-0">
             {this.state.camp.name} {_.capitalize(this.state.camp.type)} Details
