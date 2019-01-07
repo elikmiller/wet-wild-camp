@@ -9,6 +9,9 @@
 - New component, Logout, which logs out the current user when rendered.
 - New route, /reset-password, which renders the new Logout component if a user is already authenticated.
 - Display capacity/registrants/waitlist for each camp under Admin -> Camp Sessions.
+- Added new endpoint, updateManyCampers, to appClient
+- Added AdminRosterSwimming component
+- Added new route /admin/rosters/:campId/swimming to render AdminRosterSwimming
 
 ### Changed
 

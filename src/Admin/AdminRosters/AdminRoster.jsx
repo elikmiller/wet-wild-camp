@@ -33,6 +33,12 @@ class AdminRoster extends Component {
               displayFunc: item => item.camper.lastName
             },
             {
+              key: "camper.swimmingStrength",
+              name: "Swimming",
+              displayFunc: item =>
+                _.capitalize(item.camper.swimmingStrength) || "None"
+            },
+            {
               key: "camper.morningDropoff",
               name: "AM Dropoff",
               displayFunc: item => _.capitalize(item.morningDropoff)
