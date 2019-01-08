@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../App/App";
 import CampRegisterForm from "./CampRegisterForm";
 
 const CampRegisterFormWrapper = props => {

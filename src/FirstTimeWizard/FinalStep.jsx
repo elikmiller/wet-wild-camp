@@ -9,7 +9,7 @@ class FinalStep extends Component {
           <strong>Thank you!</strong>
         </p>
         <p>
-          Visit the <Link to="/schedule">Register</Link> page if you would like
+          Visit the <Link to="/register">Register</Link> page if you would like
           to browse the available camp sessions.
         </p>
         <p>
@@ -28,7 +28,7 @@ class FinalStep extends Component {
           </a>{" "}
           to get in contact with us.
         </p>
-        <Link to="/schedule">
+        <Link to="/register">
           <button type="button" className="btn btn-primary">
             Browse Camp Sessions
           </button>
