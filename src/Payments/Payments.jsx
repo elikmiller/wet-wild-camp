@@ -15,7 +15,8 @@ class Payments extends Component {
     deposits: [],
     total: 0,
     earlyBird: false,
-    errors: {}
+    isLoading: false,
+    errors: null
   };
 
   componentDidMount() {
@@ -26,7 +27,7 @@ class Payments extends Component {
   updateRegistrations = () => {
     this.setState({
       isLoading: true,
-      errors: {}
+      errors: null
     });
     appClient
       .getUserRegistrations(this.props.userId)
@@ -44,11 +45,9 @@ class Payments extends Component {
       })
       .catch(err => {
         this.setState({
-          isLoading: false
+          isLoading: false,
+          errors: err
         });
-        if (err.response.status === 500) {
-          this.setState({ errors: { server: "Server error." } });
-        }
       });
   };
 
@@ -62,6 +61,10 @@ class Payments extends Component {
   // and redirects the browser to PayPal's checkout flow
   handlePaypal = e => {
     e.preventDefault();
+    this.setState({
+      isLoading: true,
+      errors: null
+    });
     let fullPaymentIds = this.state.fullPayments.map(reg => {
       return reg._id;
     });
@@ -82,9 +85,10 @@ class Payments extends Component {
         });
       })
       .catch(err => {
-        if (err.response.status === 500) {
-          this.setState({ errors: { server: "Server error." } });
-        }
+        this.setState({
+          isLoading: false,
+          errors: err
+        });
       });
   };
 
@@ -165,10 +169,10 @@ class Payments extends Component {
         </tr>
       );
     });
-    if (this.state.isLoading) return <Spinner />;
     return (
-      <div className="wrapper payments-wrapper">
-        {this.state.errors.server && <ServerError />}
+      <div className="wrapper payments-wrapper spinner-wrapper">
+        {this.state.errors && <ServerError />}
+        {this.state.isLoading && <Spinner />}
         <div className="alert alert-dark" role="alert">
           <p>
             The <strong>Payments</strong> page allows you to choose between your
