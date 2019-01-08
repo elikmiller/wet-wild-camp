@@ -26,6 +26,7 @@
 - Confirmation message upon successful registration
 - Moved components into their own directories if they did not already have one
 - Moved nested routes from AuthenticatedComponent into new Register component
+- Fixed error message not appearing on checkout screen in some cases
 
 ### Removed
 

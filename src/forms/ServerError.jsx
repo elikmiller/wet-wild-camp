@@ -11,7 +11,16 @@ class ServerError extends Component {
         </p>
         <hr />
         <p className="mb-0">
-          If this is a recurring issue, please contact us at 000-000-0000.
+          If this is a recurring issue, please contact us by{" "}
+          <a
+            href="https://wetwildcamp.com/about-us/contact-us/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="alert-link"
+          >
+            clicking here
+          </a>
+          .
         </p>
       </div>
     );
