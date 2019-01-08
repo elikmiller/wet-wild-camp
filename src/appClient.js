@@ -143,6 +143,10 @@ const sendEmail = data => {
   return appClient.post("/admin/email", data);
 };
 
+const getSurveyResults = () => {
+  return appClient.get("/users/survey");
+};
+
 const forgotPassword = data => {
   return appClient.post("/password_reset", data);
 };
@@ -188,6 +192,7 @@ export default {
   executePayment,
   deletePayment,
   sendEmail,
+  getSurveyResults,
   forgotPassword,
   resetPassword
 };

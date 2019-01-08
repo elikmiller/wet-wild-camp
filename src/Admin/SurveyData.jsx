@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import appClient from "../appClient";
 import "./SurveyData.css";
 import {
   XYPlot,
@@ -11,8 +12,13 @@ import {
 
 class SurveyData extends Component {
   state = {
-    open: false
+    open: false,
+    data: []
   };
+
+  componentDidMount() {
+    this.getData();
+  }
 
   openForm = () => {
     this.setState({ open: true });
@@ -20,6 +26,17 @@ class SurveyData extends Component {
 
   closeForm = () => {
     this.setState({ open: false });
+  };
+
+  getData = () => {
+    appClient
+      .getSurveyResults()
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   render() {
