@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../App/App";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
@@ -27,7 +27,7 @@ class Camp extends Component {
 
   goToRegistration = e => {
     e.preventDefault();
-    this.props.history.push(`/schedule/${this.props.camp._id}`);
+    this.props.history.push(`/register/${this.props.camp._id}`);
   };
 
   formatDate = date => {
@@ -56,7 +56,7 @@ class Camp extends Component {
           <td>{spaceRemaining}</td>
           <td>
             {!this.state.isClosed && (
-              <Link to={`/schedule/${this.props.camp._id}`}>
+              <Link to={`/register/${this.props.camp._id}`}>
                 <button className="btn btn-secondary float-right btn-sm">
                   Register
                 </button>

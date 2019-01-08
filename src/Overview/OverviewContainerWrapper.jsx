@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../App/App";
 import OverviewContainer from "./OverviewContainer";
 
 const OverviewWrapper = () => {

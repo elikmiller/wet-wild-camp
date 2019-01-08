@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import UnauthenticatedContainer from "./containers/UnauthenticatedContainer.jsx";
-import AuthenticatedContainer from "./containers/AuthenticatedContainer.jsx";
-import appClient from "./appClient";
+import UnauthenticatedContainer from "../UnauthenticatedContainer/UnauthenticatedContainer";
+import AuthenticatedContainer from "../AuthenticatedContainer/AuthenticatedContainer";
+import appClient from "../appClient";
 
 class Home extends Component {
   unlisten = () => {};

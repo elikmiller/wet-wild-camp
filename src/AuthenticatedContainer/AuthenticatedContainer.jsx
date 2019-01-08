@@ -3,9 +3,7 @@ import SideNav from "../SideNav/SideNav";
 import MainMenu from "../SideNav/MainMenu";
 import OverviewContainerWrapper from "../Overview/OverviewContainerWrapper";
 import CampersContainerWrapper from "../Campers/CampersContainerWrapper";
-import Schedule from "../Schedule/Schedule";
-import CampRegisterFormWrapper from "../Schedule/CampRegisterFormWrapper";
-import CampRegisterResult from "../Schedule/CampRegisterResult";
+import Register from "../Register/Register";
 import ContactInformationContainerWrapper from "../ContactInformation/ContactInformationContainerWrapper";
 import Payments from "../Payments/Payments";
 import Checkout from "../Payments/Checkout";
@@ -27,7 +25,7 @@ class AuthenticatedContainer extends Component {
       component: OverviewContainerWrapper
     },
     { path: "/campers", label: "Campers", component: CampersContainerWrapper },
-    { path: "/schedule", label: "Register", component: Schedule },
+    { path: "/register", label: "Register", component: Register },
     {
       path: "/contact-information",
       label: "Contact Information",
@@ -93,16 +91,6 @@ class AuthenticatedContainer extends Component {
                     component={AdminUserFull}
                   />
                 )}
-                <Route
-                  exact
-                  path="/schedule/:campId"
-                  component={CampRegisterFormWrapper}
-                />
-                <Route
-                  exact
-                  path="/schedule/0/:status"
-                  component={CampRegisterResult}
-                />
                 {navBarData.map(nav => (
                   <Route
                     key={nav.label}
