@@ -12,6 +12,7 @@
 - Added new endpoint, updateManyCampers, to appClient
 - Added AdminRosterSwimming component
 - Added new route /admin/rosters/:campId/swimming to render AdminRosterSwimming
+- Start and end dates to table on /overview and on /payments
 
 ### Changed
 
