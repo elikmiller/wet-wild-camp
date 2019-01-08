@@ -13,6 +13,7 @@
 - Added AdminRosterSwimming component
 - Added new route /admin/rosters/:campId/swimming to render AdminRosterSwimming
 - Start and end dates to table on /overview and on /payments
+- Polyfills for IE9, IE10, IE11
 
 ### Changed
 
