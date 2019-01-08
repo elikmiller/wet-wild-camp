@@ -13,7 +13,7 @@ import {
 class SurveyData extends Component {
   state = {
     open: false,
-    data: []
+    surveyData: []
   };
 
   componentDidMount() {
@@ -32,7 +32,17 @@ class SurveyData extends Component {
     appClient
       .getSurveyResults()
       .then(res => {
-        console.log(res.data);
+        let surveyData = [
+          { x: "Previous Camper", y: res.data.previousCamper },
+          { x: "Internet", y: res.data.internet },
+          { x: "Friend/Relative", y: res.data["friend/relative"] },
+          { x: "Camp Fair", y: res.data.campFair },
+          { x: "Newspaper/Magazine", y: res.data["newspaper/magazine"] },
+          { x: "Other", y: res.data.other }
+        ];
+        this.setState({
+          surveyData: surveyData
+        });
       })
       .catch(err => {
         console.error(err);
@@ -63,16 +73,7 @@ class SurveyData extends Component {
             <VerticalGridLines />
             <XAxis />
             <YAxis />
-            <VerticalBarSeries
-              data={[
-                { x: "Previous Camper", y: 3 },
-                { x: "Internet", y: 5 },
-                { x: "Friend/Relative", y: 15 },
-                { x: "Camp Fair", y: 20 },
-                { x: "Newspaper/Magazine", y: 0 },
-                { x: "Other", y: 10 }
-              ]}
-            />
+            <VerticalBarSeries data={this.state.surveyData} />
           </XYPlot>
         </div>
       </div>
