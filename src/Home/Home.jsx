@@ -14,13 +14,13 @@ class Home extends Component {
   };
 
   handleLogout = () => {
-    this.props.onLogout().then(() => {
+    return this.props.onLogout().then(() => {
       this.props.history.push("/");
     });
   };
 
   handleRegister = data => {
-    this.props.onRegister(data).then(() => {
+    return this.props.onRegister(data).then(() => {
       this.props.history.push("/");
     });
   };

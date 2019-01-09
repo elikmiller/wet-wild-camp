@@ -64,6 +64,7 @@ class App extends Component {
     return appClient
       .register({ firstName, lastName, email, password })
       .then(res => {
+        if (res.data.error) throw res;
         return this.login({ email, password });
       });
   };
