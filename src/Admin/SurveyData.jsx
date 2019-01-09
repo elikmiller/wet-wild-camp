@@ -7,7 +7,8 @@ import {
   YAxis,
   HorizontalGridLines,
   VerticalGridLines,
-  VerticalBarSeries
+  VerticalBarSeries,
+  LabelSeries
 } from "react-vis";
 
 class SurveyData extends Component {
@@ -68,12 +69,24 @@ class SurveyData extends Component {
           )}
         </div>
         <div className="card-body" hidden={!this.state.open}>
-          <XYPlot xType="ordinal" width={1000} height={300}>
+          <XYPlot
+            className="xy-chart container"
+            xType="ordinal"
+            width={700}
+            height={300}
+          >
             <HorizontalGridLines />
             <VerticalGridLines />
             <XAxis />
             <YAxis />
-            <VerticalBarSeries data={this.state.surveyData} />
+            <VerticalBarSeries data={this.state.surveyData} barWidth={0.5} />
+            <LabelSeries
+              data={this.state.surveyData.map(obj => {
+                return { ...obj, label: obj.y.toString() };
+              })}
+              labelAnchorX="middle"
+              labelAnchorY="text-after-edge"
+            />
           </XYPlot>
         </div>
       </div>
