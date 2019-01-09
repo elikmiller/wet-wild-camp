@@ -33,6 +33,12 @@ class AdminRoster extends Component {
               displayFunc: item => item.camper.lastName
             },
             {
+              key: "camper.swimmingStrength",
+              name: "Swimming",
+              displayFunc: item =>
+                _.capitalize(item.camper.swimmingStrength) || "None"
+            },
+            {
               key: "camper.morningDropoff",
               name: "AM Dropoff",
               displayFunc: item => _.capitalize(item.morningDropoff)
@@ -45,12 +51,18 @@ class AdminRoster extends Component {
             {
               key: "user.primaryContact.firstName",
               name: "Primary First Name",
-              displayFunc: item => item.user.primaryContact.firstName
+              displayFunc: item =>
+                item.user.primaryContact
+                  ? item.user.primaryContact.firstName
+                  : ""
             },
             {
               key: "user.primaryContact.lastName",
               name: "Primary Last Name",
-              displayFunc: item => item.user.primaryContact.lastName
+              displayFunc: item =>
+                item.user.primaryContact
+                  ? item.user.primaryContact.lastName
+                  : ""
             },
             {
               key: "",

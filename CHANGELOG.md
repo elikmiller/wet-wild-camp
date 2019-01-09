@@ -9,16 +9,27 @@
 - New component, Logout, which logs out the current user when rendered.
 - New route, /reset-password, which renders the new Logout component if a user is already authenticated.
 - Display capacity/registrants/waitlist for each camp under Admin -> Camp Sessions.
+<<<<<<< HEAD
 - Survey Question component to first time wizard
 - Expandable Chart for survey data
+=======
+- Added new endpoint, updateManyCampers, to appClient
+- Added AdminRosterSwimming component
+- Added new route /admin/rosters/:campId/swimming to render AdminRosterSwimming
+- Start and end dates to table on /overview and on /payments
+>>>>>>> dev
 
 ### Changed
 
 - added hyperlink to registration page
 - reworded 'Thank You' page in first time wizard
 - Camp schedules are now sorted by start date.
-- Admin Camp view refactor. The Camp view is now sortable and searchable.
+- Admin Camps view refactor. The Camps view is now sortable and searchable.
+- Admin Campers view refactor. The Campers view is now sortable and searchable.
 - Campers and Contact Information now display properly on admin pages.
+- Confirmation message upon successful registration
+- Moved components into their own directories if they did not already have one
+- Moved nested routes from AuthenticatedComponent into new Register component
 
 ### Removed
 

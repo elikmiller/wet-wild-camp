@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./Home.jsx";
-import Loading from "./Loading";
-import appClient from "./appClient";
+import Home from "../Home/Home";
+import Loading from "../LoadingBar/LoadingBar";
+import appClient from "../appClient";
 import "./App.css";
-import "./table.css";
 
 export const AuthContext = React.createContext();
 

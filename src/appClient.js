@@ -69,6 +69,10 @@ const updateCamper = ({ id, data }) => {
   return appClient.patch(`/campers/${id}`, data);
 };
 
+const updateManyCampers = data => {
+  return appClient.patch("/campers", data);
+};
+
 const getContacts = userId => {
   return appClient.get(`/users/${userId}/contacts`);
 };
@@ -171,6 +175,7 @@ export default {
   getCampers,
   getAllCampers,
   updateCamper,
+  updateManyCampers,
   getContacts,
   updateUser,
   addCamper,
