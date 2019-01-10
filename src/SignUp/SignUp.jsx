@@ -33,10 +33,7 @@ class SignUp extends Component {
         {this.state.isLoading && <Spinner />}
         <div className="card-body">
           <h3 className="card-title">Sign Up</h3>
-          <SignUpForm onSubmit={this.handleOnSignUp} />
-          {this.state.error && (
-            <small className="text-danger">{this.state.error.message}</small>
-          )}
+          <SignUpForm onSubmit={this.handleOnSignUp} error={this.state.error} />
           <hr />
           <p>
             Already have an account? <Link to="/">Click here</Link> to login!

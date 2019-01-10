@@ -52,13 +52,19 @@ describe("SignUpForm", () => {
       it("should set error messages in state", () => {
         wrapper
           .state()
-          .errors.firstName.should.equal("First Name is required.");
-        wrapper.state().errors.lastName.should.equal("Last Name is required.");
-        wrapper.state().errors.email.should.equal("Email Address is required.");
-        wrapper.state().errors.password.should.equal("Password is required.");
+          .validationErrors.firstName.should.equal("First Name is required.");
         wrapper
           .state()
-          .errors.confirmPassword.should.equal(
+          .validationErrors.lastName.should.equal("Last Name is required.");
+        wrapper
+          .state()
+          .validationErrors.email.should.equal("Email Address is required.");
+        wrapper
+          .state()
+          .validationErrors.password.should.equal("Password is required.");
+        wrapper
+          .state()
+          .validationErrors.confirmPassword.should.equal(
             "Confirmation Password is required."
           );
       });
@@ -101,19 +107,23 @@ describe("SignUpForm", () => {
       it("should set error messages in state", () => {
         wrapper
           .state()
-          .errors.firstName.should.equal("First Name is required.");
-        wrapper.state().errors.lastName.should.equal("Last Name is required.");
+          .validationErrors.firstName.should.equal("First Name is required.");
         wrapper
           .state()
-          .errors.email.should.equal("Please enter a valid Email Address.");
+          .validationErrors.lastName.should.equal("Last Name is required.");
         wrapper
           .state()
-          .errors.password.should.equal(
+          .validationErrors.email.should.equal(
+            "Please enter a valid Email Address."
+          );
+        wrapper
+          .state()
+          .validationErrors.password.should.equal(
             "Password must be between 8 and 64 characters."
           );
         wrapper
           .state()
-          .errors.confirmPassword.should.equal(
+          .validationErrors.confirmPassword.should.equal(
             "Confirmation Password must match."
           );
       });
@@ -160,11 +170,13 @@ describe("SignUpForm", () => {
       });
 
       it("should be no error messages in state", () => {
-        wrapper.state().errors.should.not.have.property("firstName");
-        wrapper.state().errors.should.not.have.property("lastName");
-        wrapper.state().errors.should.not.have.property("email");
-        wrapper.state().errors.should.not.have.property("password");
-        wrapper.state().errors.should.not.have.property("confirmPassword");
+        wrapper.state().validationErrors.should.not.have.property("firstName");
+        wrapper.state().validationErrors.should.not.have.property("lastName");
+        wrapper.state().validationErrors.should.not.have.property("email");
+        wrapper.state().validationErrors.should.not.have.property("password");
+        wrapper
+          .state()
+          .validationErrors.should.not.have.property("confirmPassword");
       });
 
       it("child Inputs should not receive error messages", () => {
