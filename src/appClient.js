@@ -25,7 +25,7 @@ const logout = () => {
   return appClient.get("/logout");
 };
 
-const register = ({ firstName, lastName, email, password }) => {
+const createUser = ({ firstName, lastName, email, password }) => {
   return appClient.post("/users", { firstName, lastName, email, password });
 };
 
@@ -166,7 +166,7 @@ export default {
   getAdminUser,
   login,
   logout,
-  register,
+  createUser,
   getCamper,
   getCampers,
   getAllCampers,
