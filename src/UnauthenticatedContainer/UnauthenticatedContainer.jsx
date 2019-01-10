@@ -30,7 +30,7 @@ class UnauthenticatedContainer extends Component {
             <Route
               path="/signup"
               render={props => (
-                <SignUp onRegister={this.props.onRegister} {...props} />
+                <SignUp onSignUp={this.props.onSignUp} {...props} />
               )}
             />
             <Route

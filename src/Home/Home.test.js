@@ -7,14 +7,14 @@ describe("Home", () => {
   let wrapper;
   const onLogin = jest.fn(() => Promise.resolve());
   const onLogout = jest.fn(() => Promise.resolve());
-  const onRegister = jest.fn(() => Promise.resolve());
+  const onSignUp = jest.fn(() => Promise.resolve());
 
   beforeEach(() => {
     wrapper = shallow(
       <Home
         onLogin={onLogin}
         onLogout={onLogout}
-        onRegister={onRegister}
+        onSignUp={onSignUp}
         history={[]}
       />,
       { disableLifecycleMethods: true }
@@ -71,17 +71,17 @@ describe("Home", () => {
     });
   });
 
-  describe("register handler is fired", () => {
+  describe("signup handler is fired", () => {
     beforeEach(async () => {
-      await wrapper.instance().handleRegister();
+      await wrapper.instance().handleSignUp();
     });
 
     afterEach(() => {
       jest.clearAllMocks();
     });
 
-    it("onRegister is called", async () => {
-      onRegister.mock.calls.length.should.equal(1);
+    it("onSignUp is called", async () => {
+      onSignUp.mock.calls.length.should.equal(1);
     });
 
     it("history is updated", async () => {

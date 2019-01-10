@@ -1,14 +1,14 @@
 import React from "react";
-import RegisterForm from "./RegisterForm";
+import SignUpForm from "./SignUpForm";
 import { shallow } from "enzyme";
 
-describe("RegisterForm", () => {
+describe("SignUpForm", () => {
   let wrapper;
   let onSubmit = jest.fn(() => Promise.resolve());
   let mockEvent = { preventDefault: () => {} };
 
   beforeEach(() => {
-    wrapper = shallow(<RegisterForm onSubmit={onSubmit} />);
+    wrapper = shallow(<SignUpForm onSubmit={onSubmit} />);
   });
 
   afterEach(() => {

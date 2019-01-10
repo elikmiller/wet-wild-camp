@@ -60,11 +60,10 @@ class App extends Component {
     });
   };
 
-  register = ({ firstName, lastName, email, password }) => {
+  signUp = ({ firstName, lastName, email, password }) => {
     return appClient
-      .register({ firstName, lastName, email, password })
+      .createUser({ firstName, lastName, email, password })
       .then(res => {
-        if (res.data.error) throw res;
         return this.login({ email, password });
       });
   };
@@ -127,7 +126,7 @@ class App extends Component {
                         authenticated={this.state.authenticated}
                         onLogin={this.login}
                         onLogout={this.logout}
-                        onRegister={this.register}
+                        onSignUp={this.signUp}
                         onForgotPassword={this.forgotPassword}
                         onResetPassword={this.resetPassword}
                         isAdmin={this.state.admin}

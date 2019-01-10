@@ -19,8 +19,8 @@ class Home extends Component {
     });
   };
 
-  handleRegister = data => {
-    return this.props.onRegister(data).then(() => {
+  handleSignUp = data => {
+    return this.props.onSignUp(data).then(() => {
       this.props.history.push("/");
     });
   };
@@ -64,7 +64,7 @@ class Home extends Component {
         {!this.props.authenticated && (
           <UnauthenticatedContainer
             onLogin={this.handleLogin}
-            onRegister={this.handleRegister}
+            onSignUp={this.handleSignUp}
             onForgotPassword={this.props.onForgotPassword}
             onResetPassword={this.props.onResetPassword}
           />

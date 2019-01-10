@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Input from "./Input";
 import validator from "validator";
 
-class RegisterForm extends Component {
+class SignUpForm extends Component {
   state = {
     firstName: "",
     lastName: "",
@@ -79,7 +79,7 @@ class RegisterForm extends Component {
 
   render() {
     return (
-      <div className="register-form">
+      <div className="sign-up-form">
         <form onSubmit={this.handleSubmit}>
           <Input
             label="First Name"
@@ -128,7 +128,7 @@ class RegisterForm extends Component {
           />
           <div className="form-group">
             <button className="btn btn-primary btn-block" type="submit">
-              Register
+              Sign Up
             </button>
             {/* <small className="form-text text-muted">
               By clicking Register, you agree to our{" "}
@@ -142,4 +142,4 @@ class RegisterForm extends Component {
   }
 }
 
-export default RegisterForm;
+export default SignUpForm;
