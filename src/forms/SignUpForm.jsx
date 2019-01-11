@@ -2,48 +2,49 @@ import React, { Component } from "react";
 import Input from "./Input";
 import validator from "validator";
 
-class RegisterForm extends Component {
+class SignUpForm extends Component {
   state = {
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    errors: {},
+    validationErrors: {},
     wasValidated: false
   };
 
   validate = () => {
-    let errors = {};
+    let validationErrors = {};
     if (validator.isEmpty(this.state.firstName))
-      errors.firstName = "First Name is required.";
+      validationErrors.firstName = "First Name is required.";
     if (validator.isEmpty(this.state.lastName))
-      errors.lastName = "Last Name is required.";
+      validationErrors.lastName = "Last Name is required.";
     if (!validator.isEmail(this.state.email))
-      errors.email = "Please enter a valid Email Address.";
+      validationErrors.email = "Please enter a valid Email Address.";
     if (validator.isEmpty(this.state.email))
-      errors.email = "Email Address is required.";
+      validationErrors.email = "Email Address is required.";
     if (!validator.isLength(this.state.password, { min: 8, max: 64 }))
-      errors.password = "Password must be between 8 and 64 characters.";
+      validationErrors.password =
+        "Password must be between 8 and 64 characters.";
     if (validator.isEmpty(this.state.password))
-      errors.password = "Password is required.";
+      validationErrors.password = "Password is required.";
     if (!validator.equals(this.state.password, this.state.confirmPassword))
-      errors.confirmPassword = "Confirmation Password must match.";
+      validationErrors.confirmPassword = "Confirmation Password must match.";
     if (validator.isEmpty(this.state.confirmPassword))
-      errors.confirmPassword = "Confirmation Password is required.";
-    return errors;
+      validationErrors.confirmPassword = "Confirmation Password is required.";
+    return validationErrors;
   };
 
   handleSubmit = e => {
     e.preventDefault();
 
-    const errors = this.validate();
+    const validationErrors = this.validate();
     this.setState({
-      errors,
+      validationErrors,
       wasValidated: true
     });
 
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(validationErrors).length === 0) {
       const data = {
         email: this.state.email,
         password: this.state.password
@@ -54,13 +55,13 @@ class RegisterForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const errors = this.validate();
+    const validationErrors = this.validate();
     this.setState({
-      errors,
+      validationErrors,
       wasValidated: true
     });
 
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(validationErrors).length === 0) {
       let data = {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
@@ -79,7 +80,7 @@ class RegisterForm extends Component {
 
   render() {
     return (
-      <div className="register-form">
+      <div className="sign-up-form">
         <form onSubmit={this.handleSubmit}>
           <Input
             label="First Name"
@@ -88,7 +89,7 @@ class RegisterForm extends Component {
             value={this.state.firstName}
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
-            error={this.state.errors.firstName}
+            error={this.state.validationErrors.firstName}
           />
           <Input
             label="Last Name"
@@ -97,7 +98,7 @@ class RegisterForm extends Component {
             value={this.state.lastName}
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
-            error={this.state.errors.lastName}
+            error={this.state.validationErrors.lastName}
           />
           <Input
             label="Email Address"
@@ -106,7 +107,7 @@ class RegisterForm extends Component {
             value={this.state.email}
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
-            error={this.state.errors.email}
+            error={this.state.validationErrors.email}
           />
           <Input
             label="Password"
@@ -115,7 +116,7 @@ class RegisterForm extends Component {
             value={this.state.password}
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
-            error={this.state.errors.password}
+            error={this.state.validationErrors.password}
           />
           <Input
             label="Confirm Password"
@@ -124,12 +125,15 @@ class RegisterForm extends Component {
             value={this.state.confirmPassword}
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
-            error={this.state.errors.confirmPassword}
+            error={this.state.validationErrors.confirmPassword}
           />
           <div className="form-group">
             <button className="btn btn-primary btn-block" type="submit">
-              Register
+              Sign Up
             </button>
+            {this.props.error && (
+              <small className="text-danger">{this.props.error.message}</small>
+            )}
             {/* <small className="form-text text-muted">
               By clicking Register, you agree to our{" "}
               <a href="/terms">Terms and Conditions</a> &amp;{" "}
@@ -142,4 +146,4 @@ class RegisterForm extends Component {
   }
 }
 
-export default RegisterForm;
+export default SignUpForm;

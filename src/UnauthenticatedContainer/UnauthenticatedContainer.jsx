@@ -3,7 +3,7 @@ import { Link, Route, Switch, Redirect } from "react-router-dom";
 import LoginForm from "../forms/LoginForm.jsx";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ResetPassword from "../ResetPassword/ResetPassword";
-import RegisterForm from "../forms/RegisterForm.jsx";
+import SignUp from "../SignUp/SignUp";
 
 class UnauthenticatedContainer extends Component {
   render() {
@@ -28,9 +28,9 @@ class UnauthenticatedContainer extends Component {
               )}
             />
             <Route
-              path="/register"
+              path="/signup"
               render={props => (
-                <Register onRegister={this.props.onRegister} {...props} />
+                <SignUp onSignUp={this.props.onSignUp} {...props} />
               )}
             />
             <Route
@@ -68,25 +68,7 @@ export const Login = props => {
         <LoginForm onSubmit={props.onLogin} />
         <hr />
         <p>
-          First time user? <Link to="/register">Sign up here</Link>!
-        </p>
-      </div>
-    </div>
-  );
-};
-
-export const Register = props => {
-  return (
-    <div
-      className="card ml-auto mr-auto mb-3"
-      style={{ minWidth: "18rem", maxWidth: "30rem" }}
-    >
-      <div className="card-body">
-        <h3 className="card-title">Register</h3>
-        <RegisterForm onSubmit={props.onRegister} />
-        <hr />
-        <p>
-          Already have an account? <Link to="/">Click here</Link> to login!
+          First time user? <Link to="/signup">Sign up here</Link>!
         </p>
       </div>
     </div>

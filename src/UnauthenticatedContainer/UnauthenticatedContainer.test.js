@@ -1,8 +1,8 @@
 import React from "react";
 import UnauthenticatedContainer, {
-  Login,
-  Register
+  Login
 } from "./UnauthenticatedContainer.jsx";
+import SignUp from "../SignUp/SignUp";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import { shallow } from "enzyme";
 
@@ -41,12 +41,12 @@ describe("Login", () => {
     wrapper.find("LoginForm").length.should.equal(1);
   });
 
-  it("should render a Link to /register", () => {
+  it("should render a Link to /signup", () => {
     wrapper.find("Link").length.should.equal(1);
     wrapper
       .find("Link")
       .props()
-      .to.should.equal("/register");
+      .to.should.equal("/signup");
   });
 });
 
@@ -70,15 +70,15 @@ describe("ForgotPassword", () => {
   });
 });
 
-describe("Register", () => {
+describe("SignUp", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Register />);
+    wrapper = shallow(<SignUp />);
   });
 
-  it("should render a RegisterForm", () => {
-    wrapper.find("RegisterForm").length.should.equal(1);
+  it("should render a SignUpForm", () => {
+    wrapper.find("SignUpForm").length.should.equal(1);
   });
 
   it("should render a Link to /", () => {
