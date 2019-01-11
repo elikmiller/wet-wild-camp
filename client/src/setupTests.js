@@ -6,3 +6,5 @@ import chaiEnzyme from "chai-enzyme";
 chai.use(chaiEnzyme());
 should();
 configure({ adapter: new Adapter() });
+
+window.Modernizr = {};
