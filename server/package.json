@@ -1,6 +1,5 @@
 {
-  "name": "wet-wild-camp-backend",
-  "version": "1.0.1",
+  "name": "wet-wild-camp-server",
   "private": true,
   "engines": {
     "node": "9.3.0"

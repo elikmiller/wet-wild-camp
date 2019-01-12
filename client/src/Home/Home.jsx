@@ -61,6 +61,13 @@ class Home extends Component {
             </ul>
           )}
         </nav>
+        {!window.Modernizr.cookies && (
+          <div className="alert alert-danger mx-auto">
+            This application requires <strong>cookies</strong> for
+            authentication. Please enable cookies for this domain and refresh
+            this page in order to proceed.
+          </div>
+        )}
         {!this.props.authenticated && (
           <UnauthenticatedContainer
             onLogin={this.handleLogin}

@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Warning for all Users when cookies are currently disabled.
+
 ## [1.0.2] - 2019-01-10
 
 ### Added
