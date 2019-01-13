@@ -44,6 +44,30 @@ class UnauthenticatedContainer extends Component {
             />
             <Route path="/*" render={() => <Redirect to="/" />} />
           </Switch>
+          <p className="text-center">
+            Tip:{" "}
+            <em>
+              We recommend you use the latest version of{" "}
+              <a
+                href="https://www.google.com/chrome/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="alert-link"
+              >
+                Google Chrome
+              </a>{" "}
+              or{" "}
+              <a
+                href="https://www.mozilla.org/en-US/firefox/new/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="alert-link"
+              >
+                Mozilla Firefox
+              </a>{" "}
+              for the best user experience.
+            </em>
+          </p>
           {/* <p className="text-center">
             <a href="/terms">Terms of Use</a>
             {"  ⋅  "}
