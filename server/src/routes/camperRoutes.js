@@ -1,5 +1,6 @@
 const { User, Camper } = require("../models/index.js");
 const auth = require("../middleware/auth");
+const isAdmin = require("../middleware/isAdmin");
 const { body, validationResult } = require("express-validator/check");
 const Boom = require("boom");
 
@@ -102,7 +103,7 @@ module.exports = app => {
   app.delete("/campers/:camperId", auth, async (req, res, next) => {
     let camper;
     try {
-      let camper = await Camper.findById(req.params.camperId);
+      camper = await Camper.findById(req.params.camperId);
       if (!camper) {
         return next(Boom.badRequest("This camper does not exist."));
       }
@@ -126,6 +127,33 @@ module.exports = app => {
       return next(Boom.badImplementation());
     }
   });
+
+  // Delete camper (admin)
+  app.delete(
+    "/admin/campers/:camperId",
+    auth,
+    isAdmin,
+    async (req, res, next) => {
+      let camper;
+      try {
+        camper = await Camper.findById(req.params.camperId);
+        if (!camper) {
+          return next(Boom.badRequest("This camper does not exist."));
+        }
+        if (camper.registrations.length > 0) {
+          return next(
+            Boom.badRequest(
+              "This camper has existing registrations and cannot be deleted."
+            )
+          );
+        }
+        await Camper.findByIdAndDelete(camper._id);
+        return res.send();
+      } catch (err) {
+        return next(Boom.badImplementation());
+      }
+    }
+  );
 
   // Bulk update Campers
   app.patch("/campers", auth, async (req, res) => {
