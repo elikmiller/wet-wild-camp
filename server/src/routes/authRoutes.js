@@ -32,6 +32,7 @@ module.exports = app => {
         }
         req.session.authenticated = true;
         req.session.userId = user._id;
+        req.session.admin = user.admin;
         return res.send({
           user: {
             _id: user._id,
@@ -49,6 +50,7 @@ module.exports = app => {
   app.get("/logout", (req, res) => {
     req.session.authenticated = false;
     req.session.userId = null;
+    req.session.admin = false;
     req.session.destroy();
     res.sendStatus(200);
   });
