@@ -7,6 +7,7 @@
 - Warning for all Users when cookies are currently disabled.
 - Prompt for all Users to use the latest version of Chrome or Firefox.
 - Campers can now be deleted from the admin panel.
+- Footer containing copyright, company website link and developer website link.
 
 ## [1.0.2] - 2019-01-10
 

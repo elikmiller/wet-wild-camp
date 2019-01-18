@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import UnauthenticatedContainer from "../UnauthenticatedContainer/UnauthenticatedContainer";
 import AuthenticatedContainer from "../AuthenticatedContainer/AuthenticatedContainer";
 import appClient from "../appClient";
+import moment from "moment";
 
 class Home extends Component {
   unlisten = () => {};
@@ -68,20 +69,46 @@ class Home extends Component {
             this page in order to proceed.
           </div>
         )}
-        {!this.props.authenticated && (
-          <UnauthenticatedContainer
-            onLogin={this.handleLogin}
-            onSignUp={this.handleSignUp}
-            onForgotPassword={this.props.onForgotPassword}
-            onResetPassword={this.props.onResetPassword}
-          />
-        )}
-        {this.props.authenticated && (
-          <AuthenticatedContainer
-            onLogout={this.handleLogout}
-            isAdmin={this.props.isAdmin}
-          />
-        )}
+        <div className="flex-grow-1">
+          {!this.props.authenticated && (
+            <UnauthenticatedContainer
+              onLogin={this.handleLogin}
+              onSignUp={this.handleSignUp}
+              onForgotPassword={this.props.onForgotPassword}
+              onResetPassword={this.props.onResetPassword}
+            />
+          )}
+          {this.props.authenticated && (
+            <AuthenticatedContainer
+              onLogout={this.handleLogout}
+              isAdmin={this.props.isAdmin}
+            />
+          )}
+        </div>
+        <div className="flex-shrink-0 text-right px-3 py-3 bg-light text-muted">
+          <div className="text-nowrap">
+            &copy; {moment().format("YYYY")}{" "}
+            <a
+              href="https://wetwildcamp.com"
+              className="text-dark"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Wet &amp; Wild Adventure Camp
+            </a>
+          </div>
+          <div className="text-nowrap">
+            Website by{" "}
+            <a
+              href="https://elikmiller.com"
+              className="text-dark"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              elikmiller.com
+            </a>
+          </div>
+        </div>
       </div>
     );
   }
