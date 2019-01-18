@@ -69,20 +69,9 @@ class AdminCamperDetail extends Component {
       })
       .catch(err => {
         this.toggleConfirm();
-        if (err.response.status === 400) {
-          this.setState({
-            errors: {
-              delete:
-                "This camper has existing registrations and cannot be deleted."
-            }
-          });
-        } else if (err.response.status === 500) {
-          this.setState({
-            errors: { delete: "Could not communicate with server." }
-          });
-        } else {
-          this.setState({ errors: { delete: "Unknown Error." } });
-        }
+        this.setState({
+          errors: { delete: err.response.data.message }
+        });
       });
   };
 
