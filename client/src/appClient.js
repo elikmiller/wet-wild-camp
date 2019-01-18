@@ -12,7 +12,7 @@ appClient.interceptors.response.use(
     return response;
   },
   function(error) {
-    console.error(error);
+    if (error.response.status !== 401) console.error(error);
     return Promise.reject(error);
   }
 );
@@ -71,6 +71,14 @@ const updateCamper = ({ id, data }) => {
 
 const updateManyCampers = data => {
   return appClient.patch("/campers", data);
+};
+
+const deleteCamper = camperId => {
+  return appClient.delete(`/campers/${camperId}`);
+};
+
+const adminDeleteCamper = camperId => {
+  return appClient.delete(`/admin/campers/${camperId}`);
 };
 
 const getContacts = userId => {
@@ -172,6 +180,8 @@ export default {
   getAllCampers,
   updateCamper,
   updateManyCampers,
+  deleteCamper,
+  adminDeleteCamper,
   getContacts,
   updateUser,
   addCamper,

@@ -44,7 +44,6 @@ class AdminRosterList extends Component {
   };
 
   render() {
-    console.log(this.state.campers);
     return (
       <div className="admin-camper-list spinner-wrapper">
         {this.state.isLoading && <Spinner />}
