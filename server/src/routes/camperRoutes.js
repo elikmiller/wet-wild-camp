@@ -1,6 +1,8 @@
 const { User, Camper } = require("../models/index.js");
 const auth = require("../middleware/auth");
+const isAdmin = require("../middleware/isAdmin");
 const { body, validationResult } = require("express-validator/check");
+const Boom = require("boom");
 
 module.exports = app => {
   // Get all campers
@@ -97,16 +99,61 @@ module.exports = app => {
     }
   });
 
-  // Remove camper
-  app.delete("/campers/:camperId", auth, async (req, res) => {
+  // Delete camper
+  app.delete("/campers/:camperId", auth, async (req, res, next) => {
+    let camper;
     try {
-      let removedCamper = await Camper.findByIdAndRemove(req.params.camperId);
-      res.send(removedCamper);
+      camper = await Camper.findById(req.params.camperId);
+      if (!camper) {
+        return next(Boom.badRequest("This camper does not exist."));
+      }
+      if (camper.user.equals(req.session.userId)) {
+        if (camper.registrations.length > 0) {
+          return next(
+            Boom.badRequest(
+              "This camper has existing registrations and cannot be deleted."
+            )
+          );
+        }
+        await Camper.findByIdAndDelete(camper._id);
+        return res.send();
+      } else
+        return next(
+          Boom.forbidden(
+            "This camper does not belong to the currently logged in user."
+          )
+        );
     } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
+      return next(Boom.badImplementation());
     }
   });
+
+  // Delete camper (admin)
+  app.delete(
+    "/admin/campers/:camperId",
+    auth,
+    isAdmin,
+    async (req, res, next) => {
+      let camper;
+      try {
+        camper = await Camper.findById(req.params.camperId);
+        if (!camper) {
+          return next(Boom.badRequest("This camper does not exist."));
+        }
+        if (camper.registrations.length > 0) {
+          return next(
+            Boom.badRequest(
+              "This camper has existing registrations and cannot be deleted."
+            )
+          );
+        }
+        await Camper.findByIdAndDelete(camper._id);
+        return res.send();
+      } catch (err) {
+        return next(Boom.badImplementation());
+      }
+    }
+  );
 
   // Bulk update Campers
   app.patch("/campers", auth, async (req, res) => {
