@@ -41,7 +41,7 @@ class AdminRosterDetail extends Component {
         <ul>
           <li>
             <a
-              href={`${process.env.REACT_APP_SERVER_URL}/camps/${
+              href={`${process.env.REACT_APP_SERVER_URL}camps/${
                 this.state.camp._id
               }/csv/contact`}
               download
@@ -51,7 +51,7 @@ class AdminRosterDetail extends Component {
           </li>
           <li>
             <a
-              href={`${process.env.REACT_APP_SERVER_URL}/camps/${
+              href={`${process.env.REACT_APP_SERVER_URL}camps/${
                 this.state.camp._id
               }/csv/monday`}
               download
@@ -61,7 +61,7 @@ class AdminRosterDetail extends Component {
           </li>
           <li>
             <a
-              href={`${process.env.REACT_APP_SERVER_URL}/camps/${
+              href={`${process.env.REACT_APP_SERVER_URL}camps/${
                 this.state.camp._id
               }/csv/swimming`}
               download
