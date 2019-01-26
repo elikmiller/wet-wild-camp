@@ -4,6 +4,8 @@
 
 ### Added
 
+- Admins can see Camper age in roster detail page.
+
 ### Changed
 
 - Fixed broken CSV download links for Admins.
