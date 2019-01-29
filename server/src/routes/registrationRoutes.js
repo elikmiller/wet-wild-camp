@@ -83,18 +83,23 @@ module.exports = app => {
   });
 
   // Update registration
-  app.patch("/registrations/:registrationId", auth, async (req, res) => {
-    try {
-      let updatedRegistration = await Registration.findByIdAndUpdate(
-        req.params.registrationId,
-        req.body,
-        { new: true }
-      );
-      res.send(updatedRegistration);
-    } catch (err) {
-      res.sendStatus(500);
+  app.patch(
+    "/registrations/:registrationId",
+    auth,
+    isAdmin,
+    async (req, res) => {
+      try {
+        let updatedRegistration = await Registration.findByIdAndUpdate(
+          req.params.registrationId,
+          req.body,
+          { new: true }
+        );
+        res.send(updatedRegistration);
+      } catch (err) {
+        res.sendStatus(500);
+      }
     }
-  });
+  );
 
   // Delete Registration
   app.delete("/registrations/:registrationId", auth, async (req, res) => {
