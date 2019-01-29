@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const softDelete = require('mongoosejs-soft-delete');
+const softDelete = require("mongoosejs-soft-delete");
 const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
 
@@ -47,6 +47,12 @@ const RegistrationSchema = new Schema({
 });
 
 RegistrationSchema.plugin(softDelete);
+
+RegistrationSchema.post("updateOne", async function() {
+  if (this._update.deleted) {
+    // Soft delete cleanup goes here
+  }
+});
 
 const Registration = mongoose.model("Registration", RegistrationSchema);
 
