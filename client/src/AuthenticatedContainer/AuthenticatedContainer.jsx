@@ -9,6 +9,7 @@ import Payments from "../Payments/Payments";
 import Checkout from "../Payments/Checkout";
 import Logout from "../Logout/Logout";
 import AdminRegistrations from "../Admin/AdminRegistrations/AdminRegistrations";
+import AdminRegistrationFull from "../Admin/AdminRegistrations/AdminRegistrationFull";
 import AdminUsers from "../Admin/AdminUsers/AdminUsers";
 import AdminUserFull from "../Admin/AdminUsers/AdminUserFull";
 import AdminCampers from "../Admin/AdminCampers/AdminCampers";
@@ -89,6 +90,12 @@ class AuthenticatedContainer extends Component {
                   <Route
                     path="/admin/users/:userId"
                     component={AdminUserFull}
+                  />
+                )}
+                {this.props.isAdmin && (
+                  <Route
+                    path="/admin/registrations/:registrationId"
+                    component={AdminRegistrationFull}
                   />
                 )}
                 {navBarData.map(nav => (

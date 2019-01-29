@@ -1,5 +1,6 @@
 const { Registration, User, Camp, Camper } = require("../models/index");
 const auth = require("../middleware/auth");
+const isAdmin = require("../middleware/isAdmin");
 
 module.exports = app => {
   // Get all registrations
@@ -16,11 +17,15 @@ module.exports = app => {
   });
 
   // Get one registration
-  app.get("/registrations/:registrationId", auth, async (req, res) => {
+  app.get("/registrations/:registrationId", auth, isAdmin, async (req, res) => {
     try {
-      let registration = await Registration.findById(req.params.registrationId);
+      let registration = await Registration.findById(req.params.registrationId)
+        .populate("camp")
+        .populate("camper")
+        .populate("user");
       res.send(registration);
     } catch (err) {
+      console.error(err);
       res.sendStatus(500);
     }
   });

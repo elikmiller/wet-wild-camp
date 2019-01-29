@@ -121,6 +121,10 @@ const getRegistrations = () => {
   return appClient.get("/registrations");
 };
 
+const getRegistration = registrationId => {
+  return appClient.get(`/registrations/${registrationId}`);
+};
+
 const deleteRegistration = registrationId => {
   return appClient.delete(`/registrations/${registrationId}`);
 };
@@ -195,6 +199,7 @@ export default {
   createRegistration,
   getUserRegistrations,
   getRegistrations,
+  getRegistration,
   deleteRegistration,
   deleteRegistrationByCamp,
   addPayment,

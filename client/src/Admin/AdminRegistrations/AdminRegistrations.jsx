@@ -119,6 +119,7 @@ class AdminRegistrations extends Component {
                   Payment Status
                 </button>
               </td>
+              <td />
             </tr>
           </thead>
           <tbody>{content}</tbody>

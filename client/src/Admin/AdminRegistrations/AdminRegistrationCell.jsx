@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import moment from "moment";
 
 class AdminRegistrationCell extends Component {
@@ -25,12 +26,15 @@ class AdminRegistrationCell extends Component {
           {data.paid && (
             <span className="badge badge-success">Paid in Full</span>
           )}
-          {data.deposit && (
+          {data.deposit && !data.paid && (
             <span className="badge badge-warning">Deposit Paid</span>
           )}
           {!data.paid && !data.deposit && (
             <span className="badge badge-danger">Unpaid</span>
           )}
+        </td>
+        <td>
+          <Link to={`/admin/registrations/${data._id}/`}>Details</Link>
         </td>
       </tr>
     );
