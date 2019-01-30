@@ -6,6 +6,7 @@ const {
   Payment
 } = require("../models/index");
 const auth = require("../middleware/auth");
+const Boom = require("boom");
 
 module.exports = app => {
   // Get all registrations
@@ -127,8 +128,9 @@ module.exports = app => {
       if (paymentCount > 0) {
         await Registration.removeOne({ _id: registration._id });
       } else {
-        await Registration.deleteOne({ _id: registration._id });
+        await registration.remove();
       }
+      return res.send();
     } catch (err) {
       return next(Boom.badImplementation());
     }
