@@ -8,7 +8,10 @@ module.exports = app => {
   // Get all campers
   app.get("/campers", auth, async (req, res) => {
     try {
-      let campers = await Camper.find({}).populate("registrations");
+      let campers = await Camper.find({}).populate({
+        path: "registrations",
+        match: { deleted: false }
+      });
       res.send(campers);
     } catch (err) {
       console.error(err);
@@ -23,6 +26,7 @@ module.exports = app => {
         .populate("user")
         .populate({
           path: "registrations",
+          match: { deleted: false },
           populate: { path: "camp", model: "Camp" }
         });
       res.send(camper);

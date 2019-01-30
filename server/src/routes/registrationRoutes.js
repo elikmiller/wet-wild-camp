@@ -38,6 +38,7 @@ module.exports = app => {
     try {
       let user = await User.findById(req.params.userId).populate({
         path: "registrations",
+        match: { deleted: false },
         populate: [{ path: "camper" }, { path: "camp" }]
       });
       res.send(user.registrations);
