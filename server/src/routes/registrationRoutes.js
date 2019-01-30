@@ -6,6 +6,7 @@ const {
   Payment
 } = require("../models/index");
 const auth = require("../middleware/auth");
+const isAdmin = require("../middleware/isAdmin");
 const Boom = require("boom");
 
 module.exports = app => {
@@ -135,4 +136,37 @@ module.exports = app => {
       return next(Boom.badImplementation());
     }
   });
+
+  // Delete Registration (admin)
+  app.delete(
+    "/admin/registrations/:registrationId",
+    isAdmin,
+    async (req, res, next) => {
+      let registration;
+      try {
+        registration = await Registration.findById(req.params.registrationId);
+
+        // Registration must exist
+        if (!registration) {
+          return next(Boom.badRequest("This registration does not exist."));
+        }
+
+        // If Registration has at least one associated Payment it should be soft-deleted. Otherwise it can be hard-deleted.
+        let paymentCount = await Payment.countDocuments({
+          $or: [
+            { deposits: registration._id },
+            { fullPayments: registration._id }
+          ]
+        });
+        if (paymentCount > 0) {
+          await Registration.removeOne({ _id: registration._id });
+        } else {
+          await registration.remove();
+        }
+        return res.send();
+      } catch (err) {
+        return next(Boom.badImplementation());
+      }
+    }
+  );
 };
