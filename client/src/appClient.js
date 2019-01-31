@@ -1,6 +1,4 @@
 import axios from "axios";
-const { CancelToken } = axios;
-const source = CancelToken.source();
 
 const appClient = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
@@ -12,25 +10,41 @@ appClient.interceptors.response.use(
     return response;
   },
   function(error) {
-    if (error.response.status !== 401) console.error(error);
+    if (error.response && error.response.status !== 401) console.error(error);
     return Promise.reject(error);
   }
 );
 
+//
+// Auth
+//
+
 const login = ({ email, password }) => {
-  return appClient.post("/login", { email, password });
+  return appClient.post("/auth/login", { email, password });
 };
 
 const logout = () => {
-  return appClient.get("/logout");
+  return appClient.get("/auth/logout");
 };
 
-const createUser = ({ firstName, lastName, email, password }) => {
-  return appClient.post("/users", { firstName, lastName, email, password });
+const forgotPassword = data => {
+  return appClient.post("/auth/password_reset", data);
+};
+
+const resetPassword = data => {
+  return appClient.post("/auth/redeem_password_reset_token", data);
 };
 
 const currentUser = () => {
-  return appClient.get("/current_user");
+  return appClient.get("/auth/current_user");
+};
+
+//
+// User
+//
+
+const createUser = ({ firstName, lastName, email, password }) => {
+  return appClient.post("/users", { firstName, lastName, email, password });
 };
 
 const getUsers = () => {
@@ -48,6 +62,10 @@ const getAdminUser = userId => {
 const updateUser = ({ id, data }) => {
   return appClient.patch(`/users/${id}`, data);
 };
+
+//
+// Camper
+//
 
 const getCamper = id => {
   return appClient.get(`/campers/${id}`);
@@ -85,6 +103,10 @@ const getContacts = userId => {
   return appClient.get(`/users/${userId}/contacts`);
 };
 
+//
+// Camp
+//
+
 const getCamps = () => {
   return appClient.get(`/camps`);
 };
@@ -109,12 +131,16 @@ const moveFromWaitlist = (campId, camperId) => {
   return appClient.get(`/camps/${campId}/${camperId}`);
 };
 
+//
+// Registration
+//
+
 const createRegistration = data => {
   return appClient.post("/registrations", data);
 };
 
-const getUserRegistrations = userId => {
-  return appClient.get(`/users/${userId}/registrations`);
+const getUserRegistrations = () => {
+  return appClient.get(`/registrations`);
 };
 
 const getRegistrations = () => {
@@ -124,6 +150,10 @@ const getRegistrations = () => {
 const deleteRegistration = registrationId => {
   return appClient.delete(`/registrations/${registrationId}`);
 };
+
+//
+// Payment
+//
 
 const addPayment = (userId, data) => {
   return appClient.post(`/${userId}/payments`, data);
@@ -147,20 +177,12 @@ const deletePayment = paypalId => {
   return appClient.delete(`/payments/${paypalId}`);
 };
 
+//
+// Misc.
+//
+
 const sendEmail = data => {
   return appClient.post("/admin/email", data);
-};
-
-const forgotPassword = data => {
-  return appClient.post("/password_reset", data);
-};
-
-const resetPassword = data => {
-  return appClient.post("/redeem_password_reset_token", data);
-};
-
-const cancelRequest = () => {
-  source.cancel("Operation cancelled by the user.");
 };
 
 export default {
@@ -187,7 +209,6 @@ export default {
   updateCamp,
   deleteCamp,
   moveFromWaitlist,
-  cancelRequest,
   createRegistration,
   getUserRegistrations,
   getRegistrations,
