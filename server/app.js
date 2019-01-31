@@ -41,7 +41,10 @@ app.use((req, res, next) => {
     "GET, POST, PUT, PATCH, DELETE, OPTIONS"
   );
   res.header("Access-Control-Allow-Credentials", "true");
-  next();
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  return next();
 });
 
 if (
@@ -57,10 +60,11 @@ app.use(bodyParser.json());
 
 // Routes
 require("./src/routes/userRoutes")(app);
-require("./src/routes/authRoutes")(app);
+app.use("/auth", require("./src/routes/auth"));
 require("./src/routes/camperRoutes")(app);
 require("./src/routes/campRoutes")(app);
-require("./src/routes/registrationRoutes")(app);
+app.use("/registrations", require("./src/routes/registrations"));
+app.use("/admin", require("./src/routes/admin"));
 require("./src/routes/emailRoutes")(app);
 require("./src/routes/paypalRoutes")(app);
 
