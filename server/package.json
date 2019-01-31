@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node app.js",
     "develop": "nodemon app.js",
-    "test": "NODE_ENV=test mocha \"./src/**/test/*.spec.js\" --exit  --no-deprecation"
+    "test": "NODE_ENV=test mocha \"./src/**/test/*.spec.js\" --exit  --no-deprecation",
+    "generate-docs": "rm -rf ./apidoc && apidoc -i src/ -o apidoc/"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -31,9 +32,16 @@
     "query-string": "^6.2.0"
   },
   "devDependencies": {
+    "apidoc": "^0.17.7",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
     "supertest": "^3.3.0"
+  },
+  "apidoc": {
+    "title": "Wet Wild Camp API Documentation",
+    "template": {
+      "withCompare": false
+    }
   }
 }

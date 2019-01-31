@@ -67,3 +67,6 @@ typings/
 
 # misc developer scripts
 .scripts/
+
+# Generated apidoc
+apidoc/
