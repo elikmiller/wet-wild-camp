@@ -64,10 +64,12 @@ module.exports = app => {
         })
           .populate({
             path: "fullPayments",
+            match: { deleted: false },
             populate: { path: "camper camp" }
           })
           .populate({
             path: "deposits",
+            match: { deleted: false },
             populate: { path: "camper camp" }
           });
 

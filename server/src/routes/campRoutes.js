@@ -25,6 +25,7 @@ module.exports = app => {
       let camp = await Camp.findById(req.params.campId)
         .populate({
           path: "campers",
+          match: { deleted: false },
           populate: [
             {
               path: "camper",
@@ -38,6 +39,7 @@ module.exports = app => {
         })
         .populate({
           path: "waitlist",
+          match: { deleted: false },
           populate: { path: "camper", model: "Camper" }
         });
       res.send(camp);
