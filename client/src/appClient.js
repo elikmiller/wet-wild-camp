@@ -133,6 +133,10 @@ const deleteRegistration = registrationId => {
   return appClient.delete(`/registrations/${registrationId}`);
 };
 
+const adminDeleteRegistration = registrationId => {
+  return appClient.delete(`/admin/registrations/${registrationId}`);
+};
+
 const addPayment = (userId, data) => {
   return appClient.post(`/${userId}/payments`, data);
 };
@@ -202,6 +206,7 @@ export default {
   getRegistration,
   updateRegistration,
   deleteRegistration,
+  adminDeleteRegistration,
   addPayment,
   getPayment,
   getAllPayments,
