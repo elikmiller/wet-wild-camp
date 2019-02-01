@@ -1,5 +1,13 @@
-const { Registration, User, Camp, Camper } = require("../models/index");
+const {
+  Registration,
+  User,
+  Camp,
+  Camper,
+  Payment
+} = require("../models/index");
 const auth = require("../middleware/auth");
+const isAdmin = require("../middleware/isAdmin");
+const Boom = require("boom");
 
 module.exports = app => {
   // Get all registrations
@@ -30,6 +38,7 @@ module.exports = app => {
     try {
       let user = await User.findById(req.params.userId).populate({
         path: "registrations",
+        match: { deleted: false },
         populate: [{ path: "camper" }, { path: "camp" }]
       });
       res.send(user.registrations);
@@ -92,73 +101,73 @@ module.exports = app => {
   });
 
   // Delete Registration
-  app.delete("/registrations/:registrationId", auth, async (req, res) => {
+  app.delete("/registrations/:registrationId", auth, async (req, res, next) => {
+    let registration;
     try {
-      let registration = await Registration.findById(req.params.registrationId);
-      let camper = await Camper.findById(registration.camper);
-      let camp = await Camp.findById(registration.camp)
-        .populate("campers")
-        .populate("waitlist");
+      registration = await Registration.findById(req.params.registrationId);
 
-      // Finds which list the registration is in on the specified camp and removes it
-      if (camp.campers.find(elem => elem._id == req.params.registrationId)) {
-        let i = camp.campers.findIndex(
-          elem => elem._id == req.params.registrationId
-        );
-        camp.campers.splice(i, 1);
-        // if camp is no longer waitlisted, updates camp
-        if (camp.waitlisted && camp.campers.length < camp.capacity) {
-          camp.waitlisted = false;
-        }
-      } else if (
-        camp.waitlist.find(elem => elem._id == req.params.registrationId)
-      ) {
-        let i = camp.waitlist.findIndex(
-          elem => elem._id == req.params.registrationId
-        );
-        camp.waitlist.splice(i, 1);
+      // Registration must exist
+      if (!registration) {
+        return next(Boom.badRequest("This registration does not exist."));
       }
 
-      // Remove registration from array on camper object
-      if (camper.registrations) {
-        let i = camper.registrations.indexOf(registration._id);
-        camper.registrations.splice(i, 1);
+      // Registration must belong to currently authenticated user
+      if (!registration.user.equals(req.session.userId)) {
+        return next(
+          Boom.forbidden(
+            "This camper does not belong to the currently logged in user."
+          )
+        );
       }
 
-      camp.save();
-      camper.save();
-      registration.remove();
-      res.send(registration);
-    } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
-    }
-  });
-
-  // Delete Registration by Camper and Camp
-  app.delete("/registrations/:campId/:camperId", auth, async (req, res) => {
-    try {
-      let { camperId } = req.params;
-      let camp = await Camp.findById(req.params.campId);
-      let registration = await Registration.findOne({
-        camper: camperId,
-        camp: camp._id
+      // If Registration has at least one associated Payment it should be soft-deleted. Otherwise it can be hard-deleted.
+      let paymentCount = await Payment.countDocuments({
+        $or: [
+          { deposits: registration._id },
+          { fullPayments: registration._id }
+        ]
       });
-
-      if (camp.campers.indexOf(registration.camper) !== -1) {
-        let i = camp.campers.indexOf(registration.camper);
-        camp.campers.splice(i, 1);
-      } else if (camp.waitlist.indexOf(registration.camper) !== -1) {
-        let i = camp.waitlist.indexOf(registration.camper);
-        camp.waitlist.splice(i, 1);
+      if (paymentCount > 0) {
+        await Registration.removeOne({ _id: registration._id });
+      } else {
+        await registration.remove();
       }
-
-      camp.save();
-      registration.remove();
-      res.send(registration);
+      return res.send();
     } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
+      return next(Boom.badImplementation());
     }
   });
+
+  // Delete Registration (admin)
+  app.delete(
+    "/admin/registrations/:registrationId",
+    isAdmin,
+    async (req, res, next) => {
+      let registration;
+      try {
+        registration = await Registration.findById(req.params.registrationId);
+
+        // Registration must exist
+        if (!registration) {
+          return next(Boom.badRequest("This registration does not exist."));
+        }
+
+        // If Registration has at least one associated Payment it should be soft-deleted. Otherwise it can be hard-deleted.
+        let paymentCount = await Payment.countDocuments({
+          $or: [
+            { deposits: registration._id },
+            { fullPayments: registration._id }
+          ]
+        });
+        if (paymentCount > 0) {
+          await Registration.removeOne({ _id: registration._id });
+        } else {
+          await registration.remove();
+        }
+        return res.send();
+      } catch (err) {
+        return next(Boom.badImplementation());
+      }
+    }
+  );
 };

@@ -14,6 +14,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Set up session storage
+mongoose.set("useCreateIndex", true);
 app.use(
   session({
     secret: process.env.SESSION_KEY,

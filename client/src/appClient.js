@@ -125,10 +125,6 @@ const deleteRegistration = registrationId => {
   return appClient.delete(`/registrations/${registrationId}`);
 };
 
-const deleteRegistrationByCamp = (campId, camperId) => {
-  return appClient.delete(`/registrations/${campId}/${camperId}`);
-};
-
 const addPayment = (userId, data) => {
   return appClient.post(`/${userId}/payments`, data);
 };
@@ -196,7 +192,6 @@ export default {
   getUserRegistrations,
   getRegistrations,
   deleteRegistration,
-  deleteRegistrationByCamp,
   addPayment,
   getPayment,
   getAllPayments,

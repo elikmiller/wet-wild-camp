@@ -8,7 +8,10 @@ module.exports = app => {
   // Get all campers
   app.get("/campers", auth, async (req, res) => {
     try {
-      let campers = await Camper.find({}).populate("registrations");
+      let campers = await Camper.find({}).populate({
+        path: "registrations",
+        match: { deleted: false }
+      });
       res.send(campers);
     } catch (err) {
       console.error(err);
@@ -23,6 +26,7 @@ module.exports = app => {
         .populate("user")
         .populate({
           path: "registrations",
+          match: { deleted: false },
           populate: { path: "camp", model: "Camp" }
         });
       res.send(camper);
@@ -104,25 +108,29 @@ module.exports = app => {
     let camper;
     try {
       camper = await Camper.findById(req.params.camperId);
+
       if (!camper) {
         return next(Boom.badRequest("This camper does not exist."));
       }
-      if (camper.user.equals(req.session.userId)) {
-        if (camper.registrations.length > 0) {
-          return next(
-            Boom.badRequest(
-              "This camper has existing registrations and cannot be deleted."
-            )
-          );
-        }
-        await Camper.findByIdAndDelete(camper._id);
-        return res.send();
-      } else
+
+      if (!camper.user.equals(req.session.userId)) {
         return next(
           Boom.forbidden(
             "This camper does not belong to the currently logged in user."
           )
         );
+      }
+
+      if (camper.registrations.length > 0) {
+        return next(
+          Boom.badRequest(
+            "This camper has existing registrations and cannot be deleted."
+          )
+        );
+      }
+
+      await Camper.findByIdAndDelete(camper._id);
+      return res.send();
     } catch (err) {
       return next(Boom.badImplementation());
     }
@@ -137,9 +145,11 @@ module.exports = app => {
       let camper;
       try {
         camper = await Camper.findById(req.params.camperId);
+
         if (!camper) {
           return next(Boom.badRequest("This camper does not exist."));
         }
+
         if (camper.registrations.length > 0) {
           return next(
             Boom.badRequest(
@@ -147,6 +157,7 @@ module.exports = app => {
             )
           );
         }
+
         await Camper.findByIdAndDelete(camper._id);
         return res.send();
       } catch (err) {
