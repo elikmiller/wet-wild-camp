@@ -62,7 +62,7 @@ app.use(bodyParser.json());
 app.use("/users", require("./src/routes/users"));
 app.use("/auth", require("./src/routes/auth"));
 app.use("/campers", require("./src/routes/campers"));
-require("./src/routes/campRoutes")(app);
+app.use("/camps", require("./src/routes/camps"));
 app.use("/registrations", require("./src/routes/registrations"));
 app.use("/admin", require("./src/routes/admin"));
 require("./src/routes/emailRoutes")(app);
