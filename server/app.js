@@ -61,7 +61,7 @@ app.use(bodyParser.json());
 // Routes
 app.use("/users", require("./src/routes/users"));
 app.use("/auth", require("./src/routes/auth"));
-require("./src/routes/camperRoutes")(app);
+app.use("/campers", require("./src/routes/campers"));
 require("./src/routes/campRoutes")(app);
 app.use("/registrations", require("./src/routes/registrations"));
 app.use("/admin", require("./src/routes/admin"));
