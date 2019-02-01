@@ -6,35 +6,35 @@ router.use(auth);
 /**
  * @api {get} /registrations Get Registrations
  * @apiDescription Get all Registrations
- * @apiGroup User
+ * @apiGroup Registrations
  */
 router.get("/", require("./getRegistrations"));
 
 /**
  * @api {get} /registrations/:registrationId Get Registration
  * @apiDescription Get single Registration
- * @apiGroup User
+ * @apiGroup Registrations
  */
 router.get("/:registrationId", require("./getRegistration"));
 
 /**
  * @api {post} /registrations Create Registration
  * @apiDescription Create new Registration
- * @apiGroup User
+ * @apiGroup Registrations
  */
 router.post("/", require("./createRegistration"));
 
 /**
  * @api {patch} /registrations/:registrationId Update Registration
  * @apiDescription Update existing Registration
- * @apiGroup User
+ * @apiGroup Registrations
  */
 router.patch("/:registrationId", require("./updateRegistration"));
 
 /**
  * @api {delete} /registrations/:registrationId Delete Registration
  * @apiDescription Delete Registration
- * @apiGroup User
+ * @apiGroup Registrations
  */
 router.delete("/:registrationId", require("./deleteRegistration"));
 

@@ -5,7 +5,7 @@ const { body } = require("express-validator/check");
 /**
  * @api {post} /auth/login Login
  * @apiDescription Authenticate User
- * @apiGroup Global
+ * @apiGroup Auth
  */
 router.post(
   "/login",
@@ -27,21 +27,21 @@ router.post(
 /**
  * @api {get} /auth/logout Logout
  * @apiDescription Unauthenticate User
- * @apiGroup Global
+ * @apiGroup Auth
  */
 router.get("/logout", require("./logout"));
 
 /**
  * @api {get} /auth/current_user Current User
  * @apiDescription Get currently authenticated User
- * @apiGroup Global
+ * @apiGroup Auth
  */
 router.get("/current_user", auth, require("./currentUser"));
 
 /**
  * @api {post} /auth/password_reset Password Reset
  * @apiDescription Request a password reset email
- * @apiGroup Global
+ * @apiGroup Auth
  */
 router.post(
   "/password_reset",
@@ -58,7 +58,7 @@ router.post(
 /**
  * @api {post} /auth/redeem_password_reset_token Redeem Password Reset Token
  * @apiDescription Request a password reset email
- * @apiGroup Global
+ * @apiGroup Auth
  */
 router.post(
   "/redeem_password_reset_token",

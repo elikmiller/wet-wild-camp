@@ -59,7 +59,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Routes
-require("./src/routes/userRoutes")(app);
+app.use("/users", require("./src/routes/users"));
 app.use("/auth", require("./src/routes/auth"));
 require("./src/routes/camperRoutes")(app);
 require("./src/routes/campRoutes")(app);

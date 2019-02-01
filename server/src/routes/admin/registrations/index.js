@@ -1,37 +1,37 @@
 const router = require("express").Router();
 
 /**
- * @api {get} /registrations Get Registrations
+ * @api {get} /admin/registrations Get Registrations (Admin)
  * @apiDescription Get all Registrations
- * @apiGroup Admin
+ * @apiGroup Registrations
  */
 router.get("/", require("./getRegistrations"));
 
 /**
- * @api {get} /registrations/:registrationId Get Registration
+ * @api {get} /admin/registrations/:registrationId Get Registration (Admin)
  * @apiDescription Get single Registration
- * @apiGroup Admin
+ * @apiGroup Registrations
  */
 router.get("/:registrationId", require("./getRegistration"));
 
 /**
- * @api {post} /registrations Create Registration
+ * @api {post} /admin/registrations Create Registration (Admin)
  * @apiDescription Create new Registration
- * @apiGroup Admin
+ * @apiGroup Registrations
  */
 router.post("/", require("./createRegistration"));
 
 /**
- * @api {patch} /registrations/:registrationId Update Registration
+ * @api {patch} /admin/registrations/:registrationId Update Registration (Admin)
  * @apiDescription Update existing Registration
- * @apiGroup Admin
+ * @apiGroup Registrations
  */
 router.patch("/:registrationId", require("./updateRegistration"));
 
 /**
- * @api {delete} /registrations/:registrationId Delete Registration
+ * @api {delete} /admin/registrations/:registrationId Delete Registration (Admin)
  * @apiDescription Delete Registration
- * @apiGroup Admin
+ * @apiGroup Registrations
  */
 router.delete("/:registrationId", require("./deleteRegistration"));
 
