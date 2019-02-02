@@ -47,7 +47,6 @@ class Checkout extends Component {
           executedPayment: res.data,
           executed: true
         });
-        console.log(res);
       })
       .catch(err => {
         console.error(err);
@@ -59,7 +58,6 @@ class Checkout extends Component {
     appClient
       .deletePayment(this.state.paymentId)
       .then(res => {
-        console.log(res.data);
         this.setState({
           cancelled: true
         });

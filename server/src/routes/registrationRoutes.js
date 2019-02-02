@@ -17,7 +17,6 @@ module.exports = app => {
         .populate("camp")
         .populate("camper")
         .populate("user");
-      console.log(registrations);
       res.send(registrations);
     } catch (err) {
       res.sendStatus(500);

@@ -38,7 +38,6 @@ class AdminRegistrations extends Component {
     appClient
       .getRegistrations()
       .then(registrations => {
-        console.log(registrations.data);
         this.setState({
           registrations: registrations.data
         });
