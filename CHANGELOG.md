@@ -4,6 +4,7 @@
 
 ### Added
 
+- Admins can view, modify and delete registrations in new registration detail page.
 - Admins can see Camper age in roster detail page.
 
 ### Changed
