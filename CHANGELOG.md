@@ -10,6 +10,7 @@
 ### Changed
 
 - Fixed broken CSV download links for Admins.
+- Secondary Contact Email Address is now optional.
 
 ### Removed
 
