@@ -1,11 +1,33 @@
 const router = require("express").Router();
 const auth = require("../../middleware/auth");
+const validate = require("../../middleware/validate");
 const { body } = require("express-validator/check");
 
 /**
  * @api {post} /auth/login Login
  * @apiDescription Authenticate User
  * @apiGroup Auth
+ *
+ * @apiParam {String} email User email address
+ * @apiParam {String} password User password
+ * @apiParamExample {json} Example
+ * {
+ *   "email": "user@email.com", "password": "password" }
+ *
+ * @apiSuccess (Success - 200) {Object} user Authenticated User
+ * @apiSuccessExample {json} Response
+ * {
+ *   "user": {
+ *     "_id": "5c18729d5b33380bba1e37b6",
+ *     "firstName": "First",
+ *     "lastName": "Last",
+ *     "email": "user@email.com",
+ *     "admin": false
+ *   }
+ * }
+ *
+ * @apiError (Error - 4xx) 400 Invalid request
+ * @apiError (Error - 4xx) 401 Unauthorized
  */
 router.post(
   "/login",
@@ -19,7 +41,8 @@ router.post(
       .exists()
       .withMessage("Password is required.")
       .isLength({ min: 8, max: 64 })
-      .withMessage("Password must be between 8 and 64 characters.")
+      .withMessage("Password must be between 8 and 64 characters."),
+    validate
   ],
   require("./login")
 );
