@@ -5,7 +5,7 @@ const { body } = require("express-validator/check");
 
 /**
  * @api {post} /auth/login Login
- * @apiDescription Authenticate User
+ * @apiDescription Authenticate User and initialize new session
  * @apiGroup Auth
  *
  * @apiParam {String} email User email address
@@ -51,7 +51,7 @@ router.post(
 
 /**
  * @api {get} /auth/logout Logout
- * @apiDescription Unauthenticate User
+ * @apiDescription Unauthenticate User and destroy session
  * @apiGroup Auth
  */
 router.get("/logout", require("./logout"));
@@ -113,6 +113,16 @@ router.post(
  * @api {post} /auth/redeem_password_reset_token Redeem Password Reset Token
  * @apiDescription Redeem a Password Reset Token
  * @apiGroup Auth
+ *
+ * @apiParam {String} token Password Reset Token
+ * @apiParam {String} password New password
+ * @apiParamExample {json} Example
+ * {
+ *   "token": "user@email.com",
+ *   "password": "newpassword"
+ * }
+ *
+ * @apiError (Error - 4xx) 400 Invalid request
  */
 router.post(
   "/redeem_password_reset_token",
