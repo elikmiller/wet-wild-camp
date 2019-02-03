@@ -4,7 +4,8 @@ const Boom = require("boom");
 module.exports = (req, res, next) => {
   User.authenticate(req.body.email, req.body.password, (err, user) => {
     if (err) {
-      return next(Boom.unauthorized());
+      console.error(err);
+      return next(Boom.unauthorized("Invalid email address or password."));
     }
 
     // Populate session

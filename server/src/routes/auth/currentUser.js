@@ -1,12 +1,10 @@
 const { User } = require("../../models");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
-  if (!req.session.userId) {
-    return res.sendStatus(500);
-  }
+module.exports = async (req, res, next) => {
   try {
     let user = await User.findById(req.session.userId);
-    res.send({
+    return res.send({
       user: {
         _id: user._id,
         firstName: user.firstName,
@@ -16,6 +14,7 @@ module.exports = async (req, res) => {
       }
     });
   } catch (err) {
-    res.sendStatus(500);
+    console.error(err);
+    return next(Boom.badImplementation());
   }
 };

@@ -1,4 +1,3 @@
-const { validationResult } = require("express-validator/check");
 const { User, PasswordResetToken } = require("../../models");
 const EmailService = require("../../EmailService");
 const crypto = require("crypto");
@@ -33,8 +32,9 @@ module.exports = async (req, res, next) => {
       }/reset-password?token=${token}">here</a> to reset your password.`
     });
 
-    res.send({ token });
-  } catch (e) {
+    return res.send({ token });
+  } catch (err) {
+    console.error(err);
     return next(Boom.badImplementation());
   }
 };

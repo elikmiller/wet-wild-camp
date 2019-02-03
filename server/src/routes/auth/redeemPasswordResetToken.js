@@ -1,4 +1,3 @@
-const { validationResult } = require("express-validator/check");
 const { User, PasswordResetToken } = require("../../models");
 const Boom = require("boom");
 
@@ -16,7 +15,8 @@ module.exports = async (req, res, next) => {
 
     // Delete the password reset token
     await PasswordResetToken.findByIdAndDelete(passwordResetToken._id);
-  } catch (e) {
+  } catch (err) {
+    console.error(err);
     return next(Boom.badImplementation());
   }
 

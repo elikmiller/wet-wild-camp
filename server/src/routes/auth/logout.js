@@ -5,5 +5,5 @@ module.exports = (req, res) => {
   req.session.admin = false;
   req.session.destroy();
 
-  res.sendStatus(200);
+  return res.send();
 };
