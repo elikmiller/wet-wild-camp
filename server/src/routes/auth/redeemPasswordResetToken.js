@@ -1,13 +1,8 @@
 const { validationResult } = require("express-validator/check");
-const { User } = require("../../models");
+const { User, PasswordResetToken } = require("../../models");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
-  // Validate request body
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).send({ errors: errors.array() });
-  }
-
+module.exports = async (req, res, next) => {
   try {
     // Find the matching password reset token
     let passwordResetToken = await PasswordResetToken.findOne({
@@ -22,7 +17,8 @@ module.exports = async (req, res) => {
     // Delete the password reset token
     await PasswordResetToken.findByIdAndDelete(passwordResetToken._id);
   } catch (e) {
-    console.error(e);
+    return next(Boom.badImplementation());
   }
-  res.sendStatus(200);
+
+  return res.send();
 };

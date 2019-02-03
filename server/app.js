@@ -77,7 +77,7 @@ app.use((err, req, res, next) => {
     err.output.payload.message =
       "An internal server error has occurred. Please try again later.";
   }
-  err.output.payload.data = err.data;
+  if (err.data) err.output.payload.data = err.data;
   return res.status(err.output.statusCode).json(err.output.payload);
 });
 

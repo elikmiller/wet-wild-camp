@@ -1,13 +1,10 @@
 const { validationResult } = require("express-validator/check");
-const { User } = require("../../models");
+const { User, PasswordResetToken } = require("../../models");
+const EmailService = require("../../EmailService");
+const crypto = require("crypto");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
-  // Validate request body
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).send({ errors: errors.array() });
-  }
-
+module.exports = async (req, res, next) => {
   try {
     // Find user by email
     let user = await User.findOne({ email: req.body.email });
@@ -35,8 +32,9 @@ module.exports = async (req, res) => {
         req.headers.origin
       }/reset-password?token=${token}">here</a> to reset your password.`
     });
+
+    res.send({ token });
   } catch (e) {
-    console.error(e);
+    return next(Boom.badImplementation());
   }
-  res.sendStatus(200);
 };

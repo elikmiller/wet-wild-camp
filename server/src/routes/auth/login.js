@@ -1,9 +1,10 @@
 const { User } = require("../../models");
+const Boom = require("boom");
 
-module.exports = (req, res) => {
+module.exports = (req, res, next) => {
   User.authenticate(req.body.email, req.body.password, (err, user) => {
     if (err) {
-      return res.sendStatus(401);
+      return next(Boom.unauthorized());
     }
 
     // Populate session
