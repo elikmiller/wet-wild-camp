@@ -60,10 +60,11 @@ class SecondaryContactInformationForm extends Component {
       errors.phoneNumber = "Please enter a valid phone number.";
     if (validator.isEmpty(this.state.phoneNumber + ""))
       errors.phoneNumber = "Phone number is required.";
-    if (!validator.isEmail(this.state.email + ""))
+    if (
+      !validator.isEmpty(this.state.email + "") &&
+      !validator.isEmail(this.state.email + "")
+    )
       errors.email = "Please enter a valid email address.";
-    if (validator.isEmpty(this.state.email + ""))
-      errors.email = "Email address is required.";
     return errors;
   };
 
@@ -114,7 +115,7 @@ class SecondaryContactInformationForm extends Component {
           />
           <Input
             name="email"
-            label="Email"
+            label="Email Address (optional)"
             type="email"
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}

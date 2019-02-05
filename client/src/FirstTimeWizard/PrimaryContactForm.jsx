@@ -139,7 +139,7 @@ class PrimaryContactInformationForm extends Component {
           />
           <Input
             name="email"
-            label="Email"
+            label="Email Address"
             type="email"
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
