@@ -50,6 +50,12 @@ const UserSchema = new Schema({
     lastName: { type: String },
     phoneNumber: { type: String }
   },
+  campers: [
+    {
+      type: ObjectId,
+      ref: "Camper"
+    }
+  ],
   registrations: [
     {
       type: ObjectId,
