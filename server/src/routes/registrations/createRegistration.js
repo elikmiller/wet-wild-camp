@@ -1,38 +1,43 @@
-const { Registration, User, Camper, Camp } = require("../../models");
+const { Registration, Camp, Camper } = require("../../models");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
-  let registration = new Registration({
-    user: req.body.user,
-    camper: req.body.camper,
-    camp: req.body.camp,
-    morningDropoff: req.body.morningDropoff,
-    afternoonPickup: req.body.afternoonPickup,
-    created: Date.now()
-  });
+module.exports = async (req, res, next) => {
   try {
-    let user = await User.findById(req.body.user);
-    user.registrations.push(registration._id);
-    user.save();
-
-    let camper = await Camper.findById(req.body.camper);
-    camper.registrations.push(registration._id);
-    camper.save();
-
-    let camp = await Camp.findById(req.body.camp);
-    if (camp.campers.length >= camp.capacity) {
-      if (!camp.waitlisted) camp.waitlisted = true;
-      registration.waitlist = true;
-      camp.waitlist.push(registration._id);
-    } else {
-      registration.waitlist = false;
-      camp.campers.push(registration._id);
+    let camp = await Camp.findOne({ _id: req.body.camp });
+    if (!camp) {
+      return next(Boom.badRequest("This camp does not exist."));
     }
-    camp.save();
 
-    registration.save();
-    res.send(registration);
+    let camper = await Camper.findOne({
+      _id: req.body.camper,
+      user: req.session.userId
+    });
+
+    if (!camper) {
+      return next(Boom.badRequest("This camper does not exist."));
+    }
+
+    let registrations = await Registration.find({
+      camp: req.body.camp,
+      $or: [{ deposit: true }, { paid: true }]
+    });
+
+    let waitlist = registrations.length >= camp.capacity;
+
+    let registration = new Registration({
+      camper: req.body.camper,
+      camp: req.body.camp,
+      morningDropoff: req.body.morningDropoff,
+      afternoonPickup: req.body.afternoonPickup,
+      waitlist,
+      created: Date.now(),
+      user: req.session.userId
+    });
+
+    await registration.save();
+    return res.send(registration);
   } catch (err) {
     console.error(err);
-    res.sendStatus(500);
+    return next(Boom.badImplementation());
   }
 };

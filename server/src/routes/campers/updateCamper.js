@@ -1,6 +1,5 @@
 const { Camper } = require("../../models");
 const Boom = require("boom");
-const _ = require("lodash");
 
 module.exports = async (req, res, next) => {
   try {

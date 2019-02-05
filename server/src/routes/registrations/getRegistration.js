@@ -1,16 +1,20 @@
 const { Registration } = require("../../models");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
   try {
     let registration = await Registration.findOne({
       user: req.session.userId,
       _id: req.params.registrationId
-    })
-      .populate("camp")
-      .populate("camper")
-      .populate("user");
-    res.send(registration);
+    });
+
+    if (!registration) {
+      return next(Boom.badRequest("This registration does not exist."));
+    }
+
+    return res.send(registration);
   } catch (err) {
-    res.sendStatus(500);
+    console.error(err);
+    return next(Boom.badImplementation());
   }
 };

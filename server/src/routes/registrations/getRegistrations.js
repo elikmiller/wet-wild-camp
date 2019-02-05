@@ -1,13 +1,14 @@
 const { Registration } = require("../../models");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
   try {
-    let registrations = await Registration.find({ user: req.session.userId })
-      .populate("camp")
-      .populate("camper")
-      .populate("user");
-    res.send(registrations);
+    let registrations = await Registration.find({
+      user: req.session.userId
+    });
+    return res.send(registrations);
   } catch (err) {
-    res.sendStatus(500);
+    console.error(err);
+    return next(Boom.badImplementation());
   }
 };

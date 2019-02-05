@@ -4,20 +4,14 @@ const Boom = require("boom");
 module.exports = async (req, res, next) => {
   let registration;
   try {
-    registration = await Registration.findById(req.params.registrationId);
+    registration = await Registration.findOne({
+      _id: req.params.registrationId,
+      user: req.session.userId
+    });
 
     // Registration must exist
     if (!registration) {
       return next(Boom.badRequest("This registration does not exist."));
-    }
-
-    // Registration must belong to currently authenticated user
-    if (!registration.user.equals(req.session.userId)) {
-      return next(
-        Boom.forbidden(
-          "This camper does not belong to the currently logged in user."
-        )
-      );
     }
 
     // If Registration has at least one associated Payment it should be soft-deleted. Otherwise it can be hard-deleted.
@@ -31,6 +25,7 @@ module.exports = async (req, res, next) => {
     }
     return res.send();
   } catch (err) {
+    console.error(err);
     return next(Boom.badImplementation());
   }
 };

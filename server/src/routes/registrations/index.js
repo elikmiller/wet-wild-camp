@@ -1,5 +1,39 @@
 const router = require("express").Router();
-const auth = require("../../middleware/auth");
+const { auth, validate } = require("../../middleware");
+const { checkSchema } = require("express-validator/check");
+
+const checkRegistrationSchema = checkSchema({
+  camper: {
+    exists: {
+      errorMessage: "Camper is required."
+    }
+  },
+  camp: {
+    exists: {
+      errorMessage: "Camp is required."
+    }
+  },
+  morningDropoff: {
+    exists: {
+      errorMessage: "Morning Dropoff is required."
+    },
+    isIn: {
+      options: [["north", "central", "south"]],
+      errorMessage:
+        'Please enter a valid morning dropoff location. Valid options are "north", "central", or "south"'
+    }
+  },
+  afternoonPickup: {
+    exists: {
+      errorMessage: "Afternoon Pickup is required."
+    },
+    isIn: {
+      options: [["north", "central", "south"]],
+      errorMessage:
+        'Please enter a valid afternoon pickup location. Valid options are "north", "central", or "south"'
+    }
+  }
+});
 
 router.use(auth);
 
@@ -22,14 +56,11 @@ router.get("/:registrationId", require("./getRegistration"));
  * @apiDescription Create new Registration
  * @apiGroup Registrations
  */
-router.post("/", require("./createRegistration"));
-
-/**
- * @api {patch} /registrations/:registrationId Update Registration
- * @apiDescription Update existing Registration
- * @apiGroup Registrations
- */
-router.patch("/:registrationId", require("./updateRegistration"));
+router.post(
+  "/",
+  [checkRegistrationSchema, validate],
+  require("./createRegistration")
+);
 
 /**
  * @api {delete} /registrations/:registrationId Delete Registration
