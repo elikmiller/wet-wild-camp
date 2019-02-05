@@ -1,13 +1,14 @@
 // Dependencies
 const express = require("express");
-const path = require("path");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const Boom = require("boom");
-require("dotenv").config();
+const dotenv = require("dotenv");
+const dotenvExpand = require("dotenv-expand");
+dotenvExpand(dotenv.config());
 
 // Initialize Express
 const app = express();

@@ -26,22 +26,42 @@ First clone this repository
 
 The client application is built via [create-react-app](https://github.com/facebook/create-react-app).
 
+First, navigate to the `client` directory.
+
 `$ cd client`
 
+Install depenencies.
+
 `$ npm install`
+
+Start the application.
 
 `$ npm start`
 
 ### Server App
 
+First, navigate to the `server` directory.
+
 `$ cd server`
 
+Install depenencies.
+
+`$ npm install`
+
+Set up environment variables.
+
 `$ cp .env.example .env` and populate the newly created `.env`
+
+Run database migrations.
+
+`$ npm run migrate`
+
+Start the application.
 
 `$ npm start` or `$ npm run develop`
 
 ## Contributors
 
-[maffkipp](https://github.com/maffkipp)
+* [maffkipp](https://github.com/maffkipp)
 
-[elikmiller](https://github.com/elikmiller)
+* [elikmiller](https://github.com/elikmiller)
