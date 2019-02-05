@@ -1,9 +1,12 @@
-module.exports = async (req, res) => {
+const { Payment } = require("../../models");
+const Boom = require("boom");
+
+module.exports = async (req, res, next) => {
   try {
-    let payments = await Payment.find({ executed: true }).populate("user");
-    res.send(payments);
+    let payments = await Payment.find({ user: req.session.userId });
+    return res.send(payments);
   } catch (err) {
     console.error(err);
-    res.sendStatus(500);
+    return next(Boom.badImplementation());
   }
 };

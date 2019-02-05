@@ -1,9 +1,20 @@
-module.exports = async (req, res) => {
+const { Payment } = require("../../models");
+const Boom = require("boom");
+
+module.exports = async (req, res, next) => {
   try {
-    let payment = await Payment.findOne({ paypalId: req.params.paypalId });
-    res.send(payment);
+    let payment = await Payment.findOne({
+      _id: req.params.paymentId,
+      user: req.session.userId
+    });
+
+    if (!payment) {
+      return next(Boom.badRequest("This payment does not exist."));
+    }
+
+    return res.send(payment);
   } catch (err) {
     console.error(err);
-    res.sendStatus(500);
+    return next(Boom.badImplementation());
   }
 };

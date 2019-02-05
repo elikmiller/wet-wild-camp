@@ -1,11 +1,29 @@
-module.exports = async (req, res) => {
+const { Payment } = require("../../models");
+const Boom = require("boom");
+
+module.exports = async (req, res, next) => {
   try {
-    let deletedPayment = await Payment.findOneAndRemove({
-      paypalId: req.params.paypalId
+    let payment = await Payment.findOne({
+      _id: req.params.paymentId,
+      user: req.session.userId
     });
-    res.send(deletedPayment);
+
+    if (!payment) {
+      return next(Boom.badRequest("This payment does not exist."));
+    }
+
+    if (payment.executed) {
+      return next(
+        Boom.badRequest(
+          "This payment has already been executed and can not be deleted."
+        )
+      );
+    }
+
+    await Payment.findByIdAndDelete(payment._id);
+    return res.send();
   } catch (err) {
     console.error(err);
-    res.sendStatus(500);
+    return next(Boom.badImplementation());
   }
 };

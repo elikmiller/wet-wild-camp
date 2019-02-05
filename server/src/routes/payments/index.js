@@ -1,21 +1,41 @@
 const router = require("express").Router();
-const auth = require("../../middleware/auth");
+const { auth } = require("../../middleware");
 
 router.use(auth);
 
-//Create payment
+/**
+ * @api {post} /camps Create Payment
+ * @apiDescription Create new Payment
+ * @apiGroup Payments
+ */
 router.post("/", require("./createPayment"));
 
-// Execute payment
+/**
+ * @api {get} /camps Execute Payment
+ * @apiDescription Execute Payment following User approval
+ * @apiGroup Payments
+ */
 router.get("/:paymentId/execute", require("./executePayment"));
 
-// Get Payments
+/**
+ * @api {get} /camps Get Payments
+ * @apiDescription Get all Payments
+ * @apiGroup Payments
+ */
 router.get("/", require("./getPayments"));
 
-// Get Payment
+/**
+ * @api {get} /camps Get Payment
+ * @apiDescription Get single Payment
+ * @apiGroup Payments
+ */
 router.get("/:paymentId", require("./getPayment"));
 
-// Delete payment
-router.delete("/:paypalId", require("./deletePayment"));
+/**
+ * @api {delete} /camps Delete Payment
+ * @apiDescription Delete existing Payment
+ * @apiGroup Payments
+ */
+router.delete("/:paymentId", require("./deletePayment"));
 
 module.exports = router;

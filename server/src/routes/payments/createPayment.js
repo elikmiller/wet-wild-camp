@@ -1,4 +1,8 @@
-module.exports = async (req, res) => {
+const { User, Payment, Registration } = require("../../models");
+const PaypalService = require("../../PaypalService");
+const Boom = require("boom");
+
+module.exports = async (req, res, next) => {
   try {
     let registrationArray = await Registration.find({
       _id: req.body.fullPayments
@@ -34,9 +38,9 @@ module.exports = async (req, res) => {
     user.save();
     payment.save();
 
-    res.send(transaction);
+    return res.send(transaction);
   } catch (err) {
     console.error(err);
-    res.sendStatus(500);
+    return next(Boom.badImplementation());
   }
 };
