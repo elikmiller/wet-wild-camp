@@ -1,15 +1,23 @@
 const { Camper } = require("../../models");
+const Boom = require("boom");
+const _ = require("lodash");
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
   try {
-    let updatedCamper = await Camper.findByIdAndUpdate(
-      req.params.camperId,
-      req.body,
+    let updatedCamper = await Camper.findOneAndUpdate(
+      { _id: req.params.camperId, user: req.session.userId },
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        dateOfBirth: req.body.dateOfBirth,
+        gender: req.body.gender,
+        notes: req.body.notes
+      },
       { new: true }
     );
-    res.send(updatedCamper);
+    return res.send(updatedCamper);
   } catch (err) {
     console.error(err);
-    res.sendStatus(500);
+    return next(Boom.badImplementation());
   }
 };

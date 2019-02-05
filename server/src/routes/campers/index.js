@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const auth = require("../../middleware/auth");
+const { auth, validate } = require("../../middleware");
 const { body } = require("express-validator/check");
 
 router.use(auth);
@@ -35,8 +35,18 @@ router.post(
     body("dateOfBirth")
       .exists()
       .withMessage("Date of Birth is required.")
+      .isISO8601()
+      .withMessage("Date of Birth must be a valid date.")
       .isBefore()
-      .withMessage("Please enter a valid birthdate.")
+      .withMessage("Date of Birth must be before today."),
+    body("gender")
+      .exists()
+      .withMessage("Gender is required.")
+      .isIn(["male", "female", "unspecified"])
+      .withMessage(
+        'Please enter a valid gender. Valid options are "male", "female", or "unspecified"'
+      ),
+    validate
   ],
   require("./createCamper")
 );
@@ -46,7 +56,31 @@ router.post(
  * @apiDescription Update existing Camper
  * @apiGroup Campers
  */
-router.patch("/:camperId", require("./updateCamper"));
+router.patch(
+  "/:camperId",
+  [
+    body("firstName")
+      .exists()
+      .withMessage("First Name is required."),
+    body("lastName")
+      .exists()
+      .withMessage("Last Name is required."),
+    body("dateOfBirth")
+      .exists()
+      .withMessage("Date of Birth is required.")
+      .isBefore()
+      .withMessage("Please enter a valid birthdate."),
+    body("gender")
+      .exists()
+      .withMessage("Gender is required.")
+      .isIn(["male", "female", "unspecified"])
+      .withMessage(
+        'Please enter a valid gender. Valid options are "male", "female", or "unspecified"'
+      ),
+    validate
+  ],
+  require("./updateCamper")
+);
 
 /**
  * @api {delete} /campers/:camperId Delete Camper

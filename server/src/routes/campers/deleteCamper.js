@@ -1,21 +1,15 @@
-const { validationResult } = require("express-validator/check");
 const { Camper } = require("../../models");
+const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
-  let camper;
   try {
-    camper = await Camper.findById(req.params.camperId);
+    let camper = await Camper.findOne({
+      _id: req.params.camperId,
+      user: req.session.userId
+    });
 
     if (!camper) {
       return next(Boom.badRequest("This camper does not exist."));
-    }
-
-    if (!camper.user.equals(req.session.userId)) {
-      return next(
-        Boom.forbidden(
-          "This camper does not belong to the currently logged in user."
-        )
-      );
     }
 
     if (camper.registrations.length > 0) {
@@ -29,6 +23,7 @@ module.exports = async (req, res, next) => {
     await Camper.findByIdAndDelete(camper._id);
     return res.send();
   } catch (err) {
+    console.log(err);
     return next(Boom.badImplementation());
   }
 };

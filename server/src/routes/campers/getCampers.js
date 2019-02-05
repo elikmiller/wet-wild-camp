@@ -1,14 +1,12 @@
 const { Camper } = require("../../models");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
   try {
-    let campers = await Camper.find({}).populate({
-      path: "registrations",
-      match: { deleted: false }
-    });
-    res.send(campers);
+    let campers = await Camper.find({ user: req.session.userId });
+    return res.send(campers);
   } catch (err) {
     console.error(err);
-    res.sendStatus(500);
+    return next(Boom.badImplementation());
   }
 };
