@@ -1,6 +1,39 @@
 const router = require("express").Router();
 const { auth, validate } = require("../../middleware");
-const { body } = require("express-validator/check");
+const { body, checkSchema } = require("express-validator/check");
+
+// body("firstName")
+//       .exists()
+//       .withMessage("First Name is required."),
+//     body("lastName")
+//       .exists()
+//       .withMessage("Last Name is required."),
+//     body("dateOfBirth")
+//       .exists()
+//       .withMessage("Date of Birth is required.")
+//       .isISO8601()
+//       .withMessage("Date of Birth must be a valid date.")
+//       .isBefore()
+//       .withMessage("Date of Birth must be before today."),
+//     body("gender")
+//       .exists()
+//       .withMessage("Gender is required.")
+//       .isIn(["male", "female", "unspecified"])
+//       .withMessage(
+//         'Please enter a valid gender. Valid options are "male", "female", or "unspecified"'
+//       ),
+let validCamper = checkSchema({
+  firstName: {
+    exists: {
+      errorMessage: "First Name is required."
+    }
+  },
+  firstName: {
+    exists: {
+      errorMessage: "First Name is required."
+    }
+  }
+});
 
 router.use(auth);
 
