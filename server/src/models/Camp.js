@@ -56,6 +56,14 @@ const CampSchema = new Schema({
   ]
 });
 
+CampSchema.virtual("registrations", {
+  ref: "Registration",
+  localField: "_id",
+  foreignField: "camp"
+});
+CampSchema.set("toObject", { virtuals: true });
+CampSchema.set("toJSON", { virtuals: true });
+
 const Camp = mongoose.model("Camp", CampSchema);
 
 module.exports = {

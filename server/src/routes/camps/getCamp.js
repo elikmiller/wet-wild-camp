@@ -1,29 +1,20 @@
-const { Camp } = require("../../models");
+const { Camp, Registration } = require("../../models");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
   try {
-    let camp = await Camp.findById(req.params.campId)
-      .populate({
-        path: "campers",
-        match: { deleted: false },
-        populate: [
-          {
-            path: "camper",
-            model: "Camper"
-          },
-          {
-            path: "user",
-            model: "User"
-          }
-        ]
-      })
-      .populate({
-        path: "waitlist",
-        match: { deleted: false },
-        populate: { path: "camper", model: "Camper" }
-      });
-    res.send(camp);
+    let camp = await Camp.findOne({ _id: req.params.campId }).populate({
+      path: "registrations",
+      select: "deposit paid waitlist"
+    });
+
+    if (!camp) {
+      return next(Boom.badRequest("This camp does not exist."));
+    }
+
+    return res.send(camp);
   } catch (err) {
-    res.sendStatus(500);
+    console.error(err);
+    return next(Boom.badImplementation());
   }
 };

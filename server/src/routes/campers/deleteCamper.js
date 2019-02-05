@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
     await Camper.findByIdAndDelete(camper._id);
     return res.send();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return next(Boom.badImplementation());
   }
 };

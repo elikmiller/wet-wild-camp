@@ -44,7 +44,6 @@ const CamperSchema = new Schema({
 CamperSchema.virtual("age").get(function() {
   return moment().diff(this.dateOfBirth, "years", false);
 });
-
 CamperSchema.set("toObject", { virtuals: true });
 CamperSchema.set("toJSON", { virtuals: true });
 
