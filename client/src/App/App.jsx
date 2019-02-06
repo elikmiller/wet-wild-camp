@@ -69,11 +69,11 @@ class App extends Component {
   };
 
   forgotPassword = ({ email }) => {
-    return appClient.forgotPassword({ email });
+    return appClient.passwordReset({ email });
   };
 
   resetPassword = ({ token, password }) => {
-    return appClient.resetPassword({ token, password });
+    return appClient.redeemPasswordResetToken({ token, password });
   };
 
   componentDidMount() {

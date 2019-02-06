@@ -3,10 +3,7 @@ const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
   try {
-    let user = await User.findOne(
-      { _id: req.session.userId },
-      "-password -admin"
-    );
+    let user = await User.findOne({ _id: req.session.userId }, "-password");
 
     if (!user) {
       return next(Boom.badRequest("This user does not exist."));

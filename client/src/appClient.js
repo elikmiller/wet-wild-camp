@@ -27,16 +27,16 @@ const logout = () => {
   return appClient.get("/auth/logout");
 };
 
-const forgotPassword = data => {
+const currentUser = () => {
+  return appClient.get("/auth/current_user");
+};
+
+const passwordReset = data => {
   return appClient.post("/auth/password_reset", data);
 };
 
-const resetPassword = data => {
+const redeemPasswordResetToken = data => {
   return appClient.post("/auth/redeem_password_reset_token", data);
-};
-
-const currentUser = () => {
-  return appClient.get("/auth/current_user");
 };
 
 //
@@ -198,12 +198,14 @@ const sendEmail = data => {
 };
 
 export default {
+  login,
+  logout,
   currentUser,
+  passwordReset,
+  redeemPasswordResetToken,
   getUser,
   getUsers,
   getAdminUser,
-  login,
-  logout,
   createUser,
   getCamper,
   getCampers,
@@ -233,7 +235,5 @@ export default {
   getAllPayments,
   executePayment,
   deletePayment,
-  sendEmail,
-  forgotPassword,
-  resetPassword
+  sendEmail
 };
