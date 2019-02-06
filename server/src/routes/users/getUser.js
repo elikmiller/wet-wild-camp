@@ -1,15 +1,20 @@
 const { User } = require("../../models");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
   try {
-    let user = await User.findById(req.session.userId);
-    res.send({
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email
-    });
+    let user = await User.findOne(
+      { _id: req.session.userId },
+      "-password -admin"
+    );
+
+    if (!user) {
+      return next(Boom.badRequest("This user does not exist."));
+    }
+
+    return res.send(user);
   } catch (err) {
-    res.sendStatus(500);
+    console.error(err);
+    return next(Boom.badImplementation());
   }
 };

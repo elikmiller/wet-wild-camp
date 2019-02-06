@@ -28,15 +28,15 @@ module.exports = async (req, res, next) => {
       paypalId: transaction.id,
       amount: transaction.transactions[0].amount.total,
       timeCreated: transaction.create_time,
-      user: req.body.userId,
       deposits: req.body.deposits,
-      fullPayments: req.body.fullPayments
+      fullPayments: req.body.fullPayments,
+      user: req.session.userId
     });
 
-    let user = await User.findById(req.body.userId);
+    let user = await User.findById(req.session.userId);
     user.payments.push(payment._id);
-    user.save();
-    payment.save();
+    await user.save();
+    await payment.save();
 
     return res.send(transaction);
   } catch (err) {

@@ -1,19 +1,8 @@
 const { User } = require("../../models");
-const { validationResult } = require("express-validator/check");
 const EmailService = require("../../EmailService");
 const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
-  const validationErrors = validationResult(req);
-  if (!validationErrors.isEmpty()) {
-    return next(
-      Boom.badData(
-        "One or more form fields was invalid.",
-        validationErrors.array()
-      )
-    );
-  }
-
   const userModel = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -48,10 +37,10 @@ module.exports = async (req, res, next) => {
       }">here</a> to login and begin the registration process.`
     });
   } catch (err) {
-    console.error("Sending mail failed.");
+    console.error("Sending mail failed.", err);
   }
 
-  res.send({
+  return res.send({
     _id: user._id,
     firstName: user.firstName,
     lastName: user.lastName,

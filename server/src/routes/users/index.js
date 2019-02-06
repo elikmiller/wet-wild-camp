@@ -1,34 +1,43 @@
 const router = require("express").Router();
-const auth = require("../../middleware/auth");
-const { body } = require("express-validator/check");
+const { auth, validate } = require("../../middleware");
+const { checkSchema } = require("express-validator/check");
+
+const checkUserSchema = checkSchema({
+  firstName: {
+    exists: {
+      errorMessage: "First Name is required."
+    }
+  },
+  lastName: {
+    exists: {
+      errorMessage: "Last Name is required."
+    }
+  },
+  email: {
+    exists: {
+      errorMessage: "Email Address is required."
+    },
+    isEmail: {
+      errorMessage: "Please enter a valid Email Address."
+    }
+  },
+  password: {
+    exists: {
+      errorMessage: "Password is required."
+    },
+    isLength: {
+      options: { min: 8, max: 64 },
+      errorMessage: "Password must be between 8 and 64 characters."
+    }
+  }
+});
 
 /**
  * @api {post} /users Create User
  * @apiDescription Create User
  * @apiGroup User
  */
-router.post(
-  "/",
-  [
-    body("firstName")
-      .exists()
-      .withMessage("First Name is required."),
-    body("lastName")
-      .exists()
-      .withMessage("Last Name is required."),
-    body("email")
-      .exists()
-      .withMessage("Email Address is required.")
-      .isEmail()
-      .withMessage("Please enter a valid Email Address."),
-    body("password")
-      .exists()
-      .withMessage("Password is required.")
-      .isLength({ min: 8, max: 64 })
-      .withMessage("Password must be between 8 and 64 characters.")
-  ],
-  require("./createUser")
-);
+router.post("/", [checkUserSchema, validate], require("./createUser"));
 
 /**
  * @api {get} /users Get User
@@ -36,13 +45,6 @@ router.post(
  * @apiGroup User
  */
 router.get("/", auth, require("./getUser"));
-
-/**
- * @api {get} /users/contacts Get Contacts
- * @apiDescription Get User contact information
- * @apiGroup User
- */
-router.get("/contacts", auth, require("./getContacts"));
 
 /**
  * @api {patch} /users Update User
