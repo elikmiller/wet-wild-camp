@@ -12,7 +12,8 @@ class CamperForm extends Component {
       dateOfBirth: this.props.data
         ? this.props.data.dateOfBirth.slice(0, 10)
         : "",
-      notes: this.props.data ? this.props.data.notes : ""
+      notes: this.props.data ? this.props.data.notes : "",
+      user: this.props.userId ? this.props.userId : ""
     },
     errors: {},
     wasValidated: true

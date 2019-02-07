@@ -27,6 +27,7 @@ class ToggleableCamperForm extends Component {
               <CamperForm
                 closeForm={this.closeForm}
                 onSubmit={this.props.addCamper}
+                userId={this.props.userId}
               />
             </div>
           </div>

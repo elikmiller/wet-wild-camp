@@ -66,14 +66,14 @@ module.exports = app => {
         dateOfBirth: req.body.dateOfBirth,
         swimmingStrength: "none",
         notes: req.body.notes,
-        user: req.session.userId
+        user: req.body.user
       });
 
       try {
         let newCamper = await camper.save();
         try {
           let updatedUser = await User.updateOne(
-            { _id: req.session.userId },
+            { _id: req.body.user },
             { $push: { campers: newCamper._id } }
           );
         } catch (err) {
