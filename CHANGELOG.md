@@ -11,6 +11,7 @@
 
 - Fixed broken CSV download links for Admins.
 - Secondary Contact Email Address is now optional.
+- New campers made in the admin panel are now attached to the proper user.
 
 ### Removed
 
