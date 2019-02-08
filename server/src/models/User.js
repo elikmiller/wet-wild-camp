@@ -50,24 +50,6 @@ const UserSchema = new Schema({
     lastName: { type: String },
     phoneNumber: { type: String }
   },
-  campers: [
-    {
-      type: ObjectId,
-      ref: "Camper"
-    }
-  ],
-  registrations: [
-    {
-      type: ObjectId,
-      ref: "Registration"
-    }
-  ],
-  payments: [
-    {
-      type: ObjectId,
-      ref: "Payment"
-    }
-  ],
   surveyQuestion: {
     type: String,
     enum: [
@@ -80,6 +62,28 @@ const UserSchema = new Schema({
     ]
   }
 });
+
+UserSchema.virtual("registrations", {
+  ref: "Registration",
+  localField: "_id",
+  foreignField: "user"
+});
+
+UserSchema.virtual("campers", {
+  ref: "Camper",
+  localField: "_id",
+  foreignField: "user"
+});
+
+UserSchema.virtual("payments", {
+  ref: "Payment",
+  localField: "_id",
+  foreignField: "user"
+});
+
+UserSchema.set("toObject", { virtuals: true });
+
+UserSchema.set("toJSON", { virtuals: true });
 
 // Hashes and salts passwords before they are saved to the database
 UserSchema.pre("save", function(next) {

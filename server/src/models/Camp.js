@@ -41,19 +41,7 @@ const CampSchema = new Schema({
   },
   waitlisted: {
     type: Boolean
-  },
-  campers: [
-    {
-      type: ObjectId,
-      ref: "Registration"
-    }
-  ],
-  waitlist: [
-    {
-      type: ObjectId,
-      ref: "Registration"
-    }
-  ]
+  }
 });
 
 CampSchema.virtual("registrations", {
@@ -61,7 +49,9 @@ CampSchema.virtual("registrations", {
   localField: "_id",
   foreignField: "camp"
 });
+
 CampSchema.set("toObject", { virtuals: true });
+
 CampSchema.set("toJSON", { virtuals: true });
 
 const Camp = mongoose.model("Camp", CampSchema);
