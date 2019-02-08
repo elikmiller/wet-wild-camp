@@ -10,8 +10,9 @@ appClient.interceptors.response.use(
     return response;
   },
   function(error) {
-    if (error.response && error.response.status !== 401) console.error(error);
-    return Promise.reject(error);
+    if (error.response) return Promise.reject(error.response);
+    else if (error.request) return Promise.reject(error.request);
+    else return Promise.reject(error);
   }
 );
 
@@ -31,12 +32,15 @@ const currentUser = () => {
   return appClient.get("/auth/current_user");
 };
 
-const passwordReset = data => {
-  return appClient.post("/auth/password_reset", data);
+const passwordReset = ({ email }) => {
+  return appClient.post("/auth/password_reset", { email });
 };
 
-const redeemPasswordResetToken = data => {
-  return appClient.post("/auth/redeem_password_reset_token", data);
+const redeemPasswordResetToken = ({ token, password }) => {
+  return appClient.post("/auth/redeem_password_reset_token", {
+    token,
+    password
+  });
 };
 
 //
@@ -47,44 +51,59 @@ const createUser = ({ firstName, lastName, email, password }) => {
   return appClient.post("/users", { firstName, lastName, email, password });
 };
 
-const getUsers = () => {
-  return appClient.get("/users");
+const getUser = () => {
+  return appClient.get(`/users`);
 };
 
-const getUser = userId => {
-  return appClient.get(`/users/${userId}`);
-};
-
-const getAdminUser = userId => {
-  return appClient.get(`/admin/users/${userId}`);
-};
-
-const updateUser = ({ id, data }) => {
-  return appClient.patch(`/users/${id}`, data);
+const updateUser = ({
+  firstName,
+  lastName,
+  primaryContact,
+  secondaryContact,
+  emergencyContact
+}) => {
+  return appClient.patch(`/users`, {
+    firstName,
+    lastName,
+    primaryContact,
+    secondaryContact,
+    emergencyContact
+  });
 };
 
 //
 // Camper
 //
 
-const getCamper = id => {
-  return appClient.get(`/campers/${id}`);
+const getCampers = () => {
+  return appClient.get(`/campers`);
 };
 
-const getCampers = userId => {
-  return appClient.get(`/users/${userId}/campers`);
+const getCamper = camperId => {
+  return appClient.get(`/campers/${camperId}`);
 };
 
-const getAllCampers = () => {
-  return appClient.get("/campers");
+const createCamper = ({ firstName, lastName, dateOfBirth, gender, notes }) => {
+  return appClient.post(`/campers`, {
+    firstName,
+    lastName,
+    dateOfBirth,
+    gender,
+    notes
+  });
 };
 
-const addCamper = data => {
-  return appClient.post(`/campers`, data);
-};
-
-const updateCamper = ({ id, data }) => {
-  return appClient.patch(`/campers/${id}`, data);
+const updateCamper = (
+  camperId,
+  { firstName, lastName, dateOfBirth, gender, notes }
+) => {
+  return appClient.patch(`/campers/${camperId}`, {
+    firstName,
+    lastName,
+    dateOfBirth,
+    gender,
+    notes
+  });
 };
 
 const updateManyCampers = data => {
@@ -204,19 +223,16 @@ export default {
   passwordReset,
   redeemPasswordResetToken,
   getUser,
-  getUsers,
-  getAdminUser,
   createUser,
   getCamper,
   getCampers,
-  getAllCampers,
   updateCamper,
   updateManyCampers,
   deleteCamper,
   adminDeleteCamper,
   getContacts,
   updateUser,
-  addCamper,
+  createCamper,
   getCamps,
   getCamp,
   newCamp,

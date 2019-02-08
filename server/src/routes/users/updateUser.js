@@ -1,24 +1,21 @@
 const { User } = require("../../models");
+const Boom = require("boom");
 
-module.exports = async (req, res) => {
-  delete req.body.admin;
-  delete req.body.campers;
-  delete req.body.registrations;
-  delete req.body.payments;
+module.exports = async (req, res, next) => {
   try {
-    let updatedUser = await User.findByIdAndUpdate(
-      req.session.userId,
-      req.body,
+    let updatedUser = await User.findOneAndUpdate(
+      { _id: req.session.userId },
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        primaryContact: req.body.primaryContact,
+        secondaryContact: req.body.secondaryContact,
+        emergencyContact: req.body.emergencyContact
+      },
       { new: true }
     );
-    res.send({
-      _id: updatedUser._id,
-      firstName: updatedUser.firstName,
-      lastName: updatedUser.lastName,
-      email: updatedUser.email
-    });
   } catch (err) {
     console.error(err);
-    res.sendStatus(500);
+    return next(Boom.badImplementation());
   }
 };

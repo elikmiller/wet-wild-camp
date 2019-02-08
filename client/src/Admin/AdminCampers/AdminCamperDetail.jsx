@@ -44,7 +44,7 @@ class AdminCamperDetail extends Component {
   editCamper = camper => {
     let id = this.state.camper._id;
     appClient
-      .updateCamper({ id, data: camper })
+      .updateCamper(id, { data: camper })
       .then(() => {
         this.getCamper();
         this.toggleForm();

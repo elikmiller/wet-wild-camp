@@ -30,7 +30,7 @@ class CamperForm extends Component {
         isLoading: true
       });
       return appClient
-        .addCamper({
+        .createCamper({
           firstName: this.state.firstName,
           lastName: this.state.lastName,
           gender: this.state.gender,

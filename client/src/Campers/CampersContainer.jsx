@@ -55,7 +55,7 @@ class CampersContainer extends Component {
 
   addCamper = camper => {
     appClient
-      .addCamper(camper)
+      .createCamper(camper)
       .then(() => {
         this.refreshCampers();
       })
@@ -66,7 +66,7 @@ class CampersContainer extends Component {
 
   editCamper = (id, camper) => {
     appClient
-      .updateCamper({ id, data: camper })
+      .updateCamper(id, { data: camper })
       .then(() => {
         this.refreshCampers();
       })
