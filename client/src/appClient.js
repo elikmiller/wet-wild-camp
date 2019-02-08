@@ -106,20 +106,8 @@ const updateCamper = (
   });
 };
 
-const updateManyCampers = data => {
-  return appClient.patch("/campers", data);
-};
-
 const deleteCamper = camperId => {
   return appClient.delete(`/campers/${camperId}`);
-};
-
-const adminDeleteCamper = camperId => {
-  return appClient.delete(`/admin/campers/${camperId}`);
-};
-
-const getContacts = userId => {
-  return appClient.get(`/users/${userId}/contacts`);
 };
 
 //
@@ -130,37 +118,13 @@ const getCamps = () => {
   return appClient.get(`/camps`);
 };
 
-const getCamp = id => {
-  return appClient.get(`/camps/${id}`);
-};
-
-const newCamp = data => {
-  return appClient.post("/camps", data);
-};
-
-const updateCamp = (id, data) => {
-  return appClient.patch(`/camps/${id}`, data);
-};
-
-const deleteCamp = id => {
-  return appClient.delete(`/camps/${id}`);
-};
-
-const moveFromWaitlist = (campId, camperId) => {
-  return appClient.get(`/camps/${campId}/${camperId}`);
+const getCamp = campId => {
+  return appClient.get(`/camps/${campId}`);
 };
 
 //
 // Registration
 //
-
-const createRegistration = data => {
-  return appClient.post("/registrations", data);
-};
-
-const getUserRegistrations = () => {
-  return appClient.get(`/registrations`);
-};
 
 const getRegistrations = () => {
   return appClient.get("/registrations");
@@ -170,86 +134,82 @@ const getRegistration = registrationId => {
   return appClient.get(`/registrations/${registrationId}`);
 };
 
-const updateRegistration = (registrationId, data) => {
-  return appClient.patch(`/registrations/${registrationId}`, data);
+const createRegistration = ({
+  camper,
+  camp,
+  morningDropoff,
+  afternoonPickup
+}) => {
+  return appClient.post("/registrations", {
+    camper,
+    camp,
+    morningDropoff,
+    afternoonPickup
+  });
 };
 
 const deleteRegistration = registrationId => {
   return appClient.delete(`/registrations/${registrationId}`);
 };
 
-const adminDeleteRegistration = registrationId => {
-  return appClient.delete(`/admin/registrations/${registrationId}`);
-};
-
 //
 // Payment
 //
 
-const addPayment = (userId, data) => {
-  return appClient.post(`/${userId}/payments`, data);
+const executePayment = paymentId => {
+  return appClient.get(`/payments/${paymentId}/execute`);
 };
 
-const getPayment = paypalId => {
-  return appClient.get(`/payments/${paypalId}`);
-};
-
-const getAllPayments = () => {
+const getPayments = () => {
   return appClient.get("/payments");
 };
 
-const executePayment = (userId, paymentId, payerId) => {
-  return appClient.get(
-    `/${userId}/payments/execute?paymentId=${paymentId}&payerId=${payerId}`
-  );
+const getPayment = paymentId => {
+  return appClient.get(`/payments/${paymentId}`);
 };
 
-const deletePayment = paypalId => {
-  return appClient.delete(`/payments/${paypalId}`);
+const createPayment = ({ fullPayments, deposits }) => {
+  return appClient.post(`/payments`, { fullPayments, deposits });
 };
 
-//
-// Misc.
-//
-
-const sendEmail = data => {
-  return appClient.post("/admin/email", data);
+const deletePayment = paymentId => {
+  return appClient.delete(`/payments/${paymentId}`);
 };
 
 export default {
+  // Auth
   login,
   logout,
   currentUser,
   passwordReset,
   redeemPasswordResetToken,
+
+  // Users
   getUser,
   createUser,
-  getCamper,
-  getCampers,
-  updateCamper,
-  updateManyCampers,
-  deleteCamper,
-  adminDeleteCamper,
-  getContacts,
   updateUser,
+
+  // Campers
+  getCampers,
+  getCamper,
   createCamper,
+  updateCamper,
+  deleteCamper,
+
+  // Camps
   getCamps,
   getCamp,
-  newCamp,
-  updateCamp,
-  deleteCamp,
-  moveFromWaitlist,
-  createRegistration,
-  getUserRegistrations,
+
+  // Registrations
   getRegistrations,
   getRegistration,
-  updateRegistration,
+  createRegistration,
   deleteRegistration,
-  adminDeleteRegistration,
-  addPayment,
-  getPayment,
-  getAllPayments,
+
+  // Payment
   executePayment,
-  deletePayment,
-  sendEmail
+  getPayments,
+  getPayment,
+  createPayment,
+  deletePayment
 };

@@ -4,13 +4,6 @@ const { auth } = require("../../middleware");
 router.use(auth);
 
 /**
- * @api {post} /camps Create Payment
- * @apiDescription Create new Payment
- * @apiGroup Payments
- */
-router.post("/", require("./createPayment"));
-
-/**
  * @api {get} /camps Execute Payment
  * @apiDescription Execute Payment following User approval
  * @apiGroup Payments
@@ -30,6 +23,13 @@ router.get("/", require("./getPayments"));
  * @apiGroup Payments
  */
 router.get("/:paymentId", require("./getPayment"));
+
+/**
+ * @api {post} /camps Create Payment
+ * @apiDescription Create new Payment
+ * @apiGroup Payments
+ */
+router.post("/", require("./createPayment"));
 
 /**
  * @api {delete} /camps Delete Payment
