@@ -4,7 +4,9 @@ const Boom = require("boom");
 module.exports = async (req, res, next) => {
   let registration;
   try {
-    registration = await Registration.findById(req.params.registrationId);
+    registration = await Registration.findOne({
+      _id: req.params.registrationId
+    });
 
     // Registration must exist
     if (!registration) {
@@ -22,6 +24,7 @@ module.exports = async (req, res, next) => {
     }
     return res.send();
   } catch (err) {
+    console.error(err);
     return next(Boom.badImplementation());
   }
 };
