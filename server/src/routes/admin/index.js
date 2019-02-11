@@ -4,7 +4,13 @@ const EmailService = require("../../EmailService");
 
 router.use(isAdmin);
 
+// router.use("/users", require("./src/routes/users"));
+// router.use("/auth", require("./src/routes/auth"));
+router.use("/campers", require("./campers"));
+// router.use("/camps", require("./src/routes/camps"));
 router.use("/registrations", require("./registrations"));
+// router.use("/admin", require("./src/routes/admin"));
+// router.use("/payments", require("./src/routes/payments"));
 
 router.post("/email", async (req, res) => {
   EmailService.sendText({
