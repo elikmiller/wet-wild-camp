@@ -176,6 +176,82 @@ const deletePayment = paymentId => {
   return appClient.delete(`/payments/${paymentId}`);
 };
 
+//
+// Admin - Users
+//
+
+const adminGetUsers = () => {
+  return appClient.get("/admin/users");
+};
+
+const adminGetUser = userId => {
+  return appClient.get(`/admin/users/${userId}`);
+};
+
+const adminUpdateUser = (
+  userId,
+  { firstName, lastName, primaryContact, secondaryContact, emergencyContact }
+) => {
+  return appClient.patch(`/admin/users/${userId}`, {
+    firstName,
+    lastName,
+    primaryContact,
+    secondaryContact,
+    emergencyContact
+  });
+};
+
+//
+// Admin - Campers
+//
+
+const adminGetCampers = () => {
+  return appClient.get("/admin/campers");
+};
+
+const adminGetCamper = camperId => {
+  return appClient.get(`/admin/campers/${camperId}`);
+};
+
+const adminCreateCamper = ({
+  firstName,
+  lastName,
+  gender,
+  dateOfBirth,
+  swimmingStrength,
+  notes,
+  user
+}) => {
+  return appClient.post("/admin/campers/", {
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    swimmingStrength,
+    notes,
+    user
+  });
+};
+
+const adminUpdateCamper = (
+  camperId,
+  { firstName, lastName, gender, dateOfBirth, swimmingStrength, notes, user }
+) => {
+  return appClient.patch(`/admin/campers/${camperId}`, {
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    swimmingStrength,
+    notes,
+    user
+  });
+};
+
+const adminDeleteCamper = camperId => {
+  return appClient.delete(`/admin/campers/${camperId}`);
+};
+
 export default {
   // Auth
   login,
@@ -206,10 +282,47 @@ export default {
   createRegistration,
   deleteRegistration,
 
-  // Payment
+  // Payments
   executePayment,
   getPayments,
   getPayment,
   createPayment,
-  deletePayment
+  deletePayment,
+
+  // Admin - Users
+  adminGetUsers,
+  adminGetUser,
+  adminUpdateUser,
+
+  // Admin - Campers,
+  adminGetCampers,
+  adminGetCamper,
+  adminCreateCamper,
+  adminUpdateCamper,
+  adminDeleteCamper,
+
+  // Admin - Camps,
+  adminGetCamps,
+  adminGetCamp,
+  adminCreateCamp,
+  adminUpdateCamp,
+  adminDeleteCamp,
+  adminCampReportMonday,
+  adminCampReportSwimming,
+  adminCampReportContact,
+
+  // Admin - Registrations,
+  adminGetRegistrations,
+  adminGetRegistration,
+  adminCreateRegistration,
+  adminUpdateRegistration,
+  adminDeleteRegistration,
+
+  // Admin - Payments
+  adminGetPayments,
+  adminGetPayment,
+  adminDeletePayment,
+
+  // Admin - Misc.
+  adminSendEmail
 };
