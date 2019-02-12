@@ -252,6 +252,141 @@ const adminDeleteCamper = camperId => {
   return appClient.delete(`/admin/campers/${camperId}`);
 };
 
+const adminGetCamps = () => {
+  return appClient.get("/admin/camps");
+};
+
+const adminGetCamp = campId => {
+  return appClient.get(`/admin/camps/${campId}`);
+};
+
+const adminCreateCamp = ({
+  name,
+  type,
+  description,
+  fee,
+  capacity,
+  startDate,
+  endDate,
+  openDate,
+  closeDate
+}) => {
+  return appClient.post("/admin/camps", {
+    name,
+    type,
+    description,
+    fee,
+    capacity,
+    startDate,
+    endDate,
+    openDate,
+    closeDate
+  });
+};
+
+const adminUpdateCamp = (
+  campId,
+  {
+    name,
+    type,
+    description,
+    fee,
+    capacity,
+    startDate,
+    endDate,
+    openDate,
+    closeDate
+  }
+) => {
+  return appClient.patch(`/admin/camps/${campId}`, {
+    name,
+    type,
+    description,
+    fee,
+    capacity,
+    startDate,
+    endDate,
+    openDate,
+    closeDate
+  });
+};
+
+const adminDeleteCamp = campId => {
+  return appClient.delete(`/admin/camps/${campId}`);
+};
+
+const adminCampReportMonday = campId => {
+  return appClient.get(`/admin/camps/${campId}/csv/monday`);
+};
+
+const adminCampReportSwimming = campId => {
+  return appClient.get(`/admin/camps/${campId}/csv/swimming`);
+};
+
+const adminCampReportContact = campId => {
+  return appClient.get(`/admin/camps/${campId}/csv/report`);
+};
+
+const adminGetRegistrations = () => {
+  return appClient.get("/admin/registrations");
+};
+
+const adminGetRegistration = registrationId => {
+  return appClient.get(`/admin/registrations/${registrationId}`);
+};
+
+const adminCreateRegistration = ({
+  camper,
+  camp,
+  morningDropoff,
+  afternoonPickup,
+  waitlist,
+  user
+}) => {
+  return appClient.post("/admin/registrations", {
+    camper,
+    camp,
+    morningDropoff,
+    afternoonPickup,
+    waitlist,
+    user
+  });
+};
+
+const adminUpdateRegistration = (
+  registrationId,
+  { camper, camp, morningDropoff, afternoonPickup, waitlist, user }
+) => {
+  return appClient.patch(`/admin/registrations/${registrationId}`, {
+    camper,
+    camp,
+    morningDropoff,
+    afternoonPickup,
+    waitlist,
+    user
+  });
+};
+
+const adminDeleteRegistration = registrationId => {
+  return appClient.delete(`/admin/registrations/${registrationId}`);
+};
+
+const adminGetPayments = () => {
+  return appClient.get("/admin/payments");
+};
+
+const adminGetPayment = paymentId => {
+  return appClient.get(`/admin/payment/${paymentId}`);
+};
+
+const adminDeletePayment = paymentId => {
+  return appClient.delete(`/admin/payment/${paymentId}`);
+};
+
+const adminSendEmail = ({ from, to, cc, bcc, subject, text }) => {
+  return appClient.post("/admin/email", { from, to, cc, bcc, subject, text });
+};
+
 export default {
   // Auth
   login,

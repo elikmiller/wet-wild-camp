@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const isAdmin = require("../../middleware/isAdmin");
 const EmailService = require("../../EmailService");
+const Boom = require("boom");
 
 router.use(isAdmin);
 
@@ -10,7 +11,7 @@ router.use("/camps", require("./camps"));
 router.use("/registrations", require("./registrations"));
 router.use("/payments", require("./payments"));
 
-router.post("/email", async (req, res) => {
+router.post("/email", (req, res, next) => {
   EmailService.sendText({
     from: req.body.from,
     to: req.body.to,
@@ -20,10 +21,11 @@ router.post("/email", async (req, res) => {
     text: req.body.text
   })
     .then(email => {
-      res.send(email);
+      return res.send(email);
     })
     .catch(err => {
       console.error(err);
+      return next(Boom.badImplementation());
     });
 });
 
