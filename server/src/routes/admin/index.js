@@ -4,7 +4,7 @@ const EmailService = require("../../EmailService");
 
 router.use(isAdmin);
 
-// router.use("/users", require("./src/routes/users"));
+router.use("/users", require("./users"));
 router.use("/campers", require("./campers"));
 router.use("/camps", require("./camps"));
 router.use("/registrations", require("./registrations"));
