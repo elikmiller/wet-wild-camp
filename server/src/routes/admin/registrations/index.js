@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { auth, validate } = require("../../../middleware");
+const { validate } = require("../../../middleware");
 const { checkSchema } = require("express-validator/check");
 
 const checkRegistrationSchema = checkSchema({
@@ -39,8 +39,6 @@ const checkRegistrationSchema = checkSchema({
     }
   }
 });
-
-router.use(auth);
 
 /**
  * @api {get} /registrations Get Registrations

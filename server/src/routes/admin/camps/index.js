@@ -1,7 +1,4 @@
 const router = require("express").Router();
-const { auth } = require("../../../middleware");
-
-router.use(auth);
 
 /**
  * @api {get} /camps Get Camps
@@ -39,7 +36,9 @@ router.patch("/:campId", require("./updateCamp"));
 router.delete("/:campId", require("./deleteCamp"));
 
 router.get("/:campId/csv/monday", require("./csvMonday"));
+
 router.get("/:campId/csv/swimming", require("./csvSwimming"));
+
 router.get("/:campId/csv/contact", require("./csvContact"));
 
 module.exports = router;

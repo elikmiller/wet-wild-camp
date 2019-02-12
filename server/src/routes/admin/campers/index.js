@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { auth, validate } = require("../../../middleware");
+const { validate } = require("../../../middleware");
 const { checkSchema } = require("express-validator/check");
 
 const checkCamperSchema = checkSchema({
@@ -37,8 +37,6 @@ const checkCamperSchema = checkSchema({
     }
   }
 });
-
-router.use(auth);
 
 /**
  * @api {get} /campers Get Campers
