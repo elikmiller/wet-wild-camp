@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ContactInformationContainerWrapper from "../../ContactInformation/ContactInformationContainerWrapper";
 import CamperForm from "../../Campers/CamperForm";
+import AdminCamperRegistrationForm from "./AdminCamperRegistrationForm";
 import appClient from "../../appClient";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -10,6 +11,7 @@ class AdminCamperDetail extends Component {
     camper: {},
     formOpen: false,
     confirmMessage: false,
+    registrationForm: false,
     errors: {}
   };
 
@@ -54,9 +56,50 @@ class AdminCamperDetail extends Component {
       });
   };
 
+  createRegistration = data => {
+    let registration = {
+      user: this.state.camper.user._id,
+      camper: this.state.camper._id,
+      camp: data.camp,
+      morningDropoff: data.morningDropoff,
+      afternoonPickup: data.afternoonPickup
+    };
+    let paymentStatus = {
+      deposit: false,
+      paid: false
+    };
+    if (data.paymentStatus === "deposit") {
+      paymentStatus.deposit = true;
+    } else if (data.paymentStatus === "full") {
+      paymentStatus.deposit = true;
+      paymentStatus.paid = true;
+    }
+    appClient
+      .createRegistration(registration)
+      .then(reg => {
+        appClient
+          .updateRegistration(reg.data._id, paymentStatus)
+          .then(() => {
+            this.getCamper();
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
   toggleConfirm = () => {
     this.setState({
       confirmMessage: !this.state.confirmMessage
+    });
+  };
+
+  toggleRegistrationForm = () => {
+    this.setState({
+      registrationForm: !this.state.registrationForm
     });
   };
 
@@ -163,6 +206,20 @@ class AdminCamperDetail extends Component {
             <br />
             <br />
           </p>
+          {!this.state.registrationForm && (
+            <button
+              className="btn btn-primary mb-5"
+              onClick={this.toggleRegistrationForm}
+            >
+              Add New Registration
+            </button>
+          )}
+          {this.state.registrationForm && (
+            <AdminCamperRegistrationForm
+              toggle={this.toggleRegistrationForm}
+              onSubmit={this.createRegistration}
+            />
+          )}
           <div className="card">
             <div className="card-body">
               {this.state.camper.user && (
