@@ -26,8 +26,13 @@ class App extends Component {
       .then(res => {
         this.setState({
           authenticated: true,
-          user: res.data.user,
-          admin: res.data.user.admin
+          user: {
+            _id: res.data._id,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            email: res.data.email
+          },
+          admin: res.data.admin
         });
       })
       .catch(err => {
@@ -83,8 +88,13 @@ class App extends Component {
         this.setState({
           loading: false,
           authenticated: true,
-          user: res.data.user,
-          admin: res.data.user.admin
+          user: {
+            _id: res.data._id,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            email: res.data.email
+          },
+          admin: res.data.admin
         });
       })
       .catch(err => {
