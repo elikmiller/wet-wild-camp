@@ -23,7 +23,7 @@ class AdminRegistrationFull extends Component {
 
   getRegistration = () => {
     appClient
-      .getRegistration(this.props.match.params.registrationId)
+      .adminGetRegistration(this.props.match.params.registrationId)
       .then(res => {
         this.setState({
           registration: res.data
@@ -78,7 +78,7 @@ class AdminRegistrationFull extends Component {
 
   updateRegistration = data => {
     appClient
-      .updateRegistration(this.state.registration._id, data)
+      .adminUpdateRegistration(this.state.registration._id, data)
       .then(() => {
         this.getRegistration();
       })
