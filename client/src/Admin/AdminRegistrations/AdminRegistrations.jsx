@@ -36,7 +36,7 @@ class AdminRegistrations extends Component {
 
   refreshRegistrations = () => {
     appClient
-      .getRegistrations()
+      .adminGetRegistrations()
       .then(registrations => {
         this.setState({
           registrations: registrations.data
