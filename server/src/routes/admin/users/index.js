@@ -1,11 +1,11 @@
 const router = require("express").Router();
 
 /**
- * @api {post} /users Get Users
+ * @api {get} /users Get Users
  * @apiDescription Get all Users
  * @apiGroup User
  */
-router.post("/", require("./getUsers"));
+router.get("/", require("./getUsers"));
 
 /**
  * @api {get} /users Get User

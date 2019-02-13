@@ -30,7 +30,7 @@ class AdminUsers extends Component {
 
   refreshUsers = () => {
     appClient
-      .getUsers()
+      .adminGetUsers()
       .then(users => {
         this.setState({ users: users.data });
       })
