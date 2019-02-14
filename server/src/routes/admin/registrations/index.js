@@ -71,7 +71,7 @@ router.post(
  * @apiGroup Registrations
  */
 router.patch(
-  "/",
+  "/:registrationId",
   [checkRegistrationSchema, validate],
   require("./updateRegistration")
 );

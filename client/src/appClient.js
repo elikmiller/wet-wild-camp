@@ -7,10 +7,10 @@ const appClient = axios.create({
 
 appClient.interceptors.response.use(
   function(response) {
-    return response;
+    return response.data;
   },
   function(error) {
-    if (error.response) return Promise.reject(error.response);
+    if (error.response) return Promise.reject(error.response.data);
     else if (error.request) return Promise.reject(error.request);
     else return Promise.reject(error);
   }
@@ -205,8 +205,8 @@ const adminUpdateUser = (
 // Admin - Campers
 //
 
-const adminGetCampers = () => {
-  return appClient.get("/admin/campers");
+const adminGetCampers = params => {
+  return appClient.get("/admin/campers", { params });
 };
 
 const adminGetCamper = camperId => {
@@ -355,15 +355,26 @@ const adminCreateRegistration = ({
 
 const adminUpdateRegistration = (
   registrationId,
-  { camper, camp, morningDropoff, afternoonPickup, waitlist, user }
-) => {
-  return appClient.patch(`/admin/registrations/${registrationId}`, {
+  {
+    user,
     camper,
     camp,
     morningDropoff,
     afternoonPickup,
     waitlist,
-    user
+    deposit,
+    paid
+  }
+) => {
+  return appClient.patch(`/admin/registrations/${registrationId}`, {
+    user,
+    camper,
+    camp,
+    morningDropoff,
+    afternoonPickup,
+    waitlist,
+    deposit,
+    paid
   });
 };
 

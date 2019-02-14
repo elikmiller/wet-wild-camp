@@ -35,16 +35,11 @@ class AdminRegistrations extends Component {
   }
 
   refreshRegistrations = () => {
-    appClient
-      .adminGetRegistrations()
-      .then(registrations => {
-        this.setState({
-          registrations: registrations.data
-        });
-      })
-      .catch(err => {
-        console.error(err);
+    appClient.adminGetRegistrations().then(res => {
+      this.setState({
+        registrations: res
       });
+    });
   };
 
   handleUserSort = e => {

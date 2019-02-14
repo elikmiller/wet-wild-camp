@@ -37,11 +37,13 @@ const RegistrationSchema = new Schema({
   },
   deposit: {
     type: Boolean,
-    default: false
+    default: false,
+    required: true
   },
   paid: {
     type: Boolean,
-    default: false
+    default: false,
+    required: true
   },
   created: {
     type: Date,

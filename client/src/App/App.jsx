@@ -27,12 +27,12 @@ class App extends Component {
         this.setState({
           authenticated: true,
           user: {
-            _id: res.data._id,
-            firstName: res.data.firstName,
-            lastName: res.data.lastName,
-            email: res.data.email
+            _id: res._id,
+            firstName: res.firstName,
+            lastName: res.lastName,
+            email: res.email
           },
-          admin: res.data.admin
+          admin: res.admin
         });
       })
       .catch(err => {
@@ -89,12 +89,12 @@ class App extends Component {
           loading: false,
           authenticated: true,
           user: {
-            _id: res.data._id,
-            firstName: res.data.firstName,
-            lastName: res.data.lastName,
-            email: res.data.email
+            _id: res._id,
+            firstName: res.firstName,
+            lastName: res.lastName,
+            email: res.email
           },
-          admin: res.data.admin
+          admin: res.admin
         });
       })
       .catch(err => {

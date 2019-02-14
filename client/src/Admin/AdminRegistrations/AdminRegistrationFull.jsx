@@ -26,11 +26,8 @@ class AdminRegistrationFull extends Component {
       .adminGetRegistration(this.props.match.params.registrationId)
       .then(res => {
         this.setState({
-          registration: res.data
+          registration: res
         });
-      })
-      .catch(err => {
-        console.error(err);
       });
   };
 
@@ -57,13 +54,12 @@ class AdminRegistrationFull extends Component {
   handleSubmit = e => {
     e.preventDefault();
     let { formValue } = this.state;
-    let data = {
-      deposit: false,
-      paid: false
-    };
+    let data = Object.assign({}, this.state.registration);
     if (formValue === "") {
       this.setState({ showError: true });
     } else {
+      data.deposit = false;
+      data.paid = false;
       if (formValue === "deposit") {
         data.deposit = true;
       }
