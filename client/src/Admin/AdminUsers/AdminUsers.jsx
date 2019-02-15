@@ -29,14 +29,10 @@ class AdminUsers extends Component {
   }
 
   refreshUsers = () => {
-    appClient
-      .adminGetUsers()
-      .then(users => {
-        this.setState({ users: users.data });
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    appClient.adminGetUsers().then(res => {
+      let users = res.filter(user => !user.admin);
+      this.setState({ users });
+    });
   };
 
   handleUserSort = e => {

@@ -1,27 +1,55 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
-import ContactInformationContainerWrapper from "../../ContactInformation/ContactInformationContainerWrapper";
-import CampersContainerWrapper from "../../Campers/CampersContainerWrapper";
+import { Link } from "react-router-dom";
+import EditableAdminUserPrimaryContact from "./EditableAdminUserPrimaryContact";
 
 class AdminUserFull extends Component {
   state = {
-    user: {}
+    user: {},
+    campers: []
   };
 
   componentDidMount() {
-    this.getUserData();
+    this.getUser();
+    this.getCampers();
   }
 
-  getUserData = () => {
-    appClient
-      .getAdminUser(this.props.match.params.userId)
-      .then(user => {
-        this.setState({
-          user: user.data
-        });
+  getUser = () => {
+    appClient.adminGetUser(this.props.match.params.userId).then(res => {
+      this.setState({
+        user: res
+      });
+    });
+  };
+
+  getCampers = () => {
+    appClient.adminGetCampers().then(res => {
+      let campers = res.filter(
+        camper => camper.user === this.props.match.params.userId
+      );
+      this.setState({
+        campers
+      });
+    });
+  };
+
+  updateUser = ({
+    firstName,
+    lastName,
+    primaryContact,
+    secondaryContact,
+    emergencyContact
+  }) => {
+    return appClient
+      .adminUpdateUser(this.props.match.params.userId, {
+        firstName,
+        lastName,
+        primaryContact,
+        secondaryContact,
+        emergencyContact
       })
-      .catch(err => {
-        console.error(err);
+      .then(() => {
+        this.getUser();
       });
   };
 
@@ -37,22 +65,63 @@ class AdminUserFull extends Component {
             <strong>Email: </strong>
             {user.email}
           </p>
-          <h3 className="mt-5">Campers</h3>
-          <div className="card mt-1">
-            <div className="card-body">
-              <CampersContainerWrapper
-                userId={this.props.match.params.userId}
-              />
-            </div>
-          </div>
-          <h3 className="mt-5">Contact Information</h3>
-          <div className="card">
-            <div className="card-body">
-              <ContactInformationContainerWrapper
-                userId={this.props.match.params.userId}
-              />
-            </div>
-          </div>
+          <p>
+            <strong>Campers</strong>
+          </p>
+          <ul>
+            {this.state.campers.map(camper => (
+              <li key={camper._id}>
+                <Link to={`/admin/campers/${camper._id}`}>
+                  {camper.firstName} {camper.lastName}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p>
+            <strong>Primary Contact Information</strong>
+          </p>
+          {user.primaryContact && (
+            <EditableAdminUserPrimaryContact
+              firstName={user.primaryContact.firstName}
+              lastName={user.primaryContact.lastName}
+              email={user.primaryContact.email}
+              phoneNumber={user.primaryContact.phoneNumber}
+              streetAddress={user.primaryContact.streetAddress}
+              streetAddress2={user.primaryContact.streetAddress2}
+              city={user.primaryContact.city}
+              state={user.primaryContact.state}
+              zipCode={user.primaryContact.zipCode}
+              updateUser={this.updateUser}
+            />
+          )}
+          <p>
+            <strong>Secondary Contact Information</strong>
+          </p>
+          {user.secondaryContact && (
+            <p>
+              {user.secondaryContact.firstName} {user.secondaryContact.lastName}
+              <br />
+              <a href={`mailto:${user.secondaryContact.email}`}>
+                {user.secondaryContact.email}
+              </a>
+              <br />
+              {user.secondaryContact.phoneNumber}
+            </p>
+          )}
+          <p>
+            <strong>Emergency Contact Information</strong>
+          </p>
+          {user.emergencyContact && (
+            <p>
+              {user.emergencyContact.firstName} {user.emergencyContact.lastName}
+              <br />
+              <a href={`mailto:${user.emergencyContact.email}`}>
+                {user.emergencyContact.email}
+              </a>
+              <br />
+              {user.emergencyContact.phoneNumber}
+            </p>
+          )}
         </div>
       </div>
     );
