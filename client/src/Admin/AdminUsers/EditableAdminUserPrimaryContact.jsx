@@ -4,8 +4,7 @@ import AdminUserPrimaryContact from "./AdminUserPrimaryContact";
 
 class EditableAdminUserPrimaryContact extends Component {
   state = {
-    isOpen: false,
-    errors: {}
+    isOpen: false
   };
 
   handleSubmit = primaryContact => {
@@ -42,7 +41,6 @@ class EditableAdminUserPrimaryContact extends Component {
             zipCode={this.props.zipCode}
             onSubmit={this.handleSubmit}
             closeForm={this.closeForm}
-            errors={this.state.errors}
           />
         </div>
       );

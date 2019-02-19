@@ -6,7 +6,7 @@ import CleavePhone from "cleave.js/dist/addons/cleave-phone.us"; // eslint-disab
 class Input extends Component {
   render() {
     let showError = this.props.wasValidated && this.props.error;
-    let inputClassName = classNames("form-control", {
+    let inputClassName = classNames("form-control form-control-sm", {
       "is-invalid": showError
     });
     return (
