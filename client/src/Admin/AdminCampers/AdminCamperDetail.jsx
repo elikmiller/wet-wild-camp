@@ -20,16 +20,11 @@ class AdminCamperDetail extends Component {
   }
 
   getCamper = () => {
-    appClient
-      .getCamper(this.props.match.params.camperId)
-      .then(camper => {
-        this.setState({
-          camper: camper.data[0]
-        });
-      })
-      .catch(err => {
-        console.error(err);
+    appClient.adminGetCamper(this.props.match.params.camperId).then(camper => {
+      this.setState({
+        camper
       });
+    });
   };
 
   formatDate = date => {
@@ -220,13 +215,13 @@ class AdminCamperDetail extends Component {
               onSubmit={this.createRegistration}
             />
           )}
-          <div className="card">
+          {/* <div className="card">
             <div className="card-body">
               {this.state.camper.user && (
                 <ContactInformationContainerWrapper userId={camper.user._id} />
               )}
             </div>
-          </div>
+          </div> */}
           {this.state.formOpen && (
             <div>
               <br />

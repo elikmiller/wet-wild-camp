@@ -21,19 +21,12 @@ class AdminRosterList extends Component {
     this.setState({
       isLoading: true
     });
-    appClient
-      .getAllCampers()
-      .then(campers => {
-        this.setState({
-          campers: campers.data,
-          isLoading: false
-        });
-      })
-      .catch(err => {
-        this.setState({
-          isLoading: false
-        });
+    appClient.adminGetCampers().then(campers => {
+      this.setState({
+        campers,
+        isLoading: false
       });
+    });
   };
 
   handleQueryChange = e => {

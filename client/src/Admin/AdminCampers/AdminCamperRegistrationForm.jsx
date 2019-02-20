@@ -64,21 +64,15 @@ class AdminCamperRegistrationForm extends Component {
 
   getCamps = () => {
     this.setState({ loading: true });
-    appClient
-      .getCamps()
-      .then(camps => {
-        let campOptions = camps.data.map(camp => {
-          return { value: camp._id, name: `${camp.name} ${camp.type}` };
-        });
-        this.setState({
-          camps: campOptions,
-          loading: false
-        });
-      })
-      .catch(err => {
-        this.setState({ loading: false });
-        console.error(err);
+    appClient.adminGetCamps().then(camps => {
+      let campOptions = camps.map(camp => {
+        return { value: camp._id, name: `${camp.name} ${camp.type}` };
       });
+      this.setState({
+        camps: campOptions,
+        loading: false
+      });
+    });
   };
 
   locations = [

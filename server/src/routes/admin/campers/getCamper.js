@@ -5,7 +5,7 @@ module.exports = async (req, res, next) => {
   try {
     let camper = await Camper.findOne({
       _id: req.params.camperId
-    });
+    }).populate("user");
 
     if (!camper) {
       return next(Boom.badRequest("This camper does not exist."));

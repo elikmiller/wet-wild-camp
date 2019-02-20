@@ -22,7 +22,7 @@ class AdminUserPrimaryContact extends Component {
           {this.props.city}, {this.props.state} {this.props.zipCode}
         </p>
 
-        <button className="btn btn-primary" onClick={this.props.openForm}>
+        <button className="btn btn-primary mb-3" onClick={this.props.openForm}>
           <i className="fas fa-edit" /> Edit Primary Contact
         </button>
       </div>
