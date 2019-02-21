@@ -1,89 +1,74 @@
 import React, { Component } from "react";
-import ContactInformationContainerWrapper from "../../ContactInformation/ContactInformationContainerWrapper";
-import CamperForm from "../../Campers/CamperForm";
-import AdminCamperRegistrationForm from "./AdminCamperRegistrationForm";
 import appClient from "../../appClient";
-import moment from "moment";
 import { Link } from "react-router-dom";
+import EditableAdminCamper from "./EditableAdminCamper";
+import Dropdown from "../../Dropdown/Dropdown";
+import Modal from "../../Modal/Modal";
 
 class AdminCamperDetail extends Component {
   state = {
     camper: {},
-    formOpen: false,
-    confirmMessage: false,
-    registrationForm: false,
-    errors: {}
+    registrations: [],
+    editIsOpen: false,
+    confirmDeleteIsOpen: false
   };
 
   componentDidMount() {
     this.getCamper();
+    this.getRegistrations();
   }
 
   getCamper = () => {
-    appClient.adminGetCamper(this.props.match.params.camperId).then(camper => {
+    return appClient
+      .adminGetCamper(this.props.match.params.camperId)
+      .then(camper => {
+        this.setState({
+          camper
+        });
+      });
+  };
+
+  updateCamper = ({ firstName, lastName, gender, dateOfBirth, notes }) => {
+    let id = this.state.camper._id;
+    return appClient
+      .adminUpdateCamper(id, {
+        firstName,
+        lastName,
+        gender,
+        dateOfBirth,
+        notes
+      })
+      .then(updatedCamper => {
+        this.setState({
+          camper: updatedCamper
+        });
+      });
+  };
+
+  deleteCamper = () => {
+    let id = this.state.camper._id;
+    return appClient
+      .adminDeleteCamper(id)
+      .then(() => {
+        this.props.history.push("/admin/campers");
+      })
+      .catch(error => {
+        this.confirmDeleteClose();
+        this.setState(() => {
+          throw error;
+        });
+      });
+  };
+
+  getRegistrations = () => {
+    return appClient.adminGetRegistrations().then(registrations => {
       this.setState({
-        camper
+        registrations: registrations.filter(
+          registration =>
+            registration.camper._id === this.props.match.params.camperId
+        )
       });
     });
-  };
-
-  formatDate = date => {
-    let dob = moment.utc(date).format("MM/DD/YYYY");
-    let age = moment().diff(moment(date), "years", false);
-    return `${dob} (${age} years old)`;
-  };
-
-  toggleForm = e => {
-    if (e) e.preventDefault();
-    this.setState({ formOpen: !this.state.formOpen });
-  };
-
-  editCamper = camper => {
-    let id = this.state.camper._id;
-    appClient
-      .updateCamper(id, { data: camper })
-      .then(() => {
-        this.getCamper();
-        this.toggleForm();
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  };
-
-  createRegistration = data => {
-    let registration = {
-      user: this.state.camper.user._id,
-      camper: this.state.camper._id,
-      camp: data.camp,
-      morningDropoff: data.morningDropoff,
-      afternoonPickup: data.afternoonPickup
-    };
-    let paymentStatus = {
-      deposit: false,
-      paid: false
-    };
-    if (data.paymentStatus === "deposit") {
-      paymentStatus.deposit = true;
-    } else if (data.paymentStatus === "full") {
-      paymentStatus.deposit = true;
-      paymentStatus.paid = true;
-    }
-    appClient
-      .createRegistration(registration)
-      .then(reg => {
-        appClient
-          .updateRegistration(reg.data._id, paymentStatus)
-          .then(() => {
-            this.getCamper();
-          })
-          .catch(err => {
-            console.error(err);
-          });
-      })
-      .catch(err => {
-        console.error(err);
-      });
   };
 
   toggleConfirm = () => {
@@ -92,149 +77,125 @@ class AdminCamperDetail extends Component {
     });
   };
 
-  toggleRegistrationForm = () => {
+  editOpen = () => {
     this.setState({
-      registrationForm: !this.state.registrationForm
+      editIsOpen: true
     });
   };
 
-  deleteCamper = () => {
-    let id = this.state.camper._id;
-    appClient
-      .adminDeleteCamper(id)
-      .then(() => {
-        this.props.history.push("/admin/campers");
-      })
-      .catch(err => {
-        this.toggleConfirm();
-        this.setState({
-          errors: { delete: err.response.data.message }
-        });
-      });
+  editClose = () => {
+    this.setState({
+      editIsOpen: false
+    });
+  };
+
+  confirmDeleteOpen = () => {
+    this.setState({
+      confirmDeleteIsOpen: true
+    });
+  };
+
+  confirmDeleteClose = () => {
+    this.setState({
+      confirmDeleteIsOpen: false
+    });
   };
 
   render() {
-    let { camper } = this.state;
-    let registrationArr;
-    if (camper.registrations) {
-      registrationArr = camper.registrations.map((reg, i) => {
-        let ending = "";
-        if (i < camper.registrations.length - 1) ending = ", ";
-        return `${reg.camp.name} ${reg.camp.type}${ending}`;
-      });
-    }
+    let { camper, registrations } = this.state;
     return (
-      <div className="card">
-        <div className="card-header">
-          <div className="d-flex justify-content-between align-items-center">
-            <p className="mb-0">
+      <div className="admin-camper-detail">
+        <div className="card">
+          <div className="card-header">
+            <div className="d-flex justify-content-between align-items-center">
+              <h5 className="card-title mb-0">Camper Details</h5>
+              <div>
+                <Dropdown
+                  label="Options"
+                  items={[
+                    { label: "Edit Camper", onClick: this.editOpen },
+                    { label: "Delete Camper", onClick: this.confirmDeleteOpen }
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="card-body">
+            <div className="mb-3">
               <strong>Camper: </strong>
-              {camper.firstName} {camper.lastName}
-            </p>
-            <div>
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={this.toggleForm}
-              >
-                <i className="fas fa-edit" /> Edit
-              </button>
-              <button
-                className="btn btn-danger btn-sm mb-0 ml-1"
-                onClick={this.toggleConfirm}
-              >
-                <i className="fas fa-trash" /> Delete
-              </button>
+              <EditableAdminCamper
+                firstName={camper.firstName}
+                lastName={camper.lastName}
+                gender={camper.gender}
+                dateOfBirth={camper.dateOfBirth}
+                age={camper.age}
+                notes={camper.notes}
+                updateCamper={this.updateCamper}
+                isOpen={this.state.editIsOpen}
+                openForm={this.editOpen}
+                closeForm={this.editClose}
+              />
+            </div>
+
+            <div className="mb-3">
+              <strong>User: </strong>
+              {this.state.camper.user && (
+                <div>
+                  <Link to={`/admin/users/${camper.user._id}`}>
+                    {camper.user.firstName} {camper.user.lastName}
+                  </Link>
+                </div>
+              )}
+              {!this.state.camper.user && (
+                <div>
+                  <em>No User Found</em>
+                </div>
+              )}
+            </div>
+
+            <div className="mb-3">
+              <strong>Registrations: </strong>
+              {registrations.length > 0 && (
+                <ul className="list-unstyled">
+                  {registrations.map(registration => (
+                    <li key={registration._id}>
+                      <Link to={`/admin/registrations/${registration._id}`}>
+                        {registration.camp.fullName}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {registrations.length === 0 && (
+                <p>
+                  <em>No Registrations Found</em>
+                </p>
+              )}
             </div>
           </div>
         </div>
-        <div className="card-body">
-          {this.state.confirmMessage && (
-            <div
-              className="alert alert-info d-flex justify-content-between align-items-center"
-              role="alert"
-            >
-              Are you sure you want to delete this camper?
-              <div>
-                <button
-                  className="btn btn-secondary btn-sm"
-                  onClick={this.toggleConfirm}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="btn btn-danger btn-sm mb-0 ml-1"
-                  onClick={this.deleteCamper}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          )}
-          {this.state.errors.delete && (
-            <div className="alert alert-danger" role="alert">
-              {this.state.errors.delete}
-            </div>
-          )}
-          <p className="card-text">
-            <strong>Date of Birth: </strong>
-            {this.formatDate(camper.dateOfBirth)}
-            <br />
-            <br />
-            <strong>Gender: </strong>
-            {camper.gender}
-            <br />
-            <br />
-            <strong>Notes: </strong>
-            {camper.notes}
-            <br />
-            <br />
-            <strong>Associated User: </strong>
-            {this.state.camper.user && (
-              <Link to={`/admin/users/${camper.user._id}`}>
-                {camper.user.firstName} {camper.user.lastName}
-              </Link>
-            )}
-            <br />
-            <br />
-            <strong>Registered Camps: </strong>
-            {registrationArr}
-            <br />
-            <br />
+        <Modal
+          isOpen={this.state.confirmDeleteIsOpen}
+          contentLabel="Delete Camper"
+          onRequestClose={this.confirmDeleteClose}
+          shouldCloseOnOverlayClick={true}
+        >
+          <p>
+            Are you sure you want to delete {camper.firstName} {camper.lastName}
+            ?
           </p>
-          {!this.state.registrationForm && (
+          <div>
             <button
-              className="btn btn-primary mb-5"
-              onClick={this.toggleRegistrationForm}
+              className="btn btn-outline-secondary mr-3"
+              onClick={this.confirmDeleteClose}
             >
-              Add New Registration
+              Cancel
             </button>
-          )}
-          {this.state.registrationForm && (
-            <AdminCamperRegistrationForm
-              toggle={this.toggleRegistrationForm}
-              onSubmit={this.createRegistration}
-            />
-          )}
-          {/* <div className="card">
-            <div className="card-body">
-              {this.state.camper.user && (
-                <ContactInformationContainerWrapper userId={camper.user._id} />
-              )}
-            </div>
-          </div> */}
-          {this.state.formOpen && (
-            <div>
-              <br />
-              <br />
-              <h3 className="center">Edit Form</h3>
-              <CamperForm
-                onSubmit={this.editCamper}
-                closeForm={this.toggleForm}
-                data={this.state.camper}
-              />
-            </div>
-          )}
-        </div>
+            <button className="btn btn-danger" onClick={this.deleteCamper}>
+              Delete
+            </button>
+          </div>
+        </Modal>
       </div>
     );
   }

@@ -14,10 +14,10 @@ class AdminRosterList extends Component {
   };
 
   componentDidMount() {
-    this.refreshCampers();
+    this.getCampers();
   }
 
-  refreshCampers = () => {
+  getCampers = () => {
     this.setState({
       isLoading: true
     });
