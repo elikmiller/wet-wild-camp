@@ -28,7 +28,14 @@ class AdminCamperDetail extends Component {
       });
   };
 
-  updateCamper = ({ firstName, lastName, gender, dateOfBirth, notes }) => {
+  updateCamper = ({
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    swimmingStrength,
+    notes
+  }) => {
     let id = this.state.camper._id;
     return appClient
       .adminUpdateCamper(id, {
@@ -36,6 +43,7 @@ class AdminCamperDetail extends Component {
         lastName,
         gender,
         dateOfBirth,
+        swimmingStrength,
         notes
       })
       .then(updatedCamper => {
@@ -129,6 +137,7 @@ class AdminCamperDetail extends Component {
                 gender={camper.gender}
                 dateOfBirth={camper.dateOfBirth}
                 age={camper.age}
+                swimmingStrength={camper.swimmingStrength}
                 notes={camper.notes}
                 updateCamper={this.updateCamper}
                 isOpen={this.state.editIsOpen}

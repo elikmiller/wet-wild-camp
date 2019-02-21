@@ -10,6 +10,7 @@ class AdminCamperForm extends Component {
     lastName: this.props.lastName || "",
     gender: this.props.gender || "",
     dateOfBirth: this.props.dateOfBirth.slice(0, 10) || "",
+    swimmingStrength: this.props.swimmingStrength || "",
     notes: this.props.notes || "",
     errors: {},
     wasValidated: false
@@ -27,6 +28,8 @@ class AdminCamperForm extends Component {
       errors.dateOfBirth = "A valid Date of Birth is required.";
     if (validator.isBefore(this.state.dateOfBirth, Date.now().toString()))
       errors.dateOfBirth = "Date of Birth must be in the past.";
+    if (validator.isEmpty(this.state.swimmingStrength))
+      errors.swimmingStrength = "Swimming Strength is required.";
     return errors;
   };
 
@@ -52,7 +55,8 @@ class AdminCamperForm extends Component {
         lastName: this.state.lastName,
         gender: this.state.gender,
         dateOfBirth: this.state.dateOfBirth,
-        notes: this.state.notes
+        notes: this.state.notes,
+        swimmingStrength: this.state.swimmingStrength
       });
     }
   };
@@ -101,6 +105,21 @@ class AdminCamperForm extends Component {
             wasValidated={this.state.wasValidated}
             error={this.state.errors.dateOfBirth}
             value={this.state.dateOfBirth}
+          />
+          <InputDropdown
+            name="swimmingStrength"
+            label="Swimming Strength"
+            placeholder={"Please Select"}
+            options={[
+              { name: "None", value: "none" },
+              { name: "Weak", value: "weak" },
+              { name: "Fair", value: "fair" },
+              { name: "Strong", value: "strong" }
+            ]}
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.swimmingStrength}
+            value={this.state.swimmingStrength}
           />
           <Textarea
             name="notes"

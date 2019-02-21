@@ -5,14 +5,22 @@ import moment from "moment";
 const AdminCamper = props => {
   return (
     <div className="admin-camper">
-      {props.firstName} {props.lastName}
+      {`Full Name: ${props.firstName} ${props.lastName}`}
       <br />
-      {_.capitalize(props.gender)}
+      {`Gender: ${_.capitalize(props.gender)}`}
       <br />
-      {moment.utc(props.dateOfBirth).format("MM/DD/YYYY")} ({props.age} years
-      old)
+      {`Date of Birth: ${moment.utc(props.dateOfBirth).format("MM/DD/YYYY")} (${
+        props.age
+      } years
+      old)`}
       <br />
-      {props.notes ? props.notes : <em>No Notes</em>}
+      {props.swimmingStrength ? (
+        `Swimming Strength:  ${_.capitalize(props.swimmingStrength)}`
+      ) : (
+        <em>No Swimming Strength</em>
+      )}
+      <br />
+      {props.notes ? `Notes: ${props.notes}` : <em>No Notes</em>}
     </div>
   );
 };

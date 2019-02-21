@@ -3,13 +3,21 @@ import AdminCamper from "./AdminCamper.jsx";
 import AdminCamperForm from "./AdminCamperForm.jsx";
 
 class EditableAdminCamper extends Component {
-  handleSubmit = ({ firstName, lastName, gender, dateOfBirth, notes }) => {
+  handleSubmit = ({
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    swimmingStrength,
+    notes
+  }) => {
     return this.props
       .updateCamper({
         firstName,
         lastName,
         gender,
         dateOfBirth,
+        swimmingStrength,
         notes
       })
       .then(() => {
@@ -34,7 +42,7 @@ class EditableAdminCamper extends Component {
             lastName={this.props.lastName}
             gender={this.props.gender}
             dateOfBirth={this.props.dateOfBirth}
-            age={this.props.age}
+            swimmingStrength={this.props.swimmingStrength}
             notes={this.props.notes}
             onSubmit={this.handleSubmit}
             closeForm={this.closeForm}
@@ -48,6 +56,7 @@ class EditableAdminCamper extends Component {
               gender={this.props.gender}
               dateOfBirth={this.props.dateOfBirth}
               age={this.props.age}
+              swimmingStrength={this.props.swimmingStrength}
               notes={this.props.notes}
             />
           </div>
