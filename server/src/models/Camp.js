@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const { ObjectId } = mongoose.Schema.Types;
+const _ = require("lodash");
 
 const CampSchema = new Schema({
   name: {
@@ -48,6 +48,10 @@ CampSchema.virtual("registrations", {
   ref: "Registration",
   localField: "_id",
   foreignField: "camp"
+});
+
+CampSchema.virtual("fullName").get(function() {
+  return `${this.name} (${_.capitalize(this.type)})`;
 });
 
 CampSchema.set("toObject", { virtuals: true });
