@@ -30,11 +30,6 @@ const checkCamperSchema = checkSchema({
       errorMessage:
         'Please enter a valid gender. Valid options are "male", "female", or "unspecified"'
     }
-  },
-  user: {
-    exists: {
-      errorMessage: "User is required."
-    }
   }
 });
 
