@@ -1,4 +1,4 @@
-const { Camper } = require("../../../models");
+const { Camper, Registration } = require("../../../models");
 const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
@@ -7,11 +7,15 @@ module.exports = async (req, res, next) => {
       _id: req.params.camperId
     });
 
+    let registrations = await Registration.find({
+      camper: req.params.camperId
+    });
+
     if (!camper) {
       return next(Boom.badRequest("This camper does not exist."));
     }
 
-    if (camper.registrations.length > 0) {
+    if (registrations.length > 0) {
       return next(
         Boom.badRequest(
           "This camper has existing registrations and cannot be deleted."
