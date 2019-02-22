@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Input from "../../forms/Input";
 import validator from "validator";
+import Input from "../../forms/Input";
 import InputDropdown from "../../forms/InputDropdown";
 import Textarea from "../../forms/Textarea";
 

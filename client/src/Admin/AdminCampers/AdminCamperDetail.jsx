@@ -110,7 +110,7 @@ class AdminCamperDetail extends Component {
   };
 
   render() {
-    let { camper, registrations } = this.state;
+    const { camper, registrations } = this.state;
     return (
       <div className="admin-camper-detail">
         <div className="card">

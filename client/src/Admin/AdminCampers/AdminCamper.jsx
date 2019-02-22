@@ -3,24 +3,25 @@ import _ from "lodash";
 import moment from "moment";
 
 const AdminCamper = props => {
+  let fullName = `${props.firstName} ${props.lastName}`;
+  let gender = _.capitalize(props.gender);
+  let dateOfBirth = moment.utc(props.dateOfBirth).format("MM/DD/YYYY");
+  let age = props.age;
+  let swimmingStrength = _.capitalize(props.swimmingStrength) || (
+    <em>No Swimming Strength</em>
+  );
+  let notes = props.notes || <em>No Notes</em>;
+
+  console.log(swimmingStrength);
   return (
     <div className="admin-camper">
-      {`Full Name: ${props.firstName} ${props.lastName}`}
-      <br />
-      {`Gender: ${_.capitalize(props.gender)}`}
-      <br />
-      {`Date of Birth: ${moment.utc(props.dateOfBirth).format("MM/DD/YYYY")} (${
-        props.age
-      } years
-      old)`}
-      <br />
-      {props.swimmingStrength ? (
-        `Swimming Strength:  ${_.capitalize(props.swimmingStrength)}`
-      ) : (
-        <em>No Swimming Strength</em>
-      )}
-      <br />
-      {props.notes ? `Notes: ${props.notes}` : <em>No Notes</em>}
+      <div>Full Name: {fullName}</div>
+      <div>Gender: {gender}</div>
+      <div>
+        Date of Birth: {dateOfBirth} ({age} years old)
+      </div>
+      <div>Swimming Strength: {swimmingStrength}</div>
+      <div>Notes: {notes}</div>
     </div>
   );
 };
