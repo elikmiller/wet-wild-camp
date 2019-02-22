@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
 import { Link } from "react-router-dom";
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
 import EditableAdminCamp from "./EditableAdminCamp";
 import Spinner from "../../Spinner/Spinner";
-import Dropdown from "../../Dropdown/Dropdown";
-import Modal from "../../Modal/Modal";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 class AdminCampDetail extends Component {
   state = {
@@ -137,13 +142,52 @@ class AdminCampDetail extends Component {
             <div className="d-flex justify-content-between align-items-center">
               <h5 className="card-title mb-0">Camp Details</h5>
               <div>
-                <Dropdown
-                  label="Options"
-                  items={[
-                    { label: "Edit Camp", onClick: this.editOpen },
-                    { label: "Delete Camp", onClick: this.confirmDeleteOpen }
-                  ]}
-                />
+                <UncontrolledDropdown>
+                  <DropdownToggle caret>Options</DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem
+                      tag="a"
+                      href={`${process.env.REACT_APP_SERVER_URL}admin/camps/${
+                        this.props.match.params.campId
+                      }/csv/monday`}
+                      download
+                    >
+                      Download Monday Report
+                    </DropdownItem>
+                    <DropdownItem
+                      tag="a"
+                      href={`${process.env.REACT_APP_SERVER_URL}admin/camps/${
+                        this.props.match.params.campId
+                      }/csv/contact`}
+                      download
+                    >
+                      Download Contact Report
+                    </DropdownItem>
+                    <DropdownItem
+                      tag="a"
+                      href={`${process.env.REACT_APP_SERVER_URL}admin/camps/${
+                        this.props.match.params.campId
+                      }/csv/swimming`}
+                      download
+                    >
+                      Download Swimming Report
+                    </DropdownItem>
+                    <DropdownItem divider />
+
+                    <Link
+                      to={`/admin/rosters/${this.props.match.params.campId}`}
+                    >
+                      <div className="dropdown-item">View Roster</div>
+                    </Link>
+                    <DropdownItem divider />
+                    <DropdownItem onClick={this.editOpen}>
+                      Edit Camp
+                    </DropdownItem>
+                    <DropdownItem onClick={this.confirmDeleteOpen}>
+                      Delete Camp
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </div>
             </div>
           </div>
@@ -192,12 +236,16 @@ class AdminCampDetail extends Component {
         </div>
         <Modal
           isOpen={this.state.confirmDeleteIsOpen}
-          contentLabel="Delete Camp"
-          onRequestClose={this.confirmDeleteClose}
-          shouldCloseOnOverlayClick={true}
+          toggle={this.confirmDeleteClose}
+          className={this.props.className}
         >
-          <p>Are you sure you want to delete {camp.fullName}?</p>
-          <div>
+          <ModalHeader toggle={this.confirmDeleteClose}>
+            Delete Camp
+          </ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete {camp.fullName}?
+          </ModalBody>
+          <ModalFooter>
             <button
               className="btn btn-outline-secondary mr-3"
               onClick={this.confirmDeleteClose}
@@ -207,7 +255,7 @@ class AdminCampDetail extends Component {
             <button className="btn btn-danger" onClick={this.deleteCamp}>
               Delete
             </button>
-          </div>
+          </ModalFooter>
         </Modal>
       </div>
     );

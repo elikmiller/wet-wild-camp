@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import { Link } from "react-router-dom";
 import EditableAdminCamper from "./EditableAdminCamper";
-import Dropdown from "../../Dropdown/Dropdown";
-import Modal from "../../Modal/Modal";
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 class AdminCamperDetail extends Component {
   state = {
@@ -117,13 +122,17 @@ class AdminCamperDetail extends Component {
             <div className="d-flex justify-content-between align-items-center">
               <h5 className="card-title mb-0">Camper Details</h5>
               <div>
-                <Dropdown
-                  label="Options"
-                  items={[
-                    { label: "Edit Camper", onClick: this.editOpen },
-                    { label: "Delete Camper", onClick: this.confirmDeleteOpen }
-                  ]}
-                />
+                <UncontrolledDropdown>
+                  <DropdownToggle caret>Options</DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem onClick={this.editOpen}>
+                      Edit Camper
+                    </DropdownItem>
+                    <DropdownItem onClick={this.confirmDeleteOpen}>
+                      Delete Camper
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </div>
             </div>
           </div>
@@ -184,15 +193,17 @@ class AdminCamperDetail extends Component {
         </div>
         <Modal
           isOpen={this.state.confirmDeleteIsOpen}
-          contentLabel="Delete Camper"
-          onRequestClose={this.confirmDeleteClose}
-          shouldCloseOnOverlayClick={true}
+          toggle={this.confirmDeleteClose}
+          className={this.props.className}
         >
-          <p>
+          <ModalHeader toggle={this.confirmDeleteClose}>
+            Delete Camper
+          </ModalHeader>
+          <ModalBody>
             Are you sure you want to delete {camper.firstName} {camper.lastName}
             ?
-          </p>
-          <div>
+          </ModalBody>
+          <ModalFooter>
             <button
               className="btn btn-outline-secondary mr-3"
               onClick={this.confirmDeleteClose}
@@ -202,7 +213,7 @@ class AdminCamperDetail extends Component {
             <button className="btn btn-danger" onClick={this.deleteCamper}>
               Delete
             </button>
-          </div>
+          </ModalFooter>
         </Modal>
       </div>
     );
