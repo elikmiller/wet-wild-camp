@@ -25,6 +25,11 @@ class AdminCamperDetail extends Component {
         this.setState({
           camper
         });
+      })
+      .catch(error => {
+        this.setState(() => {
+          throw error;
+        });
       });
   };
 
@@ -76,12 +81,6 @@ class AdminCamperDetail extends Component {
             registration.camper._id === this.props.match.params.camperId
         )
       });
-    });
-  };
-
-  toggleConfirm = () => {
-    this.setState({
-      confirmMessage: !this.state.confirmMessage
     });
   };
 

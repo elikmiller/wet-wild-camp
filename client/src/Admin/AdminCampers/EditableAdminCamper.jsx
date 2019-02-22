@@ -35,7 +35,7 @@ class EditableAdminCamper extends Component {
 
   render() {
     return (
-      <div className="editable-camper">
+      <div className="editable-admin-camper">
         {this.props.isOpen && (
           <AdminCamperForm
             firstName={this.props.firstName}
@@ -49,17 +49,15 @@ class EditableAdminCamper extends Component {
           />
         )}
         {!this.props.isOpen && (
-          <div>
-            <AdminCamper
-              firstName={this.props.firstName}
-              lastName={this.props.lastName}
-              gender={this.props.gender}
-              dateOfBirth={this.props.dateOfBirth}
-              age={this.props.age}
-              swimmingStrength={this.props.swimmingStrength}
-              notes={this.props.notes}
-            />
-          </div>
+          <AdminCamper
+            firstName={this.props.firstName}
+            lastName={this.props.lastName}
+            gender={this.props.gender}
+            dateOfBirth={this.props.dateOfBirth}
+            age={this.props.age}
+            swimmingStrength={this.props.swimmingStrength}
+            notes={this.props.notes}
+          />
         )}
       </div>
     );
