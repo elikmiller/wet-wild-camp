@@ -6,15 +6,15 @@ import Textarea from "../../forms/Textarea";
 
 class AdminCampForm extends Component {
   state = {
-    name: this.props.name || "",
-    type: this.props.type || "",
-    description: this.props.description || "",
-    fee: this.props.fee || 0,
-    openDate: this.props.openDate.slice(0, 10) || "",
-    closeDate: this.props.closeDate.slice(0, 10) || "",
-    startDate: this.props.startDate.slice(0, 10) || "",
-    endDate: this.props.endDate.slice(0, 10) || "",
-    capacity: this.props.capacity || 0,
+    name: this.props.name,
+    type: this.props.type,
+    description: this.props.description,
+    fee: this.props.fee,
+    openDate: this.props.openDate.slice(0, 10),
+    closeDate: this.props.closeDate.slice(0, 10),
+    startDate: this.props.startDate.slice(0, 10),
+    endDate: this.props.endDate.slice(0, 10),
+    capacity: this.props.capacity,
     errors: {},
     wasValidated: false
   };
@@ -179,5 +179,17 @@ class AdminCampForm extends Component {
     );
   }
 }
+
+AdminCampForm.defaultProps = {
+  name: "",
+  type: "",
+  description: "",
+  fee: 0,
+  openDate: "",
+  closeDate: "",
+  startDate: "",
+  endDate: "",
+  capacity: 0
+};
 
 export default AdminCampForm;

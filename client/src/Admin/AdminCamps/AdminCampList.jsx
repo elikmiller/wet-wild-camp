@@ -26,7 +26,7 @@ class AdminCampList extends Component {
       .adminGetCamps()
       .then(camps => {
         this.setState({
-          camps: camps,
+          camps,
           isLoading: false
         });
       })
@@ -47,9 +47,29 @@ class AdminCampList extends Component {
     });
   };
 
-  createCamp = ({ data }) => {
-    appClient
-      .adminCreateCamp(data)
+  createCamp = ({
+    name,
+    type,
+    description,
+    fee,
+    startDate,
+    endDate,
+    openDate,
+    closeDate,
+    capacity
+  }) => {
+    return appClient
+      .adminCreateCamp({
+        name,
+        type,
+        description,
+        fee,
+        startDate,
+        endDate,
+        openDate,
+        closeDate,
+        capacity
+      })
       .then(() => {
         this.getCamps();
       })
