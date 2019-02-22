@@ -1,156 +1,183 @@
 import React, { Component } from "react";
-import moment from "moment";
+import validator from "validator";
+import Input from "../../forms/Input";
+import InputDropdown from "../../forms/InputDropdown";
+import Textarea from "../../forms/Textarea";
 
-class AdminSessionForm extends Component {
+class AdminCampForm extends Component {
   state = {
-    formValues: {
-      name: this.props.data ? this.props.data.name : "",
-      type: this.props.data ? this.props.data.type : "",
-      description: this.props.data ? this.props.data.description : "",
-      fee: this.props.data ? this.props.data.fee : 0,
-      startDate: this.props.data ? this.props.data.startDate : Date.now(),
-      endDate: this.props.data ? this.props.data.endDate : Date.now(),
-      openDate: this.props.data ? this.props.data.openDate : Date.now(),
-      closeDate: this.props.data ? this.props.data.closeDate : Date.now(),
-      capacity: this.props.data ? this.props.data.capacity : 0
-    }
+    name: this.props.name || "",
+    type: this.props.type || "",
+    description: this.props.description || "",
+    fee: this.props.fee || 0,
+    openDate: this.props.openDate.slice(0, 10) || "",
+    closeDate: this.props.closeDate.slice(0, 10) || "",
+    startDate: this.props.startDate.slice(0, 10) || "",
+    endDate: this.props.endDate.slice(0, 10) || "",
+    capacity: this.props.capacity || 0,
+    errors: {},
+    wasValidated: false
   };
 
-  formatDate = date => {
-    return moment(date)
-      .utc()
-      .format("YYYY-MM-DD");
+  validate = () => {
+    let errors = {};
+    if (validator.isEmpty(this.state.name + ""))
+      errors.name = "Name is required";
+    if (validator.isEmpty(this.state.type + ""))
+      errors.type = "Type is required";
+    if (validator.isEmpty(this.state.fee + "")) errors.fee = "Fee is required";
+    if (validator.isEmpty(this.state.openDate + ""))
+      errors.openDate = "Open Date is required";
+    if (validator.isEmpty(this.state.closeDate + ""))
+      errors.closeDate = "Close Date is required";
+    if (validator.isEmpty(this.state.startDate + ""))
+      errors.startDate = "Start Date is required";
+    if (validator.isEmpty(this.state.endDate + ""))
+      errors.endDate = "End Date is required";
+    if (validator.isEmpty(this.state.capacity + ""))
+      errors.capacity = "Capacity is required";
+    return errors;
   };
 
-  handleChange = e => {
+  handleOnChange = e => {
     e.preventDefault();
-    let { formValues } = this.state;
-    let { id, value } = e.target;
-
-    formValues[id] = value;
     this.setState({
-      formValues: formValues
+      [e.target.name]: e.target.value
     });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state.formValues);
-    this.props.closeForm();
+    const errors = this.validate();
+    this.setState({
+      errors,
+      wasValidated: true
+    });
+    if (Object.keys(errors).length === 0) {
+      this.props.onSubmit({
+        name: this.state.name,
+        type: this.state.type,
+        description: this.state.description,
+        fee: this.state.fee,
+        startDate: this.state.startDate,
+        endDate: this.state.endDate,
+        openDate: this.state.openDate,
+        closeDate: this.state.closeDate,
+        capacity: this.state.capacity
+      });
+    }
   };
 
   render() {
-    let { formValues } = this.state;
-    let startDate = this.formatDate(formValues.startDate);
-    let endDate = this.formatDate(formValues.endDate);
-    let openDate = this.formatDate(formValues.openDate);
-    let closeDate = this.formatDate(formValues.closeDate);
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
+      <div className="admin-camp-form">
+        <form onSubmit={this.handleSubmit}>
+          <Input
+            name="name"
+            label="Name"
             type="input"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={formValues["name"]}
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.name}
+            value={this.state.name}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="type">Type</label>
-          <select
-            id="type"
-            className="custom-select"
-            onChange={this.handleChange}
-            value={formValues["type"]}
-          >
-            <option defaultValue>Choose a camp type</option>
-            <option value="junior">Junior</option>
-            <option value="adventure">Adventure</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={formValues["description"]}
+          <InputDropdown
+            name="type"
+            label="Type"
+            placeholder={"Please Select"}
+            options={[
+              { name: "Adventure", value: "adventure" },
+              { name: "Junior", value: "junior" }
+            ]}
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.type}
+            value={this.state.type}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="fee">Fee</label>
-          <input
-            id="fee"
+          <Textarea
+            name="description"
+            label="Description"
             type="input"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={formValues["fee"]}
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.description}
+            value={this.state.description}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="capacity">Capacity</label>
-          <input
-            id="capacity"
-            type="input"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={formValues["capacity"]}
+          <Input
+            name="fee"
+            label="Fee"
+            type="number"
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.fee}
+            value={this.state.fee}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="openDate">Registration Open</label>
-          <input
-            id="openDate"
+          <Input
+            name="openDate"
+            label="Open Date"
             type="date"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={openDate}
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.openDate}
+            value={this.state.openDate}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="closeDate">Registration Close</label>
-          <input
-            id="closeDate"
+          <Input
+            name="closeDate"
+            label="Close Date"
             type="date"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={closeDate}
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.closeDate}
+            value={this.state.closeDate}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="startDate">Start Date</label>
-          <input
-            id="startDate"
+          <Input
+            name="startDate"
+            label="Start Date"
             type="date"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={startDate}
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.startDate}
+            value={this.state.startDate}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="endDate">End Date</label>
-          <input
-            id="endDate"
+          <Input
+            name="endDate"
+            label="End Date"
             type="date"
-            className="form-control form-control-sm"
-            onChange={this.handleChange}
-            value={endDate}
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.endDate}
+            value={this.state.endDate}
           />
-        </div>
-        <button
-          onClick={this.props.closeForm}
-          className="btn btn-outline-secondary mr-3"
-        >
-          Cancel
-        </button>
-        <button onClick={this.handleSubmit} className="btn btn-primary">
-          Submit
-        </button>
-      </form>
+          <Input
+            name="capacity"
+            label="Capacity"
+            type="number"
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.capacity}
+            value={this.state.capacity}
+          />
+
+          <div className="mb-3">
+            <button
+              onClick={this.props.closeForm}
+              className="btn btn-outline-secondary mr-3"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={this.handleSubmit}
+              className="btn btn-primary"
+              type="button"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }
 
-export default AdminSessionForm;
+export default AdminCampForm;

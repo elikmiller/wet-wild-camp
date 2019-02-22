@@ -15,25 +15,27 @@ class AdminCampList extends Component {
   };
 
   componentDidMount() {
-    this.refreshCamps();
+    this.getCamps();
   }
 
-  refreshCamps = () => {
+  getCamps = () => {
     this.setState({
       isLoading: true
     });
     appClient
-      .getCamps()
+      .adminGetCamps()
       .then(camps => {
         this.setState({
-          camps: camps.data,
+          camps: camps,
           isLoading: false
         });
       })
-      .catch(err => {
-        console.error(err);
+      .catch(error => {
         this.setState({
           isLoading: false
+        });
+        this.setState(() => {
+          throw error;
         });
       });
   };
@@ -45,14 +47,16 @@ class AdminCampList extends Component {
     });
   };
 
-  createCamp = data => {
+  createCamp = ({ data }) => {
     appClient
-      .newCamp(data)
+      .adminCreateCamp(data)
       .then(() => {
-        this.refreshCamps();
+        this.getCamps();
       })
-      .catch(err => {
-        console.error(err);
+      .catch(error => {
+        this.setState(() => {
+          throw error;
+        });
       });
   };
 
