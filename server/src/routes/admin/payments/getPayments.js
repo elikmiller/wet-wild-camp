@@ -3,7 +3,11 @@ const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
   try {
-    let payments = await Payment.find({});
+    let payments = await Payment.find({}).populate([
+      "user",
+      "deposits",
+      "fullPayments"
+    ]);
     return res.send(payments);
   } catch (err) {
     console.error(err);

@@ -23,19 +23,21 @@ class AdminPayments extends Component {
   };
 
   componentDidMount() {
-    this.getAllPayments();
+    this.getPayments();
   }
 
-  getAllPayments = () => {
-    appClient
-      .getAllPayments()
-      .then(res => {
+  getPayments = () => {
+    return appClient
+      .adminGetPayments()
+      .then(payments => {
         this.setState({
-          payments: res.data
+          payments
         });
       })
       .catch(err => {
-        console.error(err);
+        this.setState(() => {
+          throw err;
+        });
       });
   };
 
