@@ -27,12 +27,12 @@ class App extends Component {
         this.setState({
           authenticated: true,
           user: {
-            _id: res._id,
-            firstName: res.firstName,
-            lastName: res.lastName,
-            email: res.email
+            _id: res.user._id,
+            firstName: res.user.firstName,
+            lastName: res.user.lastName,
+            email: res.user.email
           },
-          admin: res.admin
+          admin: res.user.admin
         });
       })
       .catch(err => {
