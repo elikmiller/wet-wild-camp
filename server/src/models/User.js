@@ -81,6 +81,10 @@ UserSchema.virtual("payments", {
   foreignField: "user"
 });
 
+UserSchema.virtual("fullName").get(function() {
+  return `${this.firstName} ${this.lastName}`;
+});
+
 UserSchema.set("toObject", { virtuals: true });
 
 UserSchema.set("toJSON", { virtuals: true });

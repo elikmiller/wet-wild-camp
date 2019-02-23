@@ -45,6 +45,10 @@ CamperSchema.virtual("age").get(function() {
   return moment().diff(this.dateOfBirth, "years", false);
 });
 
+CamperSchema.virtual("fullName").get(function() {
+  return `${this.firstName} ${this.lastName}`;
+});
+
 CamperSchema.set("toObject", { virtuals: true });
 
 CamperSchema.set("toJSON", { virtuals: true });
