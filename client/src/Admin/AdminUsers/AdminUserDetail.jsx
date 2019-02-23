@@ -2,13 +2,8 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import { Link } from "react-router-dom";
 import EditableAdminUserPrimaryContact from "./EditableAdminUserPrimaryContact";
-import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import EditableAdminUserSecondaryContact from "./EditableAdminUserSecondaryContact";
+import EditableAdminUserEmergencyContact from "./EditableAdminUserEmergencyContact";
 import AdminUser from "./AdminUser";
 import moment from "moment";
 
@@ -67,19 +62,6 @@ class AdminUserDetail extends Component {
           <div className="card-header">
             <div className="d-flex justify-content-between align-items-center">
               <h5 className="card-title mb-0">User Details</h5>
-              <div>
-                <UncontrolledDropdown>
-                  <DropdownToggle caret>Options</DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem onClick={this.editOpen}>
-                      Edit User
-                    </DropdownItem>
-                    <DropdownItem onClick={this.confirmDeleteOpen}>
-                      Delete User
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </div>
             </div>
           </div>
           <div className="card-body">
@@ -153,24 +135,24 @@ class AdminUserDetail extends Component {
 
             <div className="mb-3">
               <strong>Secondary Contact Information</strong>
-              {/* <EditableAdminUserSecondaryContact
+              <EditableAdminUserSecondaryContact
                 firstName={user.secondaryContact.firstName}
                 lastName={user.secondaryContact.lastName}
                 email={user.secondaryContact.email}
                 phoneNumber={user.secondaryContact.phoneNumber}
                 updateUser={this.updateUser}
-              /> */}
+              />
             </div>
 
             <div className="mb-3">
               <strong>Emergency Contact Information</strong>
-              {/* <EditableAdminUserEmergencyContact
+              <EditableAdminUserEmergencyContact
                 firstName={user.emergencyContact.firstName}
                 lastName={user.emergencyContact.lastName}
                 email={user.emergencyContact.email}
                 phoneNumber={user.emergencyContact.phoneNumber}
                 updateUser={this.updateUser}
-              /> */}
+              />
             </div>
           </div>
         </div>

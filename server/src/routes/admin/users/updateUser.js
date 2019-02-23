@@ -16,7 +16,14 @@ module.exports = async (req, res, next) => {
       { _id: req.params.userId },
       updatedFields,
       { new: true }
-    );
+    ).populate([
+      {
+        path: "registrations",
+        populate: ["camper", "camp"]
+      },
+      "campers",
+      "payments"
+    ]);
     return res.send(updatedUser);
   } catch (err) {
     console.error(err);
