@@ -47,7 +47,11 @@ class AdminPaymentList extends Component {
               key: "user.lastName",
               name: "User",
               displayFunc: item =>
-                `${item.user.firstName} ${item.user.lastName}`
+                item.user ? (
+                  `${item.user.firstName} ${item.user.lastName}`
+                ) : (
+                  <em>No User Found</em>
+                )
             },
             {
               key: "amount",

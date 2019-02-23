@@ -47,23 +47,23 @@ class AdminRegistrationList extends Component {
               key: "user.lastName",
               name: "User",
               displayFunc: item =>
-                `${item.user.firstName} ${item.user.lastName}`
+                item.user && `${item.user.firstName} ${item.user.lastName}`
             },
             {
               key: "camp.fullName",
               name: "Camp",
-              displayFunc: item => item.camp.fullName
+              displayFunc: item => item.camp && item.camp.fullName
             },
             {
               key: "camper.lastName",
               name: "Camper",
-              displayFunc: item =>
-                `${item.camper.firstName} ${item.camper.lastName}`
+              displayFunc: item => item.camper && item.camper.fullName
             },
             {
               key: "camp.startDate",
               name: "Start Date",
               displayFunc: item =>
+                item.camp &&
                 moment.utc(item.camp.startDate).format("MM/DD/YYYY")
             },
             {
