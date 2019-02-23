@@ -8,7 +8,7 @@ class AdminRoster extends Component {
     return (
       <div className="admin-roster">
         <SearchTable
-          items={this.props.camp.campers || []}
+          items={this.props.camp.registrations || []}
           searchKeys={[
             "camper.firstName",
             "camper.lastName",
@@ -35,8 +35,7 @@ class AdminRoster extends Component {
             {
               key: "camper.swimmingStrength",
               name: "Swimming",
-              displayFunc: item =>
-                _.capitalize(item.camper.swimmingStrength) || "None"
+              displayFunc: item => _.capitalize(item.camper.swimmingStrength)
             },
             {
               key: "camper.morningDropoff",

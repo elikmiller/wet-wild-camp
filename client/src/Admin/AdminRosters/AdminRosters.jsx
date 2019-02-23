@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import AdminRosterList from "./AdminRosterList";
 import AdminRosterDetail from "./AdminRosterDetail";
 import AdminRosterSwimming from "./AdminRosterSwimming";
+import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
 
 class AdminRosters extends Component {
   render() {
@@ -10,13 +11,28 @@ class AdminRosters extends Component {
       <Switch>
         <Route
           path={`${this.props.match.path}/:campId/swimming`}
-          component={AdminRosterSwimming}
+          render={props => (
+            <ErrorBoundary>
+              <AdminRosterSwimming {...props} />
+            </ErrorBoundary>
+          )}
         />
         <Route
           path={`${this.props.match.path}/:campId`}
-          component={AdminRosterDetail}
+          render={props => (
+            <ErrorBoundary>
+              <AdminRosterDetail {...props} />
+            </ErrorBoundary>
+          )}
         />
-        <Route path={`${this.props.match.path}`} component={AdminRosterList} />
+        <Route
+          path={`${this.props.match.path}`}
+          render={props => (
+            <ErrorBoundary>
+              <AdminRosterList {...props} />
+            </ErrorBoundary>
+          )}
+        />
       </Switch>
     );
   }

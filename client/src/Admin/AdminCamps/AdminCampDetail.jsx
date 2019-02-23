@@ -135,7 +135,7 @@ class AdminCampDetail extends Component {
   render() {
     const { camp, registrations } = this.state;
     return (
-      <div className="admin-camp-details">
+      <div className="admin-camp-detail">
         <div className="card spinner-wrapper">
           {this.state.isLoading && <Spinner />}
           <div className="card-header">
@@ -145,35 +145,6 @@ class AdminCampDetail extends Component {
                 <UncontrolledDropdown>
                   <DropdownToggle caret>Options</DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem
-                      tag="a"
-                      href={`${process.env.REACT_APP_SERVER_URL}admin/camps/${
-                        this.props.match.params.campId
-                      }/csv/monday`}
-                      download
-                    >
-                      Download Monday Report
-                    </DropdownItem>
-                    <DropdownItem
-                      tag="a"
-                      href={`${process.env.REACT_APP_SERVER_URL}admin/camps/${
-                        this.props.match.params.campId
-                      }/csv/contact`}
-                      download
-                    >
-                      Download Contact Report
-                    </DropdownItem>
-                    <DropdownItem
-                      tag="a"
-                      href={`${process.env.REACT_APP_SERVER_URL}admin/camps/${
-                        this.props.match.params.campId
-                      }/csv/swimming`}
-                      download
-                    >
-                      Download Swimming Report
-                    </DropdownItem>
-                    <DropdownItem divider />
-
                     <Link
                       to={`/admin/rosters/${this.props.match.params.campId}`}
                     >
