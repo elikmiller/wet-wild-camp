@@ -248,6 +248,10 @@ const adminUpdateCamper = (
   });
 };
 
+const adminUpdateCamperBulk = campers => {
+  return appClient.patch(`/admin/campers/`, campers);
+};
+
 const adminDeleteCamper = camperId => {
   return appClient.delete(`/admin/campers/${camperId}`);
 };
@@ -445,6 +449,7 @@ export default {
   adminGetCamper,
   adminCreateCamper,
   adminUpdateCamper,
+  adminUpdateCamperBulk,
   adminDeleteCamper,
 
   // Admin - Camps,

@@ -3,9 +3,10 @@ const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
   try {
-    let camp = await Camp.findOne({ _id: req.params.campId }).populate(
-      "registrations"
-    );
+    let camp = await Camp.findOne({ _id: req.params.campId }).populate({
+      path: "registrations",
+      populate: [{ path: "user" }, { path: "camper" }]
+    });
 
     if (!camp) {
       return next(Boom.badRequest("This camp does not exist."));

@@ -66,6 +66,13 @@ router.patch(
 );
 
 /**
+ * @api {patch} /campers/:camperId Update Camper
+ * @apiDescription Update many existing Campers
+ * @apiGroup Campers
+ */
+router.patch("/", require("./updateCamperBulk"));
+
+/**
  * @api {delete} /campers/:camperId Delete Camper
  * @apiDescription Delete Camper
  * @apiGroup Campers
