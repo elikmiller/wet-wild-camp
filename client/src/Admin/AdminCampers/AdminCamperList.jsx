@@ -29,13 +29,6 @@ class AdminRosterList extends Component {
     });
   };
 
-  handleQueryChange = e => {
-    e.preventDefault();
-    this.setState({
-      query: e.target.value
-    });
-  };
-
   render() {
     return (
       <div className="admin-camper-list spinner-wrapper">

@@ -3,7 +3,7 @@ import appClient from "../../appClient";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 
-class AdminRegistrationFull extends Component {
+class AdminRegistrationDetail extends Component {
   state = {
     registration: {
       camp: {},
@@ -208,4 +208,4 @@ class AdminRegistrationFull extends Component {
   }
 }
 
-export default AdminRegistrationFull;
+export default AdminRegistrationDetail;

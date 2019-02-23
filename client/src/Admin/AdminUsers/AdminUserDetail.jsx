@@ -3,7 +3,7 @@ import appClient from "../../appClient";
 import { Link } from "react-router-dom";
 import EditableAdminUserPrimaryContact from "./EditableAdminUserPrimaryContact";
 
-class AdminUserFull extends Component {
+class AdminUserDetail extends Component {
   state = {
     user: {},
     campers: []
@@ -128,4 +128,4 @@ class AdminUserFull extends Component {
   }
 }
 
-export default AdminUserFull;
+export default AdminUserDetail;
