@@ -1,124 +1,99 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
-import AdminRegistrationCell from "./AdminRegistrationCell";
-import handleSort from "../../sort";
+import Spinner from "../../Spinner/Spinner";
+import SearchTable from "../../SearchTable/SearchTable";
+import { Link } from "react-router-dom";
+import moment from "moment";
 
 class AdminRegistrationList extends Component {
   state = {
     registrations: [],
-    sortStatus: {
-      user: {
-        engaged: false,
-        ascending: true
-      },
-      camp: {
-        engaged: false,
-        ascending: true
-      },
-      camper: {
-        engaged: false,
-        ascending: true
-      },
-      date: {
-        engaged: false,
-        ascending: true
-      },
-      paid: {
-        engaged: false,
-        ascending: true
-      }
-    }
+    isLoading: false
   };
 
   componentDidMount() {
-    this.refreshRegistrations();
+    this.getRegistrations();
   }
 
-  refreshRegistrations = () => {
-    appClient.adminGetRegistrations().then(res => {
+  getRegistrations = () => {
+    this.setState({
+      isLoading: true
+    });
+    appClient.adminGetRegistrations().then(registrations => {
       this.setState({
-        registrations: res
+        registrations,
+        isLoading: false
       });
     });
   };
 
-  handleUserSort = e => {
-    e.preventDefault();
-    let sortedData = handleSort(
-      e,
-      this.state.registrations,
-      this.state.sortStatus
-    );
-    this.setState({
-      registrations: sortedData.data,
-      sortStatus: sortedData.sortStatus
-    });
-  };
-
   render() {
-    let content = this.state.registrations.map((registration, i) => {
-      return <AdminRegistrationCell key={i} data={registration} />;
-    });
     return (
-      <div>
-        <table className="table table-sm admin-table">
-          <thead>
-            <tr>
-              <td>
-                <button
-                  className="btn btn-light btn-sm"
-                  onClick={this.handleUserSort}
-                  id="user"
-                  value="lastName"
-                >
-                  User
-                </button>
-              </td>
-              <td>
-                <button
-                  className="btn btn-light btn-sm"
-                  onClick={this.handleUserSort}
-                  id="camp"
-                  value="name"
-                >
-                  Camp Session
-                </button>
-              </td>
-              <td>
-                <button
-                  className="btn btn-light btn-sm"
-                  onClick={this.handleUserSort}
-                  id="camper"
-                  value="lastName"
-                >
-                  Camper
-                </button>
-              </td>
-              <td>
-                <button
-                  className="btn btn-light btn-sm"
-                  onClick={this.handleUserSort}
-                  id="camp"
-                  value="startDate"
-                >
-                  Start Date
-                </button>
-              </td>
-              <td>
-                <button
-                  className="btn btn-light btn-sm"
-                  onClick={this.handleUserSort}
-                  id="paid"
-                  value="paid"
-                >
-                  Payment Status
-                </button>
-              </td>
-              <td />
-            </tr>
-          </thead>
-          <tbody>{content}</tbody>
-        </table>
+      <div className="admin-registration-list spinner-wrapper">
+        {this.state.isLoading && <Spinner />}
+        <p className="lead">All Registrations</p>
+        <SearchTable
+          items={this.state.registrations}
+          searchKeys={[
+            "user.firstName",
+            "user.lastName",
+            "camper.firstName",
+            "camper.lastName",
+            "camp.fullName"
+          ]}
+          queryPlaceholder="Search Registrations"
+          columns={[
+            {
+              key: "user.lastName",
+              name: "User",
+              displayFunc: item =>
+                `${item.user.firstName} ${item.user.lastName}`
+            },
+            {
+              key: "camp.fullName",
+              name: "Camp",
+              displayFunc: item => item.camp.fullName
+            },
+            {
+              key: "camper.lastName",
+              name: "Camper",
+              displayFunc: item =>
+                `${item.camper.firstName} ${item.camper.lastName}`
+            },
+            {
+              key: "camp.startDate",
+              name: "Start Date",
+              displayFunc: item =>
+                moment.utc(item.camp.startDate).format("MM/DD/YYYY")
+            },
+            {
+              key: "paid",
+              name: "Status",
+              displayFunc: item => {
+                return (
+                  <div>
+                    {item.paid && (
+                      <span className="badge badge-success">Paid in Full</span>
+                    )}
+                    {item.deposit && !item.paid && (
+                      <span className="badge badge-warning">Deposit Paid</span>
+                    )}
+                    {!item.paid && !item.deposit && (
+                      <span className="badge badge-danger">Unpaid</span>
+                    )}
+                  </div>
+                );
+              }
+            },
+            {
+              key: "",
+              name: "",
+              displayFunc: item => (
+                <Link to={`/admin/registrations/${item._id}`}>Details</Link>
+              )
+            }
+          ]}
+        />
       </div>
     );
   }

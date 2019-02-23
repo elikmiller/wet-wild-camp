@@ -11,8 +11,6 @@ const AdminCamper = props => {
     <em>No Swimming Strength</em>
   );
   let notes = props.notes || <em>No Notes</em>;
-
-  console.log(swimmingStrength);
   return (
     <div className="admin-camper">
       <div>Full Name: {fullName}</div>
