@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import validator from "validator";
 import Input from "../../forms/Input";
 import InputDropdown from "../../forms/InputDropdown";
-import Textarea from "../../forms/Textarea";
 import Checkbox from "../../forms/Checkbox";
 import appClient from "../../appClient";
 
@@ -41,7 +39,7 @@ class AdminRegistrationForm extends Component {
 
   validate = () => {
     let errors = {};
-    //
+    //TODO Add validation
     return errors;
   };
 

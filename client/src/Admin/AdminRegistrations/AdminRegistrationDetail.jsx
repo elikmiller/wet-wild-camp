@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
-import _ from "lodash";
 import { Link } from "react-router-dom";
 import {
   UncontrolledDropdown,
