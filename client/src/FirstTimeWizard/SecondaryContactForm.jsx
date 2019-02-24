@@ -29,14 +29,11 @@ class SecondaryContactInformationForm extends Component {
       });
       return appClient
         .updateUser({
-          id: this.props.userId,
-          data: {
-            secondaryContact: {
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              phoneNumber: this.state.phoneNumber,
-              email: this.state.email
-            }
+          secondaryContact: {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            phoneNumber: this.state.phoneNumber,
+            email: this.state.email
           }
         })
         .then(res => {
