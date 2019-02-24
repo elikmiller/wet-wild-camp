@@ -27,9 +27,11 @@ module.exports = async (req, res, next) => {
       camp: req.body.camp,
       morningDropoff: req.body.morningDropoff,
       afternoonPickup: req.body.afternoonPickup,
+      deposit: req.body.deposit || false,
+      paid: req.body.paid || false,
       waitlist: req.body.waitlist || false,
       created: Date.now(),
-      user: req.body.userId
+      user: req.body.user
     });
 
     await registration.save();

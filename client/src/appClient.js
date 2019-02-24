@@ -344,6 +344,8 @@ const adminCreateRegistration = ({
   camp,
   morningDropoff,
   afternoonPickup,
+  deposit,
+  paid,
   waitlist,
   user
 }) => {
@@ -352,6 +354,8 @@ const adminCreateRegistration = ({
     camp,
     morningDropoff,
     afternoonPickup,
+    deposit,
+    paid,
     waitlist,
     user
   });

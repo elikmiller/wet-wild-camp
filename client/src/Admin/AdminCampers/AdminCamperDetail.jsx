@@ -9,12 +9,14 @@ import {
   DropdownItem
 } from "reactstrap";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import AdminRegistrationForm from "../AdminRegistrations/AdminRegistrationForm";
 
 class AdminCamperDetail extends Component {
   state = {
     camper: {},
     registrations: [],
     editIsOpen: false,
+    addRegistrationIsOpen: false,
     confirmDeleteIsOpen: false
   };
 
@@ -89,6 +91,43 @@ class AdminCamperDetail extends Component {
     });
   };
 
+  createRegistration = ({
+    campId,
+    morningDropoff,
+    afternoonPickup,
+    deposit,
+    paid,
+    waitlist
+  }) => {
+    return appClient
+      .adminCreateRegistration({
+        user: this.state.camper.user._id,
+        camper: this.state.camper._id,
+        camp: campId,
+        morningDropoff,
+        afternoonPickup,
+        deposit,
+        paid,
+        waitlist
+      })
+      .then(() => {
+        this.getCamper();
+        this.getRegistrations();
+      });
+  };
+
+  addRegistrationOpen = () => {
+    this.setState({
+      addRegistrationIsOpen: true
+    });
+  };
+
+  addRegistrationClose = () => {
+    this.setState({
+      addRegistrationIsOpen: false
+    });
+  };
+
   editOpen = () => {
     this.setState({
       editIsOpen: true
@@ -130,6 +169,10 @@ class AdminCamperDetail extends Component {
                     </DropdownItem>
                     <DropdownItem onClick={this.confirmDeleteOpen}>
                       Delete Camper
+                    </DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem onClick={this.addRegistrationOpen}>
+                      Add Registration
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -214,6 +257,22 @@ class AdminCamperDetail extends Component {
               Delete
             </button>
           </ModalFooter>
+        </Modal>
+        <Modal
+          isOpen={this.state.addRegistrationIsOpen}
+          toggle={this.addRegistrationClose}
+        >
+          <ModalHeader toggle={this.addRegistrationClose}>
+            Add Registration
+          </ModalHeader>
+          <ModalBody>
+            <AdminRegistrationForm
+              camper={this.state.camper}
+              user={this.state.camper.user}
+              onSubmit={this.createRegistration}
+              closeForm={this.addRegistrationClose}
+            />
+          </ModalBody>
         </Modal>
       </div>
     );
