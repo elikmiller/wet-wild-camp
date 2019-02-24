@@ -8,8 +8,14 @@ class EditableCamper extends Component {
     errors: {}
   };
 
-  handleSubmit = camper => {
-    this.props.editCamper(this.props.camper._id, camper);
+  handleSubmit = ({ firstName, lastName, gender, dateOfBirth, notes }) => {
+    this.props.editCamper(this.props.camper._id, {
+      firstName,
+      lastName,
+      gender,
+      dateOfBirth,
+      notes
+    });
   };
 
   openForm = () => {

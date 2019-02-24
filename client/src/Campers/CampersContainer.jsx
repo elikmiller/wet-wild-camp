@@ -22,11 +22,11 @@ class CampersContainer extends Component {
       errors: {}
     });
     appClient
-      .getCampers(this.props.userId)
+      .getCampers()
       .then(campers => {
         this.setState({
           isLoading: false,
-          campers: campers.data
+          campers: campers
         });
       })
       .catch(err => {
@@ -53,9 +53,15 @@ class CampersContainer extends Component {
     }
   };
 
-  addCamper = camper => {
+  addCamper = ({ firstName, lastName, gender, dateOfBirth, notes }) => {
     appClient
-      .createCamper(camper)
+      .createCamper({
+        firstName,
+        lastName,
+        gender,
+        dateOfBirth,
+        notes
+      })
       .then(() => {
         this.refreshCampers();
       })
@@ -64,9 +70,18 @@ class CampersContainer extends Component {
       });
   };
 
-  editCamper = (id, camper) => {
+  editCamper = (
+    camperId,
+    { firstName, lastName, gender, dateOfBirth, notes }
+  ) => {
     appClient
-      .updateCamper(id, { data: camper })
+      .updateCamper(camperId, {
+        firstName,
+        lastName,
+        gender,
+        dateOfBirth,
+        notes
+      })
       .then(() => {
         this.refreshCampers();
       })
