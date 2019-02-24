@@ -4,6 +4,7 @@ import Input from "../../forms/Input";
 import InputDropdown from "../../forms/InputDropdown";
 import Textarea from "../../forms/Textarea";
 import Checkbox from "../../forms/Checkbox";
+import appClient from "../../appClient";
 
 class AdminRegistrationForm extends Component {
   state = {
@@ -15,9 +16,27 @@ class AdminRegistrationForm extends Component {
     created: this.props.created,
     user: this.props.user,
     camper: this.props.camper,
-    camp: this.props.camp,
+    campId: this.props.campId,
+    camps: [],
+    campsIsLoading: false,
     errors: {},
     wasValidated: false
+  };
+
+  componentDidMount() {
+    this.getCamps();
+  }
+
+  getCamps = () => {
+    this.setState({
+      campsIsLoading: true
+    });
+    return appClient.adminGetCamps().then(camps => {
+      this.setState({
+        camps,
+        campsIsLoading: false
+      });
+    });
   };
 
   validate = () => {
@@ -52,13 +71,13 @@ class AdminRegistrationForm extends Component {
         deposit: this.state.deposit,
         paid: this.state.paid,
         waitlist: this.state.waitlist,
-        camp: this.state.camp
+        campId: this.state.campId
       });
+      this.props.closeForm();
     }
   };
 
   render() {
-    console.log(this.state.user);
     return (
       <div className="admin-registration-form">
         <form onSubmit={this.handleSubmit}>
@@ -76,12 +95,19 @@ class AdminRegistrationForm extends Component {
             value={this.state.camper.fullName}
             disabled
           />
-          <Input
-            name="camp"
+          <InputDropdown
+            name="campId"
             label="Camp"
-            type="input"
-            value={this.state.camp.fullName}
-            disabled
+            placeholder="Please Select"
+            value={this.state.campId}
+            options={this.state.camps.map(camp => ({
+              name: camp.fullName,
+              value: camp._id
+            }))}
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.camp}
+            disabled={this.campsIsLoading}
           />
           <InputDropdown
             name="morningDropoff"

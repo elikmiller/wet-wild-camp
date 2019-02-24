@@ -26,7 +26,17 @@ class AdminUserDetail extends Component {
   getUser = () => {
     return appClient.adminGetUser(this.props.match.params.userId).then(user => {
       this.setState({
-        user
+        user: Object.assign(
+          {
+            primaryContact: {},
+            secondaryContact: {},
+            emergencyContact: {},
+            registrations: [],
+            campers: [],
+            payments: []
+          },
+          user
+        )
       });
     });
   };
@@ -48,9 +58,7 @@ class AdminUserDetail extends Component {
         emergencyContact
       })
       .then(updatedUser => {
-        this.setState({
-          user: updatedUser
-        });
+        this.getUser();
       });
   };
 

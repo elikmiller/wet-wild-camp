@@ -359,21 +359,10 @@ const adminCreateRegistration = ({
 
 const adminUpdateRegistration = (
   registrationId,
-  {
-    user,
-    camper,
-    camp,
-    morningDropoff,
-    afternoonPickup,
-    waitlist,
-    deposit,
-    paid
-  }
+  { campId, morningDropoff, afternoonPickup, waitlist, deposit, paid }
 ) => {
   return appClient.patch(`/admin/registrations/${registrationId}`, {
-    user,
-    camper,
-    camp,
+    campId,
     morningDropoff,
     afternoonPickup,
     waitlist,

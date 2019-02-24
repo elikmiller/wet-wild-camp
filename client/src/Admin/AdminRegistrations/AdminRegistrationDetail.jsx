@@ -41,41 +41,35 @@ class AdminRegistrationDetail extends Component {
             registration
           )
         });
-      })
-      .catch(error => {
-        this.setState(() => {
-          throw error;
-        });
       });
   };
 
-  updateRegistration = data => {
+  updateRegistration = ({
+    morningDropoff,
+    afternoonPickup,
+    deposit,
+    paid,
+    waitlist,
+    campId
+  }) => {
     appClient
-      .adminUpdateRegistration(this.state.registration._id, data)
-      .then(updatedRegistration => {
-        this.setState({
-          registration: updatedRegistration
-        });
+      .adminUpdateRegistration(this.state.registration._id, {
+        morningDropoff,
+        afternoonPickup,
+        deposit,
+        paid,
+        waitlist,
+        campId
       })
-      .catch(error => {
-        this.setState(() => {
-          throw error;
-        });
+      .then(updatedRegistration => {
+        this.getRegistration();
       });
   };
 
   deleteRegistration = () => {
-    appClient
-      .adminDeleteRegistration(this.state.registration._id)
-      .then(() => {
-        this.props.history.push("/admin/registrations");
-      })
-      .catch(error => {
-        this.setState(() => {
-          this.confirmDeleteClose();
-          throw error;
-        });
-      });
+    appClient.adminDeleteRegistration(this.state.registration._id).then(() => {
+      this.props.history.push("/admin/registrations");
+    });
   };
 
   editOpen = () => {
@@ -193,14 +187,14 @@ class AdminRegistrationDetail extends Component {
             <AdminRegistrationForm
               user={registration.user}
               camper={registration.camper}
-              camp={registration.camp}
+              campId={registration.camp._id}
               morningDropoff={registration.morningDropoff}
               afternoonPickup={registration.afternoonPickup}
               deposit={registration.deposit}
               paid={registration.paid}
               waitlist={registration.waitlist}
               created={registration.created}
-              updateRegistration={this.updateRegistration}
+              onSubmit={this.updateRegistration}
               closeForm={this.editClose}
             />
           </ModalBody>

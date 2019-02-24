@@ -70,11 +70,7 @@ router.post(
  * @apiDescription Update existing Registration
  * @apiGroup Registrations
  */
-router.patch(
-  "/:registrationId",
-  [checkRegistrationSchema, validate],
-  require("./updateRegistration")
-);
+router.patch("/:registrationId", require("./updateRegistration"));
 
 /**
  * @api {delete} /registrations/:registrationId Delete Registration

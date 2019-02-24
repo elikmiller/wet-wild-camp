@@ -14,8 +14,8 @@ const AdminRegistration = props => {
     <div className="admin-registration">
       <div>Morning Dropoff: {morningDropoff}</div>
       <div>Afternoon Pickup: {afternoonPickup}</div>
-      <div>Deposit: {deposit}</div>
-      <div>Paid: {paid}</div>
+      <div>Deposit Paid: {deposit}</div>
+      <div>Full Amount Paid: {paid}</div>
       <div>Waitlist: {waitlist}</div>
       <div>Created: {created}</div>
     </div>
