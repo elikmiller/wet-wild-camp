@@ -6,12 +6,12 @@ import Textarea from "../../forms/Textarea";
 
 class AdminCamperForm extends Component {
   state = {
-    firstName: this.props.firstName || "",
-    lastName: this.props.lastName || "",
-    gender: this.props.gender || "",
-    dateOfBirth: this.props.dateOfBirth.slice(0, 10) || "",
-    swimmingStrength: this.props.swimmingStrength || "",
-    notes: this.props.notes || "",
+    firstName: this.props.firstName,
+    lastName: this.props.lastName,
+    gender: this.props.gender,
+    dateOfBirth: this.props.dateOfBirth.slice(0, 10),
+    swimmingStrength: this.props.swimmingStrength,
+    notes: this.props.notes,
     errors: {},
     wasValidated: false
   };
@@ -58,6 +58,7 @@ class AdminCamperForm extends Component {
         notes: this.state.notes,
         swimmingStrength: this.state.swimmingStrength
       });
+      this.props.closeForm();
     }
   };
 
@@ -151,5 +152,14 @@ class AdminCamperForm extends Component {
     );
   }
 }
+
+AdminCamperForm.defaultProps = {
+  firstName: "",
+  lastName: "",
+  gender: "",
+  dateOfBirth: "",
+  swimmingStrength: "",
+  notes: ""
+};
 
 export default AdminCamperForm;

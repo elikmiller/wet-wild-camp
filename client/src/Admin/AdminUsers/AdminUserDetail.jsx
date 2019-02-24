@@ -6,6 +6,14 @@ import EditableAdminUserSecondaryContact from "./EditableAdminUserSecondaryConta
 import EditableAdminUserEmergencyContact from "./EditableAdminUserEmergencyContact";
 import AdminUser from "./AdminUser";
 import moment from "moment";
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import AdminCamperForm from "../AdminCampers/AdminCamperForm";
 
 class AdminUserDetail extends Component {
   state = {
@@ -15,7 +23,8 @@ class AdminUserDetail extends Component {
       emergencyContact: {},
       registrations: [],
       campers: [],
-      payments: []
+      payments: [],
+      camperAddOpen: false
     }
   };
 
@@ -62,6 +71,41 @@ class AdminUserDetail extends Component {
       });
   };
 
+  createCamper = ({
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    swimmingStrength,
+    notes
+  }) => {
+    return appClient
+      .adminCreateCamper({
+        user: this.state.user._id,
+        firstName,
+        lastName,
+        gender,
+        dateOfBirth,
+        swimmingStrength,
+        notes
+      })
+      .then(() => {
+        this.getUser();
+      });
+  };
+
+  openAddCamper = () => {
+    this.setState({
+      camperAddOpen: true
+    });
+  };
+
+  closeAddCamper = () => {
+    this.setState({
+      camperAddOpen: false
+    });
+  };
+
   render() {
     let { user } = this.state;
     return (
@@ -70,6 +114,16 @@ class AdminUserDetail extends Component {
           <div className="card-header">
             <div className="d-flex justify-content-between align-items-center">
               <h5 className="card-title mb-0">User Details</h5>
+              <div>
+                <UncontrolledDropdown>
+                  <DropdownToggle caret>Options</DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem onClick={this.openAddCamper}>
+                      Add Camper
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </div>
             </div>
           </div>
           <div className="card-body">
@@ -164,6 +218,15 @@ class AdminUserDetail extends Component {
             </div>
           </div>
         </div>
+        <Modal isOpen={this.state.camperAddOpen} toggle={this.closeAddCamper}>
+          <ModalHeader toggle={this.closeAddCamper}>Add Camper</ModalHeader>
+          <ModalBody>
+            <AdminCamperForm
+              onSubmit={this.createCamper}
+              closeForm={this.closeAddCamper}
+            />
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
