@@ -8,8 +8,34 @@ class EditablePrimaryContactInformation extends Component {
     errors: {}
   };
 
-  handleSubmit = data => {
-    this.props.updateUser({ primaryContact: { ...data } });
+  handleSubmit = ({
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    streetAddress,
+    streetAddress2,
+    city,
+    state,
+    zipCode
+  }) => {
+    this.props
+      .updateUser({
+        primaryContact: {
+          firstName,
+          lastName,
+          email,
+          phoneNumber,
+          streetAddress,
+          streetAddress2,
+          city,
+          state,
+          zipCode
+        }
+      })
+      .then(() => {
+        this.closeForm();
+      });
   };
 
   openForm = () => {
@@ -29,7 +55,15 @@ class EditablePrimaryContactInformation extends Component {
       return (
         <div className="editable-primary-contact-information">
           <PrimaryContactInformationForm
-            data={this.props.data}
+            firstName={this.props.firstName}
+            lastName={this.props.lastName}
+            email={this.props.email}
+            phoneNumber={this.props.phoneNumber}
+            streetAddress={this.props.streetAddress}
+            streetAddress2={this.props.streetAddress2}
+            city={this.props.city}
+            state={this.props.state}
+            zipCode={this.props.zipCode}
             onSubmit={this.handleSubmit}
             closeForm={this.closeForm}
           />
@@ -39,7 +73,15 @@ class EditablePrimaryContactInformation extends Component {
     return (
       <div className="editable-primary-contact-information">
         <PrimaryContactInformation
-          data={this.props.data}
+          firstName={this.props.firstName}
+          lastName={this.props.lastName}
+          email={this.props.email}
+          phoneNumber={this.props.phoneNumber}
+          streetAddress={this.props.streetAddress}
+          streetAddress2={this.props.streetAddress2}
+          city={this.props.city}
+          state={this.props.state}
+          zipCode={this.props.zipCode}
           openForm={this.openForm}
         />
       </div>

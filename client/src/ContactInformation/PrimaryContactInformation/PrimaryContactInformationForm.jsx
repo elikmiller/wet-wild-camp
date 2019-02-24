@@ -6,15 +6,15 @@ import PhoneInput from "../../forms/PhoneInput";
 class PrimaryContactInformationForm extends Component {
   state = {
     formValues: {
-      firstName: this.props.data.firstName || "",
-      lastName: this.props.data.lastName || "",
-      phoneNumber: this.props.data.phoneNumber || "",
-      email: this.props.data.email || "",
-      streetAddress: this.props.data.streetAddress || "",
-      streetAddress2: this.props.data.streetAddress2 || "",
-      city: this.props.data.city || "",
-      usState: this.props.data.state || "",
-      zipCode: this.props.data.zipCode || ""
+      firstName: this.props.firstName || "",
+      lastName: this.props.lastName || "",
+      phoneNumber: this.props.phoneNumber || "",
+      email: this.props.email || "",
+      streetAddress: this.props.streetAddress || "",
+      streetAddress2: this.props.streetAddress2 || "",
+      city: this.props.city || "",
+      usState: this.props.state || "",
+      zipCode: this.props.zipCode || ""
     },
     errors: {},
     wasValidated: false

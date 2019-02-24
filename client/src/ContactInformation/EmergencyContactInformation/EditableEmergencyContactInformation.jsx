@@ -8,8 +8,14 @@ class EditableEmergencyContactInformation extends Component {
     errors: {}
   };
 
-  handleSubmit = data => {
-    this.props.updateUser({ emergencyContact: { ...data } });
+  handleSubmit = ({ firstName, lastName, phoneNumber }) => {
+    this.props
+      .updateUser({
+        emergencyContact: { firstName, lastName, phoneNumber }
+      })
+      .then(() => {
+        this.closeForm();
+      });
   };
 
   openForm = () => {
@@ -29,7 +35,9 @@ class EditableEmergencyContactInformation extends Component {
       return (
         <div className="editable-emergency-contact-information">
           <EmergencyContactInformationForm
-            data={this.props.data}
+            firstName={this.props.firstName}
+            lastName={this.props.lastName}
+            phoneNumber={this.props.phoneNumber}
             onSubmit={this.handleSubmit}
             closeForm={this.closeForm}
           />
@@ -39,7 +47,9 @@ class EditableEmergencyContactInformation extends Component {
     return (
       <div className="editable-emergency-contact-information">
         <EmergencyContactInformation
-          data={this.props.data}
+          firstName={this.props.firstName}
+          lastName={this.props.lastName}
+          phoneNumber={this.props.phoneNumber}
           openForm={this.openForm}
         />
       </div>
