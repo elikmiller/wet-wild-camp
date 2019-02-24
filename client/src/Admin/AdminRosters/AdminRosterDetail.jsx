@@ -9,6 +9,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 class AdminRosterDetail extends Component {
   state = {
@@ -39,6 +40,9 @@ class AdminRosterDetail extends Component {
   };
 
   render() {
+    let emailAddresses = (this.state.camp.registrations || [])
+      .filter(registration => registration.paid || registration.deposit)
+      .map(registration => registration.user.email);
     return (
       <div className="admin-roster-detail">
         <div className="card spinner-wrapper">
@@ -81,6 +85,9 @@ class AdminRosterDetail extends Component {
                     >
                       Download Swimming Report
                     </DropdownItem>
+                    <CopyToClipboard text={emailAddresses.join("; ")}>
+                      <DropdownItem>Copy Email Addresses</DropdownItem>
+                    </CopyToClipboard>
                     <DropdownItem divider />
                     <Link to={`/admin/rosters/${this.state.camp._id}/swimming`}>
                       <div className="dropdown-item">
