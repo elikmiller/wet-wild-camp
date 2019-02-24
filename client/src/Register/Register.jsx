@@ -1,6 +1,6 @@
 import React from "react";
-import CampRegisterFormWrapper from "./CampRegisterFormWrapper";
 import CampRegisterResult from "./CampRegisterResult";
+import CampList from "./CampList";
 import { Switch, Route } from "react-router-dom";
 import Schedule from "./Schedule";
 
@@ -13,18 +13,8 @@ const Register = props => {
           path={`${props.match.path}/success`}
           render={props => <CampRegisterResult {...props} status={"success"} />}
         />
-        <Route
-          exact
-          path={`${props.match.path}/cancelled`}
-          render={props => (
-            <CampRegisterResult {...props} status={"cancelled"} />
-          )}
-        />
-        <Route
-          exact
-          path={`${props.match.path}/:campId`}
-          component={CampRegisterFormWrapper}
-        />
+
+        <Route exact path={`${props.match.path}/:type`} component={CampList} />
         <Route exact path={props.match.path} component={Schedule} />
       </Switch>
     </div>

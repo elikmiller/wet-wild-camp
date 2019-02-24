@@ -3,7 +3,6 @@ import appClient from "../appClient";
 import RegistrationTable from "./RegistrationTable";
 import Spinner from "../Spinner/Spinner";
 import FirstTimeWizard from "../FirstTimeWizard/FirstTimeWizard";
-import _ from "lodash";
 
 class OverviewContainer extends Component {
   state = {
