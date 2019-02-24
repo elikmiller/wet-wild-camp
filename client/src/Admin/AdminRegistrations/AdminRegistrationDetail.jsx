@@ -32,7 +32,14 @@ class AdminRegistrationDetail extends Component {
       .adminGetRegistration(this.props.match.params.registrationId)
       .then(registration => {
         this.setState({
-          registration: Object.assign(this.state.registration, registration)
+          registration: Object.assign(
+            {
+              camp: {},
+              camper: {},
+              user: {}
+            },
+            registration
+          )
         });
       })
       .catch(error => {

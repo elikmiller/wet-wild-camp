@@ -5,10 +5,14 @@ import { Link } from "react-router-dom";
 
 class AdminRoster extends Component {
   render() {
+    let registrations = this.props.camp.registrations || [];
+    registrations = registrations.filter(
+      registration => registration.deposit || registration.paid
+    );
     return (
       <div className="admin-roster">
         <SearchTable
-          items={this.props.camp.registrations || []}
+          items={registrations}
           searchKeys={[
             "camper.firstName",
             "camper.lastName",
@@ -35,7 +39,8 @@ class AdminRoster extends Component {
             {
               key: "camper.swimmingStrength",
               name: "Swimming",
-              displayFunc: item => _.capitalize(item.camper.swimmingStrength)
+              displayFunc: item =>
+                _.capitalize(item.camper.swimmingStrength) || "None"
             },
             {
               key: "camper.morningDropoff",
