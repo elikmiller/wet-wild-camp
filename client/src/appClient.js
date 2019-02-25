@@ -156,8 +156,10 @@ const deleteRegistration = registrationId => {
 // Payment
 //
 
-const executePayment = paymentId => {
-  return appClient.get(`/payments/${paymentId}/execute`);
+const executePayment = (paymentId, payerId) => {
+  return appClient.get(
+    `/payments/execute?paymentId=${paymentId}&payerId=${payerId}`
+  );
 };
 
 const getPayments = () => {

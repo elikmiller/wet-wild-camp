@@ -4,7 +4,7 @@ const Boom = require("boom");
 module.exports = async (req, res, next) => {
   try {
     let payment = await Payment.findOne({
-      _id: req.params.paymentId,
+      paypalId: req.params.paymentId,
       user: req.session.userId
     });
 

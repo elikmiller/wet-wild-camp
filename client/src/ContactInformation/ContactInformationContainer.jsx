@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import EditablePrimaryContactInformation from "./PrimaryContactInformation/EditablePrimaryContactInformation.jsx";
 import EditableSecondaryContactInformation from "./SecondaryContactInformation/EditableSecondaryContactInformation.jsx";
 import EditableEmergencyContactInformation from "./EmergencyContactInformation/EditableEmergencyContactInformation.jsx";
-import ServerError from "../forms/ServerError";
 import appClient from "../appClient";
 import Spinner from "../Spinner/Spinner";
 import "./ContactInformationContainer.css";

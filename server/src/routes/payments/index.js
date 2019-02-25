@@ -8,7 +8,7 @@ router.use(auth);
  * @apiDescription Execute Payment following User approval
  * @apiGroup Payments
  */
-router.get("/:paymentId/execute", require("./executePayment"));
+router.get("/execute", require("./executePayment"));
 
 /**
  * @api {get} /camps Get Payments

@@ -2,10 +2,11 @@ const { User, Payment } = require("../../models");
 const EmailService = require("../../EmailService");
 const PaypalService = require("../../PaypalService");
 const Boom = require("boom");
+const moment = require("moment");
 
 module.exports = async (req, res, next) => {
   try {
-    let user = await User.findById(req.params.userId);
+    let user = await User.findById(req.session.userId);
     let transaction = await PaypalService.executePayment(req.query.paymentId, {
       payer_id: req.query.payerId
     });

@@ -20,21 +20,22 @@ class Payments extends Component {
   };
 
   componentDidMount() {
-    this.updateRegistrations();
+    this.getRegistrations();
   }
 
   // Gets all unpaid registrations for the current user and adds them to state
-  updateRegistrations = () => {
+  getRegistrations = () => {
     this.setState({
       isLoading: true,
       errors: null
     });
     appClient
-      .getUserRegistrations(this.props.userId)
-      .then(res => {
+      .getRegistrations()
+      .then(registrations => {
         let unpaidRegistrations = [];
-        res.data.forEach(registration => {
+        registrations.map(registration => {
           if (!registration.paid) unpaidRegistrations.push(registration);
+          return registration;
         });
         let earlyBird = this.isEarlyBird();
         this.setState({
@@ -72,13 +73,12 @@ class Payments extends Component {
       return reg._id;
     });
     appClient
-      .addPayment(this.props.userId, {
-        paymentAmount: this.state.total,
+      .createPayment({
         deposits: depositIds,
         fullPayments: fullPaymentIds
       })
-      .then(res => {
-        res.data.links.forEach(link => {
+      .then(payment => {
+        payment.links.forEach(link => {
           if (link.method === "REDIRECT") {
             window.location.href = link.href;
           }

@@ -32,10 +32,6 @@ module.exports = async (req, res, next) => {
       fullPayments: req.body.fullPayments,
       user: req.session.userId
     });
-
-    let user = await User.findById(req.session.userId);
-    user.payments.push(payment._id);
-    await user.save();
     await payment.save();
 
     return res.send(transaction);

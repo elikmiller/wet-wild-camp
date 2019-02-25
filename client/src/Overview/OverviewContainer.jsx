@@ -13,11 +13,13 @@ class OverviewContainer extends Component {
       campers: [],
       registrations: [],
       payments: []
-    }
+    },
+    registrations: []
   };
 
   componentDidMount() {
     this.getUser();
+    this.getRegistrations();
   }
 
   getUser = () => {
@@ -45,6 +47,14 @@ class OverviewContainer extends Component {
           user: {}
         });
       });
+  };
+
+  getRegistrations = () => {
+    appClient.getRegistrations().then(registrations => {
+      this.setState({
+        registrations
+      });
+    });
   };
 
   render() {
@@ -110,10 +120,7 @@ class OverviewContainer extends Component {
             To cancel a paid registration, please contact us directly.
           </p>
         </div>
-        <RegistrationTable
-          registrations={this.state.user.registrations}
-          update={this.getUser}
-        />
+        <RegistrationTable registrations={this.state.registrations} />
       </div>
     );
   }
