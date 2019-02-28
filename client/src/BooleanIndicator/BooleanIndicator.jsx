@@ -5,12 +5,12 @@ const BooleanIndicator = props => {
   if (props.value)
     return (
       <div className="boolean-indicator">
-        <i className="fas fa-check text-success" />
+        <i className="fas fa-check text-success" /> Yes
       </div>
     );
   return (
     <div className="boolean-indicator">
-      <i className="fas fa-times text-muted" />
+      <i className="fas fa-times text-muted" /> No
     </div>
   );
 };

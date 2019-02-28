@@ -10,11 +10,13 @@ const dotenv = require("dotenv");
 const dotenvExpand = require("dotenv-expand");
 dotenvExpand(dotenv.config());
 
-// Server setup
+// Initialize Express
 const app = express();
 const port = process.env.PORT || 5000;
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Set up session storage
+// Enable session storage
 mongoose.set("useCreateIndex", true);
 app.use(
   session({
@@ -42,9 +44,13 @@ app.use((req, res, next) => {
     "GET, POST, PUT, PATCH, DELETE, OPTIONS"
   );
   res.header("Access-Control-Allow-Credentials", "true");
-  next();
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  return next();
 });
 
+// Enable logging
 if (
   process.env.NODE_ENV === "production" ||
   process.env.NODE_ENV === "staging"
@@ -53,19 +59,17 @@ if (
 } else {
   app.use(logger("dev"));
 }
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 // Routes
-require("./src/routes/userRoutes")(app);
-require("./src/routes/authRoutes")(app);
-require("./src/routes/camperRoutes")(app);
-require("./src/routes/campRoutes")(app);
-require("./src/routes/registrationRoutes")(app);
-require("./src/routes/emailRoutes")(app);
-require("./src/routes/paypalRoutes")(app);
+app.use("/users", require("./src/routes/users"));
+app.use("/auth", require("./src/routes/auth"));
+app.use("/campers", require("./src/routes/campers"));
+app.use("/camps", require("./src/routes/camps"));
+app.use("/registrations", require("./src/routes/registrations"));
+app.use("/admin", require("./src/routes/admin"));
+app.use("/payments", require("./src/routes/payments"));
 
-// Error Handling
+// Default Error Handler
 app.use((err, req, res, next) => {
   if (!Boom.isBoom(err)) {
     err = Boom.boomify(err);
@@ -74,6 +78,7 @@ app.use((err, req, res, next) => {
     err.output.payload.message =
       "An internal server error has occurred. Please try again later.";
   }
+  if (err.data) err.output.payload.data = err.data;
   return res.status(err.output.statusCode).json(err.output.payload);
 });
 

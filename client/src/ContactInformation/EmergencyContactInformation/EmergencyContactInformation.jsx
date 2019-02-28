@@ -8,9 +8,9 @@ class EmergencyContactInformation extends Component {
           <strong>Emergency Contact Information</strong>
         </p>
         <p>
-          {this.props.data.firstName} {this.props.data.lastName}
+          {this.props.firstName} {this.props.lastName}
         </p>
-        <p>{this.props.data.phoneNumber}</p>
+        <p>{this.props.phoneNumber}</p>
         <button className="btn btn-primary" onClick={this.props.openForm}>
           <i className="fas fa-edit" /> Edit Emergency Contact Information
         </button>

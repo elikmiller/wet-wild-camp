@@ -37,6 +37,14 @@ const PaymentSchema = new Schema({
   ]
 });
 
+PaymentSchema.virtual("fullAmount").get(function() {
+  return `$${this.amount.toFixed(2)}`;
+});
+
+PaymentSchema.set("toObject", { virtuals: true });
+
+PaymentSchema.set("toJSON", { virtuals: true });
+
 const Payment = mongoose.model("Payment", PaymentSchema);
 
 module.exports = {

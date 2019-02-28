@@ -6,6 +6,34 @@ class ToggleableAdminCampForm extends Component {
     isOpen: false
   };
 
+  handleOnSubmit = ({
+    name,
+    type,
+    description,
+    fee,
+    startDate,
+    endDate,
+    openDate,
+    closeDate,
+    capacity
+  }) => {
+    this.props
+      .createCamp({
+        name,
+        type,
+        description,
+        fee,
+        startDate,
+        endDate,
+        openDate,
+        closeDate,
+        capacity
+      })
+      .then(() => {
+        this.closeForm();
+      });
+  };
+
   openForm = () => {
     this.setState({
       isOpen: true
@@ -27,7 +55,7 @@ class ToggleableAdminCampForm extends Component {
           </p>
           <AdminCampForm
             closeForm={this.closeForm}
-            onSubmit={this.props.createCamp}
+            onSubmit={this.handleOnSubmit}
           />
         </div>
       );

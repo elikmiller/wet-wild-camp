@@ -1,33 +1,91 @@
 import React, { Component } from "react";
-import Camp from "./Camp.jsx";
-import ServerError from "../forms/ServerError";
+import appClient from "../appClient.js";
+import moment from "moment";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import CampRegisterForm from "./CampRegisterForm.jsx";
+
+const getOpenings = camp => {
+  let registrations = camp.registrations || [];
+  let size = registrations.filter(
+    registration => registration.status !== "Unconfirmed"
+  ).length;
+  let openings = camp.capacity - size;
+  if (openings > 10) return "10+";
+  else if (openings <= 10 && openings > 0) return openings;
+  else return "Waitlisted";
+};
 
 class CampList extends Component {
   state = {
-    errors: {}
+    isLoading: false,
+    camps: [],
+    selectedCamp: {},
+    createRegistrationisOpen: false,
+    createRegistrationError: {}
   };
 
-  errorHandling = errors => {
+  componentDidMount() {
+    this.getCamps();
+  }
+
+  getCamps = () => {
     this.setState({
-      errors: errors
+      isLoading: true
+    });
+    appClient.getCamps().then(camps => {
+      camps = camps.filter(camp => camp.type === this.props.match.params.type);
+      this.setState({
+        camps,
+        isLoading: false
+      });
     });
   };
 
+  createRegistrationOpen = camp => {
+    this.setState({
+      createRegistrationisOpen: true,
+      selectedCamp: camp
+    });
+  };
+
+  createRegistrationClose = () => {
+    this.setState({
+      createRegistrationisOpen: false,
+      selectedCamp: {},
+      createRegistrationError: {}
+    });
+  };
+
+  createRegistration = ({ camp, camper, morningDropoff, afternoonPickup }) => {
+    this.setState({
+      createRegistrationError: {}
+    });
+    appClient
+      .createRegistration({
+        camp,
+        camper,
+        morningDropoff,
+        afternoonPickup
+      })
+      .then(() => {
+        this.props.history.push("/register/success");
+      })
+      .catch(err => {
+        this.setState({
+          createRegistrationError: err
+        });
+      });
+  };
+
   render() {
-    let { type } = this.props;
-    let ageRange = type === "junior" ? "6 - 9" : "9 - 15";
-    let title = type.charAt(0).toUpperCase() + type.substr(1);
     return (
       <div>
-        {this.state.errors.server && <ServerError />}
-        {this.state.errors.registration && (
-          <CampError text={this.state.errors.registration} />
-        )}
-        <p>
-          <strong>
-            {title} Camp (Ages {ageRange})
-          </strong>
-        </p>
+        <div className="alert alert-dark" role="alert">
+          <p className="mb-0">
+            The <strong>Register</strong> page is where you can begin the
+            registration process for our camp sessions.
+          </p>
+        </div>
         <div className="table-responsive">
           <table className="table">
             <thead>
@@ -40,41 +98,56 @@ class CampList extends Component {
                 <th />
               </tr>
             </thead>
-            {this.props.camps.map((camp, i) => (
-              <Camp
-                key={i}
-                camp={camp}
-                errorHandling={this.errorHandling}
-                refresh={this.props.refresh}
-              />
-            ))}
+            <tbody>
+              {this.state.camps.map((camp, i) => (
+                <tr key={i}>
+                  <td>{camp.name}</td>
+                  <td>{moment.utc(camp.startDate).format("MM/DD/YYYY")}</td>
+                  <td>{moment.utc(camp.endDate).format("MM/DD/YYYY")}</td>
+                  <td>${camp.fee.toFixed(2)}</td>
+                  <td>{getOpenings(camp)}</td>
+                  <td>
+                    {!this.state.isClosed && (
+                      <button
+                        className="btn btn-primary float-right btn-sm"
+                        onClick={() => this.createRegistrationOpen(camp)}
+                      >
+                        Register
+                      </button>
+                    )}
+                    {this.state.isClosed && (
+                      <button
+                        className="btn btn-danger float-right btn-sm"
+                        disabled
+                      >
+                        Closed
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
+        <Modal
+          isOpen={this.state.createRegistrationisOpen}
+          toggle={this.createRegistrationClose}
+        >
+          <ModalHeader toggle={this.createRegistrationClose}>
+            Add Camper
+          </ModalHeader>
+          <ModalBody>
+            <CampRegisterForm
+              camp={this.state.selectedCamp}
+              onSubmit={this.createRegistration}
+              closeForm={this.createRegistrationClose}
+              error={this.state.createRegistrationError}
+            />
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
 }
 
 export default CampList;
-
-export const CampError = props => {
-  return (
-    <div className="alert alert-danger" role="alert">
-      <h4 className="alert-heading">Registration Error</h4>
-      <p>{props.text}</p>
-      <hr />
-      <p className="mb-0">
-        If this is a recurring issue, please contact us by{" "}
-        <a
-          href="https://wetwildcamp.com/about-us/contact-us/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="alert-link"
-        >
-          clicking here
-        </a>
-        .
-      </p>
-    </div>
-  );
-};

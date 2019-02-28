@@ -28,13 +28,10 @@ class EmergencyContactInformationForm extends Component {
       });
       return appClient
         .updateUser({
-          id: this.props.userId,
-          data: {
-            emergencyContact: {
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              phoneNumber: this.state.phoneNumber
-            }
+          emergencyContact: {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            phoneNumber: this.state.phoneNumber
           }
         })
         .then(res => {

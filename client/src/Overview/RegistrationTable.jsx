@@ -1,25 +1,11 @@
 import React, { Component } from "react";
-import appClient from "../appClient";
 import _ from "lodash";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
 class RegistrationTable extends Component {
-  deleteRegistration = e => {
-    let registration = this.props.data[e.target.value];
-    e.preventDefault();
-    appClient
-      .deleteRegistration(registration._id)
-      .then(() => {
-        this.props.update();
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  };
-
   render() {
-    let content = this.props.data.map((reg, i) => {
+    let content = this.props.registrations.map((reg, i) => {
       return (
         <tr key={i}>
           <td>{reg.camp.name}</td>
@@ -95,5 +81,9 @@ class RegistrationTable extends Component {
     );
   }
 }
+
+RegistrationTable.defaultProps = {
+  registrations: []
+};
 
 export default RegistrationTable;

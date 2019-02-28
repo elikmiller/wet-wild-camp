@@ -8,20 +8,19 @@ class PrimaryContactInformation extends Component {
           <strong>Primary Contact Information</strong>
         </p>
         <p>
-          {this.props.data.firstName} {this.props.data.lastName}
+          {this.props.firstName} {this.props.lastName}
         </p>
         <p>
-          {this.props.data.phoneNumber}
-          {this.props.data.phoneNumber && <br />}
-          {this.props.data.email}
+          {this.props.phoneNumber}
+          {this.props.phoneNumber && <br />}
+          {this.props.email}
         </p>
         <p>
-          {this.props.data.streetAddress}
-          {this.props.data.streetAddress2}
-          {this.props.data.city && <br />}
-          {this.props.data.city &&
-            `${this.props.data.city}, ${this.props.data.state} `}
-          {this.props.data.zipCode}
+          {this.props.streetAddress}
+          {this.props.streetAddress2}
+          {this.props.city && <br />}
+          {this.props.city && `${this.props.city}, ${this.props.state} `}
+          {this.props.zipCode}
         </p>
         <button className="btn btn-primary" onClick={this.props.openForm}>
           <i className="fas fa-edit" /> Edit Primary Contact Information

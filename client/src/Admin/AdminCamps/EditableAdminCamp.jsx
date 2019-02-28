@@ -3,46 +3,73 @@ import AdminCampForm from "./AdminCampForm";
 import AdminCamp from "./AdminCamp";
 
 class EditableAdminCamp extends Component {
-  state = {
-    isOpen: false,
-    errors: {}
-  };
-
-  handleSubmit = camp => {
-    this.props.updateCamp(this.props.camp._id, camp);
+  handleSubmit = ({
+    name,
+    type,
+    description,
+    fee,
+    startDate,
+    endDate,
+    openDate,
+    closeDate,
+    capacity
+  }) => {
+    return this.props
+      .updateCamp({
+        name,
+        type,
+        description,
+        fee,
+        startDate,
+        endDate,
+        openDate,
+        closeDate,
+        capacity
+      })
+      .then(() => {
+        this.closeForm();
+      });
   };
 
   openForm = () => {
-    this.setState({
-      isOpen: true
-    });
+    this.props.openForm();
   };
 
   closeForm = () => {
-    this.setState({
-      isOpen: false
-    });
+    this.props.closeForm();
   };
 
   render() {
-    if (this.state.isOpen) {
-      return (
-        <div className="editable-admin-camp">
+    return (
+      <div className="editable-admin-camp">
+        {this.props.isOpen && (
           <AdminCampForm
-            data={this.props.camp}
+            name={this.props.name}
+            type={this.props.type}
+            description={this.props.description}
+            fee={this.props.fee}
+            startDate={this.props.startDate}
+            endDate={this.props.endDate}
+            openDate={this.props.openDate}
+            closeDate={this.props.closeDate}
+            capacity={this.props.capacity}
             onSubmit={this.handleSubmit}
             closeForm={this.closeForm}
           />
-        </div>
-      );
-    }
-    return (
-      <div className="editable-admin-camp">
-        <AdminCamp
-          camp={this.props.camp}
-          openForm={this.openForm}
-          deleteCamp={this.props.deleteCamp}
-        />
+        )}
+        {!this.props.isOpen && (
+          <AdminCamp
+            name={this.props.name}
+            type={this.props.type}
+            description={this.props.description}
+            fee={this.props.fee}
+            startDate={this.props.startDate}
+            endDate={this.props.endDate}
+            openDate={this.props.openDate}
+            closeDate={this.props.closeDate}
+            capacity={this.props.capacity}
+          />
+        )}
       </div>
     );
   }

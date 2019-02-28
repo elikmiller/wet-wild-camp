@@ -13,16 +13,15 @@ class FirstTimeWizard extends Component {
         name: "Primary Contact Information",
         component: (
           <PrimaryContactForm
-            userId={this.props.user._id}
             firstName={this.props.user.firstName}
             lastName={this.props.user.lastName}
             email={this.props.user.email}
-            phoneNumber={this.props.primaryContactInformation.phoneNumber}
-            streetAddress={this.props.primaryContactInformation.streetAddress}
-            streetAddress2={this.props.primaryContactInformation.streetAddress2}
-            city={this.props.primaryContactInformation.city}
-            state={this.props.primaryContactInformation.state}
-            zipCode={this.props.primaryContactInformation.zipCode}
+            phoneNumber={this.props.primaryContact.phoneNumber}
+            streetAddress={this.props.primaryContact.streetAddress}
+            streetAddress2={this.props.primaryContact.streetAddress2}
+            city={this.props.primaryContact.city}
+            state={this.props.primaryContact.state}
+            zipCode={this.props.primaryContact.zipCode}
           />
         )
       },
@@ -31,10 +30,10 @@ class FirstTimeWizard extends Component {
         component: (
           <SecondaryContactForm
             userId={this.props.user._id}
-            firstName={this.props.secondaryContactInformation.firstName}
-            lastName={this.props.secondaryContactInformation.lastName}
-            email={this.props.secondaryContactInformation.email}
-            phoneNumber={this.props.secondaryContactInformation.phoneNumber}
+            firstName={this.props.secondaryContact.firstName}
+            lastName={this.props.secondaryContact.lastName}
+            email={this.props.secondaryContact.email}
+            phoneNumber={this.props.secondaryContact.phoneNumber}
           />
         )
       },
@@ -43,9 +42,9 @@ class FirstTimeWizard extends Component {
         component: (
           <EmergencyContactForm
             userId={this.props.user._id}
-            firstName={this.props.emergencyContactInformation.firstName}
-            lastName={this.props.emergencyContactInformation.lastName}
-            phoneNumber={this.props.emergencyContactInformation.phoneNumber}
+            firstName={this.props.emergencyContact.firstName}
+            lastName={this.props.emergencyContact.lastName}
+            phoneNumber={this.props.emergencyContact.phoneNumber}
           />
         )
       },
@@ -75,5 +74,12 @@ class FirstTimeWizard extends Component {
     );
   }
 }
+FirstTimeWizard.defaultProps = {
+  user: {},
+  campers: [],
+  primaryContact: {},
+  secondaryContact: {},
+  emergencyContact: {}
+};
 
 export default FirstTimeWizard;

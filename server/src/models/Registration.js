@@ -37,11 +37,13 @@ const RegistrationSchema = new Schema({
   },
   deposit: {
     type: Boolean,
-    default: false
+    default: false,
+    required: true
   },
   paid: {
     type: Boolean,
-    default: false
+    default: false,
+    required: true
   },
   created: {
     type: Date,
@@ -68,6 +70,17 @@ RegistrationSchema.post("remove", async function(doc) {
     { $pull: { registrations: doc._id } }
   );
 });
+
+RegistrationSchema.virtual("status").get(function() {
+  if (this.waitlist) return "Waitlisted";
+  if (!this.deposit && !this.paid) return "Unconfirmed";
+  if (this.deposit && !this.paid) return "Pending";
+  if (this.paid) return "Confirmed";
+});
+
+RegistrationSchema.set("toObject", { virtuals: true });
+
+RegistrationSchema.set("toJSON", { virtuals: true });
 
 const Registration = mongoose.model("Registration", RegistrationSchema);
 

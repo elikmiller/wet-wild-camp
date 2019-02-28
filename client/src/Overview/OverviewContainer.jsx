@@ -3,174 +3,81 @@ import appClient from "../appClient";
 import RegistrationTable from "./RegistrationTable";
 import Spinner from "../Spinner/Spinner";
 import FirstTimeWizard from "../FirstTimeWizard/FirstTimeWizard";
-import _ from "lodash";
 
 class OverviewContainer extends Component {
   state = {
-    getRegistrations: {
-      isLoading: false,
-      isError: false,
-      isSuccess: false,
-      registrations: []
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+    user: {
+      campers: [],
+      registrations: [],
+      payments: []
     },
-    getContacts: {
-      isLoading: false,
-      isError: false,
-      isSuccess: false,
-      primaryContactInformation: {},
-      secondaryContactInformation: {},
-      emergencyContactInformation: {}
-    },
-    getCampers: {
-      isLoading: false,
-      isError: false,
-      isSuccess: false,
-      campers: []
-    }
+    registrations: []
   };
 
   componentDidMount() {
+    this.getUser();
     this.getRegistrations();
-    this.getContacts();
-    this.getCampers();
   }
 
+  getUser = () => {
+    this.setState({
+      isLoading: true,
+      isError: false,
+      isSuccess: false,
+      user: {}
+    });
+    appClient
+      .getUser()
+      .then(user => {
+        this.setState({
+          isLoading: false,
+          isError: false,
+          isSuccess: true,
+          user
+        });
+      })
+      .catch(err => {
+        this.setState({
+          isLoading: false,
+          isError: true,
+          isSuccess: false,
+          user: {}
+        });
+      });
+  };
+
   getRegistrations = () => {
-    this.setState({
-      getRegistrations: {
-        isLoading: true,
-        isError: false,
-        isSuccess: false,
-        registrations: []
-      }
-    });
-    appClient
-      .getUserRegistrations(this.props.userId)
-      .then(registrations => {
-        this.setState({
-          getRegistrations: {
-            isLoading: false,
-            isError: false,
-            isSuccess: true,
-            registrations: registrations.data
-          }
-        });
-      })
-      .catch(err => {
-        this.setState({
-          getRegistrations: {
-            isLoading: false,
-            isError: true,
-            isSuccess: false,
-            registrations: []
-          }
-        });
+    appClient.getRegistrations().then(registrations => {
+      this.setState({
+        registrations
       });
-  };
-
-  getContacts = () => {
-    this.setState({
-      getContacts: {
-        isLoading: true,
-        isError: false,
-        isSuccess: false,
-        primaryContactInformation: {},
-        secondaryContactInformation: {},
-        emergencyContactInformation: {}
-      }
     });
-    appClient
-      .getContacts(this.props.userId)
-      .then(contacts => {
-        this.setState({
-          getContacts: {
-            isLoading: false,
-            isError: false,
-            isSuccess: true,
-            primaryContactInformation: contacts.data.primaryContact,
-            secondaryContactInformation: contacts.data.secondaryContact,
-            emergencyContactInformation: contacts.data.emergencyContact
-          }
-        });
-      })
-      .catch(err => {
-        this.setState({
-          getContacts: {
-            isLoading: false,
-            isError: true,
-            isSuccess: false,
-            primaryContactInformation: {},
-            secondaryContactInformation: {},
-            emergencyContactInformation: {}
-          }
-        });
-      });
-  };
-
-  getCampers = () => {
-    this.setState({
-      getCampers: {
-        isLoading: true,
-        isError: false,
-        isSuccess: false,
-        campers: []
-      }
-    });
-    appClient
-      .getCampers(this.props.userId)
-      .then(campers => {
-        this.setState({
-          getCampers: {
-            isLoading: false,
-            isError: false,
-            isSuccess: true,
-            campers: campers.data
-          }
-        });
-      })
-      .catch(err => {
-        this.setState({
-          getCampers: {
-            isLoading: false,
-            isError: true,
-            isSuccess: false,
-            campers: []
-          }
-        });
-      });
   };
 
   render() {
-    let isLoading =
-      this.state.getRegistrations.isLoading ||
-      this.state.getCampers.isLoading ||
-      this.state.getContacts.isLoading;
-    if (isLoading) return <Spinner />;
+    if (this.state.isLoading) return <Spinner />;
 
     if (
-      this.state.getCampers.campers.length === 0 ||
-      _.isEmpty(this.state.getContacts.primaryContactInformation) ||
-      _.isEmpty(this.state.getContacts.secondaryContactInformation) ||
-      _.isEmpty(this.state.getContacts.emergencyContactInformation)
+      this.state.user.campers.length === 0 ||
+      !this.state.user.primaryContact ||
+      !this.state.user.secondaryContact ||
+      !this.state.user.emergencyContact
     ) {
       return (
         <FirstTimeWizard
           user={this.props.user}
-          campers={this.state.getCampers.campers}
-          primaryContactInformation={
-            this.state.getContacts.primaryContactInformation
-          }
-          secondaryContactInformation={
-            this.state.getContacts.secondaryContactInformation
-          }
-          emergencyContactInformation={
-            this.state.getContacts.emergencyContactInformation
-          }
+          campers={this.state.user.campers}
+          primaryContact={this.state.user.primaryContact}
+          secondaryContact={this.state.user.secondaryContact}
+          emergencyContact={this.state.user.emergencyContact}
         />
       );
     }
 
-    if (this.state.getRegistrations.registrations.length === 0) {
+    if (this.state.user.registrations.length === 0) {
       return (
         <div>
           <div className="alert alert-dark" role="alert">
@@ -213,10 +120,7 @@ class OverviewContainer extends Component {
             To cancel a paid registration, please contact us directly.
           </p>
         </div>
-        <RegistrationTable
-          data={this.state.getRegistrations.registrations}
-          update={this.getRegistrations}
-        />
+        <RegistrationTable registrations={this.state.registrations} />
       </div>
     );
   }

@@ -12,25 +12,27 @@ class AdminRosterList extends Component {
   };
 
   componentDidMount() {
-    this.refreshCamps();
+    this.getCamps();
   }
 
-  refreshCamps = () => {
+  getCamps = () => {
     this.setState({
       isLoading: true
     });
     appClient
-      .getCamps()
+      .adminGetCamps()
       .then(camps => {
         this.setState({
-          camps: camps.data,
+          camps: camps,
           isLoading: false
         });
       })
       .catch(err => {
-        console.error(err);
         this.setState({
           isLoading: false
+        });
+        this.setState(() => {
+          throw err;
         });
       });
   };
@@ -59,14 +61,24 @@ class AdminRosterList extends Component {
               displayFunc: item => _.capitalize(item.type)
             },
             {
-              key: "campers.length",
+              key: "registrations.length",
               name: "Registrations / Capacity",
-              displayFunc: item => `${item.campers.length} / ${item.capacity}`
+              displayFunc: item => {
+                let confirmedRegistrations = item.registrations.filter(
+                  registrations => registrations.deposit || registrations.paid
+                );
+                return `${confirmedRegistrations.length} / ${item.capacity}`;
+              }
             },
             {
               key: "waitlisted.length",
               name: "Waitlist",
-              displayFunc: item => item.waitlist.length
+              displayFunc: item => {
+                let waitlistedRegistrations = item.registrations.filter(
+                  registrations => registrations.waitlist
+                );
+                return `${waitlistedRegistrations.length}`;
+              }
             },
             {
               key: "",
