@@ -29,7 +29,7 @@ class Checkout extends Component {
         this.setState({
           paymentId: paymentId,
           payerId: payerId,
-          payment: payment.data
+          payment: payment
         });
       })
       .catch(err => {
@@ -38,16 +38,15 @@ class Checkout extends Component {
   };
 
   executePayment = e => {
-    let { paymentId, payerId, payment } = this.state;
+    let { paymentId, payerId } = this.state;
     e.preventDefault();
     appClient
-      .executePayment(payment.user, paymentId, payerId)
-      .then(res => {
+      .executePayment(paymentId, payerId)
+      .then(payment => {
         this.setState({
-          executedPayment: res.data,
+          executedPayment: payment,
           executed: true
         });
-        console.log(res);
       })
       .catch(err => {
         console.error(err);
@@ -59,7 +58,6 @@ class Checkout extends Component {
     appClient
       .deletePayment(this.state.paymentId)
       .then(res => {
-        console.log(res.data);
         this.setState({
           cancelled: true
         });

@@ -1,130 +1,233 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
+import { Link } from "react-router-dom";
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
 import EditableAdminCamp from "./EditableAdminCamp";
-import _ from "lodash";
 import Spinner from "../../Spinner/Spinner";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 class AdminCampDetail extends Component {
   state = {
-    camp: {},
     isLoading: false,
-    confirmDelete: false
+    camp: {},
+    registrations: [],
+    editIsOpen: false,
+    confirmDeleteIsOpen: false
   };
 
   componentDidMount() {
-    this.getCamp(this.props.match.params.campId);
+    this.getCamp();
+    this.getRegistrations();
   }
 
-  getCamp = campId => {
+  getCamp = () => {
     this.setState({ isLoading: true });
-    appClient
-      .getCamp(campId)
+    return appClient
+      .adminGetCamp(this.props.match.params.campId)
       .then(camp => {
         this.setState({
-          camp: camp.data,
+          camp: camp,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({ isLoading: false });
+        this.setState(() => {
+          throw error;
+        });
+      });
+  };
+
+  updateCamp = ({
+    name,
+    type,
+    description,
+    fee,
+    startDate,
+    endDate,
+    openDate,
+    closeDate,
+    capacity
+  }) => {
+    this.setState({ isLoading: true });
+    let id = this.state.camp._id;
+    return appClient
+      .adminUpdateCamp(id, {
+        name,
+        type,
+        description,
+        fee,
+        startDate,
+        endDate,
+        openDate,
+        closeDate,
+        capacity
+      })
+      .then(updatedCamp => {
+        this.setState({
+          camp: updatedCamp,
           isLoading: false
         });
       })
       .catch(err => {
         this.setState({ isLoading: false });
-        console.error(err);
-      });
-  };
-
-  updateCamp = (campId, data) => {
-    this.setState({ isLoading: true });
-    appClient
-      .updateCamp(campId, data)
-      .then(camp => {
-        this.setState({
-          camp: camp.data,
-          isLoading: false
+        this.setState(() => {
+          throw err;
         });
-      })
-      .catch(err => {
-        this.setState({ isLoading: false });
-        console.error(err);
       });
   };
 
-  deleteCamp = campId => {
-    appClient
-      .deleteCamp(campId)
-      .then(res => {
+  deleteCamp = () => {
+    let id = this.state.camp._id;
+    return appClient
+      .adminDeleteCamp(id)
+      .then(() => {
         this.props.history.push("/admin/camps");
       })
-      .catch(err => {
-        this.setState({ isLoading: false });
-        console.error(err);
+      .catch(error => {
+        this.confirmDeleteClose();
+        this.setState(() => {
+          throw error;
+        });
       });
   };
 
-  handleDeleteCampClick = () => {
-    this.setState({
-      confirmDelete: true
+  getRegistrations = () => {
+    return appClient.adminGetRegistrations().then(registrations => {
+      this.setState({
+        registrations: registrations.filter(
+          registration =>
+            registration.camp._id === this.props.match.params.campId
+        )
+      });
     });
   };
 
-  handleCancelDeleteCampClick = () => {
+  editOpen = () => {
     this.setState({
-      confirmDelete: false
+      editIsOpen: true
     });
   };
 
-  handleConfirmDeleteCampClick = () => {
-    this.deleteCamp(this.state.camp._id);
+  editClose = () => {
+    this.setState({
+      editIsOpen: false
+    });
+  };
+
+  confirmDeleteOpen = () => {
+    this.setState({
+      confirmDeleteIsOpen: true
+    });
+  };
+
+  confirmDeleteClose = () => {
+    this.setState({
+      confirmDeleteIsOpen: false
+    });
   };
 
   render() {
+    const { camp, registrations } = this.state;
     return (
-      <div className="admin-camp-details spinner-wrapper">
-        {this.state.isLoading && <Spinner />}
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <p className="lead mb-0">
-            {this.state.camp.name} {_.capitalize(this.state.camp.type)} Details
-          </p>
-          <button
-            className="btn btn-danger mb-0"
-            onClick={this.handleDeleteCampClick}
-          >
-            <i className="fas fa-trash" /> Delete Camp
-          </button>
+      <div className="admin-camp-detail">
+        <div className="card spinner-wrapper">
+          {this.state.isLoading && <Spinner />}
+          <div className="card-header">
+            <div className="d-flex justify-content-between align-items-center">
+              <h5 className="card-title mb-0">Camp Details</h5>
+              <div>
+                <UncontrolledDropdown>
+                  <DropdownToggle caret>Options</DropdownToggle>
+                  <DropdownMenu right>
+                    <Link
+                      to={`/admin/rosters/${this.props.match.params.campId}`}
+                    >
+                      <div className="dropdown-item">View Roster</div>
+                    </Link>
+                    <DropdownItem divider />
+                    <DropdownItem onClick={this.editOpen}>
+                      Edit Camp
+                    </DropdownItem>
+                    <DropdownItem onClick={this.confirmDeleteOpen}>
+                      Delete Camp
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </div>
+            </div>
+          </div>
+
+          <div className="card-body">
+            <div className="mb-3">
+              <strong>Camp: </strong>
+              <EditableAdminCamp
+                name={camp.name}
+                type={camp.type}
+                description={camp.description}
+                fee={camp.fee}
+                startDate={camp.startDate}
+                endDate={camp.endDate}
+                openDate={camp.openDate}
+                closeDate={camp.closeDate}
+                capacity={camp.capacity}
+                updateCamp={this.updateCamp}
+                isOpen={this.state.editIsOpen}
+                openForm={this.editOpen}
+                closeForm={this.editClose}
+              />
+            </div>
+
+            <div className="mb-3">
+              <strong>Registrations: </strong>
+              {registrations.length > 0 && (
+                <ul className="list-unstyled">
+                  {registrations.map(registration => (
+                    <li key={registration._id}>
+                      <Link to={`/admin/registrations/${registration._id}`}>
+                        {registration.camper.firstName}{" "}
+                        {registration.camper.lastName}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {registrations.length === 0 && (
+                <p>
+                  <em>No Registrations Found</em>
+                </p>
+              )}
+            </div>
+          </div>
         </div>
-        {this.state.confirmDelete && (
-          <div className="alert alert-danger">
-            Are you sure you want to delete {this.state.camp.name}{" "}
-            {_.capitalize(this.state.camp.type)}?
+        <Modal
+          isOpen={this.state.confirmDeleteIsOpen}
+          toggle={this.confirmDeleteClose}
+          className={this.props.className}
+        >
+          <ModalHeader toggle={this.confirmDeleteClose}>
+            Delete Camp
+          </ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete {camp.fullName}?
+          </ModalBody>
+          <ModalFooter>
             <button
-              type="button"
-              className="close"
-              onClick={this.handleCancelDeleteCampClick}
-            >
-              <span>
-                <i className="fas fa-times" />
-              </span>
-            </button>
-            <hr />
-            <button
-              type="button"
-              className="btn btn-light mr-3"
-              onClick={this.handleCancelDeleteCampClick}
+              className="btn btn-outline-secondary mr-3"
+              onClick={this.confirmDeleteClose}
             >
               Cancel
             </button>
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={this.handleConfirmDeleteCampClick}
-            >
-              Confirm Delete
+            <button className="btn btn-danger" onClick={this.deleteCamp}>
+              Delete
             </button>
-          </div>
-        )}
-        <EditableAdminCamp
-          camp={this.state.camp}
-          updateCamp={this.updateCamp}
-          deleteCamp={this.deleteCamp}
-        />
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }

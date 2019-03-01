@@ -34,19 +34,16 @@ class PrimaryContactInformationForm extends Component {
       });
       return appClient
         .updateUser({
-          id: this.props.userId,
-          data: {
-            primaryContact: {
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              phoneNumber: this.state.phoneNumber,
-              email: this.state.email,
-              streetAddress: this.state.streetAddress,
-              streetAddress2: this.state.streetAddress2,
-              city: this.state.city,
-              state: this.state.state,
-              zipCode: this.state.zipCode
-            }
+          primaryContact: {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            phoneNumber: this.state.phoneNumber,
+            email: this.state.email,
+            streetAddress: this.state.streetAddress,
+            streetAddress2: this.state.streetAddress2,
+            city: this.state.city,
+            state: this.state.state,
+            zipCode: this.state.zipCode
           }
         })
         .then(res => {
@@ -139,7 +136,7 @@ class PrimaryContactInformationForm extends Component {
           />
           <Input
             name="email"
-            label="Email"
+            label="Email Address"
             type="email"
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}

@@ -1,19 +1,18 @@
 import React, { Component } from "react";
-import moment from "moment";
 import _ from "lodash";
 import SearchTable from "../../SearchTable/SearchTable";
 import { Link } from "react-router-dom";
 
 class AdminRoster extends Component {
-  formatDate(date) {
-    return moment.utc(date).format("MM/DD/YYYY");
-  }
-
   render() {
+    let registrations = this.props.camp.registrations || [];
+    registrations = registrations.filter(
+      registration => registration.deposit || registration.paid
+    );
     return (
       <div className="admin-roster">
         <SearchTable
-          items={this.props.camp.campers || []}
+          items={registrations}
           searchKeys={[
             "camper.firstName",
             "camper.lastName",
@@ -31,6 +30,11 @@ class AdminRoster extends Component {
               key: "camper.lastName",
               name: "Last Name",
               displayFunc: item => item.camper.lastName
+            },
+            {
+              key: "camper.age",
+              name: "Age",
+              displayFunc: item => item.camper.age
             },
             {
               key: "camper.swimmingStrength",

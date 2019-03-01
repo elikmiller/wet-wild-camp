@@ -26,8 +26,13 @@ class App extends Component {
       .then(res => {
         this.setState({
           authenticated: true,
-          user: res.data.user,
-          admin: res.data.user.admin
+          user: {
+            _id: res.user._id,
+            firstName: res.user.firstName,
+            lastName: res.user.lastName,
+            email: res.user.email
+          },
+          admin: res.user.admin
         });
       })
       .catch(err => {
@@ -69,11 +74,11 @@ class App extends Component {
   };
 
   forgotPassword = ({ email }) => {
-    return appClient.forgotPassword({ email });
+    return appClient.passwordReset({ email });
   };
 
   resetPassword = ({ token, password }) => {
-    return appClient.resetPassword({ token, password });
+    return appClient.redeemPasswordResetToken({ token, password });
   };
 
   componentDidMount() {
@@ -83,8 +88,13 @@ class App extends Component {
         this.setState({
           loading: false,
           authenticated: true,
-          user: res.data.user,
-          admin: res.data.user.admin
+          user: {
+            _id: res._id,
+            firstName: res.firstName,
+            lastName: res.lastName,
+            email: res.email
+          },
+          admin: res.admin
         });
       })
       .catch(err => {

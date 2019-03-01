@@ -6,10 +6,10 @@ import PhoneInput from "../../forms/PhoneInput";
 class SecondaryContactInformationForm extends Component {
   state = {
     formValues: {
-      firstName: this.props.data.firstName || "",
-      lastName: this.props.data.lastName || "",
-      phoneNumber: this.props.data.phoneNumber || "",
-      email: this.props.data.email || ""
+      firstName: this.props.firstName || "",
+      lastName: this.props.lastName || "",
+      phoneNumber: this.props.phoneNumber || "",
+      email: this.props.email || ""
     },
     errors: {},
     wasValidated: false
@@ -26,10 +26,11 @@ class SecondaryContactInformationForm extends Component {
       errors.phoneNumber = "Please enter a valid phone number.";
     if (validator.isEmpty(formValues.phoneNumber + ""))
       errors.phoneNumber = "Phone number is required.";
-    if (!validator.isEmail(formValues.email + ""))
+    if (
+      !validator.isEmpty(this.state.email + "") &&
+      !validator.isEmail(formValues.email + "")
+    )
       errors.email = "Please enter a valid email address.";
-    if (validator.isEmpty(formValues.email + ""))
-      errors.email = "Email address is required.";
     return errors;
   };
 
@@ -102,11 +103,11 @@ class SecondaryContactInformationForm extends Component {
           />
           <Input
             name="email"
-            label="Email"
+            label="Email Address (optional)"
             type="input"
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
-            error={this.state.errors.firstName}
+            error={this.state.errors.email}
             value={this.state.formValues["email"]}
           />
           <div className="form-group">

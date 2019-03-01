@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import appClient from "../../appClient";
 import Spinner from "../../Spinner/Spinner";
-import _ from "lodash";
 
 class AdminRosterSwimming extends Component {
   state = {
@@ -11,59 +10,69 @@ class AdminRosterSwimming extends Component {
   };
 
   componentDidMount() {
-    this.getCamp(this.props.match.params.campId);
+    this.getCamp();
   }
 
-  getCamp = campId => {
+  getCamp = () => {
     this.setState({ isLoading: true });
-    appClient
-      .getCamp(campId)
+    return appClient
+      .adminGetCamp(this.props.match.params.campId)
       .then(camp => {
         this.setState({
-          camp: camp.data,
-          campers: camp.data.campers.map(registration => registration.camper),
+          camp,
+          campers: camp.registrations.map(registration => registration.camper),
           isLoading: false
         });
       })
       .catch(err => {
         this.setState({ isLoading: false });
+        this.setState(() => {
+          throw err;
+        });
       });
   };
 
-  updateManyCampers = campers => {
+  updateCamperBulk = () => {
     this.setState({ isLoading: true });
     appClient
-      .updateManyCampers(campers)
+      .adminUpdateCamperBulk(this.state.campers)
       .then(() => {
         this.props.history.push(`/admin/rosters/${this.state.camp._id}`);
       })
       .catch(err => {
         this.setState({ isLoading: false });
+        this.setState(() => {
+          throw err;
+        });
       });
   };
 
   handleSave = () => {
-    this.updateManyCampers(this.state.campers);
+    this.updateCamperBulk(this.state.campers);
+  };
+
+  handleCancel = () => {
+    this.props.history.push(`/admin/rosters/${this.state.camp._id}`);
   };
 
   handleChange = e => {
-    let campers = this.state.campers.slice();
-    let camperIndex = _.findIndex(campers, { _id: e.target.name });
-    if (camperIndex !== -1)
-      campers[camperIndex].swimmingStrength = e.target.value;
+    let campers = this.state.campers.map(camper => {
+      if (camper._id !== e.target.name) return camper;
+      camper.swimmingStrength = e.target.value;
+      return camper;
+    });
     this.setState({
       campers
     });
   };
 
   render() {
+    let campers = this.state.campers;
     return (
       <div className="admin-roster-swimming spinner-wrapper">
         {this.state.isLoading && <Spinner />}
-        <p className="lead">
-          {this.state.camp.name} {_.capitalize(this.state.camp.type)} - Swimming
-          Ability
-        </p>
+        <p className="lead">{this.state.camp.fullName} - Swimming</p>
+
         <div
           className="table-responsive"
           style={{ fontSize: "75%", tableLayout: "fixed" }}
@@ -80,62 +89,70 @@ class AdminRosterSwimming extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.campers &&
-                this.state.campers.map((camper, i) => (
-                  <tr key={i}>
-                    <td>{camper.firstName}</td>
-                    <td>{camper.lastName}</td>
-                    <td>
-                      <input
-                        onChange={this.handleChange}
-                        type="radio"
-                        name={camper._id}
-                        value="none"
-                        checked={
-                          camper.swimmingStrength === "none" ||
-                          !camper.swimmingStrength
-                        }
-                      />
-                    </td>
-                    <td>
-                      <input
-                        onChange={this.handleChange}
-                        type="radio"
-                        name={camper._id}
-                        value="weak"
-                        checked={camper.swimmingStrength === "weak"}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        onChange={this.handleChange}
-                        type="radio"
-                        name={camper._id}
-                        value="fair"
-                        checked={camper.swimmingStrength === "fair"}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        onChange={this.handleChange}
-                        type="radio"
-                        name={camper._id}
-                        value="strong"
-                        checked={camper.swimmingStrength === "strong"}
-                      />
-                    </td>
-                  </tr>
-                ))}
+              {campers.map((camper, i) => (
+                <tr key={i}>
+                  <td>{camper.firstName}</td>
+                  <td>{camper.lastName}</td>
+                  <td>
+                    <input
+                      onChange={this.handleChange}
+                      type="radio"
+                      name={camper._id}
+                      value="none"
+                      checked={
+                        camper.swimmingStrength === "none" ||
+                        !camper.swimmingStrength
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      onChange={this.handleChange}
+                      type="radio"
+                      name={camper._id}
+                      value="weak"
+                      checked={camper.swimmingStrength === "weak"}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      onChange={this.handleChange}
+                      type="radio"
+                      name={camper._id}
+                      value="fair"
+                      checked={camper.swimmingStrength === "fair"}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      onChange={this.handleChange}
+                      type="radio"
+                      name={camper._id}
+                      value="strong"
+                      checked={camper.swimmingStrength === "strong"}
+                    />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
+          <div className="mb-3">
+            <button
+              className="btn btn-outline-secondary mr-3"
+              type="button"
+              onClick={this.handleCancel}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={this.handleSave}
+            >
+              Save
+            </button>
+          </div>
         </div>
-        <button
-          className="btn btn-primary"
-          type="button"
-          onClick={this.handleSave}
-        >
-          <i className="fas fa-save" /> Save
-        </button>
       </div>
     );
   }

@@ -4,7 +4,7 @@ import classNames from "classnames";
 class Input extends Component {
   render() {
     let showError = this.props.wasValidated && this.props.error;
-    let inputClassName = classNames("form-control", {
+    let inputClassName = classNames("form-control form-control-sm", {
       "is-invalid": showError
     });
     return (
@@ -15,6 +15,7 @@ class Input extends Component {
           type={this.props.type}
           name={this.props.name}
           value={this.props.value}
+          defaultValue={this.props.defaultValue}
           onChange={this.props.onChange}
           disabled={this.props.disabled}
         />

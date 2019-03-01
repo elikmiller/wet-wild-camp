@@ -2,19 +2,33 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import AdminCamperList from "./AdminCamperList";
 import AdminCamperDetail from "./AdminCamperDetail";
+import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
 
-class AdminRosters extends Component {
+class AdminCampers extends Component {
   render() {
     return (
-      <Switch>
-        <Route
-          path={`${this.props.match.path}/:camperId`}
-          component={AdminCamperDetail}
-        />
-        <Route path={`${this.props.match.path}`} component={AdminCamperList} />
-      </Switch>
+      <div className="admin-campers">
+        <Switch>
+          <Route
+            path={`${this.props.match.path}/:camperId`}
+            render={props => (
+              <ErrorBoundary>
+                <AdminCamperDetail {...props} />
+              </ErrorBoundary>
+            )}
+          />
+          <Route
+            path={`${this.props.match.path}`}
+            render={props => (
+              <ErrorBoundary>
+                <AdminCamperList {...props} />
+              </ErrorBoundary>
+            )}
+          />
+        </Switch>
+      </div>
     );
   }
 }
 
-export default AdminRosters;
+export default AdminCampers;

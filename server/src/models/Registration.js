@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
+const softDelete = require("mongoosejs-soft-delete");
 const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
+const { User } = require("./User");
+const { Camp } = require("./Camp");
+const { Camper } = require("./Camper");
 
 const RegistrationSchema = new Schema({
   user: {
@@ -33,17 +37,50 @@ const RegistrationSchema = new Schema({
   },
   deposit: {
     type: Boolean,
-    default: false
+    default: false,
+    required: true
   },
   paid: {
     type: Boolean,
-    default: false
+    default: false,
+    required: true
   },
   created: {
     type: Date,
     required: true
   }
 });
+
+RegistrationSchema.plugin(softDelete);
+
+RegistrationSchema.post("updateOne", async function() {
+  if (this._update.deleted) {
+    // Soft-delete clean-up actions can be performed here.
+  }
+});
+
+RegistrationSchema.post("remove", async function(doc) {
+  await Camp.update(
+    { _id: doc.camp },
+    { $pull: { campers: doc._id, waitlist: doc._id } }
+  );
+  await User.update({ _id: doc.user }, { $pull: { registrations: doc._id } });
+  await Camper.update(
+    { _id: doc.camper },
+    { $pull: { registrations: doc._id } }
+  );
+});
+
+RegistrationSchema.virtual("status").get(function() {
+  if (this.waitlist) return "Waitlisted";
+  if (!this.deposit && !this.paid) return "Unconfirmed";
+  if (this.deposit && !this.paid) return "Pending";
+  if (this.paid) return "Confirmed";
+});
+
+RegistrationSchema.set("toObject", { virtuals: true });
+
+RegistrationSchema.set("toJSON", { virtuals: true });
 
 const Registration = mongoose.model("Registration", RegistrationSchema);
 

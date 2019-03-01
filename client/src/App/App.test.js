@@ -11,13 +11,9 @@ describe("App", () => {
     beforeEach(async () => {
       appClient.currentUser.mockReturnValue(
         Promise.resolve({
-          data: {
-            user: {
-              firstName: "Unit",
-              lastName: "Test",
-              email: "unit_test@example.com"
-            }
-          }
+          firstName: "Unit",
+          lastName: "Test",
+          email: "unit_test@example.com"
         })
       );
       const wrapper = shallow(<App />);
@@ -36,6 +32,7 @@ describe("App", () => {
 
     it("user object should be populated", () => {
       appClient.currentUser.mock.calls.length.should.equal(1);
+
       state.user.firstName.should.equal("Unit");
       state.user.lastName.should.equal("Test");
       state.user.email.should.equal("unit_test@example.com");
