@@ -46,15 +46,10 @@ class LoginForm extends Component {
         password: this.state.password
       };
       this.props.onSubmit(data).catch(err => {
-        if (
-          err.response &&
-          (err.response.status === 400 || err.response.status === 401)
-        ) {
+        if (err.statusCode === 400 || err.statusCode === 401) {
           this.setState({
-            errors: { submit: "Invalid Email Address or Password." }
+            errors: { submit: err.message }
           });
-        } else if (err.response && err.response.status === 500) {
-          this.setState({ errors: { server: "Server error." } });
         } else {
           this.setState({
             errors: {

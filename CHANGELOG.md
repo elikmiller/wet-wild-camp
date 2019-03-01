@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.0.4] - 2019-02-28
+
 ### Added
 
 - Admins can view, modify and delete registrations in new registration detail page.
@@ -14,6 +16,25 @@
 - Secondary Contact Email Address is now optional.
 
 ### Removed
+
+### Developer Notes
+
+#### Server
+
+- Separated API into user and admin routes. In general user routes will derive any required userId from the session. The admin routes will require an admin user to be logged in and allow userIds to be passed in as arguments.
+- Each route should now be using boom style error messages. More information over at hapijs/boom.
+- Each route handler is stored in a separate file.
+
+#### Client
+
+- The client side views were combed through to make sure the new routes were being used correctly.
+- Added the search table component to the user, registration and payment list views for the admins.
+- The detail views now have a dropdown in the upper-right hand which provides access to specific options for each document (edit, delete etc).
+- The user views were mostly unchanged except the registration screens. Those I refactored a bit to make the experience a bit more streamlined.
+
+#### Database
+
+- There are now database migrations which need to be run. The simplest way is to make sure the environment variables in `/server/.env` are pointing to the correct environment and then running `npm run migrate`.
 
 ## [1.0.3] - 2019-01-17
 
