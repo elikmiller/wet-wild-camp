@@ -167,15 +167,17 @@ class AdminUserDetail extends Component {
             <div className="mb-3">
               <strong>Payments: </strong>
               <ul className="list-unstyled">
-                {this.state.user.payments.map(payment => (
-                  <li key={payment._id}>
-                    <Link to={`/admin/payments/${payment._id}`}>
-                      {moment.utc(payment.timeCreated).format("MM/DD/YYYY")}
-                      {" - "}
-                      {payment.fullAmount}
-                    </Link>
-                  </li>
-                ))}
+                {this.state.user.payments
+                  .filter(payment => payment.executed)
+                  .map(payment => (
+                    <li key={payment._id}>
+                      <Link to={`/admin/payments/${payment._id}`}>
+                        {moment(payment.timeCreated).format("MM/DD/YYYY")}
+                        {" - "}
+                        {payment.fullAmount}
+                      </Link>
+                    </li>
+                  ))}
               </ul>
             </div>
 
