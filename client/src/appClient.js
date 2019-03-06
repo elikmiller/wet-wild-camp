@@ -386,7 +386,7 @@ const adminGetPayments = () => {
 };
 
 const adminGetPayment = paymentId => {
-  return appClient.get(`/admin/payment/${paymentId}`);
+  return appClient.get(`/admin/payments/${paymentId}`);
 };
 
 const adminDeletePayment = paymentId => {
