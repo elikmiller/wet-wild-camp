@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- Admins can view Payment details, including a link to the relevant transaction on paypal.com.
+
+### Changed
+
+- Only Payments which have been executed will be visible throughout the client to avoid confusion.
+
 ## [1.0.4] - 2019-02-28
 
 ### Added

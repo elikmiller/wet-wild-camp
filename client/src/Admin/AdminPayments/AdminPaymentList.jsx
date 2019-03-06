@@ -3,6 +3,7 @@ import appClient from "../../appClient";
 import Spinner from "../../Spinner/Spinner";
 import SearchTable from "../../SearchTable/SearchTable";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 class AdminPaymentList extends Component {
   state = {
@@ -22,7 +23,7 @@ class AdminPaymentList extends Component {
       .adminGetPayments()
       .then(payments => {
         this.setState({
-          payments,
+          payments: payments.filter(payment => payment.executed === true),
           isLoading: false
         });
       })
@@ -63,6 +64,13 @@ class AdminPaymentList extends Component {
               name: "Date",
               displayFunc: item =>
                 moment.utc(item.timeCreated).format("MM/DD/YYYY")
+            },
+            {
+              key: "",
+              name: "",
+              displayFunc: item => (
+                <Link to={`/admin/payments/${item._id}`}>Details</Link>
+              )
             }
           ]}
         />
