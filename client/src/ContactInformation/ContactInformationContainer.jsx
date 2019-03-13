@@ -29,9 +29,9 @@ class ContactInformationContainer extends Component {
       .getContacts(this.props.userId)
       .then(res => {
         this.setState({
-          primaryContactInformation: res.data.primaryContact,
-          secondaryContactInformation: res.data.secondaryContact,
-          emergencyContactInformation: res.data.emergencyContact,
+          primaryContactInformation: res.data.primaryContact || {},
+          secondaryContactInformation: res.data.secondaryContact || {},
+          emergencyContactInformation: res.data.emergencyContact || {},
           isLoading: false
         });
       })
@@ -76,14 +76,13 @@ class ContactInformationContainer extends Component {
         {!this.props.admin && (
           <div className="alert alert-dark" role="alert">
             <p>
-              The <strong>Contact Information</strong> page is where you can
-              enter in contact information for your Primary, Secondary, and
-              Emergency contacts.
+              The <strong>Contact Information</strong> page is where you can enter in contact
+              information for your Primary, Secondary, and Emergency contacts.
             </p>
             <hr />
             <p className="mb-0">
-              Please submit this information as soon as possible, and return to
-              this page to update it when information changes.
+              Please submit this information as soon as possible, and return to this page to update
+              it when information changes.
             </p>
           </div>
         )}
