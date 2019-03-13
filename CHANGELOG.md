@@ -9,6 +9,7 @@
 ### Changed
 
 - Only Payments which have been executed will be visible throughout the client to avoid confusion.
+- Fixed bug in ContactInformationContainer that caused the app to crash when no data had been entered for Contact Info.
 
 ## [1.0.4] - 2019-02-28
 
