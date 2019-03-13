@@ -39,6 +39,18 @@ class PayPalService {
     };
   }
 
+  getPayment(paymentId) {
+    return new Promise((resolve, reject) => {
+      paypal.payment.get(paymentId, (err, payment) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(payment);
+        }
+      });
+    });
+  }
+
   createPayment(paymentAmount) {
     this.paymentJson.transactions[0].amount.total = paymentAmount;
     this.paymentJson.transactions[0].item_list.items[0].price = paymentAmount;

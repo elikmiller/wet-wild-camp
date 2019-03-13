@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import EditablePrimaryContactInformation from "./PrimaryContactInformation/EditablePrimaryContactInformation.jsx";
 import EditableSecondaryContactInformation from "./SecondaryContactInformation/EditableSecondaryContactInformation.jsx";
 import EditableEmergencyContactInformation from "./EmergencyContactInformation/EditableEmergencyContactInformation.jsx";
-import ServerError from "../forms/ServerError";
 import appClient from "../appClient";
 import Spinner from "../Spinner/Spinner";
 import "./ContactInformationContainer.css";
@@ -10,94 +9,82 @@ import "./ContactInformationContainer.css";
 class ContactInformationContainer extends Component {
   state = {
     isLoading: false,
-    primaryContactInformation: {},
-    secondaryContactInformation: {},
-    emergencyContactInformation: {},
-    errors: {}
+    user: {},
+    primaryContact: {},
+    secondaryContact: {},
+    emergencyContact: {}
   };
 
   componentDidMount() {
-    this.refreshContacts();
+    this.getUser();
   }
 
-  refreshContacts = () => {
+  getUser = () => {
     this.setState({
-      isLoading: true,
-      errors: {}
+      isLoading: true
     });
-    appClient
-      .getContacts(this.props.userId)
-      .then(res => {
-        this.setState({
-          primaryContactInformation: res.data.primaryContact || {},
-          secondaryContactInformation: res.data.secondaryContact || {},
-          emergencyContactInformation: res.data.emergencyContact || {},
-          isLoading: false
-        });
-      })
-      .catch(err => {
-        if (err.response.status === 401) {
-          this.props.logout();
-        } else if (err.response.status === 500) {
-          this.setState({
-            errors: { server: "Server error." },
-            isLoading: false
-          });
-        }
+    appClient.getUser().then(user => {
+      this.setState({
+        user,
+        primaryContact: user.primaryContact || {},
+        secondaryContact: user.secondaryContact || {},
+        emergencyContact: user.emergencyContact || {},
+        isLoading: false
       });
+    });
   };
 
-  updateUser = data => {
-    appClient
-      .updateUser({ id: this.props.userId, data })
+  updateUser = ({ primaryContact, secondaryContact, emergencyContact }) => {
+    return appClient
+      .updateUser({ primaryContact, secondaryContact, emergencyContact })
       .then(() => {
-        this.refreshContacts();
-      })
-      .catch(err => {
-        console.error(err);
-        if (err.response.status === 500) {
-          this.setState({ errors: { server: "Server error." } });
-        }
+        this.getUser();
       });
   };
 
   render() {
-    if (this.state.isLoading && this.props.admin) {
-      return (
-        <div className="card spinner-wrapper">
-          <Spinner />
-        </div>
-      );
-    }
-    if (this.state.isLoading) return <Spinner />;
-    if (this.state.errors.server) return <ServerError />;
     return (
-      <div className="contact-information-container">
+      <div className="contact-information-container spinner-container">
+        {this.state.isLoading && <Spinner />}
         {!this.props.admin && (
           <div className="alert alert-dark" role="alert">
             <p>
-              The <strong>Contact Information</strong> page is where you can enter in contact
-              information for your Primary, Secondary, and Emergency contacts.
+              The <strong>Contact Information</strong> page is where you can
+              enter in contact information for your Primary, Secondary, and
+              Emergency contacts.
             </p>
             <hr />
             <p className="mb-0">
-              Please submit this information as soon as possible, and return to this page to update
-              it when information changes.
+              Please submit this information as soon as possible, and return to
+              this page to update it when information changes.
             </p>
           </div>
         )}
         <EditablePrimaryContactInformation
-          data={this.state.primaryContactInformation}
+          firstName={this.state.primaryContact.firstName}
+          lastName={this.state.primaryContact.lastName}
+          email={this.state.primaryContact.email}
+          phoneNumber={this.state.primaryContact.phoneNumber}
+          streetAddress={this.state.primaryContact.streetAddress}
+          streetAddress2={this.state.primaryContact.streetAddress2}
+          city={this.state.primaryContact.city}
+          state={this.state.primaryContact.state}
+          zipCode={this.state.primaryContact.zipCode}
           updateUser={this.updateUser}
         />
         <hr />
         <EditableSecondaryContactInformation
-          data={this.state.secondaryContactInformation}
+          firstName={this.state.secondaryContact.firstName}
+          lastName={this.state.secondaryContact.lastName}
+          email={this.state.secondaryContact.email}
+          phoneNumber={this.state.secondaryContact.phoneNumber}
           updateUser={this.updateUser}
         />
         <hr />
         <EditableEmergencyContactInformation
-          data={this.state.emergencyContactInformation}
+          firstName={this.state.emergencyContact.firstName}
+          lastName={this.state.emergencyContact.lastName}
+          phoneNumber={this.state.emergencyContact.phoneNumber}
           updateUser={this.updateUser}
         />
       </div>

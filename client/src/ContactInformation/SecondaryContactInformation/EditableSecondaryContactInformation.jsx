@@ -8,8 +8,19 @@ class EditableSecondaryContactInformation extends Component {
     errors: {}
   };
 
-  handleSubmit = data => {
-    this.props.updateUser({ secondaryContact: { ...data } });
+  handleSubmit = ({ firstName, lastName, email, phoneNumber }) => {
+    this.props
+      .updateUser({
+        secondaryContact: {
+          firstName,
+          lastName,
+          email,
+          phoneNumber
+        }
+      })
+      .then(() => {
+        this.closeForm();
+      });
   };
 
   openForm = () => {
@@ -29,7 +40,10 @@ class EditableSecondaryContactInformation extends Component {
       return (
         <div className="editable-secondary-contact-information">
           <SecondaryContactInformationForm
-            data={this.props.data}
+            firstName={this.props.firstName}
+            lastName={this.props.lastName}
+            email={this.props.email}
+            phoneNumber={this.props.phoneNumber}
             onSubmit={this.handleSubmit}
             closeForm={this.closeForm}
           />
@@ -39,7 +53,10 @@ class EditableSecondaryContactInformation extends Component {
     return (
       <div className="editable-secondary-contact-information">
         <SecondaryContactInformation
-          data={this.props.data}
+          firstName={this.props.firstName}
+          lastName={this.props.lastName}
+          email={this.props.email}
+          phoneNumber={this.props.phoneNumber}
           openForm={this.openForm}
         />
       </div>

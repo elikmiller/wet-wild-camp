@@ -7,6 +7,7 @@ import "./SearchTable.css";
 const Row = props => {
   return (
     <tr>
+      {props.numbered && <td>{props.number}</td>}
       {props.columns.map((column, i) => (
         <td key={i}>{column.displayFunc(props.item)}</td>
       ))}
@@ -100,6 +101,7 @@ class SearchList extends Component {
           >
             <thead>
               <tr>
+                {this.props.numbered && <td />}
                 {this.props.columns.map((column, i) => (
                   <td key={i}>
                     {column.key ? (
@@ -123,7 +125,13 @@ class SearchList extends Component {
             </thead>
             <tbody>
               {items.map((item, i) => (
-                <Row key={i} item={item} columns={this.props.columns} />
+                <Row
+                  key={i}
+                  item={item}
+                  columns={this.props.columns}
+                  numbered={this.props.numbered}
+                  number={i + 1}
+                />
               ))}
             </tbody>
           </table>

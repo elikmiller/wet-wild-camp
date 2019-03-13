@@ -1,6 +1,4 @@
 import axios from "axios";
-const { CancelToken } = axios;
-const source = CancelToken.source();
 
 const appClient = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
@@ -9,113 +7,124 @@ const appClient = axios.create({
 
 appClient.interceptors.response.use(
   function(response) {
-    return response;
+    return response.data;
   },
   function(error) {
-    if (error.response.status !== 401) console.error(error);
-    return Promise.reject(error);
+    if (error.response) return Promise.reject(error.response.data);
+    else if (error.request) return Promise.reject(error.request);
+    else return Promise.reject(error);
   }
 );
 
+//
+// Auth
+//
+
 const login = ({ email, password }) => {
-  return appClient.post("/login", { email, password });
+  return appClient.post("/auth/login", { email, password });
 };
 
 const logout = () => {
-  return appClient.get("/logout");
+  return appClient.get("/auth/logout");
 };
+
+const currentUser = () => {
+  return appClient.get("/auth/current_user");
+};
+
+const passwordReset = ({ email }) => {
+  return appClient.post("/auth/password_reset", { email });
+};
+
+const redeemPasswordResetToken = ({ token, password }) => {
+  return appClient.post("/auth/redeem_password_reset_token", {
+    token,
+    password
+  });
+};
+
+//
+// User
+//
 
 const createUser = ({ firstName, lastName, email, password }) => {
   return appClient.post("/users", { firstName, lastName, email, password });
 };
 
-const currentUser = () => {
-  return appClient.get("/current_user");
+const getUser = () => {
+  return appClient.get(`/users`);
 };
 
-const getUsers = () => {
-  return appClient.get("/users");
+const updateUser = ({
+  firstName,
+  lastName,
+  primaryContact,
+  secondaryContact,
+  emergencyContact
+}) => {
+  return appClient.patch(`/users`, {
+    firstName,
+    lastName,
+    primaryContact,
+    secondaryContact,
+    emergencyContact
+  });
 };
 
-const getUser = userId => {
-  return appClient.get(`/users/${userId}`);
+//
+// Camper
+//
+
+const getCampers = () => {
+  return appClient.get(`/campers`);
 };
 
-const getAdminUser = userId => {
-  return appClient.get(`/admin/users/${userId}`);
+const getCamper = camperId => {
+  return appClient.get(`/campers/${camperId}`);
 };
 
-const updateUser = ({ id, data }) => {
-  return appClient.patch(`/users/${id}`, data);
+const createCamper = ({ firstName, lastName, dateOfBirth, gender, notes }) => {
+  return appClient.post(`/campers`, {
+    firstName,
+    lastName,
+    dateOfBirth,
+    gender,
+    notes
+  });
 };
 
-const getCamper = id => {
-  return appClient.get(`/campers/${id}`);
-};
-
-const getCampers = userId => {
-  return appClient.get(`/users/${userId}/campers`);
-};
-
-const getAllCampers = () => {
-  return appClient.get("/campers");
-};
-
-const addCamper = data => {
-  return appClient.post(`/campers`, data);
-};
-
-const updateCamper = ({ id, data }) => {
-  return appClient.patch(`/campers/${id}`, data);
-};
-
-const updateManyCampers = data => {
-  return appClient.patch("/campers", data);
+const updateCamper = (
+  camperId,
+  { firstName, lastName, dateOfBirth, gender, notes }
+) => {
+  return appClient.patch(`/campers/${camperId}`, {
+    firstName,
+    lastName,
+    dateOfBirth,
+    gender,
+    notes
+  });
 };
 
 const deleteCamper = camperId => {
   return appClient.delete(`/campers/${camperId}`);
 };
 
-const adminDeleteCamper = camperId => {
-  return appClient.delete(`/admin/campers/${camperId}`);
-};
-
-const getContacts = userId => {
-  return appClient.get(`/users/${userId}/contacts`);
-};
+//
+// Camp
+//
 
 const getCamps = () => {
   return appClient.get(`/camps`);
 };
 
-const getCamp = id => {
-  return appClient.get(`/camps/${id}`);
+const getCamp = campId => {
+  return appClient.get(`/camps/${campId}`);
 };
 
-const newCamp = data => {
-  return appClient.post("/camps", data);
-};
-
-const updateCamp = (id, data) => {
-  return appClient.patch(`/camps/${id}`, data);
-};
-
-const deleteCamp = id => {
-  return appClient.delete(`/camps/${id}`);
-};
-
-const moveFromWaitlist = (campId, camperId) => {
-  return appClient.get(`/camps/${campId}/${camperId}`);
-};
-
-const createRegistration = data => {
-  return appClient.post("/registrations", data);
-};
-
-const getUserRegistrations = userId => {
-  return appClient.get(`/users/${userId}/registrations`);
-};
+//
+// Registration
+//
 
 const getRegistrations = () => {
   return appClient.get("/registrations");
@@ -125,94 +134,341 @@ const getRegistration = registrationId => {
   return appClient.get(`/registrations/${registrationId}`);
 };
 
-const updateRegistration = (registrationId, data) => {
-  return appClient.patch(`/registrations/${registrationId}`, data);
+const createRegistration = ({
+  camper,
+  camp,
+  morningDropoff,
+  afternoonPickup
+}) => {
+  return appClient.post("/registrations", {
+    camper,
+    camp,
+    morningDropoff,
+    afternoonPickup
+  });
 };
 
 const deleteRegistration = registrationId => {
   return appClient.delete(`/registrations/${registrationId}`);
 };
 
+//
+// Payment
+//
+
+const executePayment = (paymentId, payerId) => {
+  return appClient.get(
+    `/payments/execute?paymentId=${paymentId}&payerId=${payerId}`
+  );
+};
+
+const getPayments = () => {
+  return appClient.get("/payments");
+};
+
+const getPayment = paymentId => {
+  return appClient.get(`/payments/${paymentId}`);
+};
+
+const createPayment = ({ fullPayments, deposits }) => {
+  return appClient.post(`/payments`, { fullPayments, deposits });
+};
+
+const deletePayment = paymentId => {
+  return appClient.delete(`/payments/${paymentId}`);
+};
+
+//
+// Admin - Users
+//
+
+const adminGetUsers = () => {
+  return appClient.get("/admin/users");
+};
+
+const adminGetUser = userId => {
+  return appClient.get(`/admin/users/${userId}`);
+};
+
+const adminUpdateUser = (
+  userId,
+  { firstName, lastName, primaryContact, secondaryContact, emergencyContact }
+) => {
+  return appClient.patch(`/admin/users/${userId}`, {
+    firstName,
+    lastName,
+    primaryContact,
+    secondaryContact,
+    emergencyContact
+  });
+};
+
+//
+// Admin - Campers
+//
+
+const adminGetCampers = params => {
+  return appClient.get("/admin/campers", { params });
+};
+
+const adminGetCamper = camperId => {
+  return appClient.get(`/admin/campers/${camperId}`);
+};
+
+const adminCreateCamper = ({
+  firstName,
+  lastName,
+  gender,
+  dateOfBirth,
+  swimmingStrength,
+  notes,
+  user
+}) => {
+  return appClient.post("/admin/campers/", {
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    swimmingStrength,
+    notes,
+    user
+  });
+};
+
+const adminUpdateCamper = (
+  camperId,
+  { firstName, lastName, gender, dateOfBirth, swimmingStrength, notes, user }
+) => {
+  return appClient.patch(`/admin/campers/${camperId}`, {
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    swimmingStrength,
+    notes,
+    user
+  });
+};
+
+const adminUpdateCamperBulk = campers => {
+  return appClient.patch(`/admin/campers/`, campers);
+};
+
+const adminDeleteCamper = camperId => {
+  return appClient.delete(`/admin/campers/${camperId}`);
+};
+
+const adminGetCamps = () => {
+  return appClient.get("/admin/camps");
+};
+
+const adminGetCamp = campId => {
+  return appClient.get(`/admin/camps/${campId}`);
+};
+
+const adminCreateCamp = ({
+  name,
+  type,
+  description,
+  fee,
+  capacity,
+  startDate,
+  endDate,
+  openDate,
+  closeDate
+}) => {
+  return appClient.post("/admin/camps", {
+    name,
+    type,
+    description,
+    fee,
+    capacity,
+    startDate,
+    endDate,
+    openDate,
+    closeDate
+  });
+};
+
+const adminUpdateCamp = (
+  campId,
+  {
+    name,
+    type,
+    description,
+    fee,
+    capacity,
+    startDate,
+    endDate,
+    openDate,
+    closeDate
+  }
+) => {
+  return appClient.patch(`/admin/camps/${campId}`, {
+    name,
+    type,
+    description,
+    fee,
+    capacity,
+    startDate,
+    endDate,
+    openDate,
+    closeDate
+  });
+};
+
+const adminDeleteCamp = campId => {
+  return appClient.delete(`/admin/camps/${campId}`);
+};
+
+const adminCampReportMonday = campId => {
+  return appClient.get(`/admin/camps/${campId}/csv/monday`);
+};
+
+const adminCampReportSwimming = campId => {
+  return appClient.get(`/admin/camps/${campId}/csv/swimming`);
+};
+
+const adminCampReportContact = campId => {
+  return appClient.get(`/admin/camps/${campId}/csv/report`);
+};
+
+const adminGetRegistrations = () => {
+  return appClient.get("/admin/registrations");
+};
+
+const adminGetRegistration = registrationId => {
+  return appClient.get(`/admin/registrations/${registrationId}`);
+};
+
+const adminCreateRegistration = ({
+  camper,
+  camp,
+  morningDropoff,
+  afternoonPickup,
+  deposit,
+  paid,
+  waitlist,
+  user
+}) => {
+  return appClient.post("/admin/registrations", {
+    camper,
+    camp,
+    morningDropoff,
+    afternoonPickup,
+    deposit,
+    paid,
+    waitlist,
+    user
+  });
+};
+
+const adminUpdateRegistration = (
+  registrationId,
+  { campId, morningDropoff, afternoonPickup, waitlist, deposit, paid }
+) => {
+  return appClient.patch(`/admin/registrations/${registrationId}`, {
+    campId,
+    morningDropoff,
+    afternoonPickup,
+    waitlist,
+    deposit,
+    paid
+  });
+};
+
 const adminDeleteRegistration = registrationId => {
   return appClient.delete(`/admin/registrations/${registrationId}`);
 };
 
-const addPayment = (userId, data) => {
-  return appClient.post(`/${userId}/payments`, data);
+const adminGetPayments = () => {
+  return appClient.get("/admin/payments");
 };
 
-const getPayment = paypalId => {
-  return appClient.get(`/payments/${paypalId}`);
+const adminGetPayment = paymentId => {
+  return appClient.get(`/admin/payments/${paymentId}`);
 };
 
-const getAllPayments = () => {
-  return appClient.get("/payments");
+const adminDeletePayment = paymentId => {
+  return appClient.delete(`/admin/payment/${paymentId}`);
 };
 
-const executePayment = (userId, paymentId, payerId) => {
-  return appClient.get(
-    `/${userId}/payments/execute?paymentId=${paymentId}&payerId=${payerId}`
-  );
-};
-
-const deletePayment = paypalId => {
-  return appClient.delete(`/payments/${paypalId}`);
-};
-
-const sendEmail = data => {
-  return appClient.post("/admin/email", data);
-};
-
-const forgotPassword = data => {
-  return appClient.post("/password_reset", data);
-};
-
-const resetPassword = data => {
-  return appClient.post("/redeem_password_reset_token", data);
-};
-
-const cancelRequest = () => {
-  source.cancel("Operation cancelled by the user.");
+const adminSendEmail = ({ from, to, cc, bcc, subject, text }) => {
+  return appClient.post("/admin/email", { from, to, cc, bcc, subject, text });
 };
 
 export default {
-  currentUser,
-  getUser,
-  getUsers,
-  getAdminUser,
+  // Auth
   login,
   logout,
+  currentUser,
+  passwordReset,
+  redeemPasswordResetToken,
+
+  // Users
+  getUser,
   createUser,
-  getCamper,
-  getCampers,
-  getAllCampers,
-  updateCamper,
-  updateManyCampers,
-  deleteCamper,
-  adminDeleteCamper,
-  getContacts,
   updateUser,
-  addCamper,
+
+  // Campers
+  getCampers,
+  getCamper,
+  createCamper,
+  updateCamper,
+  deleteCamper,
+
+  // Camps
   getCamps,
   getCamp,
-  newCamp,
-  updateCamp,
-  deleteCamp,
-  moveFromWaitlist,
-  cancelRequest,
-  createRegistration,
-  getUserRegistrations,
+
+  // Registrations
   getRegistrations,
   getRegistration,
-  updateRegistration,
+  createRegistration,
   deleteRegistration,
-  adminDeleteRegistration,
-  addPayment,
-  getPayment,
-  getAllPayments,
+
+  // Payments
   executePayment,
+  getPayments,
+  getPayment,
+  createPayment,
   deletePayment,
-  sendEmail,
-  forgotPassword,
-  resetPassword
+
+  // Admin - Users
+  adminGetUsers,
+  adminGetUser,
+  adminUpdateUser,
+
+  // Admin - Campers,
+  adminGetCampers,
+  adminGetCamper,
+  adminCreateCamper,
+  adminUpdateCamper,
+  adminUpdateCamperBulk,
+  adminDeleteCamper,
+
+  // Admin - Camps,
+  adminGetCamps,
+  adminGetCamp,
+  adminCreateCamp,
+  adminUpdateCamp,
+  adminDeleteCamp,
+  adminCampReportMonday,
+  adminCampReportSwimming,
+  adminCampReportContact,
+
+  // Admin - Registrations,
+  adminGetRegistrations,
+  adminGetRegistration,
+  adminCreateRegistration,
+  adminUpdateRegistration,
+  adminDeleteRegistration,
+
+  // Admin - Payments
+  adminGetPayments,
+  adminGetPayment,
+  adminDeletePayment,
+
+  // Admin - Misc.
+  adminSendEmail
 };

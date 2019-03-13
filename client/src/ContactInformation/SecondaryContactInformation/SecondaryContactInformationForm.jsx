@@ -6,10 +6,10 @@ import PhoneInput from "../../forms/PhoneInput";
 class SecondaryContactInformationForm extends Component {
   state = {
     formValues: {
-      firstName: this.props.data.firstName || "",
-      lastName: this.props.data.lastName || "",
-      phoneNumber: this.props.data.phoneNumber || "",
-      email: this.props.data.email || ""
+      firstName: this.props.firstName || "",
+      lastName: this.props.lastName || "",
+      phoneNumber: this.props.phoneNumber || "",
+      email: this.props.email || ""
     },
     errors: {},
     wasValidated: false
@@ -107,7 +107,7 @@ class SecondaryContactInformationForm extends Component {
             type="input"
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
-            error={this.state.errors.firstName}
+            error={this.state.errors.email}
             value={this.state.formValues["email"]}
           />
           <div className="form-group">

@@ -6,9 +6,9 @@ import PhoneInput from "../../forms/PhoneInput";
 class EmergencyContactInformationForm extends Component {
   state = {
     formValues: {
-      firstName: this.props.data.firstName || "",
-      lastName: this.props.data.lastName || "",
-      phoneNumber: this.props.data.phoneNumber || ""
+      firstName: this.props.firstName || "",
+      lastName: this.props.lastName || "",
+      phoneNumber: this.props.phoneNumber || ""
     },
     errors: {},
     wasValidated: false

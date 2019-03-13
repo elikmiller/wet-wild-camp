@@ -19,7 +19,7 @@ class SignUp extends Component {
       .catch(error => {
         this.setState({
           isLoading: false,
-          error: error.response.data
+          error
         });
       });
   };

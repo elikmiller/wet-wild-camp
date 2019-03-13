@@ -14,32 +14,18 @@ class AdminRosterList extends Component {
   };
 
   componentDidMount() {
-    this.refreshCampers();
+    this.getCampers();
   }
 
-  refreshCampers = () => {
+  getCampers = () => {
     this.setState({
       isLoading: true
     });
-    appClient
-      .getAllCampers()
-      .then(campers => {
-        this.setState({
-          campers: campers.data,
-          isLoading: false
-        });
-      })
-      .catch(err => {
-        this.setState({
-          isLoading: false
-        });
+    appClient.adminGetCampers().then(campers => {
+      this.setState({
+        campers,
+        isLoading: false
       });
-  };
-
-  handleQueryChange = e => {
-    e.preventDefault();
-    this.setState({
-      query: e.target.value
     });
   };
 
