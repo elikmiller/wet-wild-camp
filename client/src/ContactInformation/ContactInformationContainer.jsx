@@ -26,9 +26,9 @@ class ContactInformationContainer extends Component {
     appClient.getUser().then(user => {
       this.setState({
         user,
-        primaryContact: user.primaryContact,
-        secondaryContact: user.secondaryContact,
-        emergencyContact: user.emergencyContact,
+        primaryContact: user.primaryContact || {},
+        secondaryContact: user.secondaryContact || {},
+        emergencyContact: user.emergencyContact || {},
         isLoading: false
       });
     });
