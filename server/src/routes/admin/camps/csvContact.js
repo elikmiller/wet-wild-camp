@@ -33,9 +33,8 @@ module.exports = async (req, res, next) => {
     ];
     const csv = json2csv(reportData, { fields });
     const date = moment().format("MM/DD/YYYY");
-    const filename = _.snakeCase(
-      `${camp.name}_${camp.type}_${date}_contact_report.csv`
-    );
+    const filename =
+      _.snakeCase(`${camp.name}_${camp.type}_${date}_contact_report`) + ".csv";
     res.set({
       "Content-Disposition": `attachment; filename=${filename}`,
       "Content-Type": "text/csv"
