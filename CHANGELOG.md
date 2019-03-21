@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Fixed a bug causing malformed filenames when downloading .csv reports.
+
 ## [1.0.5] - 2019-03-18
 
 ### Added
