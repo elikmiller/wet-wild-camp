@@ -13,7 +13,13 @@ const Register = props => {
           path={`${props.match.path}/success`}
           render={props => <CampRegisterResult {...props} status={"success"} />}
         />
-
+        <Route
+          exact
+          path={`${props.match.path}/waitlist`}
+          render={props => (
+            <CampRegisterResult {...props} status={"waitlist"} />
+          )}
+        />
         <Route exact path={`${props.match.path}/:type`} component={CampList} />
         <Route exact path={props.match.path} component={Schedule} />
       </Switch>
