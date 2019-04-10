@@ -1,12 +1,17 @@
 # Changelog
 
-## [1.0.6] - 2019-04-09
+## [1.0.7] - 2019-04-09
+
+### Changed
+
+- Waitlist status now displays upon registering for a waitlisted camp.
+- Payment is no longer possible for waitlisted sessions.
+
+## [1.0.6] - 2019-03-21
 
 ### Changed
 
 - Fixed a bug causing malformed filenames when downloading .csv reports.
-- Waitlist status now displays upon registering for a waitlisted camp.
-- Payment is no longer possible for waitlisted sessions.
 
 ## [1.0.5] - 2019-03-18
 
