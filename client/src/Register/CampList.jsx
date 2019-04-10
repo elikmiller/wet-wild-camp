@@ -68,7 +68,14 @@ class CampList extends Component {
         afternoonPickup
       })
       .then(() => {
-        this.props.history.push("/register/success");
+        if (
+          this.state.selectedCamp.registrations.length >=
+          this.state.selectedCamp.capacity
+        ) {
+          this.props.history.push("/register/waitlist");
+        } else {
+          this.props.history.push("/register/success");
+        }
       })
       .catch(err => {
         this.setState({

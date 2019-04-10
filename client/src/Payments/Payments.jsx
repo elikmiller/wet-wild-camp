@@ -134,7 +134,7 @@ class Payments extends Component {
       return (
         <tr key={i}>
           <td>
-            {!reg.deposit && (
+            {!reg.waitlist && !reg.deposit && (
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -145,18 +145,25 @@ class Payments extends Component {
                 />
               </div>
             )}
-            {reg.deposit && <span className="badge badge-success">Paid</span>}
+            {reg.deposit && !reg.waitlist && (
+              <span className="badge badge-success">Paid</span>
+            )}
+            {reg.waitlist && (
+              <span className="badge badge-warning">Waitlisted</span>
+            )}
           </td>
           <td>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                name="full"
-                onChange={this.handleChange}
-                value={JSON.stringify(reg)}
-              />
-            </div>
+            {!reg.waitlist && (
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  name="full"
+                  onChange={this.handleChange}
+                  value={JSON.stringify(reg)}
+                />
+              </div>
+            )}
           </td>
           <td>{reg.camp.name}</td>
           <td>{_.capitalize(reg.camp.type)}</td>
