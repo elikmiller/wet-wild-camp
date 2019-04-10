@@ -30,6 +30,30 @@ const CampRegisterResult = props => {
         </p>
       </div>
     );
+  if (props.status === "waitlist")
+    return (
+      <div className="alert alert-warning">
+        <h4>
+          Your child has been successfully added to this session's waitlist.
+        </h4>
+        <hr />
+        <p>You will be contacted once a spot becomes available.</p>
+        <p>
+          To see an overview of all weeks registered, click{" "}
+          <Link to="/overview" className="alert-link">
+            Overview
+          </Link>
+          .
+        </p>
+        <p className="mb-0">
+          To register an additional child or additional week, click{" "}
+          <Link to="/register" className="alert-link">
+            Register
+          </Link>
+          .
+        </p>
+      </div>
+    );
   if (props.status === "cancelled")
     return (
       <div className="alert alert-info">

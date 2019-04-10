@@ -1,6 +1,11 @@
 # Changelog
 
-<!-- ## [Unreleased] -->
+## [1.0.7] - 2019-04-09
+
+### Changed
+
+- Waitlist status now displays upon registering for a waitlisted camp.
+- Payment is no longer possible for waitlisted sessions.
 
 ## [1.0.6] - 2019-03-21
 
