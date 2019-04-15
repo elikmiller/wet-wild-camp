@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.8] - 2019-04-14
+
+### Changed
+
+- Fixed issue with waitlists not properly updating upon payment.
+
 ## [1.0.7] - 2019-04-09
 
 ### Changed
