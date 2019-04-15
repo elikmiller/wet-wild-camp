@@ -126,6 +126,7 @@ class Payments extends Component {
   };
 
   render() {
+    let { errors } = this.state;
     // Generates the list of registrations with checkboxes
     let content = this.state.registrations.map((reg, i) => {
       let total = reg.camp.fee;
@@ -178,7 +179,7 @@ class Payments extends Component {
     });
     return (
       <div className="wrapper payments-wrapper spinner-wrapper">
-        {this.state.errors && <ServerError />}
+        {errors && errors.statusCode === 500 && <ServerError />}
         {this.state.isLoading && <Spinner />}
         <div className="alert alert-dark" role="alert">
           <p>
@@ -216,6 +217,17 @@ class Payments extends Component {
             <tbody>{content}</tbody>
           </table>
         </div>
+        {errors && errors.statusCode === 400 && (
+          <div className="alert alert-danger" role="alert">
+            <h4 className="alert-heading">Waitlisted</h4>
+            <p>{`${errors.message}`}</p>
+            <hr />
+            <p>
+              You are currently on the waitlist and will be notified when a spot
+              becomes available.
+            </p>
+          </div>
+        )}
         <div className="card">
           <div className="card-body">
             <h4 className="card-title">Total:</h4>
