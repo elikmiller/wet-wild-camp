@@ -1,4 +1,4 @@
-const { User, Payment, Registration } = require("../../models");
+const { User, Payment, Registration, Camp } = require("../../models");
 const PaypalService = require("../../PaypalService");
 const Boom = require("boom");
 
@@ -7,6 +7,26 @@ module.exports = async (req, res, next) => {
     let registrationArray = await Registration.find({
       _id: req.body.fullPayments
     }).populate("camp");
+    let depositRegistrations = await Registration.find({
+      _id: req.body.deposits
+    }).populate("camp");
+    let appendedArray = registrationArray.concat(depositRegistrations);
+
+    let errors = [];
+    for (const registration of appendedArray) {
+      let camp = await Camp.findOne({ _id: registration.camp._id }).populate({
+        path: "registrations",
+        select: "deposit paid"
+      });
+      let savedRegistrations = camp.registrations.filter(reg => {
+        return reg.deposit;
+      });
+      if (savedRegistrations.length >= camp.capacity && !registration.deposit) {
+        errors.push(`${camp.fullName} is full.`);
+      }
+    }
+
+    if (errors.length) return next(Boom.badRequest(errors[0]));
 
     let total = 0;
     let earlyBirdCutoff = new Date("2019-05-01");
