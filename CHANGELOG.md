@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Sorting tables are now case insensitive
+- Admin registrations now sortable by creation date instead of camp start date
+
+### Added
+
+- Waitlisted flag for registrations on Admin registration page
+
+### Removed
+
 ## [1.0.8] - 2019-04-14
 
 ### Changed
