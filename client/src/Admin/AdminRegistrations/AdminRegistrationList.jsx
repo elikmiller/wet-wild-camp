@@ -60,11 +60,9 @@ class AdminRegistrationList extends Component {
               displayFunc: item => item.camper && item.camper.fullName
             },
             {
-              key: "camp.startDate",
-              name: "Start Date",
-              displayFunc: item =>
-                item.camp &&
-                moment.utc(item.camp.startDate).format("MM/DD/YYYY")
+              key: "created",
+              name: "Created",
+              displayFunc: item => moment.utc(item.created).format("MM/DD/YYYY")
             },
             {
               key: "paid",
@@ -78,8 +76,11 @@ class AdminRegistrationList extends Component {
                     {item.deposit && !item.paid && (
                       <span className="badge badge-warning">Deposit Paid</span>
                     )}
-                    {!item.paid && !item.deposit && (
+                    {!item.paid && !item.deposit && !item.waitlist && (
                       <span className="badge badge-danger">Unpaid</span>
+                    )}
+                    {!item.paid && !item.deposit && item.waitlist && (
+                      <span className="badge badge-secondary">Waitlisted</span>
                     )}
                   </div>
                 );

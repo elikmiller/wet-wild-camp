@@ -6,11 +6,19 @@ import { Link } from "react-router-dom";
 class AdminRoster extends Component {
   render() {
     let registrations = this.props.camp.registrations || [];
-    registrations = registrations.filter(
-      registration => registration.deposit || registration.paid
-    );
+    registrations = registrations.filter(registration => {
+      if (this.props.type === "roster")
+        return registration.deposit || registration.paid;
+      else if (this.props.type === "waitlist") return registration.waitlist;
+    });
     return (
       <div className="admin-roster">
+        <div className="row">
+          <h4 className="col-6">
+            {this.props.type === "roster" ? "Roster" : "Waitlist"}
+          </h4>
+          <p className="col-6 text-right">Total: {registrations.length}</p>
+        </div>
         <SearchTable
           items={registrations}
           searchKeys={[
@@ -19,7 +27,9 @@ class AdminRoster extends Component {
             "user.primaryContact.firstName",
             "user.primaryContact.lastName"
           ]}
-          queryPlaceholder="Search Roster"
+          queryPlaceholder={
+            this.props.type === "roster" ? "Search Roster" : "Search Waitlist"
+          }
           columns={[
             {
               key: "camper.firstName",

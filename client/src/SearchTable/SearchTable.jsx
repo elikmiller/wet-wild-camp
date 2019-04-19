@@ -70,9 +70,17 @@ class SearchList extends Component {
       : this.props.items;
 
     // Sort items according to sortKey and sortOrder
-    if (this.state.sortKey && this.state.sortOrder)
-      items = _.orderBy(items, this.state.sortKey, this.state.sortOrder);
-
+    if (this.state.sortKey && this.state.sortOrder) {
+      if (typeof this.props.items[0][this.state.sortKey] === "string") {
+        items = _.orderBy(
+          items,
+          [item => _.get(item, this.state.sortKey).toLowerCase()],
+          this.state.sortOrder
+        );
+      } else {
+        items = _.orderBy(items, this.state.sortKey, this.state.sortOrder);
+      }
+    }
     return (
       <div className="search-table">
         <div className="row">
