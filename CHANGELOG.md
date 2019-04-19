@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [1.0.9] - 2019-04-18
 
 ### Changed
 
@@ -10,8 +10,9 @@
 ### Added
 
 - Waitlisted flag for registrations on Admin registration page
-
-### Removed
+- Delete functionality to admin User page
+- Waitlists to admin rosters
+- Total numbers to the top of admin rosters
 
 ## [1.0.8] - 2019-04-14
 
