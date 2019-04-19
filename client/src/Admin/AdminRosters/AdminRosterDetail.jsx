@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import Spinner from "../../Spinner/Spinner";
 import AdminRoster from "./AdminRoster";
+import AdminWaitlist from "./AdminWaitlist";
 import { Link } from "react-router-dom";
 import {
   UncontrolledDropdown,
@@ -101,7 +102,12 @@ class AdminRosterDetail extends Component {
           </div>
           <div className="card-body">
             <div className="mb-3">
-              <AdminRoster camp={this.state.camp} />
+              <AdminRoster camp={this.state.camp} type="roster" />
+            </div>
+          </div>
+          <div className="card-body">
+            <div className="mb-3">
+              <AdminRoster camp={this.state.camp} type="waitlist" />
             </div>
           </div>
         </div>

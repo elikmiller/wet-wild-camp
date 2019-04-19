@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.0.9] - 2019-04-18
+
+### Changed
+
+- Sorting tables are now case insensitive
+- Admin registrations now sortable by creation date instead of camp start date
+
+### Added
+
+- Waitlisted flag for registrations on Admin registration page
+- Delete functionality to admin User page
+- Waitlists to admin rosters
+- Total numbers to the top of admin rosters
+
+## [1.0.8] - 2019-04-14
+
+### Changed
+
+- Fixed issue with waitlists not properly updating upon payment.
+
 ## [1.0.7] - 2019-04-09
 
 ### Changed

@@ -24,7 +24,8 @@ class AdminUserDetail extends Component {
       registrations: [],
       campers: [],
       payments: [],
-      camperAddOpen: false
+      camperAddOpen: false,
+      deleteUserOpen: false
     }
   };
 
@@ -94,6 +95,13 @@ class AdminUserDetail extends Component {
       });
   };
 
+  deleteUser = () => {
+    return appClient.adminDeleteUser(this.state.user._id).then(() => {
+      this.closeDeleteUser();
+      this.props.history.push("/admin/users");
+    });
+  };
+
   openAddCamper = () => {
     this.setState({
       camperAddOpen: true
@@ -103,6 +111,18 @@ class AdminUserDetail extends Component {
   closeAddCamper = () => {
     this.setState({
       camperAddOpen: false
+    });
+  };
+
+  openDeleteUser = () => {
+    this.setState({
+      deleteUserOpen: true
+    });
+  };
+
+  closeDeleteUser = () => {
+    this.setState({
+      deleteUserOpen: false
     });
   };
 
@@ -120,6 +140,9 @@ class AdminUserDetail extends Component {
                   <DropdownMenu right>
                     <DropdownItem onClick={this.openAddCamper}>
                       Add Camper
+                    </DropdownItem>
+                    <DropdownItem onClick={this.openDeleteUser}>
+                      Delete User
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -227,6 +250,24 @@ class AdminUserDetail extends Component {
               onSubmit={this.createCamper}
               closeForm={this.closeAddCamper}
             />
+          </ModalBody>
+        </Modal>
+        <Modal isOpen={this.state.deleteUserOpen} toggle={this.closeDeleteUser}>
+          <ModalHeader toggle={this.closeDeleteUser}>Delete User</ModalHeader>
+          <ModalBody>
+            <p className="mt-2 mb-4">
+              Are you sure you want to delete this user? This will also delete
+              all associated registration, camper, and payment data.
+            </p>
+            <button
+              className="btn btn-outline-secondary mr-3"
+              onClick={this.closeDeleteUser}
+            >
+              Cancel
+            </button>
+            <button className="btn btn-danger" onClick={this.deleteUser}>
+              Delete User
+            </button>
           </ModalBody>
         </Modal>
       </div>
