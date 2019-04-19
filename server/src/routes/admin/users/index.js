@@ -21,4 +21,11 @@ router.get("/:userId", require("./getUser"));
  */
 router.patch("/:userId", require("./updateUser"));
 
+/**
+ * @api {delete} /users Delete User
+ * @apiDescription Delete User
+ * @apiGroup User
+ */
+router.delete("/:userId", require("./deleteUser"));
+
 module.exports = router;

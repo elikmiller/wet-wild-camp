@@ -203,6 +203,10 @@ const adminUpdateUser = (
   });
 };
 
+const adminDeleteUser = userId => {
+  return appClient.delete(`/admin/users/${userId}`);
+};
+
 //
 // Admin - Campers
 //
@@ -438,6 +442,7 @@ export default {
   adminGetUsers,
   adminGetUser,
   adminUpdateUser,
+  adminDeleteUser,
 
   // Admin - Campers,
   adminGetCampers,
