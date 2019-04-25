@@ -20,8 +20,8 @@ class SearchList extends Component {
     super(props);
     this.state = {
       query: "",
-      sortKey: null,
-      sortOrder: null
+      sortKey: this.props.default ? this.props.default.sortKey : null,
+      sortOrder: this.props.default ? this.props.default.sortOrder : null
     };
     this.fuse = new Fuse(props.items, {
       tokenize: true,
@@ -38,6 +38,15 @@ class SearchList extends Component {
     if (this.props.items !== prevProps.items) {
       this.fuse.setCollection(this.props.items);
       this.forceUpdate();
+    }
+    if (
+      this.state.sortKey === null &&
+      this.props.default !== prevProps.default
+    ) {
+      this.setState({
+        sortKey: this.props.default.sortKey,
+        sortOrder: this.props.default.sortOrder
+      });
     }
   }
 
