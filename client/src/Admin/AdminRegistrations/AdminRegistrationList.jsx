@@ -8,7 +8,11 @@ import moment from "moment";
 class AdminRegistrationList extends Component {
   state = {
     registrations: [],
-    isLoading: false
+    isLoading: false,
+    default: {
+      sortKey: null,
+      sortOrder: null
+    }
   };
 
   componentDidMount() {
@@ -22,7 +26,11 @@ class AdminRegistrationList extends Component {
     appClient.adminGetRegistrations().then(registrations => {
       this.setState({
         registrations,
-        isLoading: false
+        isLoading: false,
+        default: {
+          sortKey: "user.firstName",
+          sortOrder: "asc"
+        }
       });
     });
   };
@@ -42,6 +50,7 @@ class AdminRegistrationList extends Component {
             "camp.fullName"
           ]}
           queryPlaceholder="Search Registrations"
+          default={this.state.default}
           columns={[
             {
               key: "user.lastName",

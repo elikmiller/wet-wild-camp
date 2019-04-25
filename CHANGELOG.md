@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Default sort order option for search tables
+
 ## [1.0.9] - 2019-04-18
 
 ### Changed
