@@ -5,6 +5,7 @@
 ### Added
 
 - Default sort order option for search tables
+- Delete Registration button on user overview is now functional
 
 ## [1.0.9] - 2019-04-18
 
