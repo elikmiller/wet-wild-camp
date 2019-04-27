@@ -15,6 +15,13 @@ router.get("/", require("./getPayments"));
 router.get("/:paymentId", require("./getPayment"));
 
 /**
+ * @api {patch} /camps Update Payment
+ * @apiDescription Update existing Payment
+ * @apiGroup Payments
+ */
+router.patch("/:paymentId", require("./updatePayment"));
+
+/**
  * @api {delete} /camps Delete Payment
  * @apiDescription Delete existing Payment
  * @apiGroup Payments
