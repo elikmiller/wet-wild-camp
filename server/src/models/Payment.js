@@ -19,6 +19,9 @@ const PaymentSchema = new Schema({
     type: Boolean,
     default: false
   },
+  notes: {
+    type: String
+  },
   user: {
     type: ObjectId,
     ref: "User"
