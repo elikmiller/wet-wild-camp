@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import appClient from "../appClient";
 import RegistrationTable from "./RegistrationTable";
 import Spinner from "../Spinner/Spinner";
@@ -14,7 +15,8 @@ class OverviewContainer extends Component {
       registrations: [],
       payments: []
     },
-    registrations: []
+    registrations: [],
+    warning: false
   };
 
   componentDidMount() {
@@ -57,8 +59,13 @@ class OverviewContainer extends Component {
 
   getRegistrations = () => {
     appClient.getRegistrations().then(registrations => {
+      let warning = false;
+      registrations.forEach(reg => {
+        if (!reg.waitlist && !reg.paid) warning = true;
+      });
       this.setState({
-        registrations
+        registrations,
+        warning
       });
     });
   };
@@ -126,6 +133,16 @@ class OverviewContainer extends Component {
             To cancel a paid registration, please contact us directly.
           </p>
         </div>
+        {this.state.warning && (
+          <div className="alert alert-danger" role="alert">
+            <p>You currently have unpaid registrations.</p>
+            <hr />
+            <p className="mb-0">
+              Please visit the <Link to="/payments">Payments</Link> page to
+              finish paying and reserve your spot in the camp!
+            </p>
+          </div>
+        )}
         <RegistrationTable
           registrations={this.state.registrations}
           deleteRegistration={this.deleteRegistration}

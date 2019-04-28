@@ -9,13 +9,17 @@ class AdminRoster extends Component {
     registrations = registrations.filter(registration => {
       if (this.props.type === "roster")
         return registration.deposit || registration.paid;
+      else if (this.props.type === "unpaid")
+        return !registration.paid && !registration.waitlist;
       else return registration.waitlist;
     });
     return (
       <div className="admin-roster">
         <div className="row">
           <h4 className="col-6">
-            {this.props.type === "roster" ? "Roster" : "Waitlist"}
+            {this.props.type === "roster" && "Roster"}
+            {this.props.type === "waitlist" && "Waitlist"}
+            {this.props.type === "unpaid" && "Unpaid Registrations"}
           </h4>
           <p className="col-6 text-right">Total: {registrations.length}</p>
         </div>
