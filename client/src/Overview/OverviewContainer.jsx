@@ -49,6 +49,12 @@ class OverviewContainer extends Component {
       });
   };
 
+  deleteRegistration = e => {
+    appClient.deleteRegistration(e.target.value).then(() => {
+      this.getRegistrations();
+    });
+  };
+
   getRegistrations = () => {
     appClient.getRegistrations().then(registrations => {
       this.setState({
@@ -120,7 +126,10 @@ class OverviewContainer extends Component {
             To cancel a paid registration, please contact us directly.
           </p>
         </div>
-        <RegistrationTable registrations={this.state.registrations} />
+        <RegistrationTable
+          registrations={this.state.registrations}
+          deleteRegistration={this.deleteRegistration}
+        />
       </div>
     );
   }

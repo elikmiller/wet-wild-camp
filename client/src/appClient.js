@@ -393,6 +393,10 @@ const adminGetPayment = paymentId => {
   return appClient.get(`/admin/payments/${paymentId}`);
 };
 
+const adminUpdatePayment = (paymentId, notes) => {
+  return appClient.patch(`/admin/payments/${paymentId}`, notes);
+};
+
 const adminDeletePayment = paymentId => {
   return appClient.delete(`/admin/payment/${paymentId}`);
 };
@@ -472,6 +476,7 @@ export default {
   // Admin - Payments
   adminGetPayments,
   adminGetPayment,
+  adminUpdatePayment,
   adminDeletePayment,
 
   // Admin - Misc.

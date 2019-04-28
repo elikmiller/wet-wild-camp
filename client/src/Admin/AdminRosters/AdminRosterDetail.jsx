@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import Spinner from "../../Spinner/Spinner";
 import AdminRoster from "./AdminRoster";
-import AdminWaitlist from "./AdminWaitlist";
 import { Link } from "react-router-dom";
 import {
   UncontrolledDropdown,

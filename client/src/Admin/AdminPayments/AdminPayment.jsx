@@ -7,6 +7,7 @@ const AdminPayment = props => {
   let paypalId = props.paypalId;
   let created = moment(props.created).format("MM/DD/YYYY hh:mm:ss A");
   let paypal = props.paypal;
+  let notes = props.notes;
   let paymentId = _.get(
     paypal,
     "transactions[0].related_resources[0].sale.id",
@@ -17,6 +18,7 @@ const AdminPayment = props => {
       <div>Amount: {amount}</div>
       <div>PayPal ID: {paypalId}</div>
       <div>Created: {created}</div>
+      {notes !== "" && <div>Notes: {notes}</div>}
       {paymentId && (
         <a
           href={`https://paypal.com/activity/payment/${paymentId}`}

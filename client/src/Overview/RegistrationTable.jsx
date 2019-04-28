@@ -27,8 +27,8 @@ class RegistrationTable extends Component {
               <button
                 type="button"
                 className="btn btn-outline-danger btn-sm"
-                value={i}
-                onClick={this.deleteRegistration}
+                value={reg._id}
+                onClick={this.props.deleteRegistration}
               >
                 <i className="fas fa-times" /> Cancel
               </button>
@@ -38,7 +38,6 @@ class RegistrationTable extends Component {
                 <button
                   type="button"
                   className="btn btn-outline-warning btn-sm"
-                  onClick={e => e.preventDefault()}
                   disabled
                 >
                   <i className="fas fa-hourglass-half" /> Deposit Only
@@ -46,12 +45,7 @@ class RegistrationTable extends Component {
               </Link>
             )}
             {reg.paid && (
-              <button
-                type="button"
-                className="btn btn-success btn-sm"
-                onClick={e => e.preventDefault()}
-                disabled
-              >
+              <button type="button" className="btn btn-success btn-sm" disabled>
                 <i className="fas fa-check" /> Paid in Full
               </button>
             )}

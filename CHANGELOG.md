@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.10] - 2019-04-28
+
+### Changed
+
+- Delete Registration button on user overview is now functional
+
+### Added
+
+- Default sort order option for search tables
+- Notes field on admin payment screen
+
 ## [1.0.9] - 2019-04-18
 
 ### Changed

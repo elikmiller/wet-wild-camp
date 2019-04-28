@@ -6,6 +6,7 @@ import AdminPayment from "./AdminPayment";
 class AdminPaymentDetail extends Component {
   state = {
     isLoading: false,
+    formOpen: false,
     payment: {}
   };
 
@@ -31,6 +32,24 @@ class AdminPaymentDetail extends Component {
       });
   };
 
+  updatePayment = e => {
+    e.preventDefault();
+    appClient
+      .adminUpdatePayment(this.state.payment._id, {
+        notes: this.refs.notes.value
+      })
+      .then(() => {
+        this.toggleForm();
+        this.getPayment();
+      });
+  };
+
+  toggleForm = () => {
+    this.setState({
+      formOpen: !this.state.formOpen
+    });
+  };
+
   render() {
     const { payment } = this.state;
     return (
@@ -51,8 +70,27 @@ class AdminPaymentDetail extends Component {
                 created={payment.timeCreated}
                 paypalId={payment.paypalId}
                 paypal={payment.paypal}
+                notes={payment.notes || ""}
               />
             </div>
+            {this.state.formOpen && (
+              <form className="w-50" onSubmit={this.updatePayment}>
+                <textarea
+                  className="form-control mb-1"
+                  defaultValue={payment.notes || ""}
+                  name="notes"
+                  ref="notes"
+                />
+                <button className="btn btn-primary" type="submit">
+                  Update Notes
+                </button>
+              </form>
+            )}
+            {!this.state.formOpen && (
+              <button className="btn btn-secondary" onClick={this.toggleForm}>
+                Edit Notes
+              </button>
+            )}
           </div>
         </div>
       </div>
