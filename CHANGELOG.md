@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.11] - 2019-04-28
+
+### Added
+
+- Warning about unpaid registrations on user overview page
+- List of unpaid registrations on admin rosters
+
 ## [1.0.10] - 2019-04-28
 
 ### Changed
