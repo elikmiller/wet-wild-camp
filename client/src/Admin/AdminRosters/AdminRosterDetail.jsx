@@ -109,6 +109,11 @@ class AdminRosterDetail extends Component {
               <AdminRoster camp={this.state.camp} type="waitlist" />
             </div>
           </div>
+          <div className="card-body">
+            <div className="mb-3">
+              <AdminRoster camp={this.state.camp} type="unpaid" />
+            </div>
+          </div>
         </div>
       </div>
     );
