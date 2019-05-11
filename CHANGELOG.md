@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased
+## [Unreleased]
+
+### Added
+
+- Payment Status field to Monday morning csv export
+
+## [1.0.11] - 2019-04-28
 
 ### Added
 
