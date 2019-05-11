@@ -77,8 +77,7 @@ module.exports = async (req, res, next) => {
 
       let html = `
         <p>Dear ${user.firstName},</p>
-        <p>We have received your registration for your child(ren), for the camp(s) listed below.</p>
-        <p>We have also received your payment(s) of $${total}.</p>
+        <p>We have received your payment of $${total} for your child(ren) for the camps listed below:</p>
         <p>
           <table>
             <tr>
