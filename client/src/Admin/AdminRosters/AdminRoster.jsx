@@ -11,7 +11,9 @@ class AdminRoster extends Component {
       if (this.props.type === "roster")
         return registration.deposit || registration.paid;
       else if (this.props.type === "unpaid")
-        return !registration.paid && !registration.waitlist;
+        return (
+          !registration.paid && !registration.deposit && !registration.waitlist
+        );
       else return registration.waitlist;
     });
     return (
