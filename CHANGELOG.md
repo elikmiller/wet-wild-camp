@@ -5,6 +5,7 @@
 ### Added
 
 - Payment Status field to Monday morning csv export
+- Popover note info on roster pages
 
 ## [1.0.11] - 2019-04-28
 
