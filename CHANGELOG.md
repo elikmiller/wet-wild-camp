@@ -7,6 +7,10 @@
 - Payment Status field to Monday morning csv export
 - Popover note info on roster pages
 
+### Changed
+
+- Changed text for payment confirmation email
+
 ## [1.0.11] - 2019-04-28
 
 ### Added
