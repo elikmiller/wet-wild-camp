@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import SearchTable from "../../SearchTable/SearchTable";
+import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
 import { Link } from "react-router-dom";
 
 class AdminRoster extends Component {
@@ -97,6 +98,17 @@ class AdminRoster extends Component {
               displayFunc: item => (
                 <Link to={`/admin/users/${item.user._id}`}>View User</Link>
               )
+            },
+            {
+              key: "",
+              name: "",
+              displayFunc: item => (
+                <NotesPopover
+                  notes={item.camper.notes || ""}
+                  id={item.id}
+                  name={`${item.camper.firstName} ${item.camper.lastName}`}
+                />
+              )
             }
           ]}
         />
@@ -106,3 +118,42 @@ class AdminRoster extends Component {
 }
 
 export default AdminRoster;
+
+class NotesPopover extends Component {
+  state = {
+    popoverOpen: false
+  };
+
+  togglePopover = () => {
+    this.setState({
+      popoverOpen: !this.state.popoverOpen
+    });
+  };
+
+  render() {
+    if (this.props.notes === "") return <span>----</span>;
+    else
+      return (
+        <div>
+          <Button
+            id={`popover${this.props.id}`}
+            style={{ padding: "0px 7px", margin: "0px" }}
+            type="button"
+          >
+            <i className="far fa-clipboard fa-xs" />
+          </Button>
+          <Popover
+            placement="bottom"
+            isOpen={this.state.popoverOpen}
+            target={`popover${this.props.id}`}
+            trigger="focus"
+            toggle={this.togglePopover}
+            flip={false}
+          >
+            <PopoverHeader>{this.props.name}</PopoverHeader>
+            <PopoverBody>{this.props.notes}</PopoverBody>
+          </Popover>
+        </div>
+      );
+  }
+}
