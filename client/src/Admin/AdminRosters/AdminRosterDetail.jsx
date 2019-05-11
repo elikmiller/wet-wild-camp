@@ -40,8 +40,11 @@ class AdminRosterDetail extends Component {
   };
 
   render() {
-    let emailAddresses = (this.state.camp.registrations || [])
+    let rosterEmails = (this.state.camp.registrations || [])
       .filter(registration => registration.paid || registration.deposit)
+      .map(registration => registration.user.email);
+    let depositEmails = (this.state.camp.registrations || [])
+      .filter(registration => !registration.paid && registration.deposit)
       .map(registration => registration.user.email);
     return (
       <div className="admin-roster-detail">
@@ -85,8 +88,11 @@ class AdminRosterDetail extends Component {
                     >
                       Download Swimming Report
                     </DropdownItem>
-                    <CopyToClipboard text={emailAddresses.join("; ")}>
-                      <DropdownItem>Copy Email Addresses</DropdownItem>
+                    <CopyToClipboard text={rosterEmails.join("; ")}>
+                      <DropdownItem>Copy Roster Emails</DropdownItem>
+                    </CopyToClipboard>
+                    <CopyToClipboard text={rosterEmails.join("; ")}>
+                      <DropdownItem>Copy Deposit Emails</DropdownItem>
                     </CopyToClipboard>
                     <DropdownItem divider />
                     <Link to={`/admin/rosters/${this.state.camp._id}/swimming`}>
