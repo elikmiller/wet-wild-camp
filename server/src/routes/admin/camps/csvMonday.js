@@ -11,14 +11,21 @@ module.exports = async (req, res, next) => {
       camp: req.params.campId
     }).populate("camper");
 
-    const reportData = registrations;
+    let reportData = registrations.map(reg => {
+      if (reg.paid) reg.paymentInfo = "Paid in Full";
+      else if (reg.deposit) reg.paymentInfo = "Deposit Paid";
+      else reg.paymentInfo = "Unpaid";
+      return reg;
+    });
+
     const fields = [
       { label: "First Name", value: "camper.firstName" },
       { label: "Last Name", value: "camper.lastName" },
       { label: "Gender", value: "camper.gender" },
       { label: "Age", value: "camper.age" },
       { label: "Morning Dropoff", value: "morningDropoff" },
-      { label: "Afternoon Pickup", value: "afternoonPickup" }
+      { label: "Afternoon Pickup", value: "afternoonPickup" },
+      { label: "Payment Status", value: "paymentInfo" }
     ];
     const csv = json2csv(reportData, { fields });
     const date = moment().format("MM/DD/YYYY");

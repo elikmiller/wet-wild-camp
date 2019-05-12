@@ -74,6 +74,7 @@ class SearchList extends Component {
 
   render() {
     // Filter items array via fuse.js
+    let size = this.props.modal ? "col-xl-8 col-12" : "col-xl-3 col-12";
     let items = this.state.query
       ? this.fuse.search(this.state.query)
       : this.props.items;
@@ -93,7 +94,7 @@ class SearchList extends Component {
     return (
       <div className="search-table">
         <div className="row">
-          <div className="col-xl-3 col-12">
+          <div className={size}>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">

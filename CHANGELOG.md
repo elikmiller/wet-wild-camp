@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.12] - 2019-05-12
+
+### Added
+
+- Payment Status field to Monday morning csv export
+- Popover note info on roster pages
+- Copy deposit emails button on roster page
+- Bus Schedule Modal on Roster page
+
+### Changed
+
+- Changed text for payment confirmation email
+- Filtering for unpaid registrations
+
 ## [1.0.11] - 2019-04-28
 
 ### Added
