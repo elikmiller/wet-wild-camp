@@ -7,6 +7,7 @@
 - Payment Status field to Monday morning csv export
 - Popover note info on roster pages
 - Copy deposit emails button on roster page
+- Bus Schedule Modal on Roster page
 
 ### Changed
 
