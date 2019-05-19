@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Changed copy email address buttons on roster page to use primary contact email
+
+## [1.0.12] - 2019-05-12
+
 ### Added
 
 - Payment Status field to Monday morning csv export
