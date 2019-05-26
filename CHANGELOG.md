@@ -5,6 +5,7 @@
 ### Changed
 
 - Changed copy email address buttons on roster page to use primary contact email
+- Swim list edit page now sorts alphabetically by first name
 
 ## [1.0.12] - 2019-05-12
 
