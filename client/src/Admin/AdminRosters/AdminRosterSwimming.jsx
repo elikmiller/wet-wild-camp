@@ -18,9 +18,23 @@ class AdminRosterSwimming extends Component {
     return appClient
       .adminGetCamp(this.props.match.params.campId)
       .then(camp => {
+        let campersArr = camp.registrations.map(
+          registration => registration.camper
+        );
+        campersArr.sort((a, b) => {
+          let nameA = a.firstName.toLowerCase(),
+            nameB = b.firstName.toLowerCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        });
         this.setState({
           camp,
-          campers: camp.registrations.map(registration => registration.camper),
+          campers: campersArr,
           isLoading: false
         });
       })
