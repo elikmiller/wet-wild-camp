@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Sends email confirmation upon successful registration
+
 ### Changed
 
 - Changed copy email address buttons on roster page to use primary contact email
