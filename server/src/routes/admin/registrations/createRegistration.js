@@ -34,7 +34,6 @@ module.exports = async (req, res, next) => {
       user: req.body.user
     });
 
-    await registration.save();
     return res.send(registration);
   } catch (err) {
     console.error(err);

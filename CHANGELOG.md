@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.14] - 2019-05-26
+
+### Added
+
+- Sends email confirmation upon successful registration
+- Gender to swimming report CSV
+
+### Changed
+
+- Changed copy email address buttons on roster page to use primary contact email
+- Swim list edit page now sorts alphabetically by first name
+
+## [1.0.13] - 2019-05-19
+
+### Changed
+
+- Changed copy email address buttons on roster page to use primary contact email
+
 ## [1.0.12] - 2019-05-12
 
 ### Added

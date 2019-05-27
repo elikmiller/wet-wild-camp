@@ -102,7 +102,7 @@ module.exports = async (req, res, next) => {
         from: process.env.NO_REPLY_ADDRESS,
         to: user.email,
         bcc: "wetwildcamp@wetwildcamp.com",
-        subject: "Wet & Wild Adventure Camp: Registration Confirmation",
+        subject: "Wet & Wild Adventure Camp: Payment Confirmation",
         html
       });
     } else {

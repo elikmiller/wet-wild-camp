@@ -1,9 +1,11 @@
-const { Registration, Camp, Camper } = require("../../models");
+const { Registration, Camp, Camper, User } = require("../../models");
 const Boom = require("boom");
+const EmailService = require("../../EmailService");
 const moment = require("moment");
 
 module.exports = async (req, res, next) => {
   try {
+    let user = await User.findOne({ _id: req.session.userId });
     let camp = await Camp.findOne({ _id: req.body.camp });
     if (!camp) {
       return next(Boom.badRequest("This camp does not exist."));
@@ -63,6 +65,29 @@ module.exports = async (req, res, next) => {
       waitlist,
       created: Date.now(),
       user: req.session.userId
+    });
+
+    let html = `
+    <p>Dear ${user.firstName},</p>
+    <p>We have received your registration for your child for the camps listed below:</p>
+    <br/>
+    <p>${camp.name}: ${camp.type} -- ${camper.firstName} ${camper.lastName}</p>
+    <br/>
+    <p>Make sure to make your deposit to secure your registration!</p>
+    <p>
+    <p>You may review your registrations and payments any time by visiting <a href="${
+      process.env.CORS_URL
+    }">${process.env.CORS_URL}</a></p>
+    <p>We're looking forward to a great summer; so glad you'll be joining us.</p>
+    `;
+
+    await registration.save();
+    EmailService.sendHtml({
+      from: process.env.NO_REPLY_ADDRESS,
+      to: user.email,
+      bcc: "wetwildcamp@wetwildcamp.com",
+      subject: "Wet & Wild Adventure Camp: Registration Confirmation",
+      html
     });
 
     await registration.save();
