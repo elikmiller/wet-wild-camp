@@ -5,6 +5,7 @@
 ### Added
 
 - Sends email confirmation upon successful registration
+- Gender to swimming report CSV
 
 ### Changed
 

@@ -16,6 +16,7 @@ module.exports = async (req, res) => {
       { label: "First Name", value: "camper.firstName" },
       { label: "Last Name", value: "camper.lastName" },
       { label: "Age", value: "camper.age" },
+      { label: "Gender", value: "camper.gender" },
       { label: "Swimming Ability", value: "camper.swimmingStrength" }
     ];
     const csv = json2csv(reportData, { fields });
