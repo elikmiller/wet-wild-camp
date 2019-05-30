@@ -181,7 +181,8 @@ class AdminUserDetail extends Component {
                       {registration.camper.fullName}
                       {" - "}
                       {registration.camp.fullName}
-                    </Link>
+                      {registration.waitlist && " -- WAITLIST"}
+                    </Link> 
                   </li>
                 ))}
               </ul>

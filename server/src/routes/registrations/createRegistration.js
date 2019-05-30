@@ -67,26 +67,43 @@ module.exports = async (req, res, next) => {
       user: req.session.userId
     });
 
-    let html = `
+    let html = waitlist
+      ? `
+    <p>Dear ${user.firstName},</p>
+    <p>Your child has been added to the waitlist for the camps listed below:</p>
+    <br/>
+    <p>${camp.name}: ${camp.type} -- ${camper.firstName} ${camper.lastName}</p>
+    <br/>
+    <p>If a spot opens up, your child will be added to the camp and we will notify you.</p>
+    <br/>
+    <p>You may review your registrations and payments any time by visiting <a href="${
+      process.env.CORS_URL
+    }">${process.env.CORS_URL}</a></p>
+    `
+      : `
     <p>Dear ${user.firstName},</p>
     <p>We have received your registration for your child for the camps listed below:</p>
     <br/>
     <p>${camp.name}: ${camp.type} -- ${camper.firstName} ${camper.lastName}</p>
     <br/>
     <p>Make sure to make your deposit to secure your registration!</p>
-    <p>
+    <br/>
     <p>You may review your registrations and payments any time by visiting <a href="${
       process.env.CORS_URL
     }">${process.env.CORS_URL}</a></p>
     <p>We're looking forward to a great summer; so glad you'll be joining us.</p>
     `;
 
+    let subjectLine = waitlist
+      ? "Waitlist Confirmation"
+      : "Registration Confirmation";
+
     await registration.save();
     EmailService.sendHtml({
       from: process.env.NO_REPLY_ADDRESS,
       to: user.email,
       bcc: "wetwildcamp@wetwildcamp.com",
-      subject: "Wet & Wild Adventure Camp: Registration Confirmation",
+      subject: `Wet & Wild Adventure Camp: ${subjectLine}`,
       html
     });
 
