@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Waitlist flag on admin user detail
+- Separate email for waitlist confirmation
+
 ## [1.0.14] - 2019-05-26
 
 ### Added
