@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.0.15] - 2019-05-29
 
 ### Added
 
