@@ -53,10 +53,20 @@ class AdminRosterDetail extends Component {
   render() {
     let rosterEmails = (this.state.camp.registrations || [])
       .filter(registration => registration.paid || registration.deposit)
-      .map(registration => registration.user.primaryContact.email);
+      .map(
+        registration =>
+          registration.user.primaryContact.email ||
+          registration.user.email ||
+          ""
+      );
     let depositEmails = (this.state.camp.registrations || [])
       .filter(registration => !registration.paid && registration.deposit)
-      .map(registration => registration.user.primaryContact.email);
+      .map(
+        registration =>
+          registration.user.primaryContact.email ||
+          registration.user.email ||
+          ""
+      );
     return (
       <div className="admin-roster-detail">
         <div className="card spinner-wrapper">
