@@ -98,7 +98,6 @@ module.exports = async (req, res, next) => {
       ? "Waitlist Confirmation"
       : "Registration Confirmation";
 
-    await registration.save();
     EmailService.sendHtml({
       from: process.env.NO_REPLY_ADDRESS,
       to: user.email,
