@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import EditableAdminUserPrimaryContact from "./EditableAdminUserPrimaryContact";
 import EditableAdminUserSecondaryContact from "./EditableAdminUserSecondaryContact";
 import EditableAdminUserEmergencyContact from "./EditableAdminUserEmergencyContact";
+import PaymentListItem from "./PaymentListItem";
 import AdminUser from "./AdminUser";
-import moment from "moment";
 import {
   UncontrolledDropdown,
   DropdownToggle,
@@ -102,6 +102,16 @@ class AdminUserDetail extends Component {
     });
   };
 
+  updatePayment = (id, notes) => {
+    appClient
+      .adminUpdatePayment(id, {
+        notes: notes
+      })
+      .then(() => {
+        this.getUser();
+      });
+  };
+
   openAddCamper = () => {
     this.setState({
       camperAddOpen: true
@@ -182,7 +192,7 @@ class AdminUserDetail extends Component {
                       {" - "}
                       {registration.camp.fullName}
                       {registration.waitlist && " -- WAITLIST"}
-                    </Link> 
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -194,13 +204,10 @@ class AdminUserDetail extends Component {
                 {this.state.user.payments
                   .filter(payment => payment.executed)
                   .map(payment => (
-                    <li key={payment._id}>
-                      <Link to={`/admin/payments/${payment._id}`}>
-                        {moment(payment.timeCreated).format("MM/DD/YYYY")}
-                        {" - "}
-                        {payment.fullAmount}
-                      </Link>
-                    </li>
+                    <PaymentListItem
+                      payment={payment}
+                      updatePayment={this.updatePayment}
+                    />
                   ))}
               </ul>
             </div>

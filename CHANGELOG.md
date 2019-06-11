@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Form to edit payment notes from admin user screen
+
 ## [1.0.15] - 2019-05-29
 
 ### Added
