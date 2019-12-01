@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
       camp: req.params.campId
     }).populate(["user", "camper"]);
 
-    const reportData = registrations;
+    const reportData = registrations.filter(reg => !reg.waitlist);
     const fields = [
       { label: "Camper First Name", value: "camper.firstName" },
       { label: "Camper Last Name", value: "camper.lastName" },
