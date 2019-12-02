@@ -337,6 +337,10 @@ const adminCampReportContact = campId => {
   return appClient.get(`/admin/camps/${campId}/csv/report`);
 };
 
+const adminCampReportSpecialNeeds = campId => {
+  return appClient.get(`/admin/camps/${campId}/special-needs`);
+}
+
 const adminGetRegistrations = () => {
   return appClient.get("/admin/registrations");
 };
@@ -465,6 +469,7 @@ export default {
   adminCampReportMonday,
   adminCampReportSwimming,
   adminCampReportContact,
+  adminCampReportSpecialNeeds,
 
   // Admin - Registrations,
   adminGetRegistrations,
