@@ -11,12 +11,14 @@ module.exports = async (req, res, next) => {
       camp: req.params.campId
     }).populate("camper");
 
-    let reportData = registrations.map(reg => {
+    let mappedPayments = registrations.map(reg => {
       if (reg.paid) reg.paymentInfo = "Paid in Full";
       else if (reg.deposit) reg.paymentInfo = "Deposit Paid";
       else reg.paymentInfo = "Unpaid";
       return reg;
     });
+
+    let reportData = mappedPayments.filter(reg => !reg.waitlist);
 
     const fields = [
       { label: "First Name", value: "camper.firstName" },
