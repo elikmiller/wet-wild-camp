@@ -98,9 +98,12 @@ module.exports = async (req, res, next) => {
       ? "Waitlist Confirmation"
       : "Registration Confirmation";
 
+    // Check if user has secondary contact email and create sendTo string
+    let sendTo = user.secondaryContact.email ? `${user.email}, ${user.secondaryContact.email}` : user.email;
+
     EmailService.sendHtml({
       from: process.env.NO_REPLY_ADDRESS,
-      to: user.email,
+      to: sendTo,
       bcc: "wetwildcamp@wetwildcamp.com",
       subject: `Wet & Wild Adventure Camp: ${subjectLine}`,
       html
