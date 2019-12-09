@@ -20,6 +20,10 @@ module.exports = async (req, res, next) => {
       return next(Boom.badRequest("This camper does not exist."));
     }
 
+    if (!user.emergencyContact.phoneNumber) {
+      return next(Boom.badRequest("Please enter an emergency contact number before registering."));
+    }
+
     let ageOnStartDate = moment
       .utc(camp.startDate)
       .diff(moment.utc(camper.dateOfBirth), "years", false);
