@@ -8,7 +8,8 @@ module.exports = async (req, res, next) => {
   try {
     let camp = await Camp.findOne({ _id: req.params.campId });
     let registrations = await Registration.find({
-      camp: req.params.campId
+      camp: req.params.campId,
+      archived: false
     }).populate("camper");
 
     let mappedPayments = registrations.map(reg => {

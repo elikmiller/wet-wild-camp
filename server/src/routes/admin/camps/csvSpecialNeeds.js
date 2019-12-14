@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
     try {
         // Get camp and registrations
         let camp = await Camp.findOne({ _id: req.params.campId });
-        let registrations = await Registration.find({ camp: req.params.campId }).populate("camper");
+        let registrations = await Registration.find({ camp: req.params.campId, archived: false }).populate("camper");
 
         // Calculate age from DOB
         let regWithAge = await registrations.map(reg => {   
