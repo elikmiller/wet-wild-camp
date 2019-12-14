@@ -3,7 +3,7 @@ const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
   try {
-    let camp = await Camp.findOne({ _id: req.params.campId }).populate({
+    let camp = await Camp.findOne({ _id: req.params.campId, archived: false }).populate({
       path: "registrations",
       select: "deposit paid waitlist"
     });
