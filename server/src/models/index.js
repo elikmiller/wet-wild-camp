@@ -7,6 +7,7 @@ const campModel = require("./Camp");
 const registrationModel = require("./Registration");
 const paymentModel = require("./Payment");
 const passwordResetTokenModel = require("./PasswordResetToken");
+const globalSettingsModel = require("./GlobalSettings");
 
 // DB connection
 mongoose.connect(
@@ -20,5 +21,6 @@ module.exports = {
   Camp: campModel.Camp,
   Registration: registrationModel.Registration,
   Payment: paymentModel.Payment,
-  PasswordResetToken: passwordResetTokenModel.PasswordResetToken
+  PasswordResetToken: passwordResetTokenModel.PasswordResetToken,
+  GlobalSettings: globalSettingsModel.GlobalSettings
 };
