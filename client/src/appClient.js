@@ -409,6 +409,14 @@ const adminSendEmail = ({ from, to, cc, bcc, subject, text }) => {
   return appClient.post("/admin/email", { from, to, cc, bcc, subject, text });
 };
 
+const adminGetSettings = () => {
+  return appClient.get("/admin/settings");
+}
+
+const adminUpdateSettings = settings => {
+  return appClient.post("/admin/settings", settings);
+}
+
 export default {
   // Auth
   login,
@@ -485,5 +493,7 @@ export default {
   adminDeletePayment,
 
   // Admin - Misc.
-  adminSendEmail
+  adminSendEmail,
+  adminUpdateSettings,
+  adminGetSettings
 };

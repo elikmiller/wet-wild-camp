@@ -10,5 +10,12 @@ router.use(auth);
  */
 router.post("/", require("./updateSettings"));
 
+/**
+ * @api {get} /settings Get Settings
+ * @apiDescription Get current global settings
+ * @apiGroup Settings
+ */
+router.get("/", require("./getSettings"));
+
 
 module.exports = router;

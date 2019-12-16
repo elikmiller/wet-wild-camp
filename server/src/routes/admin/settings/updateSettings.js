@@ -6,8 +6,9 @@ module.exports = async (req, res, next) => {
     try {
         // There should only ever be one settings object
         let settings = await GlobalSettings.findOne({});
+        const { campArchiveDate, registrationArchiveDate, paymentArchiveDate, earlyBirdCutoff } = req.body;
 
-        // If settings do not already exist, create new settings
+        // If settings object does not already exist, create new settings
         if (!settings) {
             settings = new GlobalSettings({
                 campArchiveDate: new Date(0),
@@ -16,8 +17,6 @@ module.exports = async (req, res, next) => {
                 earlyBirdCutoff: new Date(0)
             });
         };
-
-        const { campArchiveDate, registrationArchiveDate, paymentArchiveDate, earlyBirdCutoff } = req.body;
 
         // Set all fields to new values if they were passed in
         if (campArchiveDate) settings.campArchiveDate = campArchiveDate;
