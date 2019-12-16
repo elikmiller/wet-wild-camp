@@ -10,6 +10,7 @@ router.use("/campers", require("./campers"));
 router.use("/camps", require("./camps"));
 router.use("/registrations", require("./registrations"));
 router.use("/payments", require("./payments"));
+router.use("/settings", require("./settings"));
 
 router.post("/email", (req, res, next) => {
   EmailService.sendText({
