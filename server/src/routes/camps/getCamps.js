@@ -3,7 +3,7 @@ const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
   try {
-    let camps = await Camp.find({}, null, {
+    let camps = await Camp.find({ archived: false }, null, {
       sort: {
         startDate: 1
       }

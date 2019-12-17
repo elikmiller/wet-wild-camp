@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
       return next(Boom.badRequest("This user does not exist."));
     }
 
-    let camp = await Camp.findOne({ _id: req.body.camp });
+    let camp = await Camp.findOne({ _id: req.body.camp, archived: false });
     if (!camp) {
       return next(Boom.badRequest("This camp does not exist."));
     }
@@ -31,7 +31,8 @@ module.exports = async (req, res, next) => {
       paid: req.body.paid || false,
       waitlist: req.body.waitlist || false,
       created: Date.now(),
-      user: req.body.user
+      user: req.body.user,
+      archived: false
     });
 
     await registration.save();

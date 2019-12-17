@@ -5,7 +5,8 @@ module.exports = async (req, res, next) => {
   try {
     let payment = await Payment.findOne({
       paypalId: req.params.paymentId,
-      user: req.session.userId
+      user: req.session.userId,
+      archived: false
     });
 
     if (!payment) {

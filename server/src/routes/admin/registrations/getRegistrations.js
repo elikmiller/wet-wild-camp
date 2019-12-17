@@ -3,7 +3,7 @@ const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
   try {
-    let registrations = await Registration.find({}).populate([
+    let registrations = await Registration.find({ archived: false }).populate([
       "user",
       "camper",
       "camp"

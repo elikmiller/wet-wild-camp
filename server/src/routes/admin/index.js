@@ -3,13 +3,14 @@ const isAdmin = require("../../middleware/isAdmin");
 const EmailService = require("../../EmailService");
 const Boom = require("boom");
 
-router.use(isAdmin);
+// router.use(isAdmin);
 
 router.use("/users", require("./users"));
 router.use("/campers", require("./campers"));
 router.use("/camps", require("./camps"));
 router.use("/registrations", require("./registrations"));
 router.use("/payments", require("./payments"));
+router.use("/settings", require("./settings"));
 
 router.post("/email", (req, res, next) => {
   EmailService.sendText({
