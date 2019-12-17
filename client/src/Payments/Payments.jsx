@@ -53,9 +53,16 @@ class Payments extends Component {
   };
 
   isEarlyBird = () => {
-    let currentDate = moment();
-    let earlyBirdCutoff = moment("05/01/2019", "MM/DD/YYYY");
-    return currentDate.isBefore(earlyBirdCutoff);
+    const currentDate = moment();
+    appClient.getEarlyBird().then(res => {
+      let earlyBirdCutoff = moment(res.data, "MM/DD/YYYY");
+      return currentDate.isBefore(earlyBirdCutoff);
+    }).catch(err => {
+      this.setState({
+        isLoading: false,
+        errors: err
+      });
+    });
   };
 
   // calls POST payment route, gets the redirect route from the returned data,

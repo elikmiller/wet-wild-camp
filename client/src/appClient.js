@@ -178,6 +178,10 @@ const deletePayment = paymentId => {
   return appClient.delete(`/payments/${paymentId}`);
 };
 
+const getEarlyBird = () => {
+  return appClient.get("/settings");
+}
+
 //
 // Admin - Users
 //
@@ -453,6 +457,9 @@ export default {
   getPayment,
   createPayment,
   deletePayment,
+
+  // Settings
+  getEarlyBird,
 
   // Admin - Users
   adminGetUsers,

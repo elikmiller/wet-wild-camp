@@ -31,7 +31,6 @@ module.exports = async (req, res, next) => {
 
         if (registrationArchiveDate !== settings.registrationArchiveDate.toISOString().substr(0, 10)) {
             const registrationObjectId = convertDateToObjectId(registrationArchiveDate);
-            console.log("here");
             await Registration.updateMany({ _id: { "$lt": registrationObjectId} }, { $set: { "archived": true }});
             await Registration.updateMany({ _id: { "$gte": registrationObjectId} }, { $set: { "archived": false }});
             settings.registrationArchiveDate = registrationArchiveDate;
@@ -57,5 +56,5 @@ module.exports = async (req, res, next) => {
 // Helper function for converting dates to objectIds
 convertDateToObjectId = date => {
     const dateObject = new Date(date);
-    return Math.floor(dateObject.getTime() / 1000).toString(16) + "0000000000000000";
+    console.log(Math.floor(dateObject.getTime() / 1000).toString(16) + "0000000000000000");
 }
