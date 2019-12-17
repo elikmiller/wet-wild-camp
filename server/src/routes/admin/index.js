@@ -3,7 +3,7 @@ const isAdmin = require("../../middleware/isAdmin");
 const EmailService = require("../../EmailService");
 const Boom = require("boom");
 
-// router.use(isAdmin);
+router.use(isAdmin);
 
 router.use("/users", require("./users"));
 router.use("/campers", require("./campers"));
