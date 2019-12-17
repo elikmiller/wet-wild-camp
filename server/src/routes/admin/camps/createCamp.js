@@ -12,7 +12,8 @@ module.exports = async (req, res, next) => {
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       openDate: req.body.openDate,
-      closeDate: req.body.closeDate
+      closeDate: req.body.closeDate,
+      archived: false
     });
     let newCamp = await camp.save();
     return res.send(newCamp);

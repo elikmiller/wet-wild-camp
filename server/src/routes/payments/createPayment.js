@@ -50,7 +50,8 @@ module.exports = async (req, res, next) => {
       timeCreated: transaction.create_time,
       deposits: req.body.deposits,
       fullPayments: req.body.fullPayments,
-      user: req.session.userId
+      user: req.session.userId,
+      archived: false
     });
     await payment.save();
 

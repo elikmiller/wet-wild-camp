@@ -68,7 +68,8 @@ module.exports = async (req, res, next) => {
       afternoonPickup: req.body.afternoonPickup,
       waitlist,
       created: Date.now(),
-      user: req.session.userId
+      user: req.session.userId,
+      archived: false
     });
 
     let html = waitlist

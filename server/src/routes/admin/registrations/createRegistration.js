@@ -31,7 +31,8 @@ module.exports = async (req, res, next) => {
       paid: req.body.paid || false,
       waitlist: req.body.waitlist || false,
       created: Date.now(),
-      user: req.body.user
+      user: req.body.user,
+      archived: false
     });
 
     await registration.save();

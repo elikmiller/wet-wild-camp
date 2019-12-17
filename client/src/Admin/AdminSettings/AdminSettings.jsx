@@ -55,6 +55,7 @@ class AdminSettings extends Component {
         return (
             <div className="container" >
                 <form className="col-sm-6">
+                <p className="lead mb-4">Admin Settings</p>
                 <Input 
                     type="date" 
                     label="Camp Archive Date:" 
