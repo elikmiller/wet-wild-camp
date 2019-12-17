@@ -15,11 +15,13 @@ class Payments extends Component {
     deposits: [],
     total: 0,
     earlyBird: false,
+    earlyBirdDate: "",
     isLoading: false,
     errors: null
   };
 
   componentDidMount() {
+    this.getEarlyBird();
     this.getRegistrations();
   }
 
@@ -37,10 +39,8 @@ class Payments extends Component {
           if (!registration.paid) unpaidRegistrations.push(registration);
           return registration;
         });
-        let earlyBird = this.isEarlyBird();
         this.setState({
           registrations: unpaidRegistrations,
-          earlyBird: earlyBird,
           isLoading: false
         });
       })
@@ -52,14 +52,16 @@ class Payments extends Component {
       });
   };
 
-  isEarlyBird = () => {
+  getEarlyBird = () => {
     const currentDate = moment();
     appClient.getEarlyBird().then(res => {
-      let earlyBirdCutoff = moment(res.data, "MM/DD/YYYY");
-      return currentDate.isBefore(earlyBirdCutoff);
+      const earlyBirdCutoff = moment.utc(res).format("MM/DD/YYYY");
+      this.setState({
+        earlyBird: currentDate.isBefore(earlyBirdCutoff),
+        earlyBirdDate: moment(earlyBirdCutoff).format("MMMM Do")
+      });
     }).catch(err => {
       this.setState({
-        isLoading: false,
         errors: err
       });
     });
@@ -139,6 +141,7 @@ class Payments extends Component {
       let total = reg.camp.fee;
       if (reg.deposit) total = total - 100;
       if (this.state.earlyBird) total = total - 30;
+      console.log(this.state);
       return (
         <tr key={i}>
           <td>
@@ -203,7 +206,7 @@ class Payments extends Component {
         {this.state.earlyBird && (
           <div className="alert alert-success" role="alert">
             <p className="mb-0">
-              Early bird prices are in effect through May 1st!
+              Early bird prices are in effect through {this.state.earlyBirdDate}!
             </p>
           </div>
         )}
