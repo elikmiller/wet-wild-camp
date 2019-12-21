@@ -56,7 +56,7 @@ module.exports = async (req, res, next) => {
 
     let registrations = await Registration.find({
       camp: req.body.camp,
-      $or: [{ deposit: true }, { paid: true }]
+      $or: [{ deposit: true }, { paid: true }, { spaceSaved: true }]
     });
 
     let waitlist = registrations.length >= camp.capacity;

@@ -30,6 +30,7 @@ module.exports = async (req, res, next) => {
       deposit: req.body.deposit || false,
       paid: req.body.paid || false,
       waitlist: req.body.waitlist || false,
+      spaceSaved: req.body.spaceSaved || false,
       created: Date.now(),
       user: req.body.user,
       archived: false
