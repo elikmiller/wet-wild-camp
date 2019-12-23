@@ -361,6 +361,7 @@ const adminCreateRegistration = ({
   deposit,
   paid,
   waitlist,
+  spaceSaved,
   user
 }) => {
   return appClient.post("/admin/registrations", {
@@ -371,13 +372,14 @@ const adminCreateRegistration = ({
     deposit,
     paid,
     waitlist,
+    spaceSaved,
     user
   });
 };
 
 const adminUpdateRegistration = (
   registrationId,
-  { campId, morningDropoff, afternoonPickup, waitlist, deposit, paid }
+  { campId, morningDropoff, afternoonPickup, waitlist, deposit, paid, spaceSaved }
 ) => {
   return appClient.patch(`/admin/registrations/${registrationId}`, {
     campId,
@@ -385,7 +387,8 @@ const adminUpdateRegistration = (
     afternoonPickup,
     waitlist,
     deposit,
-    paid
+    paid,
+    spaceSaved
   });
 };
 

@@ -11,6 +11,7 @@ class AdminRegistrationForm extends Component {
     deposit: this.props.deposit,
     paid: this.props.paid,
     waitlist: this.props.waitlist,
+    spaceSaved: this.props.spaceSaved,
     created: this.props.created,
     user: this.props.user,
     camper: this.props.camper,
@@ -69,6 +70,7 @@ class AdminRegistrationForm extends Component {
         deposit: this.state.deposit,
         paid: this.state.paid,
         waitlist: this.state.waitlist,
+        spaceSaved: this.state.spaceSaved,
         campId: this.state.campId
       });
       this.props.closeForm();
@@ -154,6 +156,14 @@ class AdminRegistrationForm extends Component {
             error={this.state.errors.afternoonPickup}
           />
           <Checkbox
+            name="spaceSaved"
+            label="Space Saved"
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.spaceSaved}
+            checked={!!this.state.spaceSaved}
+          />
+          <Checkbox
             name="deposit"
             label="Deposit Paid"
             onChange={this.handleOnChange}
@@ -204,6 +214,7 @@ AdminRegistrationForm.defaultProps = {
   afternoonPickup: "",
   deposit: false,
   paid: false,
+  spaceSaved: false,
   waitlist: false,
   user: {},
   camper: {},

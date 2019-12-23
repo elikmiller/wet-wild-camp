@@ -85,7 +85,10 @@ class AdminRegistrationList extends Component {
                     {item.deposit && !item.paid && (
                       <span className="badge badge-warning">Deposit Paid</span>
                     )}
-                    {!item.paid && !item.deposit && !item.waitlist && (
+                    {!item.paid && !item.deposit && !item.waitlist && item.spaceSaved && (
+                      <span className="badge badge-primary">Space Saved</span>
+                    )}
+                    {!item.paid && !item.deposit && !item.waitlist && !item.spaceSaved && (
                       <span className="badge badge-danger">Unpaid</span>
                     )}
                     {!item.paid && !item.deposit && item.waitlist && (
