@@ -56,5 +56,5 @@ module.exports = async (req, res, next) => {
 // Helper function for converting dates to objectIds
 convertDateToObjectId = date => {
     const dateObject = new Date(date);
-    console.log(Math.floor(dateObject.getTime() / 1000).toString(16) + "0000000000000000");
+    return Math.floor(dateObject.getTime() / 1000).toString(16) + "0000000000000000";
 }
