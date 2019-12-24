@@ -21,7 +21,7 @@ module.exports = async (req, res, next) => {
       let savedRegistrations = camp.registrations.filter(reg => {
         return reg.deposit;
       });
-      if (savedRegistrations.length >= camp.capacity && !registration.deposit) {
+      if (savedRegistrations.length >= camp.capacity && (!registration.deposit && !registration.spaceSaved)) {
         errors.push(`${camp.fullName} is full.`);
       }
     }

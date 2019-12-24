@@ -11,6 +11,7 @@ module.exports = async (req, res, next) => {
       morningDropoff: req.body.morningDropoff,
       afternoonPickup: req.body.afternoonPickup,
       waitlist: req.body.waitlist,
+      spaceSaved: req.body.spaceSaved,
       deposit: req.body.deposit,
       paid: req.body.paid
     };

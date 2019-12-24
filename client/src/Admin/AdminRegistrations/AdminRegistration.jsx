@@ -9,6 +9,7 @@ const AdminRegistration = props => {
   let deposit = <BooleanIndicator value={props.deposit} />;
   let paid = <BooleanIndicator value={props.paid} />;
   let waitlist = <BooleanIndicator value={props.waitlist} />;
+  let spaceSaved = <BooleanIndicator value={props.spaceSaved} />;
   let created = moment.utc(props.created).format("MM/DD/YY hh:mma");
   return (
     <div className="admin-registration">
@@ -16,6 +17,7 @@ const AdminRegistration = props => {
       <div>Afternoon Pickup: {afternoonPickup}</div>
       <div>Deposit Paid: {deposit}</div>
       <div>Full Amount Paid: {paid}</div>
+      <div>Space Saved: {spaceSaved}</div>
       <div>Waitlist: {waitlist}</div>
       <div>Created: {created}</div>
     </div>

@@ -28,12 +28,14 @@ module.exports = async (req, res, next) => {
 
       payment.fullPayments.forEach(registration => {
         if (!registration.deposit) registration.deposit = true;
+        if (!registration.spaceSaved) registration.spaceSaved = true;
         registration.paid = true;
         registration.save();
       });
 
       payment.deposits.forEach(registration => {
         if (!registration.deposit) {
+          if (!registration.spaceSaved) registration.spaceSaved = true;
           registration.deposit = true;
           registration.save();
         }

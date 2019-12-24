@@ -10,7 +10,7 @@ async function migrate() {
     migrationStatus.filter(status => status.appliedAt === "PENDING").length > 0
   ) {
     console.log("Running new database migrations...");
-    const migrated = await up(connection);
+    const migrated = await up(connection.db, connection.client);
     migrated.forEach(fileName => console.log("Migrated:", fileName));
   } else {
     console.log("Database up to date.");

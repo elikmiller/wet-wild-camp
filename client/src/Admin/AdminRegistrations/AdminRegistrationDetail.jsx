@@ -49,8 +49,10 @@ class AdminRegistrationDetail extends Component {
     deposit,
     paid,
     waitlist,
+    spaceSaved,
     campId
   }) => {
+    console.log(spaceSaved);
     appClient
       .adminUpdateRegistration(this.state.registration._id, {
         morningDropoff,
@@ -58,9 +60,11 @@ class AdminRegistrationDetail extends Component {
         deposit,
         paid,
         waitlist,
+        spaceSaved,
         campId
       })
       .then(updatedRegistration => {
+        console.log(updatedRegistration);
         this.getRegistration();
       });
   };
@@ -127,6 +131,7 @@ class AdminRegistrationDetail extends Component {
                 deposit={registration.deposit}
                 paid={registration.paid}
                 waitlist={registration.waitlist}
+                spaceSaved={registration.spaceSaved}
                 created={registration.created}
                 updateRegistration={this.updateRegistration}
                 closeForm={this.editClose}
@@ -192,6 +197,7 @@ class AdminRegistrationDetail extends Component {
               deposit={registration.deposit}
               paid={registration.paid}
               waitlist={registration.waitlist}
+              spaceSaved={registration.spaceSaved}
               created={registration.created}
               onSubmit={this.updateRegistration}
               closeForm={this.editClose}
