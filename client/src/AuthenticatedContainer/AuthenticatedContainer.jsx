@@ -14,6 +14,7 @@ import AdminCampers from "../Admin/AdminCampers/AdminCampers";
 import AdminCamps from "../Admin/AdminCamps/AdminCamps";
 import AdminRosters from "../Admin/AdminRosters/AdminRosters";
 import AdminPayments from "../Admin/AdminPayments/AdminPayments";
+import AdminSettings from "../Admin/AdminSettings/AdminSettings";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 class AuthenticatedContainer extends Component {
@@ -51,7 +52,8 @@ class AuthenticatedContainer extends Component {
       label: "Rosters",
       component: AdminRosters
     },
-    { path: "/admin/payments", label: "Payments", component: AdminPayments }
+    { path: "/admin/payments", label: "Payments", component: AdminPayments },
+    { path: "/admin/settings", label: "Settings", component: AdminSettings }
   ];
 
   render() {

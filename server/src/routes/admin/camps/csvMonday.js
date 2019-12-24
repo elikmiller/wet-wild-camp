@@ -8,15 +8,18 @@ module.exports = async (req, res, next) => {
   try {
     let camp = await Camp.findOne({ _id: req.params.campId });
     let registrations = await Registration.find({
-      camp: req.params.campId
+      camp: req.params.campId,
+      archived: false
     }).populate("camper");
 
-    let reportData = registrations.map(reg => {
+    let mappedPayments = registrations.map(reg => {
       if (reg.paid) reg.paymentInfo = "Paid in Full";
       else if (reg.deposit) reg.paymentInfo = "Deposit Paid";
       else reg.paymentInfo = "Unpaid";
       return reg;
     });
+
+    let reportData = mappedPayments.filter(reg => !reg.waitlist);
 
     const fields = [
       { label: "First Name", value: "camper.firstName" },

@@ -41,4 +41,6 @@ router.get("/:campId/csv/swimming", require("./csvSwimming"));
 
 router.get("/:campId/csv/contact", require("./csvContact"));
 
+router.get("/:campId/csv/special-needs", require("./csvSpecialNeeds"));
+
 module.exports = router;

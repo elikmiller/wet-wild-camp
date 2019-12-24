@@ -1,10 +1,30 @@
 # Changelog
 
-## [1.0.16] - 2019-06-10
+
+## [1.1.0] - 2019-12-24
 
 ### Added
 
+- Created migration to add "archived" field to camps, registrations, and payments
+- Added logic to hide archived records from app
+- Added a "Global Settings" DB object to store settings for archived/early bird dates
+- Added a "Settings" page to admin views to modify settings object
+- Added a dynamic value for the early bird date to the client and server payment logic
+- Added a field for "spaceSaved" on registration, along with migration for existing registrations
+- Added backend logic to count "spaceSaved" along with "paid' and "deposit" for reserving spot in camp
+- Added "Space Saved" as option on admin registration forms w/ UI indicators
 - Form to edit payment notes from admin user screen
+- Added special needs report to camp view
+- Added secondary email to camp email lists when available
+- Added validation on registration route to confirm there is an emergency contact number
+
+### Changed
+
+- Fixed bug that prevented migrations from running in gulpfile
+
+### Removed
+
+- removed waitlisted campers from csv reports
 
 ## [1.0.15] - 2019-05-29
 

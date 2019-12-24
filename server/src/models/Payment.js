@@ -37,7 +37,11 @@ const PaymentSchema = new Schema({
       type: ObjectId,
       ref: "Registration"
     }
-  ]
+  ],
+  archived: {
+    type: Boolean,
+    default: false
+  }
 });
 
 PaymentSchema.virtual("fullAmount").get(function() {

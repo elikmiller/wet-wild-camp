@@ -28,12 +28,14 @@ module.exports = async (req, res, next) => {
 
       payment.fullPayments.forEach(registration => {
         if (!registration.deposit) registration.deposit = true;
+        if (!registration.spaceSaved) registration.spaceSaved = true;
         registration.paid = true;
         registration.save();
       });
 
       payment.deposits.forEach(registration => {
         if (!registration.deposit) {
+          if (!registration.spaceSaved) registration.spaceSaved = true;
           registration.deposit = true;
           registration.save();
         }
@@ -98,9 +100,12 @@ module.exports = async (req, res, next) => {
         <p>We're looking forward to a great summer; so glad you'll be joining us.</p>
         `;
 
+      // Check if user has secondary contact email and create sendTo string
+      let sendTo = user.secondaryContact.email ? `${user.email}, ${user.secondaryContact.email}` : user.email;
+
       EmailService.sendHtml({
         from: process.env.NO_REPLY_ADDRESS,
-        to: user.email,
+        to: sendTo,
         bcc: "wetwildcamp@wetwildcamp.com",
         subject: "Wet & Wild Adventure Camp: Payment Confirmation",
         html

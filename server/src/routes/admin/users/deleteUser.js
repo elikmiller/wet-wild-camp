@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
       return next(Boom.badRequest("That user does not exist."));
     }
 
-    let camps = await Camp.find({}).populate({
+    let camps = await Camp.find({ archived: false }).populate({
       path: "registrations",
       select: "user"
     });

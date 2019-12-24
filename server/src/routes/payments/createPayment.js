@@ -1,4 +1,4 @@
-const { User, Payment, Registration, Camp } = require("../../models");
+const { GlobalSettings, Payment, Registration, Camp } = require("../../models");
 const PaypalService = require("../../PaypalService");
 const Boom = require("boom");
 
@@ -21,20 +21,22 @@ module.exports = async (req, res, next) => {
       let savedRegistrations = camp.registrations.filter(reg => {
         return reg.deposit;
       });
-      if (savedRegistrations.length >= camp.capacity && !registration.deposit) {
+      if (savedRegistrations.length >= camp.capacity && (!registration.deposit && !registration.spaceSaved)) {
         errors.push(`${camp.fullName} is full.`);
       }
     }
 
     if (errors.length) return next(Boom.badRequest(errors[0]));
 
+    let settings = await GlobalSettings.findOne({});
+    let earlyBirdDate = new Date(settings.earlyBirdCutoff);
+
     let total = 0;
-    let earlyBirdCutoff = new Date("2019-05-01");
     total = total + req.body.deposits.length * 100;
     registrationArray.forEach(registration => {
       total = total + registration.camp.fee;
       if (registration.deposit) total = total - 100;
-      if (Date.now() < earlyBirdCutoff) total = total - 30;
+      if (Date.now() < earlyBirdDate) total = total - 30;
       req.body.deposits.forEach(deposit => {
         if (String(registration._id) === deposit) {
           total = total - 100;
@@ -50,7 +52,8 @@ module.exports = async (req, res, next) => {
       timeCreated: transaction.create_time,
       deposits: req.body.deposits,
       fullPayments: req.body.fullPayments,
-      user: req.session.userId
+      user: req.session.userId,
+      archived: false
     });
     await payment.save();
 

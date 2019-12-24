@@ -68,6 +68,7 @@ app.use("/camps", require("./src/routes/camps"));
 app.use("/registrations", require("./src/routes/registrations"));
 app.use("/admin", require("./src/routes/admin"));
 app.use("/payments", require("./src/routes/payments"));
+app.use("/settings", require("./src/routes/settings"));
 
 // Default Error Handler
 app.use((err, req, res, next) => {

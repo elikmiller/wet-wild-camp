@@ -8,10 +8,11 @@ module.exports = async (req, res) => {
   try {
     let camp = await Camp.findOne({ _id: req.params.campId });
     let registrations = await Registration.find({
-      camp: req.params.campId
+      camp: req.params.campId,
+      archived: false
     }).populate("camper");
 
-    const reportData = registrations;
+    const reportData = registrations.filter(reg => !reg.waitlist);
     const fields = [
       { label: "First Name", value: "camper.firstName" },
       { label: "Last Name", value: "camper.lastName" },

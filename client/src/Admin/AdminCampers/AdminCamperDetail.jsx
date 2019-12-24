@@ -97,6 +97,7 @@ class AdminCamperDetail extends Component {
     afternoonPickup,
     deposit,
     paid,
+    spaceSaved,
     waitlist
   }) => {
     return appClient
@@ -108,6 +109,7 @@ class AdminCamperDetail extends Component {
         afternoonPickup,
         deposit,
         paid,
+        spaceSaved,
         waitlist
       })
       .then(() => {

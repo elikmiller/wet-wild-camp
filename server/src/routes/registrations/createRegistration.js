@@ -20,6 +20,10 @@ module.exports = async (req, res, next) => {
       return next(Boom.badRequest("This camper does not exist."));
     }
 
+    if (!user.emergencyContact.phoneNumber) {
+      return next(Boom.badRequest("Please enter an emergency contact number before registering."));
+    }
+
     let ageOnStartDate = moment
       .utc(camp.startDate)
       .diff(moment.utc(camper.dateOfBirth), "years", false);
@@ -52,7 +56,7 @@ module.exports = async (req, res, next) => {
 
     let registrations = await Registration.find({
       camp: req.body.camp,
-      $or: [{ deposit: true }, { paid: true }]
+      $or: [{ deposit: true }, { paid: true }, { spaceSaved: true }]
     });
 
     let waitlist = registrations.length >= camp.capacity;
@@ -64,7 +68,8 @@ module.exports = async (req, res, next) => {
       afternoonPickup: req.body.afternoonPickup,
       waitlist,
       created: Date.now(),
-      user: req.session.userId
+      user: req.session.userId,
+      archived: false
     });
 
     let html = waitlist
@@ -98,9 +103,12 @@ module.exports = async (req, res, next) => {
       ? "Waitlist Confirmation"
       : "Registration Confirmation";
 
+    // Check if user has secondary contact email and create sendTo string
+    let sendTo = user.secondaryContact.email ? `${user.email}, ${user.secondaryContact.email}` : user.email;
+
     EmailService.sendHtml({
       from: process.env.NO_REPLY_ADDRESS,
-      to: user.email,
+      to: sendTo,
       bcc: "wetwildcamp@wetwildcamp.com",
       subject: `Wet & Wild Adventure Camp: ${subjectLine}`,
       html

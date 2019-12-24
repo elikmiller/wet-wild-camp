@@ -45,9 +45,18 @@ const RegistrationSchema = new Schema({
     default: false,
     required: true
   },
+  spaceSaved: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
   created: {
     type: Date,
     required: true
+  },
+  archived: {
+    type: Boolean,
+    default: false
   }
 });
 

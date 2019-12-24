@@ -41,6 +41,10 @@ const CampSchema = new Schema({
   },
   waitlisted: {
     type: Boolean
+  },
+  archived: {
+    type: Boolean,
+    default: false
   }
 });
 

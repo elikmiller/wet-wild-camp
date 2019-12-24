@@ -121,6 +121,15 @@ class AdminRosterDetail extends Component {
                     >
                       Download Swimming Report
                     </DropdownItem>
+                    <DropdownItem
+                      tag="a"
+                      href={`${process.env.REACT_APP_SERVER_URL}admin/camps/${
+                        this.props.match.params.campId
+                      }/csv/special-needs`}
+                      download
+                    >
+                      Download Special Needs Report
+                    </DropdownItem>
                     <CopyToClipboard text={rosterEmails.join("; ")}>
                       <DropdownItem>Copy Roster Emails</DropdownItem>
                     </CopyToClipboard>

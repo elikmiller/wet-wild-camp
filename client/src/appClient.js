@@ -178,6 +178,10 @@ const deletePayment = paymentId => {
   return appClient.delete(`/payments/${paymentId}`);
 };
 
+const getEarlyBird = () => {
+  return appClient.get("/settings");
+}
+
 //
 // Admin - Users
 //
@@ -337,6 +341,10 @@ const adminCampReportContact = campId => {
   return appClient.get(`/admin/camps/${campId}/csv/report`);
 };
 
+const adminCampReportSpecialNeeds = campId => {
+  return appClient.get(`/admin/camps/${campId}/special-needs`);
+}
+
 const adminGetRegistrations = () => {
   return appClient.get("/admin/registrations");
 };
@@ -353,6 +361,7 @@ const adminCreateRegistration = ({
   deposit,
   paid,
   waitlist,
+  spaceSaved,
   user
 }) => {
   return appClient.post("/admin/registrations", {
@@ -363,13 +372,14 @@ const adminCreateRegistration = ({
     deposit,
     paid,
     waitlist,
+    spaceSaved,
     user
   });
 };
 
 const adminUpdateRegistration = (
   registrationId,
-  { campId, morningDropoff, afternoonPickup, waitlist, deposit, paid }
+  { campId, morningDropoff, afternoonPickup, waitlist, deposit, paid, spaceSaved }
 ) => {
   return appClient.patch(`/admin/registrations/${registrationId}`, {
     campId,
@@ -377,7 +387,8 @@ const adminUpdateRegistration = (
     afternoonPickup,
     waitlist,
     deposit,
-    paid
+    paid,
+    spaceSaved
   });
 };
 
@@ -404,6 +415,14 @@ const adminDeletePayment = paymentId => {
 const adminSendEmail = ({ from, to, cc, bcc, subject, text }) => {
   return appClient.post("/admin/email", { from, to, cc, bcc, subject, text });
 };
+
+const adminGetSettings = () => {
+  return appClient.get("/admin/settings");
+}
+
+const adminUpdateSettings = settings => {
+  return appClient.post("/admin/settings", settings);
+}
 
 export default {
   // Auth
@@ -442,6 +461,9 @@ export default {
   createPayment,
   deletePayment,
 
+  // Settings
+  getEarlyBird,
+
   // Admin - Users
   adminGetUsers,
   adminGetUser,
@@ -465,6 +487,7 @@ export default {
   adminCampReportMonday,
   adminCampReportSwimming,
   adminCampReportContact,
+  adminCampReportSpecialNeeds,
 
   // Admin - Registrations,
   adminGetRegistrations,
@@ -480,5 +503,7 @@ export default {
   adminDeletePayment,
 
   // Admin - Misc.
-  adminSendEmail
+  adminSendEmail,
+  adminUpdateSettings,
+  adminGetSettings
 };
