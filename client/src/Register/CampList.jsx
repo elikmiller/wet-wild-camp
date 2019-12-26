@@ -33,7 +33,8 @@ class CampList extends Component {
       isLoading: true
     });
     appClient.getCamps().then(camps => {
-      camps = camps.filter(camp => camp.type === this.props.match.params.type);
+      let filterParam = this.props.match.params.type ? this.props.match.params.type : "all";
+      camps = camps.filter(camp => camp.type === filterParam);
       this.setState({
         camps,
         isLoading: false

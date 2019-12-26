@@ -86,6 +86,7 @@ class AdminCampForm extends Component {
             label="Type"
             placeholder={"Please Select"}
             options={[
+              { name: "All Ages", value: "all" },
               { name: "Adventure", value: "adventure" },
               { name: "Junior", value: "junior" }
             ]}

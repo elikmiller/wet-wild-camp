@@ -2,7 +2,8 @@ import React from "react";
 import CampRegisterResult from "./CampRegisterResult";
 import CampList from "./CampList";
 import { Switch, Route } from "react-router-dom";
-import Schedule from "./Schedule";
+// Unused when Routes commented out; leaving in in case of revert
+// import Schedule from "./Schedule";
 
 const Register = props => {
   return (
@@ -20,8 +21,14 @@ const Register = props => {
             <CampRegisterResult {...props} status={"waitlist"} />
           )}
         />
-        <Route exact path={`${props.match.path}/:type`} component={CampList} />
-        <Route exact path={props.match.path} component={Schedule} />
+
+        {/* To switch between specifying a camp type and not specifying, comment out/uncomment below routes */}
+
+        {/* <Route exact path={`${props.match.path}/:type`} component={CampList} />
+        <Route exact path={props.match.path} component={Schedule} /> */}
+
+        <Route exact path={`${props.match.path}`} component={CampList} />
+
       </Switch>
     </div>
   );

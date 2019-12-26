@@ -82,7 +82,8 @@ RegistrationSchema.post("remove", async function(doc) {
 
 RegistrationSchema.virtual("status").get(function() {
   if (this.waitlist) return "Waitlisted";
-  if (!this.deposit && !this.paid) return "Unconfirmed";
+  if (!this.deposit && !this.paid && !this.spaceSaved) return "Unconfirmed";
+  if (!this.deposit && !this.paid && this.spaceSaved) return "Spot Reserved";
   if (this.deposit && !this.paid) return "Pending";
   if (this.paid) return "Confirmed";
 });
