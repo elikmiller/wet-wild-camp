@@ -10,7 +10,7 @@ const CampSchema = new Schema({
   type: {
     type: String,
     required: true,
-    enum: ["junior", "adventure"]
+    enum: ["junior", "adventure", "all"]
   },
   description: {
     type: String

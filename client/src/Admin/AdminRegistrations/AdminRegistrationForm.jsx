@@ -115,10 +115,11 @@ class AdminRegistrationForm extends Component {
             value={this.state.morningDropoff}
             placeholder="Please Select"
             options={[
-              {
-                name: "North",
-                value: "north"
-              },
+              // Option removed for 2020 camp year; left in in case they want to revert
+              // {
+              //   name: "North",
+              //   value: "north"
+              // },
               {
                 name: "Central",
                 value: "central"
@@ -138,10 +139,11 @@ class AdminRegistrationForm extends Component {
             value={this.state.afternoonPickup}
             placeholder="Please Select"
             options={[
-              {
-                name: "North",
-                value: "north"
-              },
+              // Option removed for 2020 camp year; left in in case they want to revert
+              // {
+              //   name: "North",
+              //   value: "north"
+              // },
               {
                 name: "Central",
                 value: "central"

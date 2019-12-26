@@ -43,6 +43,12 @@ module.exports = async (req, res, next) => {
       );
     }
 
+    if (camp.type === "all" && (ageOnStartDate < 6 || ageOnStartDate > 15)) {
+      return next(
+        Boom.badRequest("This camper is not the correct age for this camp.")
+      );
+    }
+
     let existingRegistration = await Registration.find({
       camper: req.body.camper,
       camp: req.body.camp
