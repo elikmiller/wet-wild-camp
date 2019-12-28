@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import appClient from "../../appClient";
 import Spinner from "../../Spinner/Spinner";
 import SearchTable from "../../SearchTable/SearchTable";
+import SurveyData from "../SurveyData";
 import { Link } from "react-router-dom";
 
 class AdminUserList extends Component {
@@ -37,6 +38,7 @@ class AdminUserList extends Component {
     return (
       <div className="admin-user-list spinner-wrapper">
         {this.state.isLoading && <Spinner />}
+        <SurveyData />
         <p className="lead">All Users</p>
         <SearchTable
           items={this.state.users}
