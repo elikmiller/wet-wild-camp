@@ -8,6 +8,13 @@ const router = require("express").Router();
 router.get("/", require("./getUsers"));
 
 /**
+ * @api {get} /users/survey Get Survey Data
+ * @apiDescription Get all user survey data
+ * @apiGroup User
+ */
+router.get("/survey", require("./getSurveyData"));
+
+/**
  * @api {get} /users Get User
  * @apiDescription Get User
  * @apiGroup User
