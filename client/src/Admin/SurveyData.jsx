@@ -34,12 +34,12 @@ class SurveyData extends Component {
             .getSurveyResults()
             .then(res => {
                 let surveyData = [
-                    { x: "Previous Camper", y: res.data.previousCamper },
-                    { x: "Internet", y: res.data.internet },
-                    { x: "Friend/Relative", y: res.data["friend/relative"] },
-                    { x: "Camp Fair", y: res.data.campFair },
-                    { x: "Newspaper/Magazine", y: res.data["newspaper/magazine"] },
-                    { x: "Other", y: res.data.other }
+                    { x: "Previous Camper", y: res.previousCamper },
+                    { x: "Internet", y: res.internet },
+                    { x: "Friend/Relative", y: res.friendRelative },
+                    { x: "Camp Fair", y: res.campFair },
+                    { x: "Newspaper/Magazine", y: res.newspaperMagazine },
+                    { x: "Other", y: res.other }
                 ];
                 this.setState({
                     surveyData: surveyData

@@ -55,13 +55,14 @@ const getUser = () => {
     return appClient.get(`/users`);
 };
 
-const updateUser = ({ firstName, lastName, primaryContact, secondaryContact, emergencyContact }) => {
+const updateUser = ({ firstName, lastName, primaryContact, secondaryContact, emergencyContact, surveyQuestion }) => {
     return appClient.patch(`/users`, {
         firstName,
         lastName,
         primaryContact,
         secondaryContact,
-        emergencyContact
+        emergencyContact,
+        surveyQuestion
     });
 };
 
@@ -175,7 +176,7 @@ const adminGetUsers = () => {
 };
 
 const getSurveyResults = () => {
-    return appClient.get("/users/survey");
+    return appClient.get("/admin/users/survey");
 };
 
 const adminGetUser = userId => {

@@ -25,10 +25,7 @@ class SurveyQuestion extends Component {
             });
             return appClient
                 .updateUser({
-                    id: this.props.userId,
-                    data: {
-                        surveyQuestion: this.state.surveyQuestion
-                    }
+                    surveyQuestion: this.state.surveyQuestion
                 })
                 .then(res => {
                     this.setState({
@@ -70,9 +67,9 @@ class SurveyQuestion extends Component {
                         options={[
                             { value: "previousCamper", name: "Previous Camper" },
                             { value: "internet", name: "Internet" },
-                            { value: "friend/relative", name: "Friend/Relative" },
+                            { value: "friendRelative", name: "Friend/Relative" },
                             { value: "campFair", name: "Camp Fair" },
-                            { value: "newspaper/magazine", name: "Newspaper/Magazine" },
+                            { value: "newspaperMagazine", name: "Newspaper/Magazine" },
                             { value: "other", name: "Other" }
                         ]}
                     />
