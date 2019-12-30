@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.2] - 2019-12-29
+
+### Added
+
+-   Survey Question at the end of First Time Wizard
+-   Reporting for survey question in admin view
+-   "Copy All Emails" button in admin view
+
+### Changed
+
+-   Changed early bird amount to \$40
+-   Fixed bug in update user route that prevented the correct user from being updated
+-   Changed age range for allowed registrations from 8 - 15 for all camps
+
 ## [1.1.1] - 2019-12-27
 
 ### Added
