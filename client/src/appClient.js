@@ -241,8 +241,8 @@ const adminDeleteCamper = camperId => {
     return appClient.delete(`/admin/campers/${camperId}`);
 };
 
-const adminGetCamps = () => {
-    return appClient.get("/admin/camps");
+const adminGetCamps = displayArchived => {
+    return appClient.get(`/admin/camps?displayArchived=${displayArchived}`);
 };
 
 const adminGetCamp = campId => {
@@ -300,8 +300,8 @@ const adminCampReportSpecialNeeds = campId => {
     return appClient.get(`/admin/camps/${campId}/special-needs`);
 };
 
-const adminGetRegistrations = () => {
-    return appClient.get("/admin/registrations");
+const adminGetRegistrations = displayArchived => {
+    return appClient.get(`/admin/registrations?displayArchived=${displayArchived}`);
 };
 
 const adminGetRegistration = registrationId => {
@@ -351,8 +351,9 @@ const adminDeleteRegistration = registrationId => {
     return appClient.delete(`/admin/registrations/${registrationId}`);
 };
 
-const adminGetPayments = () => {
-    return appClient.get("/admin/payments");
+const adminGetPayments = displayArchived => {
+    console.log(displayArchived);
+    return appClient.get(`/admin/payments?displayArchived=${displayArchived}`);
 };
 
 const adminGetPayment = paymentId => {

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3] - 2019-02-04
+
+### Added
+
+-   Toggle button on Admin Registrations, Camps, and Payments to show Archived entries
+-   Toggle functionality for archived entries in equivalent routes
+
 ## [1.1.2] - 2019-12-29
 
 ### Added
