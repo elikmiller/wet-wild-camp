@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+-   Toggle button on Admin Rosters to show archived camps
+
 ## [1.1.3] - 2019-02-04
 
 ### Added
