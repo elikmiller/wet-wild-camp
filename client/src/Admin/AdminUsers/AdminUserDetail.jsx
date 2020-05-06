@@ -119,8 +119,9 @@ class AdminUserDetail extends Component {
     };
 
     render() {
-        console.log(this.props.history);
         let { user } = this.state;
+        let pastRegistrations = user.registrations.filter((reg) => reg.archived);
+        let currentRegistrations = user.registrations.filter((reg) => !reg.archived);
         return (
             <div className="admin-user-detail">
                 <div className="card">
@@ -156,9 +157,30 @@ class AdminUserDetail extends Component {
                         </div>
 
                         <div className="mb-3">
-                            <strong>Registrations: </strong>
+                            <strong>Registrations (Current): </strong>
                             <ul className="list-unstyled">
-                                {this.state.user.registrations.map((registration) => (
+                                {currentRegistrations.map((registration) => (
+                                    <li key={registration._id}>
+                                        <Link
+                                            to={{
+                                                pathname: `/admin/registrations/${registration._id}`,
+                                                state: { previousPage: this.props.history.location },
+                                            }}
+                                        >
+                                            {registration.camper.fullName}
+                                            {" - "}
+                                            {registration.camp.fullName}
+                                            {registration.waitlist && " -- WAITLIST"}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="mb-3">
+                            <strong>Registrations (Past): </strong>
+                            <ul className="list-unstyled">
+                                {pastRegistrations.map((registration) => (
                                     <li key={registration._id}>
                                         <Link
                                             to={{
