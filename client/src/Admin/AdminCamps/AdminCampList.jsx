@@ -12,7 +12,7 @@ class AdminCampList extends Component {
     state = {
         isLoading: false,
         camps: [],
-        displayArchived: false
+        displayArchived: false,
     };
 
     componentDidMount() {
@@ -21,19 +21,19 @@ class AdminCampList extends Component {
 
     getCamps = () => {
         this.setState({
-            isLoading: true
+            isLoading: true,
         });
         appClient
             .adminGetCamps(this.state.displayArchived)
-            .then(camps => {
+            .then((camps) => {
                 this.setState({
                     camps,
-                    isLoading: false
+                    isLoading: false,
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState({
-                    isLoading: false
+                    isLoading: false,
                 });
                 this.setState(() => {
                     throw error;
@@ -41,10 +41,10 @@ class AdminCampList extends Component {
             });
     };
 
-    handleQueryChange = e => {
+    handleQueryChange = (e) => {
         e.preventDefault();
         this.setState({
-            query: e.target.value
+            query: e.target.value,
         });
     };
 
@@ -59,12 +59,12 @@ class AdminCampList extends Component {
                 endDate,
                 openDate,
                 closeDate,
-                capacity
+                capacity,
             })
             .then(() => {
                 this.getCamps();
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState(() => {
                     throw error;
                 });
@@ -96,52 +96,52 @@ class AdminCampList extends Component {
                     searchKeys={["name", "type"]}
                     queryPlaceholder="Search Camps"
                     columns={[
-                        { key: "name", name: "Name", displayFunc: item => item.name },
+                        { key: "name", name: "Name", displayFunc: (item) => item.name },
                         {
                             key: "type",
                             name: "Type",
-                            displayFunc: item => _.capitalize(item.type)
+                            displayFunc: (item) => _.capitalize(item.type),
                         },
                         {
                             key: "description",
                             name: "Description",
-                            displayFunc: item => <BooleanIndicator value={!!item.description} />
+                            displayFunc: (item) => <BooleanIndicator value={!!item.description} />,
                         },
                         {
                             key: "fee",
                             name: "Fee",
-                            displayFunc: item => `$${item.fee.toFixed(2)}`
+                            displayFunc: (item) => `$${item.fee.toFixed(2)}`,
                         },
                         {
                             key: "capacity",
                             name: "Capacity",
-                            displayFunc: item => item.capacity
+                            displayFunc: (item) => item.capacity,
                         },
                         {
                             key: "openDate",
                             name: "Open Date",
-                            displayFunc: item => moment.utc(item.openDate).format("MM/DD/YYYY")
+                            displayFunc: (item) => moment.utc(item.openDate).format("MM/DD/YYYY"),
                         },
                         {
                             key: "closeDate",
                             name: "Close Date",
-                            displayFunc: item => moment.utc(item.closeDate).format("MM/DD/YYYY")
+                            displayFunc: (item) => moment.utc(item.closeDate).format("MM/DD/YYYY"),
                         },
                         {
                             key: "startDate",
                             name: "Start Date",
-                            displayFunc: item => moment.utc(item.startDate).format("MM/DD/YYYY")
+                            displayFunc: (item) => moment.utc(item.startDate).format("MM/DD/YYYY"),
                         },
                         {
                             key: "endDate",
                             name: "End Date",
-                            displayFunc: item => moment.utc(item.endDate).format("MM/DD/YYYY")
+                            displayFunc: (item) => moment.utc(item.endDate).format("MM/DD/YYYY"),
                         },
                         {
                             key: "",
                             name: "",
-                            displayFunc: item => <Link to={`/admin/camps/${item._id}`}>Details</Link>
-                        }
+                            displayFunc: (item) => <Link to={`/admin/camps/${item._id}`}>Details</Link>,
+                        },
                     ]}
                 />
                 <ToggleableAdminCampForm createCamp={this.createCamp} />
