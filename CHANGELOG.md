@@ -1,10 +1,16 @@
 # Changelog
 
-## Unreleased
+## [1.1.4] - 2020-05-05
 
 ### Added
 
 -   Toggle button on Admin Rosters to show archived camps
+
+### Changed
+
+-   Registration details now redirects to prior page upon deletion
+-   Camp fullName virtual now includes year based on camp start date
+-   User page now separates out current and past registrations based on archived status
 
 ## [1.1.3] - 2019-02-04
 
