@@ -67,7 +67,6 @@ class AdminRegistrationDetail extends Component {
         this.setState({
             editIsOpen: true,
         });
-        this.props.history.push(this.props.location.state.previousPage);
     };
 
     editClose = () => {
