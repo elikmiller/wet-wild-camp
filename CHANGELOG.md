@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.5] - 2020-05-26
+
+### Added
+
+-   Button to copy list of unpaid campers' emails to clipboard on Admin Roster Detail page
+
 ## [1.1.4] - 2020-05-05
 
 ### Added
