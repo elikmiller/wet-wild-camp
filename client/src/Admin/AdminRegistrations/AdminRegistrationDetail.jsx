@@ -37,7 +37,6 @@ class AdminRegistrationDetail extends Component {
     };
 
     updateRegistration = ({ morningDropoff, afternoonPickup, deposit, paid, waitlist, spaceSaved, campId }) => {
-        console.log(spaceSaved);
         appClient
             .adminUpdateRegistration(this.state.registration._id, {
                 morningDropoff,
@@ -49,7 +48,6 @@ class AdminRegistrationDetail extends Component {
                 campId,
             })
             .then((updatedRegistration) => {
-                console.log(updatedRegistration);
                 this.getRegistration();
             });
     };

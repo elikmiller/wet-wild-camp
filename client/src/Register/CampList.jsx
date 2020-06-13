@@ -110,7 +110,7 @@ class CampList extends Component {
                                     <td>${camp.fee.toFixed(2)}</td>
                                     <td>{getOpenings(camp)}</td>
                                     <td>
-                                        {Date.now() < camp.closeDate ? (
+                                        {Date.now() < new Date(camp.closeDate).valueOf() ? (
                                             <button
                                                 className="btn btn-primary float-right btn-sm"
                                                 onClick={() => this.createRegistrationOpen(camp)}
