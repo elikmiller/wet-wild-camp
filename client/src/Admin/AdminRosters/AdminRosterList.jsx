@@ -81,7 +81,8 @@ class AdminRosterList extends Component {
                             name: "Registrations / Capacity",
                             displayFunc: (item) => {
                                 let confirmedRegistrations = item.registrations.filter(
-                                    (registrations) => registrations.deposit || registrations.paid
+                                    (registrations) =>
+                                        registrations.deposit || registrations.paid || registrations.spaceSaved
                                 );
                                 return `${confirmedRegistrations.length} / ${item.capacity}`;
                             },

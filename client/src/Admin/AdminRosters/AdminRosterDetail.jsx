@@ -52,17 +52,20 @@ class AdminRosterDetail extends Component {
 
     render() {
         let rosterEmails = (this.state.camp.registrations || [])
-            .filter((registration) => registration.paid || registration.deposit)
+            .filter((registration) => registration.paid || registration.deposit || registration.spaceSaved)
             .map((registration) =>
                 registration.user.primaryContact ? registration.user.primaryContact.email : registration.user.email
             );
         let depositEmails = (this.state.camp.registrations || [])
-            .filter((registration) => !registration.paid && registration.deposit)
+            .filter((registration) => !registration.paid && registration.deposit && !registration.spaceSaved)
             .map((registration) =>
                 registration.user.primaryContact ? registration.user.primaryContact.email : registration.user.email
             );
         let unpaidEmails = (this.state.camp.registrations || [])
-            .filter((registration) => !registration.paid && !registration.deposit && !registration.waitlist)
+            .filter(
+                (registration) =>
+                    !registration.paid && !registration.deposit && !registration.waitlist && !registration.spaceSaved
+            )
             .map((registration) =>
                 registration.user.primaryContact ? registration.user.primaryContact.email : registration.user.email
             );
