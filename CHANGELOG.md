@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.6] - 2020-06-13
+
+### Changed
+
+-   Fixed issue where spaceSaved was not being correctly accounted for in some places in the UI
+-   Fixed issue where users could register for a camp after the close date
+
 ## [1.1.5] - 2020-05-26
 
 ### Added

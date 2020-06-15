@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
 
         let camper = await Camper.findOne({
             _id: req.body.camper,
-            user: req.session.userId
+            user: req.session.userId,
         });
 
         if (!camper) {
@@ -40,16 +40,20 @@ module.exports = async (req, res, next) => {
 
         let existingRegistration = await Registration.find({
             camper: req.body.camper,
-            camp: req.body.camp
+            camp: req.body.camp,
         });
 
         if (existingRegistration.length > 0) {
             return next(Boom.badRequest("This camper already has a registration for this camp."));
         }
 
+        if (Date.now() > camp.closeDate) {
+            return next(Boom.badRequest("Registration for this camp session has been closed."));
+        }
+
         let registrations = await Registration.find({
             camp: req.body.camp,
-            $or: [{ deposit: true }, { paid: true }, { spaceSaved: true }]
+            $or: [{ deposit: true }, { paid: true }, { spaceSaved: true }],
         });
 
         let waitlist = registrations.length >= camp.capacity;
@@ -62,7 +66,7 @@ module.exports = async (req, res, next) => {
             waitlist,
             created: Date.now(),
             user: req.session.userId,
-            archived: false
+            archived: false,
         });
 
         let html = waitlist
@@ -98,7 +102,7 @@ module.exports = async (req, res, next) => {
             to: sendTo,
             bcc: "wetwildcamp@wetwildcamp.com",
             subject: `Wet & Wild Adventure Camp: ${subjectLine}`,
-            html
+            html,
         });
 
         await registration.save();
