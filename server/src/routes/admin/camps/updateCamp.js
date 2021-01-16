@@ -8,6 +8,7 @@ module.exports = async (req, res, next) => {
       name: req.body.name,
       type: req.body.type,
       description: req.body.description,
+      pickups: req.body.pickups,
       fee: req.body.fee,
       capacity: req.body.capacity,
       startDate: req.body.startDate,
