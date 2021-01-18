@@ -48,12 +48,13 @@ class AdminCampList extends Component {
         });
     };
 
-    createCamp = ({ name, type, description, fee, startDate, endDate, openDate, closeDate, capacity }) => {
+    createCamp = ({ name, type, description, pickups, fee, startDate, endDate, openDate, closeDate, capacity }) => {
         return appClient
             .adminCreateCamp({
                 name,
                 type,
                 description,
+                pickups,
                 fee,
                 startDate,
                 endDate,

@@ -249,11 +249,12 @@ const adminGetCamp = campId => {
     return appClient.get(`/admin/camps/${campId}`);
 };
 
-const adminCreateCamp = ({ name, type, description, fee, capacity, startDate, endDate, openDate, closeDate }) => {
+const adminCreateCamp = ({ name, type, description, pickups, fee, capacity, startDate, endDate, openDate, closeDate }) => {
     return appClient.post("/admin/camps", {
         name,
         type,
         description,
+        pickups,
         fee,
         capacity,
         startDate,
@@ -265,12 +266,13 @@ const adminCreateCamp = ({ name, type, description, fee, capacity, startDate, en
 
 const adminUpdateCamp = (
     campId,
-    { name, type, description, fee, capacity, startDate, endDate, openDate, closeDate }
+    { name, type, description, pickups, fee, capacity, startDate, endDate, openDate, closeDate }
 ) => {
     return appClient.patch(`/admin/camps/${campId}`, {
         name,
         type,
         description,
+        pickups,
         fee,
         capacity,
         startDate,

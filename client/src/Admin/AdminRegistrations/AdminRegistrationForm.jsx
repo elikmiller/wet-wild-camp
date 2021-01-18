@@ -38,6 +38,27 @@ class AdminRegistrationForm extends Component {
     });
   };
 
+  getPickupOptions = () => {
+    let pickupOptions = [];
+    let campPickups = [];
+    
+    this.state.camps.forEach(camp => {
+      if (camp.id === this.state.campId) {
+        campPickups = camp.pickups;
+      }
+    });
+    if (campPickups.includes("north")) {
+      pickupOptions.push({ name: "North", value: "north" });
+    }
+    if (campPickups.includes("central")) {
+      pickupOptions.push({ name: "Central", value: "central" });
+    }
+    if (campPickups.includes("south")) {
+      pickupOptions.push({ name: "South", value: "south" });
+    }
+    return pickupOptions;
+  }
+
   validate = () => {
     let errors = {};
     //TODO Add validation
@@ -114,21 +135,7 @@ class AdminRegistrationForm extends Component {
             label="Morning Dropoff"
             value={this.state.morningDropoff}
             placeholder="Please Select"
-            options={[
-              // Option removed for 2020 camp year; left in in case they want to revert
-              // {
-              //   name: "North",
-              //   value: "north"
-              // },
-              {
-                name: "Central",
-                value: "central"
-              },
-              {
-                name: "South",
-                value: "south"
-              }
-            ]}
+            options={this.getPickupOptions()}
             onChange={this.handleOnChange}
             wasValidated={this.state.wasValidated}
             error={this.state.errors.morningDropoff}
@@ -138,21 +145,7 @@ class AdminRegistrationForm extends Component {
             label="Afternoon Pickup"
             value={this.state.afternoonPickup}
             placeholder="Please Select"
-            options={[
-              // Option removed for 2020 camp year; left in in case they want to revert
-              // {
-              //   name: "North",
-              //   value: "north"
-              // },
-              {
-                name: "Central",
-                value: "central"
-              },
-              {
-                name: "South",
-                value: "south"
-              }
-            ]}
+            options={this.getPickupOptions()}
             onChange={this.handleOnChange}
             wasValidated={this.state.wasValidated}
             error={this.state.errors.afternoonPickup}

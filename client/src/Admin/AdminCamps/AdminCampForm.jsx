@@ -3,12 +3,14 @@ import validator from "validator";
 import Input from "../../forms/Input";
 import InputDropdown from "../../forms/InputDropdown";
 import Textarea from "../../forms/Textarea";
+import Checkbox from "../../forms/Checkbox";
 
 class AdminCampForm extends Component {
   state = {
     name: this.props.name,
     type: this.props.type,
     description: this.props.description,
+    pickups: this.props.pickups,
     fee: this.props.fee,
     openDate: this.props.openDate.slice(0, 10),
     closeDate: this.props.closeDate.slice(0, 10),
@@ -46,6 +48,19 @@ class AdminCampForm extends Component {
     });
   };
 
+  handlePickupChange = e => {
+    let resultsArray = [];
+    const checkboxes = document.querySelectorAll('#activePickups input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked) {
+        resultsArray.push(checkbox.name);
+      }
+    });
+    this.setState({
+      pickups: resultsArray
+    });
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     const errors = this.validate();
@@ -58,6 +73,7 @@ class AdminCampForm extends Component {
         name: this.state.name,
         type: this.state.type,
         description: this.state.description,
+        pickups: this.state.pickups,
         fee: this.state.fee,
         startDate: this.state.startDate,
         endDate: this.state.endDate,
@@ -104,6 +120,27 @@ class AdminCampForm extends Component {
             error={this.state.errors.description}
             value={this.state.description}
           />
+          <div id="activePickups">
+            <label>Active Pickup Locations</label>
+            <Checkbox 
+              label="North" 
+              name="north"
+              checked={this.state.pickups ? this.state.pickups.includes("north") : false} 
+              onChange={this.handlePickupChange}
+            />
+            <Checkbox 
+              label="Central" 
+              name="central"
+              checked={this.state.pickups ? this.state.pickups.includes("central") : false}
+              onChange={this.handlePickupChange}
+            />
+            <Checkbox 
+              label="South" 
+              name="south"
+              checked={this.state.pickups ? this.state.pickups.includes("south") : false}
+              onChange={this.handlePickupChange}
+            />
+          </div>
           <Input
             name="fee"
             label="Fee"
