@@ -6,6 +6,7 @@ const AdminCamp = props => {
   let name = props.name;
   let type = _.capitalize(props.type);
   let description = props.description || <em>No Description</em>;
+  let pickups = props.pickups ? props.pickups.map(i => _.capitalize(i)).join(", ") : <em>No Active Locations</em>; 
   let fee = "$" + (props.fee && props.fee.toFixed(2));
   let openDate = moment.utc(props.openDate).format("MM/DD/YYYY");
   let closeDate = moment.utc(props.closeDate).format("MM/DD/YYYY");
@@ -17,6 +18,7 @@ const AdminCamp = props => {
       <div>Name: {name}</div>
       <div>Type: {type}</div>
       <div>Description: {description}</div>
+      <div>Active Pickup Locations: {pickups}</div>
       <div>Fee: {fee}</div>
       <div>Open Date: {openDate}</div>
       <div>Close Date: {closeDate}</div>

@@ -38,7 +38,7 @@ class AdminCampDetail extends Component {
             });
     };
 
-    updateCamp = ({ name, type, description, fee, startDate, endDate, openDate, closeDate, capacity }) => {
+    updateCamp = ({ name, type, description, pickups, fee, startDate, endDate, openDate, closeDate, capacity }) => {
         this.setState({ isLoading: true });
         let id = this.state.camp._id;
         return appClient
@@ -46,6 +46,7 @@ class AdminCampDetail extends Component {
                 name,
                 type,
                 description,
+                pickups,
                 fee,
                 startDate,
                 endDate,
@@ -148,6 +149,7 @@ class AdminCampDetail extends Component {
                                 name={camp.name}
                                 type={camp.type}
                                 description={camp.description}
+                                pickups={camp.pickups}
                                 fee={camp.fee}
                                 startDate={camp.startDate}
                                 endDate={camp.endDate}

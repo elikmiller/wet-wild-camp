@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.0] - 2021-06-18
+
+### Added
+
+-   Functionality to allow Admin selection of pickup/dropoff locations on camp creation or update
+
 ## [1.1.6] - 2020-06-13
 
 ### Changed

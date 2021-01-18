@@ -15,6 +15,11 @@ const CampSchema = new Schema({
     description: {
         type: String,
     },
+    pickups: {
+        type: [String],
+        required: true,
+        enum: ["north", "central", "south"],
+    },
     fee: {
         type: Number,
         required: true,

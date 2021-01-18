@@ -7,6 +7,7 @@ class EditableAdminCamp extends Component {
     name,
     type,
     description,
+    pickups,
     fee,
     startDate,
     endDate,
@@ -19,6 +20,7 @@ class EditableAdminCamp extends Component {
         name,
         type,
         description,
+        pickups,
         fee,
         startDate,
         endDate,
@@ -47,6 +49,7 @@ class EditableAdminCamp extends Component {
             name={this.props.name}
             type={this.props.type}
             description={this.props.description}
+            pickups={this.props.pickups}
             fee={this.props.fee}
             startDate={this.props.startDate}
             endDate={this.props.endDate}
@@ -62,6 +65,7 @@ class EditableAdminCamp extends Component {
             name={this.props.name}
             type={this.props.type}
             description={this.props.description}
+            pickups={this.props.pickups}
             fee={this.props.fee}
             startDate={this.props.startDate}
             endDate={this.props.endDate}
