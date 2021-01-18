@@ -23,6 +23,22 @@ class CampRegisterForm extends Component {
     });
   };
 
+  getPickupOptions = () => {
+    let pickupOptions = [];
+    let campPickups = this.props.camp.pickups ? this.props.camp.pickups : [];
+
+    if (campPickups.includes("north")) {
+      pickupOptions.push({ name: "North", value: "north" });
+    }
+    if (campPickups.includes("central")) {
+      pickupOptions.push({ name: "Central", value: "central" });
+    }
+    if (campPickups.includes("south")) {
+      pickupOptions.push({ name: "South", value: "south" });
+    }
+    return pickupOptions;
+  }
+
   handleOnChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -72,21 +88,7 @@ class CampRegisterForm extends Component {
             error={this.state.errors.morningDropoff}
             value={this.state.morningDropoff}
             placeholder={"Please Select"}
-            options={[
-              // Option removed for 2020 camp year; left in in case they want to revert
-              // {
-              //   name: "North",
-              //   value: "north"
-              // },
-              {
-                name: "Central",
-                value: "central"
-              },
-              {
-                name: "South",
-                value: "south"
-              }
-            ]}
+            options={this.getPickupOptions()}
           />
           <InputDropdown
             name="afternoonPickup"
@@ -96,21 +98,7 @@ class CampRegisterForm extends Component {
             error={this.state.errors.afternoonPickup}
             value={this.state.afternoonPickup}
             placeholder={"Please Select"}
-            options={[
-              // Option removed for 2020 camp year; left in in case they want to revert
-              // {
-              //   name: "North",
-              //   value: "north"
-              // },
-              {
-                name: "Central",
-                value: "central"
-              },
-              {
-                name: "South",
-                value: "south"
-              }
-            ]}
+            options={this.getPickupOptions()}
           />
           <div className="form-group">
             <button

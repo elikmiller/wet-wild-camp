@@ -31,14 +31,21 @@ class CampList extends Component {
             isLoading: true,
         });
         appClient.getCamps().then((camps) => {
-            let filterParam = this.props.match.params.type ? this.props.match.params.type : "all";
-            camps = camps.filter((camp) => camp.type === filterParam);
+            camps.sort((a, b) => a.type.localeCompare(b.type));
             this.setState({
                 camps,
                 isLoading: false,
             });
         });
     };
+
+    formatCampType = type => {
+        var mapObj = { all:"All Ages" , junior:"Junior", adventure:"Adventure" };
+        var regex = new RegExp(Object.keys(mapObj).join("|"),"gi");
+        return type.replace(regex, (matched) => {
+            return mapObj[matched];
+        });
+    }
 
     createRegistrationOpen = (camp) => {
         this.setState({
@@ -98,6 +105,7 @@ class CampList extends Component {
                                 <th>End Date</th>
                                 <th>Fee</th>
                                 <th>Openings</th>
+                                <th>Type</th>
                                 <th />
                             </tr>
                         </thead>
@@ -109,6 +117,7 @@ class CampList extends Component {
                                     <td>{moment.utc(camp.endDate).format("MM/DD/YYYY")}</td>
                                     <td>${camp.fee.toFixed(2)}</td>
                                     <td>{getOpenings(camp)}</td>
+                                    <td>{this.formatCampType(camp.type)}</td>
                                     <td>
                                         {Date.now() < new Date(camp.closeDate).valueOf() ? (
                                             <button
