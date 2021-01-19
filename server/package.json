@@ -2,7 +2,7 @@
   "name": "wet-wild-camp-server",
   "private": true,
   "engines": {
-    "node": "9.3.0"
+    "node": "10.x.x"
   },
   "scripts": {
     "start": "node app.js",
