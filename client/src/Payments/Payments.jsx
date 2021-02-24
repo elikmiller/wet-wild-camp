@@ -121,11 +121,22 @@ class Payments extends Component {
     // Calculates the total from deposits and full payments
     calculateTotal = () => {
         let total = 0;
+        // Add this to settings
+        const earlyBirdAmount = 30;
+
         total = total + this.state.deposits.length * 100;
         this.state.fullPayments.forEach(registration => {
+
             total = total + registration.camp.fee;
-            if (registration.deposit) total = total - 100;
-            if (this.state.earlyBird) total = total - 40;
+
+            if (registration.deposit) {
+                total = total - 100;
+            }
+
+            if (this.state.earlyBird) {
+                total = total - earlyBirdAmount;
+            }
+
             this.state.deposits.forEach(deposit => {
                 if (registration._id === deposit._id) {
                     total = total - 100;
@@ -142,9 +153,10 @@ class Payments extends Component {
         // Generates the list of registrations with checkboxes
         let content = this.state.registrations.map((reg, i) => {
             let total = reg.camp.fee;
+            // Add this to settings
+            const earlyBirdAmount = 30;
             if (reg.deposit) total = total - 100;
-            if (this.state.earlyBird) total = total - 40;
-            console.log(this.state);
+            if (this.state.earlyBird) total = total - earlyBirdAmount;
             return (
                 <tr key={i}>
                     <td>

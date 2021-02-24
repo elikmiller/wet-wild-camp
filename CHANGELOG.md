@@ -1,6 +1,12 @@
 # Changelog
 
-## [1.2.0] - 2021-06-18
+## [1.2.1] - 2021-02-23
+
+### Changed
+
+-   Adjusted early bird price to $30
+
+## [1.2.0] - 2021-01-18
 
 ### Added
 

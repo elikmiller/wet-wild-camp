@@ -30,13 +30,23 @@ module.exports = async (req, res, next) => {
 
         let settings = await GlobalSettings.findOne({});
         let earlyBirdDate = new Date(settings.earlyBirdCutoff);
+        // Add this to settings
+        let earlyBirdAmount = 30;
 
         let total = 0;
         total = total + req.body.deposits.length * 100;
         registrationArray.forEach(registration => {
+
             total = total + registration.camp.fee;
-            if (registration.deposit) total = total - 100;
-            if (Date.now() < earlyBirdDate) total = total - 40;
+
+            if (registration.deposit) {
+                total = total - 100;
+            }
+            
+            if (Date.now() < earlyBirdDate) {
+                total = total - earlyBirdAmount;
+            }
+
             req.body.deposits.forEach(deposit => {
                 if (String(registration._id) === deposit) {
                     total = total - 100;
