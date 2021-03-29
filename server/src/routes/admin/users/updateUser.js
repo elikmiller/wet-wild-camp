@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
             surveyQuestion: req.body.surveyQuestion
         };
         updatedFields = _.omitBy(updatedFields, _.isUndefined);
-        let updatedUser = await User.findOneAndUpdate({ _id: req.session.userId }, updatedFields, {
+        let updatedUser = await User.findOneAndUpdate({ _id: req.params.userId }, updatedFields, {
             new: true
         }).populate([
             {
