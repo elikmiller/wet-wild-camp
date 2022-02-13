@@ -36,7 +36,6 @@ module.exports = async (req, res, next) => {
             user: req.body.user,
             archived: false
         });
-        console.log(registration);
 
         await registration.save();
         return res.send(registration);

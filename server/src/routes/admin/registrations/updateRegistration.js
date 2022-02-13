@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
       deposit: req.body.deposit,
       paid: req.body.paid
     };
-    console.log(updatedFields);
+    
     updatedFields = _.omitBy(updatedFields, _.isUndefined);
     let updatedRegistration = await Registration.findOneAndUpdate(
       { _id: req.params.registrationId },
