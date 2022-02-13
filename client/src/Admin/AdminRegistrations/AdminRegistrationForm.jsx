@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Input from "../../forms/Input";
 import InputDropdown from "../../forms/InputDropdown";
+import Textarea from "../../forms/Textarea";
 import Checkbox from "../../forms/Checkbox";
 import appClient from "../../appClient";
 
@@ -8,6 +9,7 @@ class AdminRegistrationForm extends Component {
   state = {
     morningDropoff: this.props.morningDropoff,
     afternoonPickup: this.props.afternoonPickup,
+    notes: this.props.notes,
     deposit: this.props.deposit,
     paid: this.props.paid,
     waitlist: this.props.waitlist,
@@ -88,6 +90,7 @@ class AdminRegistrationForm extends Component {
       this.props.onSubmit({
         morningDropoff: this.state.morningDropoff,
         afternoonPickup: this.state.afternoonPickup,
+        notes: this.state.notes,
         deposit: this.state.deposit,
         paid: this.state.paid,
         waitlist: this.state.waitlist,
@@ -149,6 +152,15 @@ class AdminRegistrationForm extends Component {
             onChange={this.handleOnChange}
             wasValidated={this.state.wasValidated}
             error={this.state.errors.afternoonPickup}
+          />
+          <Textarea
+            name="notes"
+            label="Notes"
+            type="input"
+            onChange={this.handleOnChange}
+            wasValidated={this.state.wasValidated}
+            error={this.state.errors.notes}
+            value={this.state.notes}
           />
           <Checkbox
             name="spaceSaved"

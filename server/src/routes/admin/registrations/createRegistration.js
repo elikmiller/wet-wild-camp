@@ -25,6 +25,7 @@ module.exports = async (req, res, next) => {
         let registration = new Registration({
             camper: req.body.camper,
             camp: req.body.camp,
+            notes: req.body.notes || "",
             morningDropoff: req.body.morningDropoff,
             afternoonPickup: req.body.afternoonPickup,
             deposit: req.body.deposit || false,

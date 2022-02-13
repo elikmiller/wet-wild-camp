@@ -6,6 +6,7 @@ import BooleanIndicator from "../../BooleanIndicator/BooleanIndicator";
 const AdminRegistration = props => {
   let morningDropoff = _.capitalize(props.morningDropoff);
   let afternoonPickup = _.capitalize(props.afternoonPickup);
+  let notes = props.notes;
   let deposit = <BooleanIndicator value={props.deposit} />;
   let paid = <BooleanIndicator value={props.paid} />;
   let waitlist = <BooleanIndicator value={props.waitlist} />;
@@ -20,6 +21,8 @@ const AdminRegistration = props => {
       <div>Space Saved: {spaceSaved}</div>
       <div>Waitlist: {waitlist}</div>
       <div>Created: {created}</div>
+      <br/>
+      <div><b>Notes: </b>{notes}</div>
     </div>
   );
 };

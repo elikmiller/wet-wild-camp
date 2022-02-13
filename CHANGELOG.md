@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2] - 2022-02-13
+
+### Added
+
+-   New field added to registration schema called "notes"
+-   Notes are visible only to admin users; new form field added to create/update forms in admin panel
+-   Migration created to add empty note fields to all existing registrations
+
 ## [1.2.1] - 2021-02-23
 
 ### Changed
