@@ -50,6 +50,11 @@ const RegistrationSchema = new Schema({
         default: false,
         required: true,
     },
+    notes: {
+        type: String,
+        default: "",
+        required: false
+    },
     created: {
         type: Date,
         required: true,

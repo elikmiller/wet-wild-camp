@@ -36,11 +36,12 @@ class AdminRegistrationDetail extends Component {
         });
     };
 
-    updateRegistration = ({ morningDropoff, afternoonPickup, deposit, paid, waitlist, spaceSaved, campId }) => {
+    updateRegistration = ({ morningDropoff, afternoonPickup, notes, deposit, paid, waitlist, spaceSaved, campId }) => {
         appClient
             .adminUpdateRegistration(this.state.registration._id, {
                 morningDropoff,
                 afternoonPickup,
+                notes,
                 deposit,
                 paid,
                 waitlist,
@@ -112,6 +113,7 @@ class AdminRegistrationDetail extends Component {
                             <AdminRegistration
                                 morningDropoff={registration.morningDropoff}
                                 afternoonPickup={registration.afternoonPickup}
+                                notes={registration.notes}
                                 deposit={registration.deposit}
                                 paid={registration.paid}
                                 waitlist={registration.waitlist}
@@ -159,6 +161,7 @@ class AdminRegistrationDetail extends Component {
                             campId={registration.camp._id}
                             morningDropoff={registration.morningDropoff}
                             afternoonPickup={registration.afternoonPickup}
+                            notes={registration.notes}
                             deposit={registration.deposit}
                             paid={registration.paid}
                             waitlist={registration.waitlist}

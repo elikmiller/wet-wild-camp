@@ -78,7 +78,7 @@ class AdminCamperDetail extends Component {
         });
     };
 
-    createRegistration = ({ campId, morningDropoff, afternoonPickup, deposit, paid, spaceSaved, waitlist }) => {
+    createRegistration = ({ campId, morningDropoff, afternoonPickup, notes, deposit, paid, spaceSaved, waitlist }) => {
         return appClient
             .adminCreateRegistration({
                 user: this.state.camper.user._id,
@@ -86,6 +86,7 @@ class AdminCamperDetail extends Component {
                 camp: campId,
                 morningDropoff,
                 afternoonPickup,
+                notes,
                 deposit,
                 paid,
                 spaceSaved,

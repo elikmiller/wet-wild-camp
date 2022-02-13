@@ -61,6 +61,7 @@ module.exports = async (req, res, next) => {
         let registration = new Registration({
             camper: req.body.camper,
             camp: req.body.camp,
+            notes: "",
             morningDropoff: req.body.morningDropoff,
             afternoonPickup: req.body.afternoonPickup,
             waitlist,

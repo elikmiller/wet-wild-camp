@@ -8,6 +8,7 @@ module.exports = async (req, res, next) => {
       user: req.body.userId,
       camper: req.body.camperId,
       camp: req.body.campId,
+      notes: req.body.notes,
       morningDropoff: req.body.morningDropoff,
       afternoonPickup: req.body.afternoonPickup,
       waitlist: req.body.waitlist,
@@ -15,6 +16,7 @@ module.exports = async (req, res, next) => {
       deposit: req.body.deposit,
       paid: req.body.paid
     };
+    console.log(updatedFields);
     updatedFields = _.omitBy(updatedFields, _.isUndefined);
     let updatedRegistration = await Registration.findOneAndUpdate(
       { _id: req.params.registrationId },
