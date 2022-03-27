@@ -84,7 +84,7 @@ class CamperForm extends Component {
           />
           <InputDropdown
             name="gender"
-            label="Gender"
+            label="Gender/Gender Identity"
             onChange={this.handleChange}
             wasValidated={this.state.wasValidated}
             error={this.state.errors.gender}
@@ -93,6 +93,7 @@ class CamperForm extends Component {
             options={[
               { value: "male", name: "Male" },
               { value: "female", name: "Female" },
+              { value: "non-binary", name: "Non-binary"},
               { value: "unspecified", name: "Unspecified" }
             ]}
           />

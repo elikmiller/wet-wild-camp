@@ -15,7 +15,7 @@ const CamperSchema = new Schema({
   gender: {
     type: String,
     required: true,
-    enum: ["male", "female", "unspecified"]
+    enum: ["male", "female", "unspecified", "non-binary"]
   },
   dateOfBirth: {
     type: Date,

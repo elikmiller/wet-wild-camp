@@ -2,6 +2,7 @@ const { Camper } = require("../../models");
 const Boom = require("boom");
 
 module.exports = async (req, res, next) => {
+  console.log("In here");
   try {
     const camper = new Camper({
       firstName: req.body.firstName,

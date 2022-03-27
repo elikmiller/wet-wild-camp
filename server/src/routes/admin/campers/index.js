@@ -26,9 +26,9 @@ const checkCamperSchema = checkSchema({
   },
   gender: {
     isIn: {
-      options: [["male", "female", "unspecified"]],
+      options: [["male", "female", "unspecified", "non-binary"]],
       errorMessage:
-        'Please enter a valid gender. Valid options are "male", "female", or "unspecified"'
+        'Please enter a valid gender. Valid options are "male", "female", "non-binary", or "unspecified"'
     }
   }
 });
