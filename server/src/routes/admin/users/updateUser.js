@@ -10,7 +10,8 @@ module.exports = async (req, res, next) => {
             primaryContact: req.body.primaryContact,
             secondaryContact: req.body.secondaryContact,
             emergencyContact: req.body.emergencyContact,
-            surveyQuestion: req.body.surveyQuestion
+            surveyQuestion: req.body.surveyQuestion,
+            notes: req.body.notes
         };
         updatedFields = _.omitBy(updatedFields, _.isUndefined);
         let updatedUser = await User.findOneAndUpdate({ _id: req.params.userId }, updatedFields, {

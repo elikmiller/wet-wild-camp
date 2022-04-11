@@ -9,6 +9,7 @@ import AdminUser from "./AdminUser";
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import AdminCamperForm from "../AdminCampers/AdminCamperForm";
+import EditableAdminUserNotes from "./EditableAdminUserNotes";
 
 class AdminUserDetail extends Component {
     state = {
@@ -46,7 +47,7 @@ class AdminUserDetail extends Component {
         });
     };
 
-    updateUser = ({ firstName, lastName, primaryContact, secondaryContact, emergencyContact }) => {
+    updateUser = ({ firstName, lastName, primaryContact, secondaryContact, emergencyContact, notes }) => {
         let id = this.state.user._id;
         return appClient
             .adminUpdateUser(id, {
@@ -55,6 +56,7 @@ class AdminUserDetail extends Component {
                 primaryContact,
                 secondaryContact,
                 emergencyContact,
+                notes
             })
             .then((updatedUser) => {
                 this.getUser();
@@ -207,6 +209,14 @@ class AdminUserDetail extends Component {
                                         <PaymentListItem payment={payment} updatePayment={this.updatePayment} />
                                     ))}
                             </ul>
+                        </div>
+
+                        <div className="mb-3">
+                            <strong>Notes: </strong>
+                            <EditableAdminUserNotes 
+                                notes={user.notes}
+                                updateUser={this.updateUser}
+                            />
                         </div>
 
                         <div className="mb-3">
