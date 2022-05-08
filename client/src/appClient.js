@@ -183,13 +183,14 @@ const adminGetUser = userId => {
     return appClient.get(`/admin/users/${userId}`);
 };
 
-const adminUpdateUser = (userId, { firstName, lastName, primaryContact, secondaryContact, emergencyContact }) => {
+const adminUpdateUser = (userId, { firstName, lastName, primaryContact, secondaryContact, emergencyContact, notes }) => {
     return appClient.patch(`/admin/users/${userId}`, {
         firstName,
         lastName,
         primaryContact,
         secondaryContact,
-        emergencyContact
+        emergencyContact,
+        notes
     });
 };
 

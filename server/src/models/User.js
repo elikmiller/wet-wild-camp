@@ -53,7 +53,12 @@ const UserSchema = new Schema({
     surveyQuestion: {
         type: String,
         enum: ["previousCamper", "internet", "friendRelative", "campFair", "newspaperMagazine", "other"]
-    }
+    },
+    notes: {
+        type: String,
+        default: "",
+        required: false
+    },
 });
 
 UserSchema.virtual("registrations", {

@@ -86,11 +86,12 @@ class AdminCamperForm extends Component {
           />
           <InputDropdown
             name="gender"
-            label="Gender"
+            label="Gender/Gender Identity"
             placeholder={"Please Select"}
             options={[
               { name: "Male", value: "male" },
               { name: "Female", value: "female" },
+              { name: "Non-binary", value: "non-binary"},
               { name: "Unspecified", value: "unspecified" }
             ]}
             onChange={this.handleOnChange}

@@ -4,7 +4,6 @@ const _ = require("lodash");
 
 module.exports = async (req, res, next) => {
     try {
-        console.log(req.body);
         let updatedFields = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,

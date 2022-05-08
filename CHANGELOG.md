@@ -1,5 +1,11 @@
 # Changelog
 
+##[1.2.3] - 2022-05-08
+
+### Added
+- Non-binary gender option on camper form
+- New notes field on User object, only available to Admin. Added edit form on admin user details page
+
 ## [1.2.2] - 2022-02-13
 
 ### Added
