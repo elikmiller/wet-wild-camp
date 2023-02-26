@@ -1,5 +1,10 @@
 # Changelog
 
+##[1.2.4] - 2023-02-25
+
+### Changed
+- Admin registration form now hides archived camps
+
 ##[1.2.3] - 2022-05-08
 
 ### Added

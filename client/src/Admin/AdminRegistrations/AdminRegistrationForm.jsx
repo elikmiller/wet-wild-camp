@@ -21,7 +21,8 @@ class AdminRegistrationForm extends Component {
     camps: [],
     campsIsLoading: false,
     errors: {},
-    wasValidated: false
+    wasValidated: false,
+    displayArchived: false
   };
 
   componentDidMount() {
@@ -32,7 +33,7 @@ class AdminRegistrationForm extends Component {
     this.setState({
       campsIsLoading: true
     });
-    return appClient.adminGetCamps().then(camps => {
+    return appClient.adminGetCamps(this.state.displayArchived).then(camps => {
       this.setState({
         camps,
         campsIsLoading: false
