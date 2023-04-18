@@ -14,14 +14,13 @@ module.exports = async (req, res, next) => {
 
     const reportData = registrations.filter(reg => !reg.waitlist);
 
-    reportData.forEach(reg => {
-      const dob = reg.camper.dateOfBirth;
-      reg.birthday = `${dob.getFullYear()}-${dob.getMonth()}-${dob.getDay()}`;
-    });
+    reportData.forEach(reg => reg.birthday = moment.utc(reg.camper.dateOfBirth).format('l'));
 
     const fields = [
       { label: "Camper First Name", value: "camper.firstName" },
       { label: "Camper Last Name", value: "camper.lastName" },
+      { label: "Camper Birthday", value: "birthday" },
+      { label: "Camper Gender", value: "camper.gender" },
       { label: "Primary First Name", value: "user.primaryContact.firstName" },
       { label: "Primary Last Name", value: "user.primaryContact.lastName" },
       { label: "Primary Phone", value: "user.primaryContact.phoneNumber" },
@@ -38,7 +37,7 @@ module.exports = async (req, res, next) => {
       },
       { label: "Emergency Last Name", value: "user.emergencyContact.lastName" },
       { label: "Emergency Phone", value: "user.emergencyContact.phoneNumber" },
-      { label: "Camper Birthday", value: "birthday" },
+      
     ];
     const csv = json2csv(reportData, { fields });
     const date = moment().format("MM/DD/YYYY");
