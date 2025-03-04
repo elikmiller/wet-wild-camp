@@ -27,7 +27,7 @@
     "lodash": "^4.17.15",
     "migrate-mongo": "^7.0.1",
     "moment": "^2.23.0",
-    "mongoose": "^5.7.12",
+    "mongoose": "^5.7.13",
     "mongoosejs-soft-delete": "^1.0.2",
     "morgan": "^1.9.1",
     "nodemailer": "^4.7.0",
